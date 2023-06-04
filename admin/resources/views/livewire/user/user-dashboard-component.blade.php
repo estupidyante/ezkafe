@@ -14,8 +14,8 @@
                             </div>
                         </div>
                         <div class="col-9">
-                            <h5 class="text-black font-weight-bold text-center">{{$ingredients}}</h5>
-                            <h6 class="text-muted font-weight-normal">TOTAL INGREDIENTS</h6>
+                            <h5 class="text-black font-weight-bold text-center text-32">{{$ingredients}}</h5>
+                            <h6 class="text-muted font-weight-normal text-center">TOTAL INGREDIENTS</h6>
                         </div>
                     </div>
                 </div>
@@ -31,8 +31,8 @@
                             </div>
                         </div>
                         <div class="col-9">
-                            <h5 class="text-black font-weight-bold text-center">{{$revenue}}</h5>
-                            <h6 class="text-muted font-weight-normal">TOTAL REVENUE</h6>
+                            <h5 class="text-black font-weight-bold text-center text-32">{{$revenue}}</h5>
+                            <h6 class="text-muted font-weight-normal text-center">TOTAL REVENUE</h6>
                         </div>
                         
                     </div>
@@ -49,8 +49,8 @@
                             </div>
                         </div>
                         <div class="col-9">
-                            <h5 class="text-black font-weight-bold text-center">{{$orders}}</h5>
-                            <h6 class="text-muted font-weight-normal">TOTAL ORDERS</h6>
+                            <h5 class="text-black font-weight-bold text-center text-32">{{$orders}}</h5>
+                            <h6 class="text-muted font-weight-normal text-center">TOTAL ORDERS</h6>
                         </div>
                     </div>
                 </div>
@@ -66,8 +66,8 @@
                             </div>
                         </div>
                         <div class="col-9">
-                            <h5 class="text-black font-weight-bold text-center">{{$users}}</h5>
-                            <h6 class="text-muted font-weight-normal">TOTAL USERS</h6>
+                            <h5 class="text-black font-weight-bold text-center text-32">{{$users}}</h5>
+                            <h6 class="text-muted font-weight-normal text-center">TOTAL USERS</h6>
                         </div>
                     </div>
                 </div>

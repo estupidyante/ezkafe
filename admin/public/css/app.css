@@ -1734,6 +1734,9 @@ select {
 .pt-8 {
   padding-top: 2rem;
 }
+.pb-0 {
+  padding-bottom: 0px;
+}
 .text-left {
   text-align: left;
 }

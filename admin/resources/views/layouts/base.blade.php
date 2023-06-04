@@ -98,7 +98,8 @@
             </a>
             <div class="collapse" id="frontend">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="/user/ingredient"> Ingredients </a></li>
+                <li class="nav-item"> <a class="nav-link" href="/user/ingredients"> Ingredients </a></li>
+                <li class="nav-item"> <a class="nav-link" href="/user/faqs"> FAQs </a></li>
                 <li class="nav-item"> <a class="nav-link" href="/user/aboutus"> About Us </a></li>
               </ul>
             </div>
@@ -112,7 +113,7 @@
             </a>
           </li>
           <li class="nav-item menu-items">
-            <a class="nav-link" href="/users/accounts">
+            <a class="nav-link" href="/user/accounts">
               <span class="menu-icon">
                 <i class="mdi mdi-account-multiple"></i>
               </span>
@@ -120,7 +121,7 @@
             </a>
           </li>
           <li class="nav-item menu-items">
-            <a class="nav-link" href="/users/ingredients">
+            <a class="nav-link" href="/user/ingredients">
               <span class="menu-icon">
                 <i class="mdi mdi-food"></i>
               </span>
@@ -128,7 +129,7 @@
             </a>
           </li>
           <li class="nav-item menu-items">
-            <a class="nav-link" href="/users/notifications">
+            <a class="nav-link" href="/user/notifications">
               <span class="menu-icon">
                 <i class="mdi mdi-square-outline"></i>
               </span>

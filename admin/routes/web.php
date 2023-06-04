@@ -29,6 +29,13 @@ use App\Http\Livewire\User\ReportComponent;
 use App\Http\Livewire\User\ProductCategoryComponent;
 use App\Http\Livewire\User\ChangePasswordComponent;
 
+use App\Http\Livewire\User\UserAnalyticsComponent;
+use App\Http\Livewire\User\UserIngredientsComponent;
+use App\Http\Livewire\User\UserOrdersComponent;
+use App\Http\Livewire\User\UserFAQsComponent;
+use App\Http\Livewire\User\UserNotificationsComponent;
+use App\Http\Livewire\User\UserAdminAccountsComponent;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -41,6 +48,18 @@ use App\Http\Livewire\User\ChangePasswordComponent;
 */
 
 Route::get('/', [HomeController::class, 'checkUserType']);
+
+Route::get('/user/analytics', UserAnalyticsComponent::class);
+
+Route::get('/user/ingredients', UserIngredientsComponent::class);
+
+Route::get('/user/orders', UserOrdersComponent::class);
+
+Route::get('/user/faqs', UserFAQsComponent::class);
+
+Route::get('/user/notifications', UserNotificationsComponent::class);
+
+Route::get('/user/accounts', UserAdminAccountsComponent::class);
 
 Route::get('/user/vending', VendingComponent::class);
 

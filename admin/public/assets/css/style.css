@@ -12855,7 +12855,9 @@ textarea.is-invalid.tt-hint {
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap; }
-
+.text-32{
+  font-size: 32px !important;
+}
 .vr {
   display: inline-block;
   align-self: stretch;
@@ -16947,6 +16949,9 @@ code {
 /* Cards */
 .card {
   border-radius: 0.25rem; }
+  .card.card-accounts {
+    background: #ffffff !important;
+  }
   .card .card-body {
     padding: 1.75rem 1.5625rem; }
     .card .card-body + .card-body {
