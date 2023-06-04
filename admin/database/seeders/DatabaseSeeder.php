@@ -21,7 +21,6 @@ class DatabaseSeeder extends Seeder
         User::create([ 
             'name' => 'admin',
             'email' => 'admin@ezkafe.com',
-            'username' => 'admin',
             'userType' => 'ADM', // USR - ADM
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
@@ -35,7 +34,6 @@ class DatabaseSeeder extends Seeder
         User::create([ 
             'name' => 'user',
             'email' => 'user@ezkafe.com',
-            'username' => 'user',
             'userType' => 'USR', // USR - ADM
             'email_verified_at' => now(),
             'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password

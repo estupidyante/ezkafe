@@ -1,22 +1,21 @@
-/******/ (function() { // webpackBootstrap
+/******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
 /***/ "./node_modules/alpinejs/dist/module.esm.js":
 /*!**************************************************!*\
   !*** ./node_modules/alpinejs/dist/module.esm.js ***!
   \**************************************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": function() { return /* binding */ module_default; }
+/* harmony export */   "default": () => (/* binding */ module_default)
 /* harmony export */ });
 // packages/alpinejs/src/scheduler.js
 var flushPending = false;
 var flushing = false;
 var queue = [];
-var lastFlushedIndex = -1;
 function scheduler(callback) {
   queueJob(callback);
 }
@@ -27,7 +26,7 @@ function queueJob(job) {
 }
 function dequeueJob(job) {
   let index = queue.indexOf(job);
-  if (index !== -1 && index > lastFlushedIndex)
+  if (index !== -1)
     queue.splice(index, 1);
 }
 function queueFlush() {
@@ -41,10 +40,8 @@ function flushJobs() {
   flushing = true;
   for (let i = 0; i < queue.length; i++) {
     queue[i]();
-    lastFlushedIndex = i;
   }
   queue.length = 0;
-  lastFlushedIndex = -1;
   flushing = false;
 }
 
@@ -271,6 +268,12 @@ function addScopeToNode(node, data2, referenceNode) {
     node._x_dataStack = node._x_dataStack.filter((i) => i !== data2);
   };
 }
+function refreshScope(element, scope2) {
+  let existingScope = element._x_dataStack[0];
+  Object.entries(scope2).forEach(([key, value]) => {
+    existingScope[key] = value;
+  });
+}
 function closestDataStack(node) {
   if (node._x_dataStack)
     return node._x_dataStack;
@@ -401,20 +404,12 @@ function magic(name, callback) {
 }
 function injectMagics(obj, el) {
   Object.entries(magics).forEach(([name, callback]) => {
-    let memoizedUtilities = null;
-    function getUtilities() {
-      if (memoizedUtilities) {
-        return memoizedUtilities;
-      } else {
-        let [utilities, cleanup2] = getElementBoundUtilities(el);
-        memoizedUtilities = {interceptor, ...utilities};
-        onElRemoved(el, cleanup2);
-        return memoizedUtilities;
-      }
-    }
     Object.defineProperty(obj, `$${name}`, {
       get() {
-        return callback(el, getUtilities());
+        let [utilities, cleanup2] = getElementBoundUtilities(el);
+        utilities = {interceptor, ...utilities};
+        onElRemoved(el, cleanup2);
+        return callback(el, utilities);
       },
       enumerable: false
     });
@@ -464,7 +459,10 @@ function normalEvaluator(el, expression) {
   let overriddenMagics = {};
   injectMagics(overriddenMagics, el);
   let dataStack = [overriddenMagics, ...closestDataStack(el)];
-  let evaluator = typeof expression === "function" ? generateEvaluatorFromFunction(dataStack, expression) : generateEvaluatorFromString(dataStack, expression, el);
+  if (typeof expression === "function") {
+    return generateEvaluatorFromFunction(dataStack, expression);
+  }
+  let evaluator = generateEvaluatorFromString(dataStack, expression, el);
   return tryCatch.bind(null, el, expression, evaluator);
 }
 function generateEvaluatorFromFunction(dataStack, func) {
@@ -481,7 +479,7 @@ function generateFunctionFromString(expression, el) {
   }
   let AsyncFunction = Object.getPrototypeOf(async function() {
   }).constructor;
-  let rightSideSafeExpression = /^[\n\s]*if.*\(.*\)/.test(expression) || /^(let|const)\s/.test(expression) ? `(async()=>{ ${expression} })()` : expression;
+  let rightSideSafeExpression = /^[\n\s]*if.*\(.*\)/.test(expression) || /^(let|const)\s/.test(expression) ? `(() => { ${expression} })()` : expression;
   const safeAsyncFunction = () => {
     try {
       return new AsyncFunction(["__self", "scope"], `with (scope) { __self.result = ${rightSideSafeExpression} }; __self.finished = true; return __self.result;`);
@@ -522,8 +520,6 @@ function runIfTypeOfFunction(receiver, value, scope2, params, el) {
     } else {
       receiver(result);
     }
-  } else if (typeof value === "object" && value instanceof Promise) {
-    value.then((i) => receiver(i));
   } else {
     receiver(value);
   }
@@ -540,35 +536,10 @@ function setPrefix(newPrefix) {
 var directiveHandlers = {};
 function directive(name, callback) {
   directiveHandlers[name] = callback;
-  return {
-    before(directive2) {
-      if (!directiveHandlers[directive2]) {
-        console.warn("Cannot find directive `${directive}`. `${name}` will use the default order of execution");
-        return;
-      }
-      const pos = directiveOrder.indexOf(directive2);
-      directiveOrder.splice(pos >= 0 ? pos : directiveOrder.indexOf("DEFAULT"), 0, name);
-    }
-  };
 }
 function directives(el, attributes, originalAttributeOverride) {
-  attributes = Array.from(attributes);
-  if (el._x_virtualDirectives) {
-    let vAttributes = Object.entries(el._x_virtualDirectives).map(([name, value]) => ({name, value}));
-    let staticAttributes = attributesOnly(vAttributes);
-    vAttributes = vAttributes.map((attribute) => {
-      if (staticAttributes.find((attr) => attr.name === attribute.name)) {
-        return {
-          name: `x-bind:${attribute.name}`,
-          value: `"${attribute.value}"`
-        };
-      }
-      return attribute;
-    });
-    attributes = attributes.concat(vAttributes);
-  }
   let transformedAttributeMap = {};
-  let directives2 = attributes.map(toTransformedAttributes((newName, oldName) => transformedAttributeMap[newName] = oldName)).filter(outNonAlpineAttributes).map(toParsedDirectives(transformedAttributeMap, originalAttributeOverride)).sort(byPriority);
+  let directives2 = Array.from(attributes).map(toTransformedAttributes((newName, oldName) => transformedAttributeMap[newName] = oldName)).filter(outNonAlpineAttributes).map(toParsedDirectives(transformedAttributeMap, originalAttributeOverride)).sort(byPriority);
   return directives2.map((directive2) => {
     return getDirectiveHandler(el, directive2);
   });
@@ -676,13 +647,15 @@ var directiveOrder = [
   "bind",
   "init",
   "for",
+  "mask",
   "model",
   "modelable",
   "transition",
   "show",
   "if",
   DEFAULT,
-  "teleport"
+  "teleport",
+  "element"
 ];
 function byPriority(a, b) {
   let typeA = directiveOrder.indexOf(a.type) === -1 ? DEFAULT : a.type;
@@ -698,6 +671,32 @@ function dispatch(el, name, detail = {}) {
     composed: true,
     cancelable: true
   }));
+}
+
+// packages/alpinejs/src/nextTick.js
+var tickStack = [];
+var isHolding = false;
+function nextTick(callback = () => {
+}) {
+  queueMicrotask(() => {
+    isHolding || setTimeout(() => {
+      releaseNextTicks();
+    });
+  });
+  return new Promise((res) => {
+    tickStack.push(() => {
+      callback();
+      res();
+    });
+  });
+}
+function releaseNextTicks() {
+  isHolding = false;
+  while (tickStack.length)
+    tickStack.shift()();
+}
+function holdNextTicks() {
+  isHolding = true;
 }
 
 // packages/alpinejs/src/utils/walk.js
@@ -723,11 +722,7 @@ function warn(message, ...args) {
 }
 
 // packages/alpinejs/src/lifecycle.js
-var started = false;
 function start() {
-  if (started)
-    warn("Alpine has already been initialized on this page. Calling Alpine.start() more than once can cause problems.");
-  started = true;
   if (!document.body)
     warn("Unable to initialize. Trying to load Alpine before `<body>` is available. Did you forget to add `defer` in Alpine's `<script>` tag?");
   dispatch(document, "alpine:init");
@@ -779,16 +774,9 @@ function findClosest(el, callback) {
 function isRoot(el) {
   return rootSelectors().some((selector) => el.matches(selector));
 }
-var initInterceptors2 = [];
-function interceptInit(callback) {
-  initInterceptors2.push(callback);
-}
-function initTree(el, walker = walk, intercept = () => {
-}) {
+function initTree(el, walker = walk) {
   deferHandlingDirectives(() => {
     walker(el, (el2, skip) => {
-      intercept(el2, skip);
-      initInterceptors2.forEach((i) => i(el2, skip));
       directives(el2, el2.attributes).forEach((handle) => handle());
       el2._x_ignore && skip();
     });
@@ -796,32 +784,6 @@ function initTree(el, walker = walk, intercept = () => {
 }
 function destroyTree(root) {
   walk(root, (el) => cleanupAttributes(el));
-}
-
-// packages/alpinejs/src/nextTick.js
-var tickStack = [];
-var isHolding = false;
-function nextTick(callback = () => {
-}) {
-  queueMicrotask(() => {
-    isHolding || setTimeout(() => {
-      releaseNextTicks();
-    });
-  });
-  return new Promise((res) => {
-    tickStack.push(() => {
-      callback();
-      res();
-    });
-  });
-}
-function releaseNextTicks() {
-  isHolding = false;
-  while (tickStack.length)
-    tickStack.shift()();
-}
-function holdNextTicks() {
-  isHolding = true;
 }
 
 // packages/alpinejs/src/utils/classes.js
@@ -925,9 +887,7 @@ function once(callback, fallback = () => {
 directive("transition", (el, {value, modifiers, expression}, {evaluate: evaluate2}) => {
   if (typeof expression === "function")
     expression = evaluate2(expression);
-  if (expression === false)
-    return;
-  if (!expression || typeof expression === "boolean") {
+  if (!expression) {
     registerTransitionsFromHelper(el, modifiers, value);
   } else {
     registerTransitionsFromClassString(el, expression, value);
@@ -973,7 +933,7 @@ function registerTransitionsFromHelper(el, modifiers, stage) {
   let wantsScale = wantsAll || modifiers.includes("scale");
   let opacityValue = wantsOpacity ? 0 : 1;
   let scaleValue = wantsScale ? modifierValue(modifiers, "scale", 95) / 100 : 1;
-  let delay = modifierValue(modifiers, "delay", 0) / 1e3;
+  let delay = modifierValue(modifiers, "delay", 0);
   let origin = modifierValue(modifiers, "origin", "center");
   let property = "opacity, transform";
   let durationIn = modifierValue(modifiers, "duration", 150) / 1e3;
@@ -982,7 +942,7 @@ function registerTransitionsFromHelper(el, modifiers, stage) {
   if (transitioningIn) {
     el._x_transition.enter.during = {
       transformOrigin: origin,
-      transitionDelay: `${delay}s`,
+      transitionDelay: delay,
       transitionProperty: property,
       transitionDuration: `${durationIn}s`,
       transitionTimingFunction: easing
@@ -999,7 +959,7 @@ function registerTransitionsFromHelper(el, modifiers, stage) {
   if (transitioningOut) {
     el._x_transition.leave.during = {
       transformOrigin: origin,
-      transitionDelay: `${delay}s`,
+      transitionDelay: delay,
       transitionProperty: property,
       transitionDuration: `${durationOut}s`,
       transitionTimingFunction: easing
@@ -1040,8 +1000,9 @@ function registerTransitionObject(el, setFunction, defaultValue = {}) {
     };
 }
 window.Element.prototype._x_toggleAndCascadeWithTransitions = function(el, value, show, hide) {
-  const nextTick2 = document.visibilityState === "visible" ? requestAnimationFrame : setTimeout;
-  let clickAwayCompatibleShow = () => nextTick2(show);
+  let clickAwayCompatibleShow = () => {
+    document.visibilityState === "visible" ? requestAnimationFrame(show) : setTimeout(show);
+  };
   if (value) {
     if (el._x_transition && (el._x_transition.enter || el._x_transition.leave)) {
       el._x_transition.enter && (Object.entries(el._x_transition.enter.during).length || Object.entries(el._x_transition.enter.start).length || Object.entries(el._x_transition.enter.end).length) ? el._x_transition.in(show) : clickAwayCompatibleShow();
@@ -1062,7 +1023,7 @@ window.Element.prototype._x_toggleAndCascadeWithTransitions = function(el, value
         closest._x_hideChildren = [];
       closest._x_hideChildren.push(el);
     } else {
-      nextTick2(() => {
+      queueMicrotask(() => {
         let hideAfterChildren = (el2) => {
           let carry = Promise.all([
             el2._x_hidePromise,
@@ -1185,7 +1146,7 @@ function modifierValue(modifiers, key, fallback) {
     if (isNaN(rawValue))
       return fallback;
   }
-  if (key === "duration" || key === "delay") {
+  if (key === "duration") {
     let match = rawValue.match(/([0-9]+)ms/);
     if (match)
       return match[1];
@@ -1203,9 +1164,6 @@ var isCloning = false;
 function skipDuringClone(callback, fallback = () => {
 }) {
   return (...args) => isCloning ? fallback(...args) : callback(...args);
-}
-function onlyDuringClone(callback) {
-  return (...args) => isCloning && callback(...args);
 }
 function clone(oldEl, newEl) {
   if (!newEl._x_dataStack)
@@ -1256,10 +1214,6 @@ function bind(el, name, value, modifiers = []) {
     case "class":
       bindClasses(el, value);
       break;
-    case "selected":
-    case "checked":
-      bindAttributeAndProperty(el, name, value);
-      break;
     default:
       bindAttribute(el, name, value);
       break;
@@ -1303,10 +1257,6 @@ function bindStyles(el, value) {
     el._x_undoAddedStyles();
   el._x_undoAddedStyles = setStyles(el, value);
 }
-function bindAttributeAndProperty(el, name, value) {
-  bindAttribute(el, name, value);
-  setPropertyIfChanged(el, name, value);
-}
 function bindAttribute(el, name, value) {
   if ([null, void 0, false].includes(value) && attributeShouldntBePreservedIfFalsy(name)) {
     el.removeAttribute(name);
@@ -1319,11 +1269,6 @@ function bindAttribute(el, name, value) {
 function setIfChanged(el, attrName, value) {
   if (el.getAttribute(attrName) != value) {
     el.setAttribute(attrName, value);
-  }
-}
-function setPropertyIfChanged(el, propName, value) {
-  if (el[propName] !== value) {
-    el[propName] = value;
   }
 }
 function updateSelect(el, value) {
@@ -1379,11 +1324,11 @@ function getBinding(el, name, fallback) {
   let attr = el.getAttribute(name);
   if (attr === null)
     return typeof fallback === "function" ? fallback() : fallback;
-  if (attr === "")
-    return true;
   if (isBooleanAttr(name)) {
     return !![name, "true"].includes(attr);
   }
+  if (attr === "")
+    return true;
   return attr;
 }
 
@@ -1416,8 +1361,7 @@ function throttle(func, limit) {
 
 // packages/alpinejs/src/plugin.js
 function plugin(callback) {
-  let callbacks = Array.isArray(callback) ? callback : [callback];
-  callbacks.forEach((i) => i(alpine_default));
+  callback(alpine_default);
 }
 
 // packages/alpinejs/src/store.js
@@ -1443,13 +1387,8 @@ function getStores() {
 
 // packages/alpinejs/src/binds.js
 var binds = {};
-function bind2(name, bindings) {
-  let getBindings = typeof bindings !== "function" ? () => bindings : bindings;
-  if (name instanceof Element) {
-    applyBindingsObject(name, getBindings());
-  } else {
-    binds[name] = getBindings;
-  }
+function bind2(name, object) {
+  binds[name] = typeof object !== "function" ? () => object : object;
 }
 function injectBindingProviders(obj) {
   Object.entries(binds).forEach(([name, callback]) => {
@@ -1462,26 +1401,6 @@ function injectBindingProviders(obj) {
     });
   });
   return obj;
-}
-function applyBindingsObject(el, obj, original) {
-  let cleanupRunners = [];
-  while (cleanupRunners.length)
-    cleanupRunners.pop()();
-  let attributes = Object.entries(obj).map(([name, value]) => ({name, value}));
-  let staticAttributes = attributesOnly(attributes);
-  attributes = attributes.map((attribute) => {
-    if (staticAttributes.find((attr) => attr.name === attribute.name)) {
-      return {
-        name: `x-bind:${attribute.name}`,
-        value: `"${attribute.value}"`
-      };
-    }
-    return attribute;
-  });
-  directives(el, attributes, original).map((handle) => {
-    cleanupRunners.push(handle.runCleanups);
-    handle();
-  });
 }
 
 // packages/alpinejs/src/datas.js
@@ -1517,28 +1436,23 @@ var Alpine = {
   get raw() {
     return raw;
   },
-  version: "3.12.2",
+  version: "3.10.0",
   flushAndStopDeferringMutations,
   dontAutoEvaluateFunctions,
   disableEffectScheduling,
-  startObservingMutations,
-  stopObservingMutations,
   setReactivityEngine,
   closestDataStack,
   skipDuringClone,
-  onlyDuringClone,
   addRootSelector,
   addInitSelector,
   addScopeToNode,
   deferMutations,
   mapAttributes,
   evaluateLater,
-  interceptInit,
   setEvaluator,
   mergeProxies,
   findClosest,
   closestRoot,
-  destroyTree,
   interceptor,
   transition,
   setStyles,
@@ -1558,7 +1472,6 @@ var Alpine = {
   clone,
   bound: getBinding,
   $data: scope,
-  walk,
   data,
   bind: bind2
 };
@@ -1596,8 +1509,8 @@ var slotFlagsText = {
 };
 var specialBooleanAttrs = `itemscope,allowfullscreen,formnovalidate,ismap,nomodule,novalidate,readonly`;
 var isBooleanAttr2 = /* @__PURE__ */ makeMap(specialBooleanAttrs + `,async,autofocus,autoplay,controls,default,defer,disabled,hidden,loop,open,required,reversed,scoped,seamless,checked,muted,multiple,selected`);
-var EMPTY_OBJ =  true ? Object.freeze({}) : 0;
-var EMPTY_ARR =  true ? Object.freeze([]) : 0;
+var EMPTY_OBJ =  false ? 0 : {};
+var EMPTY_ARR =  false ? 0 : [];
 var extend = Object.assign;
 var hasOwnProperty = Object.prototype.hasOwnProperty;
 var hasOwn = (val, key) => hasOwnProperty.call(val, key);
@@ -1633,8 +1546,8 @@ var hasChanged = (value, oldValue) => value !== oldValue && (value === value || 
 var targetMap = new WeakMap();
 var effectStack = [];
 var activeEffect;
-var ITERATE_KEY = Symbol( true ? "iterate" : 0);
-var MAP_KEY_ITERATE_KEY = Symbol( true ? "Map key iterate" : 0);
+var ITERATE_KEY = Symbol( false ? 0 : "");
+var MAP_KEY_ITERATE_KEY = Symbol( false ? 0 : "");
 function isEffect(fn) {
   return fn && fn._isEffect === true;
 }
@@ -1724,14 +1637,7 @@ function track(target, type, key) {
   if (!dep.has(activeEffect)) {
     dep.add(activeEffect);
     activeEffect.deps.push(dep);
-    if (activeEffect.options.onTrack) {
-      activeEffect.options.onTrack({
-        effect: activeEffect,
-        target,
-        type,
-        key
-      });
-    }
+    if (false) {}
   }
 }
 function trigger(target, type, key, newValue, oldValue, oldTarget) {
@@ -1788,17 +1694,7 @@ function trigger(target, type, key, newValue, oldValue, oldTarget) {
     }
   }
   const run = (effect3) => {
-    if (effect3.options.onTrigger) {
-      effect3.options.onTrigger({
-        effect: effect3,
-        target,
-        key,
-        type,
-        newValue,
-        oldValue,
-        oldTarget
-      });
-    }
+    if (false) {}
     if (effect3.options.scheduler) {
       effect3.options.scheduler(effect3);
     } else {
@@ -1926,15 +1822,11 @@ var mutableHandlers = {
 var readonlyHandlers = {
   get: readonlyGet,
   set(target, key) {
-    if (true) {
-      console.warn(`Set operation on key "${String(key)}" failed: target is readonly.`, target);
-    }
+    if (false) {}
     return true;
   },
   deleteProperty(target, key) {
-    if (true) {
-      console.warn(`Delete operation on key "${String(key)}" failed: target is readonly.`, target);
-    }
+    if (false) {}
     return true;
   }
 };
@@ -2001,9 +1893,7 @@ function set$1(key, value) {
   if (!hadKey) {
     key = toRaw(key);
     hadKey = has2.call(target, key);
-  } else if (true) {
-    checkIdentityKeys(target, has2, key);
-  }
+  } else if (false) {}
   const oldValue = get3.call(target, key);
   target.set(key, value);
   if (!hadKey) {
@@ -2020,9 +1910,7 @@ function deleteEntry(key) {
   if (!hadKey) {
     key = toRaw(key);
     hadKey = has2.call(target, key);
-  } else if (true) {
-    checkIdentityKeys(target, has2, key);
-  }
+  } else if (false) {}
   const oldValue = get3 ? get3.call(target, key) : void 0;
   const result = target.delete(key);
   if (hadKey) {
@@ -2033,7 +1921,7 @@ function deleteEntry(key) {
 function clear() {
   const target = toRaw(this);
   const hadItems = target.size !== 0;
-  const oldTarget =  true ? isMap(target) ? new Map(target) : new Set(target) : 0;
+  const oldTarget =  false ? 0 : void 0;
   const result = target.clear();
   if (hadItems) {
     trigger(target, "clear", void 0, void 0, oldTarget);
@@ -2078,10 +1966,7 @@ function createIterableMethod(method, isReadonly, isShallow) {
 }
 function createReadonlyMethod(type) {
   return function(...args) {
-    if (true) {
-      const key = args[0] ? `on key "${args[0]}" ` : ``;
-      console.warn(`${capitalize(type)} operation ${key}failed: target is readonly.`, toRaw(this));
-    }
+    if (false) {}
     return type === "delete" ? false : this;
   };
 }
@@ -2177,13 +2062,6 @@ var readonlyCollectionHandlers = {
 var shallowReadonlyCollectionHandlers = {
   get: createInstrumentationGetter(true, true)
 };
-function checkIdentityKeys(target, has2, key) {
-  const rawKey = toRaw(key);
-  if (rawKey !== key && has2.call(target, rawKey)) {
-    const type = toRawType(target);
-    console.warn(`Reactive ${type} contains both the raw and reactive versions of the same object${type === `Map` ? ` as keys` : ``}, which can lead to inconsistencies. Avoid differentiating between the raw and reactive versions of an object and only use the reactive version if possible.`);
-  }
-}
 var reactiveMap = new WeakMap();
 var shallowReactiveMap = new WeakMap();
 var readonlyMap = new WeakMap();
@@ -2216,9 +2094,7 @@ function readonly(target) {
 }
 function createReactiveObject(target, isReadonly, baseHandlers, collectionHandlers, proxyMap) {
   if (!isObject(target)) {
-    if (true) {
-      console.warn(`value cannot be made reactive: ${String(target)}`);
-    }
+    if (false) {}
     return target;
   }
   if (target["__v_raw"] && !(isReadonly && target["__v_isReactive"])) {
@@ -2333,41 +2209,8 @@ function warnMissingPluginMagic(name, magicName, slug) {
   magic(magicName, (el) => warn(`You can't use [$${directiveName}] without first installing the "${name}" plugin here: https://alpinejs.dev/plugins/${slug}`, el));
 }
 
-// packages/alpinejs/src/entangle.js
-function entangle({get: outerGet, set: outerSet}, {get: innerGet, set: innerSet}) {
-  let firstRun = true;
-  let outerHash, innerHash, outerHashLatest, innerHashLatest;
-  let reference = effect(() => {
-    let outer, inner;
-    if (firstRun) {
-      outer = outerGet();
-      innerSet(outer);
-      inner = innerGet();
-      firstRun = false;
-    } else {
-      outer = outerGet();
-      inner = innerGet();
-      outerHashLatest = JSON.stringify(outer);
-      innerHashLatest = JSON.stringify(inner);
-      if (outerHashLatest !== outerHash) {
-        inner = innerGet();
-        innerSet(outer);
-        inner = outer;
-      } else {
-        outerSet(inner);
-        outer = inner;
-      }
-    }
-    outerHash = JSON.stringify(outer);
-    innerHash = JSON.stringify(inner);
-  });
-  return () => {
-    release(reference);
-  };
-}
-
 // packages/alpinejs/src/directives/x-modelable.js
-directive("modelable", (el, {expression}, {effect: effect3, evaluateLater: evaluateLater2, cleanup: cleanup2}) => {
+directive("modelable", (el, {expression}, {effect: effect3, evaluateLater: evaluateLater2}) => {
   let func = evaluateLater2(expression);
   let innerGet = () => {
     let result;
@@ -2385,35 +2228,16 @@ directive("modelable", (el, {expression}, {effect: effect3, evaluateLater: evalu
     el._x_removeModelListeners["default"]();
     let outerGet = el._x_model.get;
     let outerSet = el._x_model.set;
-    let releaseEntanglement = entangle({
-      get() {
-        return outerGet();
-      },
-      set(value) {
-        outerSet(value);
-      }
-    }, {
-      get() {
-        return innerGet();
-      },
-      set(value) {
-        innerSet(value);
-      }
-    });
-    cleanup2(releaseEntanglement);
+    effect3(() => innerSet(outerGet()));
+    effect3(() => outerSet(innerGet()));
   });
 });
 
 // packages/alpinejs/src/directives/x-teleport.js
-var teleportContainerDuringClone = document.createElement("div");
-directive("teleport", (el, {modifiers, expression}, {cleanup: cleanup2}) => {
+directive("teleport", (el, {expression}, {cleanup: cleanup2}) => {
   if (el.tagName.toLowerCase() !== "template")
     warn("x-teleport can only be used on a <template> tag", el);
-  let target = skipDuringClone(() => {
-    return document.querySelector(expression);
-  }, () => {
-    return teleportContainerDuringClone;
-  })();
+  let target = document.querySelector(expression);
   if (!target)
     warn(`Cannot find x-teleport element for selector: "${expression}"`);
   let clone2 = el.content.cloneNode(true).firstElementChild;
@@ -2429,13 +2253,7 @@ directive("teleport", (el, {modifiers, expression}, {cleanup: cleanup2}) => {
   }
   addScopeToNode(clone2, {}, el);
   mutateDom(() => {
-    if (modifiers.includes("prepend")) {
-      target.parentNode.insertBefore(clone2, target);
-    } else if (modifiers.includes("append")) {
-      target.parentNode.insertBefore(clone2, target.nextSibling);
-    } else {
-      target.appendChild(clone2);
-    }
+    target.appendChild(clone2);
     initTree(clone2);
     clone2._x_ignore = true;
   });
@@ -2474,16 +2292,6 @@ function on(el, event, modifiers, callback) {
     listenerTarget = window;
   if (modifiers.includes("document"))
     listenerTarget = document;
-  if (modifiers.includes("debounce")) {
-    let nextModifier = modifiers[modifiers.indexOf("debounce") + 1] || "invalid-wait";
-    let wait = isNumeric(nextModifier.split("ms")[0]) ? Number(nextModifier.split("ms")[0]) : 250;
-    handler3 = debounce(handler3, wait);
-  }
-  if (modifiers.includes("throttle")) {
-    let nextModifier = modifiers[modifiers.indexOf("throttle") + 1] || "invalid-wait";
-    let wait = isNumeric(nextModifier.split("ms")[0]) ? Number(nextModifier.split("ms")[0]) : 250;
-    handler3 = throttle(handler3, wait);
-  }
   if (modifiers.includes("prevent"))
     handler3 = wrapHandler(handler3, (next, e) => {
       e.preventDefault();
@@ -2526,6 +2334,16 @@ function on(el, event, modifiers, callback) {
     }
     next(e);
   });
+  if (modifiers.includes("debounce")) {
+    let nextModifier = modifiers[modifiers.indexOf("debounce") + 1] || "invalid-wait";
+    let wait = isNumeric(nextModifier.split("ms")[0]) ? Number(nextModifier.split("ms")[0]) : 250;
+    handler3 = debounce(handler3, wait);
+  }
+  if (modifiers.includes("throttle")) {
+    let nextModifier = modifiers[modifiers.indexOf("throttle") + 1] || "invalid-wait";
+    let wait = isNumeric(nextModifier.split("ms")[0]) ? Number(nextModifier.split("ms")[0]) : 250;
+    handler3 = throttle(handler3, wait);
+  }
   listenerTarget.addEventListener(event, handler3, options);
   return () => {
     listenerTarget.removeEventListener(event, handler3, options);
@@ -2541,8 +2359,6 @@ function isNumeric(subject) {
   return !Array.isArray(subject) && !isNaN(subject);
 }
 function kebabCase2(subject) {
-  if ([" ", "_"].includes(subject))
-    return subject;
   return subject.replace(/([a-z])([A-Z])/g, "$1-$2").replace(/[_\s]/, "-").toLowerCase();
 }
 function isKeyEvent(event) {
@@ -2550,14 +2366,10 @@ function isKeyEvent(event) {
 }
 function isListeningForASpecificKeyThatHasntBeenPressed(e, modifiers) {
   let keyModifiers = modifiers.filter((i) => {
-    return !["window", "document", "prevent", "stop", "once", "capture"].includes(i);
+    return !["window", "document", "prevent", "stop", "once"].includes(i);
   });
   if (keyModifiers.includes("debounce")) {
     let debounceIndex = keyModifiers.indexOf("debounce");
-    keyModifiers.splice(debounceIndex, isNumeric((keyModifiers[debounceIndex + 1] || "invalid-wait").split("ms")[0]) ? 2 : 1);
-  }
-  if (keyModifiers.includes("throttle")) {
-    let debounceIndex = keyModifiers.indexOf("throttle");
     keyModifiers.splice(debounceIndex, isNumeric((keyModifiers[debounceIndex + 1] || "invalid-wait").split("ms")[0]) ? 2 : 1);
   }
   if (keyModifiers.length === 0)
@@ -2587,8 +2399,8 @@ function keyToModifiers(key) {
   let modifierToKeyMap = {
     ctrl: "control",
     slash: "/",
-    space: " ",
-    spacebar: " ",
+    space: "-",
+    spacebar: "-",
     cmd: "meta",
     esc: "escape",
     up: "arrow-up",
@@ -2596,9 +2408,7 @@ function keyToModifiers(key) {
     left: "arrow-left",
     right: "arrow-right",
     period: ".",
-    equal: "=",
-    minus: "-",
-    underscore: "_"
+    equal: "="
   };
   modifierToKeyMap[key] = key;
   return Object.keys(modifierToKeyMap).map((modifier) => {
@@ -2609,107 +2419,80 @@ function keyToModifiers(key) {
 
 // packages/alpinejs/src/directives/x-model.js
 directive("model", (el, {modifiers, expression}, {effect: effect3, cleanup: cleanup2}) => {
-  let scopeTarget = el;
-  if (modifiers.includes("parent")) {
-    scopeTarget = el.parentNode;
-  }
-  let evaluateGet = evaluateLater(scopeTarget, expression);
-  let evaluateSet;
-  if (typeof expression === "string") {
-    evaluateSet = evaluateLater(scopeTarget, `${expression} = __placeholder`);
-  } else if (typeof expression === "function" && typeof expression() === "string") {
-    evaluateSet = evaluateLater(scopeTarget, `${expression()} = __placeholder`);
-  } else {
-    evaluateSet = () => {
-    };
-  }
-  let getValue = () => {
-    let result;
-    evaluateGet((value) => result = value);
-    return isGetterSetter(result) ? result.get() : result;
-  };
-  let setValue = (value) => {
-    let result;
-    evaluateGet((value2) => result = value2);
-    if (isGetterSetter(result)) {
-      result.set(value);
-    } else {
-      evaluateSet(() => {
-      }, {
-        scope: {__placeholder: value}
-      });
+  let evaluate2 = evaluateLater(el, expression);
+  let assignmentExpression = `${expression} = rightSideOfExpression($event, ${expression})`;
+  let evaluateAssignment = evaluateLater(el, assignmentExpression);
+  var event = el.tagName.toLowerCase() === "select" || ["checkbox", "radio"].includes(el.type) || modifiers.includes("lazy") ? "change" : "input";
+  let assigmentFunction = generateAssignmentFunction(el, modifiers, expression);
+  let removeListener = on(el, event, modifiers, (e) => {
+    evaluateAssignment(() => {
+    }, {scope: {
+      $event: e,
+      rightSideOfExpression: assigmentFunction
+    }});
+  });
+  if (!el._x_removeModelListeners)
+    el._x_removeModelListeners = {};
+  el._x_removeModelListeners["default"] = removeListener;
+  cleanup2(() => el._x_removeModelListeners["default"]());
+  let evaluateSetModel = evaluateLater(el, `${expression} = __placeholder`);
+  el._x_model = {
+    get() {
+      let result;
+      evaluate2((value) => result = value);
+      return result;
+    },
+    set(value) {
+      evaluateSetModel(() => {
+      }, {scope: {__placeholder: value}});
     }
   };
-  if (typeof expression === "string" && el.type === "radio") {
+  el._x_forceModelUpdate = () => {
+    evaluate2((value) => {
+      if (value === void 0 && expression.match(/\./))
+        value = "";
+      window.fromModel = true;
+      mutateDom(() => bind(el, "value", value));
+      delete window.fromModel;
+    });
+  };
+  effect3(() => {
+    if (modifiers.includes("unintrusive") && document.activeElement.isSameNode(el))
+      return;
+    el._x_forceModelUpdate();
+  });
+});
+function generateAssignmentFunction(el, modifiers, expression) {
+  if (el.type === "radio") {
     mutateDom(() => {
       if (!el.hasAttribute("name"))
         el.setAttribute("name", expression);
     });
   }
-  var event = el.tagName.toLowerCase() === "select" || ["checkbox", "radio"].includes(el.type) || modifiers.includes("lazy") ? "change" : "input";
-  let removeListener = isCloning ? () => {
-  } : on(el, event, modifiers, (e) => {
-    setValue(getInputValue(el, modifiers, e, getValue()));
-  });
-  if (modifiers.includes("fill") && [null, ""].includes(getValue())) {
-    el.dispatchEvent(new Event(event, {}));
-  }
-  if (!el._x_removeModelListeners)
-    el._x_removeModelListeners = {};
-  el._x_removeModelListeners["default"] = removeListener;
-  cleanup2(() => el._x_removeModelListeners["default"]());
-  if (el.form) {
-    let removeResetListener = on(el.form, "reset", [], (e) => {
-      nextTick(() => el._x_model && el._x_model.set(el.value));
-    });
-    cleanup2(() => removeResetListener());
-  }
-  el._x_model = {
-    get() {
-      return getValue();
-    },
-    set(value) {
-      setValue(value);
-    }
-  };
-  el._x_forceModelUpdate = (value) => {
-    value = value === void 0 ? getValue() : value;
-    if (value === void 0 && typeof expression === "string" && expression.match(/\./))
-      value = "";
-    window.fromModel = true;
-    mutateDom(() => bind(el, "value", value));
-    delete window.fromModel;
-  };
-  effect3(() => {
-    let value = getValue();
-    if (modifiers.includes("unintrusive") && document.activeElement.isSameNode(el))
-      return;
-    el._x_forceModelUpdate(value);
-  });
-});
-function getInputValue(el, modifiers, event, currentValue) {
-  return mutateDom(() => {
-    if (event instanceof CustomEvent && event.detail !== void 0)
-      return event.detail ?? event.target.value;
-    else if (el.type === "checkbox") {
-      if (Array.isArray(currentValue)) {
-        let newValue = modifiers.includes("number") ? safeParseNumber(event.target.value) : event.target.value;
-        return event.target.checked ? currentValue.concat([newValue]) : currentValue.filter((el2) => !checkedAttrLooseCompare2(el2, newValue));
+  return (event, currentValue) => {
+    return mutateDom(() => {
+      if (event instanceof CustomEvent && event.detail !== void 0) {
+        return event.detail || event.target.value;
+      } else if (el.type === "checkbox") {
+        if (Array.isArray(currentValue)) {
+          let newValue = modifiers.includes("number") ? safeParseNumber(event.target.value) : event.target.value;
+          return event.target.checked ? currentValue.concat([newValue]) : currentValue.filter((el2) => !checkedAttrLooseCompare2(el2, newValue));
+        } else {
+          return event.target.checked;
+        }
+      } else if (el.tagName.toLowerCase() === "select" && el.multiple) {
+        return modifiers.includes("number") ? Array.from(event.target.selectedOptions).map((option) => {
+          let rawValue = option.value || option.text;
+          return safeParseNumber(rawValue);
+        }) : Array.from(event.target.selectedOptions).map((option) => {
+          return option.value || option.text;
+        });
       } else {
-        return event.target.checked;
+        let rawValue = event.target.value;
+        return modifiers.includes("number") ? safeParseNumber(rawValue) : modifiers.includes("trim") ? rawValue.trim() : rawValue;
       }
-    } else if (el.tagName.toLowerCase() === "select" && el.multiple) {
-      return modifiers.includes("number") ? Array.from(event.target.selectedOptions).map((option) => {
-        let rawValue = option.value || option.text;
-        return safeParseNumber(rawValue);
-      }) : Array.from(event.target.selectedOptions).map((option) => {
-        return option.value || option.text;
-      });
-    } else {
-      let rawValue = event.target.value;
-      return modifiers.includes("number") ? safeParseNumber(rawValue) : modifiers.includes("trim") ? rawValue.trim() : rawValue;
-    }
-  });
+    });
+  };
 }
 function safeParseNumber(rawValue) {
   let number = rawValue ? parseFloat(rawValue) : null;
@@ -2720,9 +2503,6 @@ function checkedAttrLooseCompare2(valueA, valueB) {
 }
 function isNumeric2(subject) {
   return !Array.isArray(subject) && !isNaN(subject);
-}
-function isGetterSetter(value) {
-  return value !== null && typeof value === "object" && typeof value.get === "function" && typeof value.set === "function";
 }
 
 // packages/alpinejs/src/directives/x-cloak.js
@@ -2768,24 +2548,42 @@ directive("html", (el, {expression}, {effect: effect3, evaluateLater: evaluateLa
 mapAttributes(startingWith(":", into(prefix("bind:"))));
 directive("bind", (el, {value, modifiers, expression, original}, {effect: effect3}) => {
   if (!value) {
-    let bindingProviders = {};
-    injectBindingProviders(bindingProviders);
-    let getBindings = evaluateLater(el, expression);
-    getBindings((bindings) => {
-      applyBindingsObject(el, bindings, original);
-    }, {scope: bindingProviders});
-    return;
+    return applyBindingsObject(el, expression, original, effect3);
   }
   if (value === "key")
     return storeKeyForXFor(el, expression);
   let evaluate2 = evaluateLater(el, expression);
   effect3(() => evaluate2((result) => {
-    if (result === void 0 && typeof expression === "string" && expression.match(/\./)) {
+    if (result === void 0 && expression.match(/\./))
       result = "";
-    }
     mutateDom(() => bind(el, value, result, modifiers));
   }));
 });
+function applyBindingsObject(el, expression, original, effect3) {
+  let bindingProviders = {};
+  injectBindingProviders(bindingProviders);
+  let getBindings = evaluateLater(el, expression);
+  let cleanupRunners = [];
+  while (cleanupRunners.length)
+    cleanupRunners.pop()();
+  getBindings((bindings) => {
+    let attributes = Object.entries(bindings).map(([name, value]) => ({name, value}));
+    let staticAttributes = attributesOnly(attributes);
+    attributes = attributes.map((attribute) => {
+      if (staticAttributes.find((attr) => attr.name === attribute.name)) {
+        return {
+          name: `x-bind:${attribute.name}`,
+          value: `"${attribute.value}"`
+        };
+      }
+      return attribute;
+    });
+    directives(el, attributes, original).map((handle) => {
+      cleanupRunners.push(handle.runCleanups);
+      handle();
+    });
+  }, {scope: bindingProviders});
+}
 function storeKeyForXFor(el, expression) {
   el._x_keyExpression = expression;
 }
@@ -2799,7 +2597,7 @@ directive("data", skipDuringClone((el, {expression}, {cleanup: cleanup2}) => {
   let dataProviderContext = {};
   injectDataProviders(dataProviderContext, magicContext);
   let data2 = evaluate(el, expression, {scope: dataProviderContext});
-  if (data2 === void 0 || data2 === true)
+  if (data2 === void 0)
     data2 = {};
   injectMagics(data2, el);
   let reactiveData = reactive(data2);
@@ -2817,9 +2615,7 @@ directive("show", (el, {modifiers, expression}, {effect: effect3}) => {
   let evaluate2 = evaluateLater(el, expression);
   if (!el._x_doHide)
     el._x_doHide = () => {
-      mutateDom(() => {
-        el.style.setProperty("display", "none", modifiers.includes("important") ? "important" : void 0);
-      });
+      mutateDom(() => el.style.display = "none");
     };
   if (!el._x_doShow)
     el._x_doShow = () => {
@@ -2943,8 +2739,6 @@ function loop(el, iteratorNames, evaluateItems, evaluateKey) {
       let elForSpot = lookup[keyForSpot];
       let marker = document.createElement("div");
       mutateDom(() => {
-        if (!elForSpot)
-          warn(`x-for ":key" is undefined or invalid`, templateEl);
         elForSpot.after(marker);
         elInSpot.after(elForSpot);
         elForSpot._x_currentIfEl && elForSpot.after(elForSpot._x_currentIfEl);
@@ -2952,7 +2746,7 @@ function loop(el, iteratorNames, evaluateItems, evaluateKey) {
         elInSpot._x_currentIfEl && elInSpot.after(elInSpot._x_currentIfEl);
         marker.remove();
       });
-      elForSpot._x_refreshXForScope(scopes[keys.indexOf(keyForSpot)]);
+      refreshScope(elForSpot, scopes[keys.indexOf(keyForSpot)]);
     }
     for (let i = 0; i < adds.length; i++) {
       let [lastKey2, index] = adds[i];
@@ -2962,13 +2756,7 @@ function loop(el, iteratorNames, evaluateItems, evaluateKey) {
       let scope2 = scopes[index];
       let key = keys[index];
       let clone2 = document.importNode(templateEl.content, true).firstElementChild;
-      let reactiveScope = reactive(scope2);
-      addScopeToNode(clone2, reactiveScope, templateEl);
-      clone2._x_refreshXForScope = (newScope) => {
-        Object.entries(newScope).forEach(([key2, value]) => {
-          reactiveScope[key2] = value;
-        });
-      };
+      addScopeToNode(clone2, reactive(scope2), templateEl);
       mutateDom(() => {
         lastEl.after(clone2);
         initTree(clone2);
@@ -2979,7 +2767,7 @@ function loop(el, iteratorNames, evaluateItems, evaluateKey) {
       lookup[key] = clone2;
     }
     for (let i = 0; i < sames.length; i++) {
-      lookup[sames[i]]._x_refreshXForScope(scopes[keys.indexOf(sames[i])]);
+      refreshScope(lookup[sames[i]], scopes[keys.indexOf(sames[i])]);
     }
     templateEl._x_prevKeys = keys;
   });
@@ -3128,7 +2916,7 @@ var module_default = src_default;
 /*!*************************************!*\
   !*** ./node_modules/axios/index.js ***!
   \*************************************/
-/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 module.exports = __webpack_require__(/*! ./lib/axios */ "./node_modules/axios/lib/axios.js");
 
@@ -3138,7 +2926,7 @@ module.exports = __webpack_require__(/*! ./lib/axios */ "./node_modules/axios/li
 /*!************************************************!*\
   !*** ./node_modules/axios/lib/adapters/xhr.js ***!
   \************************************************/
-/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
@@ -3361,7 +3149,7 @@ module.exports = function xhrAdapter(config) {
 /*!*****************************************!*\
   !*** ./node_modules/axios/lib/axios.js ***!
   \*****************************************/
-/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
@@ -3429,7 +3217,7 @@ module.exports["default"] = axios;
 /*!*************************************************!*\
   !*** ./node_modules/axios/lib/cancel/Cancel.js ***!
   \*************************************************/
-/***/ (function(module) {
+/***/ ((module) => {
 
 "use strict";
 
@@ -3459,7 +3247,7 @@ module.exports = Cancel;
 /*!******************************************************!*\
   !*** ./node_modules/axios/lib/cancel/CancelToken.js ***!
   \******************************************************/
-/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
@@ -3589,7 +3377,7 @@ module.exports = CancelToken;
 /*!***************************************************!*\
   !*** ./node_modules/axios/lib/cancel/isCancel.js ***!
   \***************************************************/
-/***/ (function(module) {
+/***/ ((module) => {
 
 "use strict";
 
@@ -3605,7 +3393,7 @@ module.exports = function isCancel(value) {
 /*!**********************************************!*\
   !*** ./node_modules/axios/lib/core/Axios.js ***!
   \**********************************************/
-/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
@@ -3771,7 +3559,7 @@ module.exports = Axios;
 /*!***********************************************************!*\
   !*** ./node_modules/axios/lib/core/InterceptorManager.js ***!
   \***********************************************************/
-/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
@@ -3836,7 +3624,7 @@ module.exports = InterceptorManager;
 /*!******************************************************!*\
   !*** ./node_modules/axios/lib/core/buildFullPath.js ***!
   \******************************************************/
-/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
@@ -3867,7 +3655,7 @@ module.exports = function buildFullPath(baseURL, requestedURL) {
 /*!****************************************************!*\
   !*** ./node_modules/axios/lib/core/createError.js ***!
   \****************************************************/
-/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
@@ -3896,7 +3684,7 @@ module.exports = function createError(message, config, code, request, response) 
 /*!********************************************************!*\
   !*** ./node_modules/axios/lib/core/dispatchRequest.js ***!
   \********************************************************/
-/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
@@ -3994,7 +3782,7 @@ module.exports = function dispatchRequest(config) {
 /*!*****************************************************!*\
   !*** ./node_modules/axios/lib/core/enhanceError.js ***!
   \*****************************************************/
-/***/ (function(module) {
+/***/ ((module) => {
 
 "use strict";
 
@@ -4048,7 +3836,7 @@ module.exports = function enhanceError(error, config, code, request, response) {
 /*!****************************************************!*\
   !*** ./node_modules/axios/lib/core/mergeConfig.js ***!
   \****************************************************/
-/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
@@ -4158,7 +3946,7 @@ module.exports = function mergeConfig(config1, config2) {
 /*!***********************************************!*\
   !*** ./node_modules/axios/lib/core/settle.js ***!
   \***********************************************/
-/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
@@ -4194,7 +3982,7 @@ module.exports = function settle(resolve, reject, response) {
 /*!******************************************************!*\
   !*** ./node_modules/axios/lib/core/transformData.js ***!
   \******************************************************/
-/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
@@ -4227,7 +4015,7 @@ module.exports = function transformData(data, headers, fns) {
 /*!********************************************!*\
   !*** ./node_modules/axios/lib/defaults.js ***!
   \********************************************/
-/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 /* provided dependency */ var process = __webpack_require__(/*! process/browser.js */ "./node_modules/process/browser.js");
@@ -4373,7 +4161,7 @@ module.exports = defaults;
 /*!********************************************!*\
   !*** ./node_modules/axios/lib/env/data.js ***!
   \********************************************/
-/***/ (function(module) {
+/***/ ((module) => {
 
 module.exports = {
   "version": "0.25.0"
@@ -4385,7 +4173,7 @@ module.exports = {
 /*!************************************************!*\
   !*** ./node_modules/axios/lib/helpers/bind.js ***!
   \************************************************/
-/***/ (function(module) {
+/***/ ((module) => {
 
 "use strict";
 
@@ -4407,7 +4195,7 @@ module.exports = function bind(fn, thisArg) {
 /*!****************************************************!*\
   !*** ./node_modules/axios/lib/helpers/buildURL.js ***!
   \****************************************************/
-/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
@@ -4488,7 +4276,7 @@ module.exports = function buildURL(url, params, paramsSerializer) {
 /*!*******************************************************!*\
   !*** ./node_modules/axios/lib/helpers/combineURLs.js ***!
   \*******************************************************/
-/***/ (function(module) {
+/***/ ((module) => {
 
 "use strict";
 
@@ -4513,7 +4301,7 @@ module.exports = function combineURLs(baseURL, relativeURL) {
 /*!***************************************************!*\
   !*** ./node_modules/axios/lib/helpers/cookies.js ***!
   \***************************************************/
-/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
@@ -4577,7 +4365,7 @@ module.exports = (
 /*!*********************************************************!*\
   !*** ./node_modules/axios/lib/helpers/isAbsoluteURL.js ***!
   \*********************************************************/
-/***/ (function(module) {
+/***/ ((module) => {
 
 "use strict";
 
@@ -4602,7 +4390,7 @@ module.exports = function isAbsoluteURL(url) {
 /*!********************************************************!*\
   !*** ./node_modules/axios/lib/helpers/isAxiosError.js ***!
   \********************************************************/
-/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
@@ -4626,7 +4414,7 @@ module.exports = function isAxiosError(payload) {
 /*!***********************************************************!*\
   !*** ./node_modules/axios/lib/helpers/isURLSameOrigin.js ***!
   \***********************************************************/
-/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
@@ -4705,7 +4493,7 @@ module.exports = (
 /*!***************************************************************!*\
   !*** ./node_modules/axios/lib/helpers/normalizeHeaderName.js ***!
   \***************************************************************/
-/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
@@ -4728,7 +4516,7 @@ module.exports = function normalizeHeaderName(headers, normalizedName) {
 /*!********************************************************!*\
   !*** ./node_modules/axios/lib/helpers/parseHeaders.js ***!
   \********************************************************/
-/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
@@ -4792,7 +4580,7 @@ module.exports = function parseHeaders(headers) {
 /*!**************************************************!*\
   !*** ./node_modules/axios/lib/helpers/spread.js ***!
   \**************************************************/
-/***/ (function(module) {
+/***/ ((module) => {
 
 "use strict";
 
@@ -4830,7 +4618,7 @@ module.exports = function spread(callback) {
 /*!*****************************************************!*\
   !*** ./node_modules/axios/lib/helpers/validator.js ***!
   \*****************************************************/
-/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
@@ -4923,7 +4711,7 @@ module.exports = {
 /*!*****************************************!*\
   !*** ./node_modules/axios/lib/utils.js ***!
   \*****************************************/
-/***/ (function(module, __unused_webpack_exports, __webpack_require__) {
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
 "use strict";
 
@@ -5283,12 +5071,13 @@ module.exports = {
 /*!*****************************!*\
   !*** ./resources/js/app.js ***!
   \*****************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var alpinejs__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! alpinejs */ "./node_modules/alpinejs/dist/module.esm.js");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
+
 
 window.Alpine = alpinejs__WEBPACK_IMPORTED_MODULE_0__["default"];
 alpinejs__WEBPACK_IMPORTED_MODULE_0__["default"].start();
@@ -5299,10 +5088,9 @@ alpinejs__WEBPACK_IMPORTED_MODULE_0__["default"].start();
 /*!***********************************!*\
   !*** ./resources/js/bootstrap.js ***!
   \***********************************/
-/***/ (function(__unused_webpack_module, __unused_webpack_exports, __webpack_require__) {
+/***/ ((__unused_webpack_module, __unused_webpack_exports, __webpack_require__) => {
 
 window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
-
 /**
  * We'll load the axios HTTP library which allows us to easily issue requests
  * to our Laravel back-end. This library automatically handles sending the
@@ -5311,17 +5099,13 @@ window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
-
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
  * allows your team to easily build robust real-time web applications.
  */
-
 // import Echo from 'laravel-echo';
-
 // window.Pusher = require('pusher-js');
-
 // window.Echo = new Echo({
 //     broadcaster: 'pusher',
 //     key: process.env.MIX_PUSHER_APP_KEY,
@@ -22547,7 +22331,7 @@ var __WEBPACK_AMD_DEFINE_RESULT__;/**
 /*!*******************************!*\
   !*** ./resources/css/app.css ***!
   \*******************************/
-/***/ (function(__unused_webpack_module, __webpack_exports__, __webpack_require__) {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
@@ -22560,7 +22344,7 @@ __webpack_require__.r(__webpack_exports__);
 /*!*****************************************!*\
   !*** ./node_modules/process/browser.js ***!
   \*****************************************/
-/***/ (function(module) {
+/***/ ((module) => {
 
 // shim for using process in browser
 var process = module.exports = {};
@@ -22784,9 +22568,9 @@ process.umask = function() { return 0; };
 /******/ 	
 /************************************************************************/
 /******/ 	/* webpack/runtime/chunk loaded */
-/******/ 	!function() {
+/******/ 	(() => {
 /******/ 		var deferred = [];
-/******/ 		__webpack_require__.O = function(result, chunkIds, fn, priority) {
+/******/ 		__webpack_require__.O = (result, chunkIds, fn, priority) => {
 /******/ 			if(chunkIds) {
 /******/ 				priority = priority || 0;
 /******/ 				for(var i = deferred.length; i > 0 && deferred[i - 1][2] > priority; i--) deferred[i] = deferred[i - 1];
@@ -22795,12 +22579,10 @@ process.umask = function() { return 0; };
 /******/ 			}
 /******/ 			var notFulfilled = Infinity;
 /******/ 			for (var i = 0; i < deferred.length; i++) {
-/******/ 				var chunkIds = deferred[i][0];
-/******/ 				var fn = deferred[i][1];
-/******/ 				var priority = deferred[i][2];
+/******/ 				var [chunkIds, fn, priority] = deferred[i];
 /******/ 				var fulfilled = true;
 /******/ 				for (var j = 0; j < chunkIds.length; j++) {
-/******/ 					if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every(function(key) { return __webpack_require__.O[key](chunkIds[j]); })) {
+/******/ 					if ((priority & 1 === 0 || notFulfilled >= priority) && Object.keys(__webpack_require__.O).every((key) => (__webpack_require__.O[key](chunkIds[j])))) {
 /******/ 						chunkIds.splice(j--, 1);
 /******/ 					} else {
 /******/ 						fulfilled = false;
@@ -22815,22 +22597,22 @@ process.umask = function() { return 0; };
 /******/ 			}
 /******/ 			return result;
 /******/ 		};
-/******/ 	}();
+/******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/define property getters */
-/******/ 	!function() {
+/******/ 	(() => {
 /******/ 		// define getter functions for harmony exports
-/******/ 		__webpack_require__.d = function(exports, definition) {
+/******/ 		__webpack_require__.d = (exports, definition) => {
 /******/ 			for(var key in definition) {
 /******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
 /******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
 /******/ 				}
 /******/ 			}
 /******/ 		};
-/******/ 	}();
+/******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/global */
-/******/ 	!function() {
+/******/ 	(() => {
 /******/ 		__webpack_require__.g = (function() {
 /******/ 			if (typeof globalThis === 'object') return globalThis;
 /******/ 			try {
@@ -22839,35 +22621,35 @@ process.umask = function() { return 0; };
 /******/ 				if (typeof window === 'object') return window;
 /******/ 			}
 /******/ 		})();
-/******/ 	}();
+/******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
-/******/ 	!function() {
-/******/ 		__webpack_require__.o = function(obj, prop) { return Object.prototype.hasOwnProperty.call(obj, prop); }
-/******/ 	}();
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/make namespace object */
-/******/ 	!function() {
+/******/ 	(() => {
 /******/ 		// define __esModule on exports
-/******/ 		__webpack_require__.r = function(exports) {
+/******/ 		__webpack_require__.r = (exports) => {
 /******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
 /******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
 /******/ 			}
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
 /******/ 		};
-/******/ 	}();
+/******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/node module decorator */
-/******/ 	!function() {
-/******/ 		__webpack_require__.nmd = function(module) {
+/******/ 	(() => {
+/******/ 		__webpack_require__.nmd = (module) => {
 /******/ 			module.paths = [];
 /******/ 			if (!module.children) module.children = [];
 /******/ 			return module;
 /******/ 		};
-/******/ 	}();
+/******/ 	})();
 /******/ 	
 /******/ 	/* webpack/runtime/jsonp chunk loading */
-/******/ 	!function() {
+/******/ 	(() => {
 /******/ 		// no baseURI
 /******/ 		
 /******/ 		// object to store loaded and loading chunks
@@ -22888,17 +22670,15 @@ process.umask = function() { return 0; };
 /******/ 		
 /******/ 		// no HMR manifest
 /******/ 		
-/******/ 		__webpack_require__.O.j = function(chunkId) { return installedChunks[chunkId] === 0; };
+/******/ 		__webpack_require__.O.j = (chunkId) => (installedChunks[chunkId] === 0);
 /******/ 		
 /******/ 		// install a JSONP callback for chunk loading
-/******/ 		var webpackJsonpCallback = function(parentChunkLoadingFunction, data) {
-/******/ 			var chunkIds = data[0];
-/******/ 			var moreModules = data[1];
-/******/ 			var runtime = data[2];
+/******/ 		var webpackJsonpCallback = (parentChunkLoadingFunction, data) => {
+/******/ 			var [chunkIds, moreModules, runtime] = data;
 /******/ 			// add "moreModules" to the modules object,
 /******/ 			// then flag all "chunkIds" as loaded and fire callback
 /******/ 			var moduleId, chunkId, i = 0;
-/******/ 			if(chunkIds.some(function(id) { return installedChunks[id] !== 0; })) {
+/******/ 			if(chunkIds.some((id) => (installedChunks[id] !== 0))) {
 /******/ 				for(moduleId in moreModules) {
 /******/ 					if(__webpack_require__.o(moreModules, moduleId)) {
 /******/ 						__webpack_require__.m[moduleId] = moreModules[moduleId];
@@ -22920,15 +22700,15 @@ process.umask = function() { return 0; };
 /******/ 		var chunkLoadingGlobal = self["webpackChunk"] = self["webpackChunk"] || [];
 /******/ 		chunkLoadingGlobal.forEach(webpackJsonpCallback.bind(null, 0));
 /******/ 		chunkLoadingGlobal.push = webpackJsonpCallback.bind(null, chunkLoadingGlobal.push.bind(chunkLoadingGlobal));
-/******/ 	}();
+/******/ 	})();
 /******/ 	
 /************************************************************************/
 /******/ 	
 /******/ 	// startup
 /******/ 	// Load entry module and return exports
 /******/ 	// This entry module depends on other loaded chunks and execution need to be delayed
-/******/ 	__webpack_require__.O(undefined, ["css/app"], function() { return __webpack_require__("./resources/js/app.js"); })
-/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/app"], function() { return __webpack_require__("./resources/css/app.css"); })
+/******/ 	__webpack_require__.O(undefined, ["css/app"], () => (__webpack_require__("./resources/js/app.js")))
+/******/ 	var __webpack_exports__ = __webpack_require__.O(undefined, ["css/app"], () => (__webpack_require__("./resources/css/app.css")))
 /******/ 	__webpack_exports__ = __webpack_require__.O(__webpack_exports__);
 /******/ 	
 /******/ })()

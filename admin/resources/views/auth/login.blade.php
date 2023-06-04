@@ -14,11 +14,11 @@
                     @csrf
                     <div class="form-group">
                       <label>Email or Username</label>
-                      <input type="text" class="form-control p_input"name="loginname" placeholder="Enter your email or username" :value="old('loginname')" required autofocus>
+                      <input type="email" class="form-control p_input" id="" name="email" placeholder="Enter your email or username" :value="old('email')" required autofocus>
                     </div>
                     <div class="form-group">
                       <label>Password</label>
-                      <input type="password" class="form-control p_input" name="password" placeholder="Enter your password" required autocomplete="current-password">
+                      <input type="password" class="form-control p_input" id="" name="password" placeholder="Enter your password" required autocomplete="current-password">
                     </div>
                     <div class="form-group d-flex align-items-center justify-content-between">
                       <div class="form-check">
