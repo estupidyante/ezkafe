@@ -16998,7 +16998,9 @@ code {
     @media (max-width: 576px) {
       .card.corona-gradient-card h4, .card.corona-gradient-card .h4 {
         font-size: 0.75rem; } }
-
+.card.card-dashboard {
+  background: #ffffff;
+}
 @media (min-width: 576px) {
   .card-columns {
     column-count: 3;
@@ -18173,6 +18175,9 @@ div.tagsinput {
     color: #0090e7; }
   .icon .icon-item {
     font-size: 20px; }
+  .icon.icon-circle {
+    border-radius: 50% !important;
+  }
 
 .icon {
   display: flex;

@@ -5,120 +5,69 @@
     </div>
     <div class="row">
         <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
-            <div class="card">
+            <div class="card card-dashboard">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-9">
-                            <div class="d-flex align-items-center align-self-start">
-                                <h3 class="mb-0">INGREDIENTS</h3>
-                            </div>
-                        </div>
                         <div class="col-3">
-                            <div class="icon icon-box-warning ">
-                                <span class="mdi mdi-fridge icon-item"></span>
+                            <div class="icon icon-circle icon-box-warning ">
+                                <span class="mdi mdi-food icon-item"></span>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col-9">
-                            <div class="d-flex align-items-center align-self-start">
-                                <h6 class="text-muted font-weight-normal">TOTAL INGREDIENTS</h6>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div>
-                                <h5 class="text-muted font-weight-normal">{{$vending}}</h5>
-                            </div>
+                            <h5 class="text-black font-weight-bold text-center">{{$ingredients}}</h5>
+                            <h6 class="text-muted font-weight-normal">TOTAL INGREDIENTS</h6>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
-            <div class="card">
+            <div class="card card-dashboard">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-9">
-                            <div class="d-flex align-items-center align-self-start">
-                                <h3 class="mb-0">REVENUE</h3>
+                        <div class="col-3">
+                            <div class="icon icon-circle icon-box-danger">
+                                <span class="mdi mdi-coin icon-item"></span>
                             </div>
                         </div>
+                        <div class="col-9">
+                            <h5 class="text-black font-weight-bold text-center">{{$revenue}}</h5>
+                            <h6 class="text-muted font-weight-normal">TOTAL REVENUE</h6>
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
+            <div class="card card-dashboard">
+                <div class="card-body">
+                    <div class="row">
                         <div class="col-3">
-                            <div class="icon icon-box-danger">
+                            <div class="icon icon-circle icon-box-success ">
                                 <span class="mdi mdi-basket icon-item"></span>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col-9">
-                            <div class="d-flex align-items-center align-self-start">
-                                <h6 class="text-muted font-weight-normal">TOTAL REVENUE</h6>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div>
-                                <h5 class="text-muted font-weight-normal">{{$prod}}</h5>
-                            </div>
+                            <h5 class="text-black font-weight-bold text-center">{{$orders}}</h5>
+                            <h6 class="text-muted font-weight-normal">TOTAL ORDERS</h6>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
         <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
-            <div class="card">
+            <div class="card card-dashboard">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-9">
-                            <div class="d-flex align-items-center align-self-start">
-                                <h3 class="mb-0">ORDERS</h3>
-                            </div>
-                        </div>
                         <div class="col-3">
-                            <div class="icon icon-box-success ">
-                                <span class="mdi mdi-clipboard-text icon-item"></span>
+                            <div class="icon icon-circle icon-box-primary">
+                                <span class="mdi mdi-account-circle icon-item"></span>
                             </div>
                         </div>
-                    </div>
-                    <div class="row">
                         <div class="col-9">
-                            <div class="d-flex align-items-center align-self-start">
-                                <h6 class="text-muted font-weight-normal">TOTAL ORDERS</h6>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div>
-                                <h5 class="text-muted font-weight-normal">{{$category}}</h5>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
-            <div class="card">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-9">
-                            <div class="d-flex align-items-center align-self-start">
-                                <h3 class="mb-0">USERS</h3>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div class="icon icon-box-primary">
-                                <span class="mdi mdi-shopping icon-item"></span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-9">
-                            <div class="d-flex align-items-center align-self-start">
-                                <h6 class="text-muted font-weight-normal">TOTAL USERS</h6>
-                            </div>
-                        </div>
-                        <div class="col-3">
-                            <div>
-                                <h5 class="text-muted font-weight-normal">{{$ads}}</h5>
-                            </div>
+                            <h5 class="text-black font-weight-bold text-center">{{$users}}</h5>
+                            <h6 class="text-muted font-weight-normal">TOTAL USERS</h6>
                         </div>
                     </div>
                 </div>
