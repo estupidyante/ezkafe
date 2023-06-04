@@ -49,16 +49,6 @@ use App\Http\Livewire\User\UserAdminAccountsComponent;
 
 Route::get('/', [HomeController::class, 'checkUserType']);
 
-Route::get('/user/analytics', UserAnalyticsComponent::class);
-Route::get('/user/ingredients', UserIngredientsComponent::class);
-Route::get('/user/orders', UserOrdersComponent::class);
-Route::get('/user/faqs', UserFAQsComponent::class);
-Route::get('/user/notifications', UserNotificationsComponent::class);
-Route::get('/user/accounts', UserAdminAccountsComponent::class);
-
-Route::get('/user/addAccount', [UserAdminAccountsComponent::class, 'create']);
-
-
 Route::get('/user/vending', VendingComponent::class);
 
 Route::get('/user/vendingList', VendingListComponent::class);
@@ -138,6 +128,14 @@ Route::middleware([
     'verified'
 ])->group(function () {
     Route::get('/user/dashboard', UserDashboardComponent::class)->name('user.dashboard');
+    Route::get('/user/analytics', UserAnalyticsComponent::class);
+    Route::get('/user/ingredients', UserIngredientsComponent::class);
+    Route::get('/user/orders', UserOrdersComponent::class);
+    Route::get('/user/faqs', UserFAQsComponent::class);
+    Route::get('/user/notifications', UserNotificationsComponent::class);
+    Route::get('/user/accounts', UserAdminAccountsComponent::class);
+
+    Route::get('/user/addAccount', [UserAdminAccountsComponent::class, 'create']);
 });
 
 // For Admin
