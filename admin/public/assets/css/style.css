@@ -11984,12 +11984,13 @@ textarea.is-invalid.tt-hint {
 .modal-content {
   position: relative;
   display: flex;
+  color: #000000;
   flex-direction: column;
   width: 100%;
   pointer-events: auto;
-  background-color: #000000;
+  background-color: #ffffff;
   background-clip: padding-box;
-  border: 1px solid #2c2e33;
+  border: 1px solid #f1f1f1;
   border-radius: 0.3rem;
   outline: 0; }
 

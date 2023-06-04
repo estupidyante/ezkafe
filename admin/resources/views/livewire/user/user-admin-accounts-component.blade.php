@@ -8,7 +8,7 @@
         <div class="col-12 grid-margin">
             <div class="card card-accounts">
                 <h6 class="card-header">
-                    <a href="{{ url('user/product') }}" class="btn btn-primary float-end">
+                    <a href="#" class="btn btn-primary float-end" data-mdb-toggle="modal" data-mdb-target="#addAccountModal">
                         <span class="menu-icon">
                             <i class="mdi mdi-account-plus"></i>
                         </span>
@@ -56,4 +56,49 @@
             </div>
         </div>
     </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="addAccountModal" tabindex="-1" aria-labelledby="addAccountModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="addAccountModalLabel">
+            <span class="menu-icon">
+                <i class="mdi mdi-account-plus"></i>
+            </span>
+            <span>Add New Admin Account</span>
+        </h5>
+        <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p class="text-muted">Please answer all the input fields to add a new admin account.</p>
+        <form method="POST" action="{{route('register')}}">
+            @csrf
+            <div class="form-group">
+                <label><span class="font-bold">Fullname </span> <span> (Lastname, Firstname, Middle Initial)</span></label>
+                <input type="text" class="form-control p_input" name="name" placeholder="Enter your name" :value="name" required autofocus autocomplete="name">
+            </div>
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" class="form-control p_input" name="username" placeholder="Enter your name" :value="username" required autofocus autocomplete="username">
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" class="form-control p_input" name="email" placeholder="Enter your email address" :value="email">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" class="form-control p_input" name="password" placeholder="Enter your password" required autocomplete="new-password">
+            </div>
+            <div class="form-group">
+                <label>Confirm Password</label>
+                <input type="password" class="form-control p_input" name="password_confirmation" placeholder="Confirm password" required autocomplete="new-password">
+            </div>
+            <div class="float-end">
+                <button type="submit" class="btn btn-success enter-btn" name="register">Submit</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>
