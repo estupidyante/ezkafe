@@ -64,7 +64,7 @@
                     @csrf
                     <div class="form-group">
                       <label for="loginname">Email or Username</label>
-                      <input type="text" class="form-control p_input" id="loginname" name="loginname" placeholder="Enter your email or username" :value="old('loginname')" required autofocus>
+                      <input type="text" class="form-control p_input" id="loginname" name="loginname" placeholder="Enter your email or username" :value="old('loginname')" autofocus>
                     </div>
                     <div class="form-group">
                       <label>Password</label>
@@ -78,7 +78,7 @@
                       <a href="{{route('password.request')}}" class="forgot-pass">Forgot password</a>
                     </div>
                     <div class="text-center">
-                      <button type="submit" class="btn btn-block enter-btn" name="submit">Login</button>
+                      <button type="submit" class="btn btn-block enter-btn">Login</button>
                     </div>
                     <!-- <p class="sign-up">Don't have an Account?<a href="{{route('register')}}"> Sign Up</a></p> -->
                   </form>
