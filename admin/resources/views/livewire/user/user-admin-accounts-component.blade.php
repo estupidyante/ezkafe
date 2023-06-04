@@ -45,7 +45,14 @@
                                         <td> {{$row->email}} </td>
                                         <td>
                                             <a href="{{ url('user/editAccount/'.$row->id) }}" class="btn btn-success">Edit</a>
-                                            <a href="{{ url('user/deleteAccount/'.$row->id) }}" class="btn btn-danger">Delete</a>
+                                            @if( $you->id !== $row->id )
+                                            <form class="d-inline" action="#" method="POST">
+                                                @method('DELETE')
+                                                @csrf
+                                                <button class="btn btn-danger">Delete</button>
+                                            </form>
+                                            @endif
+                                            <!-- <a href="{{ url('user/deleteAccount/'.$row->id) }}" class="btn btn-danger">Delete</a> -->
                                         </td>
                                     </tr>
                                 @endforeach
