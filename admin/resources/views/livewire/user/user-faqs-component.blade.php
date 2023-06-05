@@ -126,7 +126,7 @@
         <div class="col-12 grid-margin">
             <div class="card card-accounts">
                 <h6 class="card-header">
-                    <a href="#" class="btn btn-primary float-end justify-content-center" data-mdb-toggle="modal" data-mdb-target="#addQuestionModal">
+                    <a href="#" class="btn btn-primary float-end d-flex justify-content-center" data-mdb-toggle="modal" data-mdb-target="#addQuestionModal">
                         <span class="menu-icon">
                             <i class="mdi mdi-plus-circle"></i>
                         </span>
@@ -182,7 +182,7 @@
       <div class="modal-header">
         <h5 class="modal-title" id="addQuestionModalLabel">
             <span class="menu-icon">
-                <i class="mdi mdi-account-plus"></i>
+                <i class="mdi mdi mdi-frequently-asked-questions"></i>
             </span>
             <span>Add New Question</span>
         </h5>
@@ -227,7 +227,7 @@
       <div class="modal-header">
         <h5 class="modal-title" id="updateQuestionModalLabel_{{ $faq->id }}">
             <span class="menu-icon">
-                <i class="mdi mdi-account-plus"></i>
+                <i class="mdi mdi mdi-frequently-asked-questions"></i>
             </span>
             <span>Edit Existing Question</span>
         </h5>

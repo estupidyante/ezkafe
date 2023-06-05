@@ -126,7 +126,7 @@
         <div class="col-12 grid-margin categories">
             <div class="card card-accounts">
                 <h6 class="card-header">
-                    <a href="#" class="btn btn-primary float-end" data-mdb-toggle="modal" data-mdb-target="#addIngredientsModal">
+                    <a href="#" class="btn btn-primary float-end d-flex justify-content-center" data-mdb-toggle="modal" data-mdb-target="#addIngredientsModal">
                         <span class="menu-icon">
                             <i class="mdi mdi-plus-circle"></i>
                         </span>
@@ -172,7 +172,7 @@
                                             </td>
                                             <td>
                                                 <a href="#" class="btn btn-success" data-mdb-toggle="modal" data-mdb-target="#updateIngredientsModal_{{ $element->id }}">Edit</a>
-                                                <form class="d-inline" action="{{ route('user.account.destroy', $element ) }}" method="POST">
+                                                <form class="d-inline" action="{{ route('user.ingredient.destroy', $element ) }}" method="POST">
                                                     @method('DELETE')
                                                     @csrf
                                                     <button class="btn btn-danger">Delete</button>
@@ -218,7 +218,7 @@
       <div class="modal-header">
         <h5 class="modal-title" id="addIngredientsModalLabel">
             <span class="menu-icon">
-                <i class="mdi mdi-account-plus"></i>
+                <i class="mdi mdi mdi-coffee"></i>
             </span>
             <span>Add New Ingredients</span>
         </h5>
@@ -268,7 +268,7 @@
       <div class="modal-header">
         <h5 class="modal-title" id="updateIngredientsModalLabel_{{ $ingredient->id }}">
             <span class="menu-icon">
-                <i class="mdi mdi-account-plus"></i>
+                <i class="mdi mdi mdi-coffee"></i>
             </span>
             <span>Edit Existing Ingredients</span>
         </h5>

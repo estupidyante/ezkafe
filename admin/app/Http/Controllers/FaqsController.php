@@ -45,12 +45,16 @@ class FaqsController extends Controller
         return back();
     }
 
-    public function destroy(Faqs $faqs)
+    public function destroy($id)
     {
-        $faqs->delete();
-
-        session()->flash('status', 'FAQs has been deleted !!');
-        return back();
+        try {
+            $faqs = Faqs::find($id);
+            $faqs->delete();
+            return redirect('/user/faqs')->with('status',"FAQs deleted successfully");
+        }
+        catch(Exception $e){
+            return redirect('/user/faqs')->with('failed',"Something went wrong");
+        }
     }
 
 }
