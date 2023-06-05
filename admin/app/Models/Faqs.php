@@ -5,21 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Ingredients extends Model
+class Faqs extends Model
 {
     use HasFactory;
 
-    protected $table = 'ingredients';
+    protected $table = 'faqs';
     
     protected $fillable = [
-        'id',
-        'name',
+        'question',
+        'answer',
         'categories_id',
-        'amount',
-        'srp'
     ];
 
-    public function ingredients()
+    public function faqs()
     {
         return $this->belongsTo(Categories::class);
     }

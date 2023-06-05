@@ -103,9 +103,6 @@
     }
 </style>
 @endsection
-<?php
-    $selected = '';
-?>
 <div class="content-wrapper">
     <div class="row">
         <h3 class="text-dark">Ingredients</h3>

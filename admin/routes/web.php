@@ -11,6 +11,7 @@ use App\Http\Controllers\AdsController;
 
 use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\IngredientsController;
+use App\Http\Controllers\FaqsController;
 
 use App\Http\Livewire\Admin\AdminDashboardComponent;
 use App\Http\Livewire\User\UserDashboardComponent;
@@ -82,6 +83,10 @@ Route::middleware([
     Route::post('/user/ingredient/create', [IngredientsController::class, 'create'])->name('user.ingredient.create');
     Route::put('/user/ingredient/{id}', [IngredientsController::class, 'update'])->name('user.ingredient.update');
     Route::delete('/user/ingredient/{user}', [IngredientsController::class, 'destroy'])->name('user.ingredient.destroy');
+
+    Route::post('/user/faq/create', [FaqsController::class, 'create'])->name('user.faq.create');
+    Route::put('/user/faq/{id}', [FaqsController::class, 'update'])->name('user.faq.update');
+    Route::delete('/user/faq/{user}', [FaqsController::class, 'destroy'])->name('user.faq.destroy');
 });
 
 // For Admin
