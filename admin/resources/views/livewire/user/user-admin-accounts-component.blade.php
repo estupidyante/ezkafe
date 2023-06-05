@@ -3,6 +3,17 @@
         <h3 class="text-dark">Admin Accounts</h3>
         <p class="text-muted pb-0 m-0">EzKafe / Admin Accounts</p>
         <p class="text-muted pb-4">Here are all the accounts that are registered in the system.</p>
+        @if (session('status'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <p>{{ session('status') }}</p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
+            </div>
+        @elseif(session('failed'))
+            <div class="alert alert-danger" role="alert">
+                <p>{{ session('failed') }}</p>
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
+            </div>
+        @endif
     </div>
     <div class="row">
         <div class="col-12 grid-margin">
@@ -16,17 +27,6 @@
                     </a>
                 </h6>
                 <div class="card-body">
-                    @if (session('status'))
-                        <div class="alert alert-success alert-dismissible fade show" role="alert">
-                            <p>{{ session('status') }}</p>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
-                        </div>
-                    @elseif(session('failed'))
-                        <div class="alert alert-danger" role="alert">
-                            <p>{{ session('failed') }}</p>
-                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="close"></button>
-                        </div>
-                    @endif
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered mb-5">
                             <thead>
@@ -47,7 +47,7 @@
                                             <a href="#" class="btn btn-success" data-mdb-toggle="modal" data-mdb-target="#updateAccountModal">Edit</a>
                                             <!-- <a href="{{ url('user/'. $row->id .'/accounts/edit') }}" class="btn btn-success">Edit</a> -->
                                             @if( $you->id !== $row->id )
-                                            <form class="d-inline" action="{{ route('user.accounts.destroy', $row ) }}" method="POST">
+                                            <form class="d-inline" action="{{ route('user.account.destroy', $row ) }}" method="POST">
                                                 @method('DELETE')
                                                 @csrf
                                                 <button class="btn btn-danger">Delete</button>

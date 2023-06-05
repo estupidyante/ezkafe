@@ -34,6 +34,11 @@ class AccountsController extends Controller
         //
     }
 
+    public function edit(Request $request, $id)
+    {
+        //
+    }
+
     public function update(Request $request, $id)
     {
         $admin = User::find($id);
@@ -46,12 +51,8 @@ class AccountsController extends Controller
         }
         $admin->save();
 
+        session()->flash('status', 'Admin has been update !!');
         return back();
-    }
-
-    public function edit(Request $request, $id)
-    {
-        //
     }
 
     public function create(Request $request)
@@ -65,14 +66,16 @@ class AccountsController extends Controller
             'password' => Hash::make($data['password']),
         ]);
 
-        return redirect()->route('user.accounts');
+        session()->flash('status', 'Admin has been created !!');
+        return back();
     }
 
     public function destroy(User $user)
     {
         $user->delete();
 
-        return redirect()->route('user.accounts');
+        session()->flash('status', 'Admin has been deleted !!');
+        return back();
     }
 
 }

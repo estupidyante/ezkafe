@@ -76,15 +76,7 @@ Route::middleware([
 
     Route::post('/user/account/create', [AccountsController::class, 'create'])->name('user.account.create');
     Route::put('/user/account/{id}', [AccountsController::class, 'update'])->name('user.account.update');
-    /** 
-     * /user/{user}/accounts/create    =>     create   -> user.accounts.create
-     * /user/{user}/accounts           =>     store    -> user.accounts.store
-     * /user/{user}/accounts           =>     show     -> user.accounts.show
-     * /user/{user}/accounts/edit      =>     edit     -> user.accounts.edit
-     * /user/{user}/accounts           =>     update   -> user.accounts.update
-     * /user/{user}/accounts           =>     destroy  -> user.accounts.destroy
-     */
-    Route::singleton('user.accounts', AccountsController::class)->creatable();
+    Route::delete('/user/account/{user}', [AccountsController::class, 'destroy'])->name('user.account.destroy');
 });
 
 // For Admin
