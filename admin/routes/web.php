@@ -10,6 +10,7 @@ use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\AdsController;
 
 use App\Http\Controllers\AccountsController;
+use App\Http\Controllers\IngredientsController;
 
 use App\Http\Livewire\Admin\AdminDashboardComponent;
 use App\Http\Livewire\User\UserDashboardComponent;
@@ -67,8 +68,8 @@ Route::middleware([
     'verified'
 ])->group(function () {
     Route::get('/user/dashboard', UserDashboardComponent::class)->name('user.dashboard');
-    Route::get('/user/analytics', UserAnalyticsComponent::class);
-    Route::get('/user/ingredients', UserIngredientsComponent::class);
+    Route::get('/user/analytics', UserAnalyticsComponent::class)->name('user.analytics');
+    Route::get('/user/ingredients', UserIngredientsComponent::class)->name('user.ingredients');
     Route::get('/user/orders', UserOrdersComponent::class);
     Route::get('/user/faqs', UserFAQsComponent::class);
     Route::get('/user/notifications', UserNotificationsComponent::class);
@@ -77,6 +78,10 @@ Route::middleware([
     Route::post('/user/account/create', [AccountsController::class, 'create'])->name('user.account.create');
     Route::put('/user/account/{id}', [AccountsController::class, 'update'])->name('user.account.update');
     Route::delete('/user/account/{user}', [AccountsController::class, 'destroy'])->name('user.account.destroy');
+
+    Route::post('/user/ingredient/create', [IngredientsController::class, 'create'])->name('user.ingredient.create');
+    Route::put('/user/ingredient/{id}', [IngredientsController::class, 'update'])->name('user.ingredient.update');
+    Route::delete('/user/ingredient/{user}', [IngredientsController::class, 'destroy'])->name('user.ingredient.destroy');
 });
 
 // For Admin

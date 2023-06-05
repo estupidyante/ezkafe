@@ -35,6 +35,7 @@
     <!-- End layout styles -->
     <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}" />
     @livewireStyles
+    @yield('page-style')
   </head>
   <body>
     <div class="container-scroller">
@@ -165,7 +166,7 @@
             <ul class="navbar-nav w-100">
               <li class="nav-item w-100">
                 <form class="nav-link mt-2 mt-md-0 d-none d-lg-flex search">
-                  <input type="text" class="form-control" placeholder="Search products">
+                  <input type="text" class="form-control" placeholder="Search here...">
                 </form>
               </li>
             </ul>

@@ -24,21 +24,6 @@ class AccountsController extends Controller
         $this->users = $users;
     }
 
-    public function show(Request $request)
-    {
-        //
-    }
-
-    public function store(Request $request)
-    {
-        //
-    }
-
-    public function edit(Request $request, $id)
-    {
-        //
-    }
-
     public function update(Request $request, $id)
     {
         $admin = User::find($id);
