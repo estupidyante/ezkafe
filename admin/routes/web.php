@@ -9,6 +9,8 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ChangePasswordController;
 use App\Http\Controllers\AdsController;
 
+use App\Http\Controllers\AccountsController;
+
 use App\Http\Livewire\Admin\AdminDashboardComponent;
 use App\Http\Livewire\User\UserDashboardComponent;
 
@@ -47,75 +49,12 @@ use App\Http\Livewire\User\UserAdminAccountsComponent;
 |
 */
 
-Route::get('/', [HomeController::class, 'checkUserType']);
+Route::group(['middleware' => ['auth', 'active_user']], function() {
+    Route::get('/', 'HomeController@index')->name('home');
+    // ... Any other routes that are accessed only by non-blocked user
+});
 
-Route::get('/user/vending', VendingComponent::class);
-
-Route::get('/user/vendingList', VendingListComponent::class);
-
-Route::get('/user/vendingView', VendingProductComponent::class);
-
-Route::get('/user/editVending', EditVendingComponent::class);
-
-Route::get('/user/product', ProductComponent::class);
-
-Route::get('/user/productList', ProductListComponent::class);
-
-Route::get('/user/editProduct', EditProductComponent::class);
-
-Route::get('/user/ads', AdsComponent::class);
-
-Route::get('/user/adsList', AdsListComponent::class);
-
-Route::get('/user/editAds', EditAdsComponent::class);
-
-Route::get('/user/report', ReportComponent::class);
-
-Route::get('/user/category', ProductCategoryComponent::class); 
-
-Route::get('/user/change-password', ChangePasswordComponent::class);
-
-// For Products
-Route::get('create', [ProductsController::class, 'create']);
-Route::post('user/product',  [ProductsController::class, 'store']);
-
-Route::get('livewire.user.product-list-component', [ProductsController::class, 'index']);
-
-Route::get('user/editProduct/{id}', [ProductsController::class, 'edit']);
-
-Route::put('update-data/{id}', [ProductsController::class, 'update']);
-
-Route::get('user/deleteProduct/{id}', [ProductsController::class, 'destroy']);
-
-// For Vending
-Route::get('create', [VendingController::class, 'create']);
-Route::post('user/vending',  [VendingController::class, 'store']);
-
-Route::get('livewire.user.vending-list-component', [VendingController::class, 'index']);
-
-Route::get('user/editVending/{id}', [VendingController::class, 'edit']);
-
-Route::put('update-vending/{id}', [VendingController::class, 'update']);
-
-Route::get('user/deleteVending/{id}', [VendingController::class, 'destroy']);
-
-Route::get('user/viewVendingProduct/{vending_id}', [VendingController::class, 'show']);
-
-// For Category
-Route::get('create', [CategoryController::class, 'create']);
-Route::post('user/category',  [CategoryController::class, 'store']);
-
-// For Ads
-Route::get('create', [AdsController::class, 'create']);
-Route::post('user/ads',  [AdsController::class, 'store']);
-
-Route::get('livewire.user.ads-list-component', [AdsController::class, 'index']);
-
-Route::get('user/editAds/{id}', [AdsController::class, 'edit']);
-
-Route::put('update-data/{id}', [AdsController::class, 'update']);
-
-Route::get('user/deleteAds/{id}', [AdsController::class, 'destroy']);
+Route::get('/', [HomeController::class, 'checkUserType'])->name('dashboard');
 
 // For Change Password
 Route::get('create', [ChangePasswordController::class, 'create']);
@@ -133,9 +72,19 @@ Route::middleware([
     Route::get('/user/orders', UserOrdersComponent::class);
     Route::get('/user/faqs', UserFAQsComponent::class);
     Route::get('/user/notifications', UserNotificationsComponent::class);
-    Route::get('/user/accounts', UserAdminAccountsComponent::class);
+    Route::get('/user/accounts', UserAdminAccountsComponent::class)->name('user.accounts');
 
-    Route::get('/user/addAccount', [UserAdminAccountsComponent::class, 'create']);
+    Route::post('/user/account/create', [AccountsController::class, 'create'])->name('user.account.create');
+    Route::put('/user/account/{id}', [AccountsController::class, 'update'])->name('user.account.update');
+    /** 
+     * /user/{user}/accounts/create    =>     create   -> user.accounts.create
+     * /user/{user}/accounts           =>     store    -> user.accounts.store
+     * /user/{user}/accounts           =>     show     -> user.accounts.show
+     * /user/{user}/accounts/edit      =>     edit     -> user.accounts.edit
+     * /user/{user}/accounts           =>     update   -> user.accounts.update
+     * /user/{user}/accounts           =>     destroy  -> user.accounts.destroy
+     */
+    Route::singleton('user.accounts', AccountsController::class)->creatable();
 });
 
 // For Admin

@@ -19,7 +19,8 @@ class AuthController extends Controller
         $user = User::create([
             'name' => $fields['name'],
             'email' => $fields['email'],
-            'password' => bcrypt($fields['password'])
+            'password' => bcrypt($fields['password']),
+            'userType' => 'USR'
         ]);
 
         $token = $user->createToken('myapptoken')->plainTextToken;
@@ -29,6 +30,7 @@ class AuthController extends Controller
             'token' => $token
         ];
 
+        logout();
         return response($response, 201);
     }
 

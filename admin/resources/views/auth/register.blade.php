@@ -75,6 +75,10 @@
                     <input type="text" class="form-control p_input" name="name" placeholder="Enter your name" :value="name" required autofocus autocomplete="name">
                   </div>
                   <div class="form-group">
+                    <label>Username</label>
+                    <input type="text" class="form-control p_input" name="username" placeholder="Enter your username" :value="username" required autofocus autocomplete="username">
+                  </div>
+                  <div class="form-group">
                     <label>Email Address</label>
                     <input type="email" class="form-control p_input" name="email" placeholder="Enter your email address" :value="email">
                   </div>

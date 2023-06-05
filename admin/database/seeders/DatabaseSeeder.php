@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
         /*  insert admin  */
         User::create([ 
             'name' => 'admin',
+            'username' => 'admin',
             'email' => 'admin@ezkafe.com',
             'userType' => 'ADM', // USR - ADM
             'email_verified_at' => now(),
@@ -33,6 +34,7 @@ class DatabaseSeeder extends Seeder
         /* insert user */
         User::create([ 
             'name' => 'user',
+            'username' => 'user',
             'email' => 'user@ezkafe.com',
             'userType' => 'USR', // USR - ADM
             'email_verified_at' => now(),

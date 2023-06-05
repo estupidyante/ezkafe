@@ -44,9 +44,10 @@
                                         <td> {{$row->username}} </td>
                                         <td> {{$row->email}} </td>
                                         <td>
-                                            <a href="{{ url('user/editAccount/'.$row->id) }}" class="btn btn-success">Edit</a>
+                                            <a href="#" class="btn btn-success" data-mdb-toggle="modal" data-mdb-target="#updateAccountModal">Edit</a>
+                                            <!-- <a href="{{ url('user/'. $row->id .'/accounts/edit') }}" class="btn btn-success">Edit</a> -->
                                             @if( $you->id !== $row->id )
-                                            <form class="d-inline" action="#" method="POST">
+                                            <form class="d-inline" action="{{ route('user.accounts.destroy', $row ) }}" method="POST">
                                                 @method('DELETE')
                                                 @csrf
                                                 <button class="btn btn-danger">Delete</button>
@@ -79,7 +80,7 @@
       </div>
       <div class="modal-body">
         <p class="text-muted">Please answer all the input fields to add a new admin account.</p>
-        <form method="POST" action="{{route('register')}}">
+        <form method="POST" action="{{ route('user.account.create') }}">
             @csrf
             <div class="form-group">
                 <label><span class="font-bold">Fullname </span> <span> (Lastname, Firstname, Middle Initial)</span></label>
@@ -100,6 +101,53 @@
             <div class="form-group">
                 <label>Confirm Password</label>
                 <input type="password" class="form-control p_input" name="password_confirmation" placeholder="Confirm password" required autocomplete="new-password">
+            </div>
+            <div class="float-end">
+                <button type="submit" class="btn btn-success enter-btn" name="register">Submit</button>
+            </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="updateAccountModal" tabindex="-1" aria-labelledby="updateAccountModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="updateAccountModalLabel">
+            <span class="menu-icon">
+                <i class="mdi mdi-account-plus"></i>
+            </span>
+            <span>Edit Admin Account</span>
+        </h5>
+        <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <p class="text-muted">Please answer all the input fields to add a new admin account.</p>
+        <form method="POST" action="/user/account/{{ $row->id }}">
+            @csrf
+            @method('PUT')
+            <div class="form-group">
+                <label><span class="font-bold">Fullname </span> <span> (Lastname, Firstname, Middle Initial)</span></label>
+                <input type="text" class="form-control p_input" name="name" placeholder="Enter your name" :value="name" value="{{ $row->name }}" required autofocus>
+            </div>
+            <div class="form-group">
+                <label>Username</label>
+                <input type="text" class="form-control p_input" name="username" placeholder="Enter your name" :value="username" value="{{ $row->username }}" required autofocus>
+            </div>
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" class="form-control p_input" name="email" placeholder="Enter your email address" :value="email"  value="{{ $row->email }}">
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" class="form-control p_input" name="password" placeholder="Enter your password" required>
+            </div>
+            <div class="form-group">
+                <label>Confirm Password</label>
+                <input type="password" class="form-control p_input" name="password_confirmation" placeholder="Confirm password" required>
             </div>
             <div class="float-end">
                 <button type="submit" class="btn btn-success enter-btn" name="register">Submit</button>
