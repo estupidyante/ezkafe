@@ -1,3 +1,6 @@
+@section('title')
+<title>EzKafe | Notifications</title>
+@endsection
 <div class="content-wrapper">
     <div class="row">
         <h3 class="text-dark">Notifications</h3>

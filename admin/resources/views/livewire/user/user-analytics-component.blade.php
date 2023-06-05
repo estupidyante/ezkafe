@@ -1,3 +1,6 @@
+@section('title')
+<title>EzKafe | Analytics Dashboard</title>
+@endsection
 <div class="content-wrapper">
     <div class="row">
         <h3 class="text-dark">Analytics</h3>

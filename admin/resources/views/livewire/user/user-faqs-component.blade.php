@@ -1,3 +1,6 @@
+@section('title')
+<title>EzKafe | FAQs</title>
+@endsection
 @section('page-style')
 <style type="text/css">
     .category {

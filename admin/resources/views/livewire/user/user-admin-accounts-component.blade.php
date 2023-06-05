@@ -1,3 +1,6 @@
+@section('title')
+<title>EzKafe | Admin Accounts</title>
+@endsection
 <div class="content-wrapper">
     <div class="row">
         <h3 class="text-dark">Admin Accounts</h3>
