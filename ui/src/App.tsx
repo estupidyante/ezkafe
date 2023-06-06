@@ -6,14 +6,14 @@ function App() {
 
   return (
     <Wrapper>
-      <div>
-        <LogoLink href="https://vitejs.dev" target="_blank">
-          <Logo src="/vite.svg" alt="Vite logo" />
-        </LogoLink>
-        <LogoLink href="https://reactjs.org" target="_blank">
-          <ReactLogo src="/react.svg" alt="React logo" />
-        </LogoLink>
-      </div>
+      <Header>
+        <div>
+          <div data-overlay></div>
+          <LogoLink href="#" target="_self">
+            <Logo src="/assets/images/ezkafe-base-white.png" alt="EzKafe logo" />
+          </LogoLink>
+        </div>
+      </Header>
       <h1>EzKafe UI</h1>
       <div>
         <a href="https://vitejs.dev/" target="_blank">
@@ -58,25 +58,29 @@ const logoSpinAnime = keyframes`
 `;
 
 const Wrapper = styled.div`
+  background: #F1DEC9;
   max-width: 1280px;
   margin: 0 auto;
-  padding: 2rem;
   text-align: center;
+  padding-top: 115px;
 `;
 
+const Header = styled.div`
+  background: #5B3216;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  transition: var(--transition-1);
+  padding: 1.2em;
+  z-index: 4;
+`;
 const Logo = styled.img`
-  height: 6em;
-  padding: 1.5em;
+  width:160px;
   will-change: filter;
 
   &:hover {
     filter: drop-shadow(0 0 2em #646cffaa);
-  }
-`;
-
-const ReactLogo = styled(Logo)`
-  &:hover {
-    filter: drop-shadow(0 0 2em #61dafbaa);
   }
 `;
 
