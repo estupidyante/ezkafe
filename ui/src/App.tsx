@@ -237,6 +237,7 @@ const CardHeroTitle = styled.h2`
   margin-bottom: 10px;
   width:100%;
   text-align:start;
+  font-family: 'Josefin Sans', sans-serif;
 `;
 const CardHeroText = styled.p`
   color: #ffffff;
