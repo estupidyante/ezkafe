@@ -139,17 +139,17 @@
                 <div class="card-body">
                     <ul class="nav nav-tabs table-tabs pb-1" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <a href="{{ route('user.ingredients', ['id' => 0]) }}" class="nav-link {{ $catTab == 0 ? 'active' : '' }}">All</a>
+                            <a href="{{ route('user.ingredients', ['id' => 0]) }}" class="nav-link {{ $catTab == 0 ? 'active' : '' }}" data-toggle="tab" role="tab">All</a>
                         </li>   
                         @foreach ($categories as $category)
                             <li class="nav-item" role="presentation">
-                                <a href="{{ route('user.ingredients', ['id' => $category->id]) }}" class="nav-link {{ $catTab == $category->id ? 'active' : '' }}">{{ $category->name }}</a>
+                                <a href="{{ route('user.ingredients', ['id' => $category->id]) }}" class="nav-link {{ $catTab == $category->id ? 'active' : '' }}" data-toggle="tab" role="tab">{{ $category->name }}</a>
                             </li>
                         @endforeach
                     </ul>
-                    <div class="tab-content">
+                    <div>
                         <div class="table-responsive">
-                            <table class="table table-striped table-bordered mb-5">
+                            <table class="table table-striped table-bordered mb-5 tab-content">
                                 <thead class="table-secondary">
                                     <tr>
                                         <th scope="col"> # </th>
