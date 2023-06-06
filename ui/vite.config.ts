@@ -1,6 +1,7 @@
 import { defineConfig, loadEnv } from "vite";
 import react from "@vitejs/plugin-react";
-import tsconfigPaths from 'vite-tsconfig-paths'
+import tsconfigPaths from 'vite-tsconfig-paths';
+import browserslistToEsbuild from 'browserslist-to-esbuild';
 
 export default defineConfig(({ mode }) => {
   /**
@@ -22,6 +23,7 @@ export default defineConfig(({ mode }) => {
   const buildOptions = {
     outDir: "dist",
     assetsDir: "assets",
+    target: browserslistToEsbuild(),
   };
 
   /**
