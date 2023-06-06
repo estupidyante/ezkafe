@@ -21,6 +21,9 @@
         background: #D9D9D9;
         color: #000000;
     }
+    .card .card-body {
+        padding:0px !important;
+    }
     .card.card-accounts {
         background: transparent !important;
         border: none !important;
@@ -134,12 +137,12 @@
                     </a>
                 </h6>
                 <div class="card-body">
-                    <ul class="nav nav-tabs table-tabs">
-                        <li class="nav-item">
+                    <ul class="nav nav-tabs table-tabs pb-1" role="tablist">
+                        <li class="nav-item" role="presentation">
                             <a href="{{ route('user.ingredients', ['id' => 0]) }}" class="nav-link {{ $catTab == 0 ? 'active' : '' }}">All</a>
                         </li>   
                         @foreach ($categories as $category)
-                            <li class="nav-item">
+                            <li class="nav-item" role="presentation">
                                 <a href="{{ route('user.ingredients', ['id' => $category->id]) }}" class="nav-link {{ $catTab == $category->id ? 'active' : '' }}">{{ $category->name }}</a>
                             </li>
                         @endforeach
