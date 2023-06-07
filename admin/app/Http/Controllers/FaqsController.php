@@ -24,7 +24,7 @@ class FaqsController extends Controller
 
         $faq->question = $request->question;
         $faq->answer = $request->answer;
-        $faq->categories_id = $request->category_id;
+        $faq->category_id = $request->category_id;
         $faq->save();
 
         session()->flash('status', 'FAQs has been update !!');
@@ -38,7 +38,7 @@ class FaqsController extends Controller
         Faqs::create([
             'question' => $data['question'],
             'answer' => $data['answer'],
-            'categories_id' => $data['category_id'],
+            'category_id' => $data['category_id'],
         ]);
 
         session()->flash('status', 'FAQs has been created !!');

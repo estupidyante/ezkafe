@@ -12,15 +12,14 @@ class Ingredients extends Model
     protected $table = 'ingredients';
     
     protected $fillable = [
-        'id',
         'name',
-        'categories_id',
-        'amount',
-        'srp'
+        'volume',
+        'price',
+        'types_id',
     ];
 
     public function ingredients()
     {
-        return $this->belongsTo(Categories::class);
+        return $this->belongsTo(Types::class);
     }
 }

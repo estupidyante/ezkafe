@@ -6,7 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
-use App\Models\Categories;
+use App\Models\Category;
 
 class CategoriesSeeder extends Seeder
 {
@@ -18,34 +18,28 @@ class CategoriesSeeder extends Seeder
     public function run()
     {
         /*  insert category  */
-        Categories::create([ 
+        Category::create([ 
             'name' => 'Coffee',
-            'measurement' => '1',
         ]);
 
-        Categories::create([ 
+        Category::create([ 
             'name' => 'Syrup',
-            'measurement' => '1',
         ]);
 
-        Categories::create([ 
+        Category::create([ 
             'name' => 'Choco',
-            'measurement' => '1',
         ]);
 
-        Categories::create([ 
+        Category::create([ 
             'name' => 'Sugar',
-            'measurement' => '1',
         ]);
 
-        Categories::create([ 
+        Category::create([ 
             'name' => 'Creamer',
-            'measurement' => '1',
         ]);
 
-        Categories::create([ 
+        Category::create([ 
             'name' => 'Add-ons',
-            'measurement' => '1',
         ]);
     }
 }

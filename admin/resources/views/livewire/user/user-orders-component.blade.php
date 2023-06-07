@@ -47,7 +47,7 @@
 <div class="content-wrapper">
     <div class="row">
         <h3 class="text-dark">Orders</h3>
-        <p class="text-muted pb-0 m-0">EzKafe / Orders</p>
+        <p class="text-muted pb-0 m-0">EzKafe / Reports / Orders</p>
         <p class="text-muted pb-4">Here are all the orders from the machine</p>
     </div>
     <div class="row">
@@ -62,7 +62,7 @@
                             <thead>
                                 <tr class="table-success">
                                     <th scope="col"> Order ID </th>
-                                    <th scope="col"> Username </th>
+                                    <th scope="col"> User ID </th>
                                     <th scope="col"> Date &amp; Time </th>
                                     <th scope="col"> Amount </th>
                                     <th scope="col"> Status </th>
@@ -72,7 +72,7 @@
                                 @foreach ($orders as $order)
                                     <tr>
                                         <td> #{{$order->id}} </td>
-                                        <td> {{$order->user}} </td>
+                                        <td> {{$order->user_id}} </td>
                                         <td> {{$order->created_at}} </td>
                                         <td> {{$order->amount}} </td>
                                         <td> {{$order->status}} </td>

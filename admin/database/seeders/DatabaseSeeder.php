@@ -7,7 +7,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
 use App\Models\User;
-use App\Models\Categories;
+use App\Models\Category;
 
 class DatabaseSeeder extends Seeder
 {

@@ -13,10 +13,10 @@ return new class extends Migration
      */
     public function up()
     {
-        if(Schema::hasTable('products_categories')) return;
-        Schema::create('products_categories', function (Blueprint $table) {
+        Schema::create('clients', function (Blueprint $table) {
             $table->id();
-            $table->string('category');
+            $table->string('user_id');
+            $table->foreignId('order_id')->references('id')->on('orders')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('products_categories');
+        Schema::dropIfExists('clients');
     }
 };

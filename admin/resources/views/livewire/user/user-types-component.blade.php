@@ -1,5 +1,5 @@
 @section('title')
-<title>EzKafe | Ingredients</title>
+<title>EzKafe | Types</title>
 @endsection
 @section('page-style')
 <style type="text/css">
@@ -111,8 +111,8 @@
 @endsection
 <div class="content-wrapper">
     <div class="row">
-        <h3 class="text-dark">Ingredients</h3>
-        <p class="text-muted pb-4">Here are all the ingredients in the machine</p>
+        <h3 class="text-dark">Types</h3>
+        <p class="text-muted pb-4">EzKafe / Inventory / Types</p>
         @if (session('status'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <p>{{ session('status') }}</p>
@@ -129,21 +129,21 @@
         <div class="col-12 grid-margin categories">
             <div class="card card-accounts">
                 <h6 class="card-header">
-                    <a href="#" class="btn btn-primary float-end d-flex justify-content-center" data-mdb-toggle="modal" data-mdb-target="#addIngredientsModal">
+                    <a href="#" class="btn btn-primary float-end d-flex justify-content-center" data-mdb-toggle="modal" data-mdb-target="#addTypesModal">
                         <span class="menu-icon">
                             <i class="mdi mdi-plus-circle"></i>
                         </span>
-                        <span>Add New Ingredients</span>
+                        <span>Add New Type</span>
                     </a>
                 </h6>
                 <div class="card-body">
                     <ul class="nav nav-tabs table-tabs pb-1" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <a href="{{ route('user.ingredients', ['id' => 0]) }}" class="nav-link {{ $catTab == 0 ? 'active' : '' }}" data-toggle="tab" role="tab">All</a>
+                            <a href="{{ route('user.types', ['id' => 0]) }}" class="nav-link {{ $selectedTab == 0 ? 'active' : '' }}" data-toggle="tab" role="tab">All</a>
                         </li>   
-                        @foreach ($types as $type)
+                        @foreach ($categories as $category)
                             <li class="nav-item" role="presentation">
-                                <a href="{{ route('user.ingredients', ['id' => $type->id]) }}" class="nav-link {{ $catTab == $type->id ? 'active' : '' }}" data-toggle="tab" role="tab">{{ $type->name }}</a>
+                                <a href="{{ route('user.types', ['id' => $category->id]) }}" class="nav-link {{ $selectedTab == $category->id ? 'active' : '' }}" data-toggle="tab" role="tab">{{ $category->name }}</a>
                             </li>
                         @endforeach
                     </ul>
@@ -153,42 +153,33 @@
                                 <thead class="table-secondary">
                                     <tr>
                                         <th scope="col"> # </th>
-                                        <th scope="col"> Name of the Ingredients </th>
-                                        <th scope="col"> Volume </th>
-                                        <th scope="col"> Price </th>
-                                        <th scope="col"> Type </th>
+                                        <th scope="col"> Name </th>
                                         <th scope="col"> Action </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                @foreach ($types as $item)
-                                    @foreach ($item->ingredients as $element)
-                                        @if ($catTab == 0)
+                                @foreach ($categories as $item)
+                                    @foreach ($item->types as $element)
+                                        @if ($selectedTab == 0)
                                         <tr class="tab-pane">
                                             <td> {{$element->id}} </td>
                                             <td> {{$element->name}} </td>
-                                            <td> {{$element->volume}} </td>
-                                            <td> {{$element->price}} </td>
-                                            <td> {{$element->type}} </td>
                                             <td>
-                                                <a href="#" class="btn btn-success" data-mdb-toggle="modal" data-mdb-target="#updateIngredientsModal_{{ $element->id }}">Edit</a>
-                                                <form class="d-inline" action="{{ route('user.ingredient.destroy', $element ) }}" method="POST">
+                                                <a href="#" class="btn btn-success" data-mdb-toggle="modal" data-mdb-target="#updateTypesModal_{{ $element->id }}">Edit</a>
+                                                <form class="d-inline" action="{{ route('user.type.destroy', $element ) }}" method="POST">
                                                     @method('DELETE')
                                                     @csrf
                                                     <button class="btn btn-danger">Delete</button>
                                                 </form>
                                             </td>
                                         </tr>
-                                        @elseif ($catTab == $item->id && $item->id == $element->type_id)
+                                        @elseif ($selectedTab == $item->id && $item->id == $element->category_id)
                                         <tr class="tab-pane">
                                             <td> {{$element->id}} </td>
                                             <td> {{$element->name}} </td>
-                                            <td> {{$element->volume}} </td>
-                                            <td> {{$element->price}} </td>
-                                            <td> {{$element->type}} </td>
                                             <td>
-                                                <a href="#" class="btn btn-success" data-mdb-toggle="modal" data-mdb-target="#updateIngredientsModal_{{ $element->id }}">Edit</a>
-                                                <form class="d-inline" action="{{ route('user.ingredient.destroy', $element ) }}" method="POST">
+                                                <a href="#" class="btn btn-success" data-mdb-toggle="modal" data-mdb-target="#updateTypesModal_{{ $element->id }}">Edit</a>
+                                                <form class="d-inline" action="{{ route('user.type.destroy', $element ) }}" method="POST">
                                                     @method('DELETE')
                                                     @csrf
                                                     <button class="btn btn-danger">Delete</button>
@@ -208,39 +199,31 @@
     </div>
 </div>
 <!-- Modal -->
-<div class="modal fade" id="addIngredientsModal" tabindex="-1" aria-labelledby="addIngredientsModalLabel" aria-hidden="true">
+<div class="modal fade" id="addTypesModal" tabindex="-1" aria-labelledby="addTypesModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="addIngredientsModalLabel">
+        <h5 class="modal-title" id="addTypesModalLabel">
             <span class="menu-icon">
                 <i class="mdi mdi mdi-coffee"></i>
             </span>
-            <span>Add New Ingredients</span>
+            <span>Add New Type</span>
         </h5>
         <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <p class="text-muted">Please answer all the input fields to add a new ingredient.</p>
-        <form method="POST" action="{{ route('user.ingredient.create') }}">
+        <p class="text-muted">Please answer all the input fields to add a new type.</p>
+        <form method="POST" action="{{ route('user.type.create') }}">
             @csrf
             <div class="form-group">
                 <label>Name</label>
                 <input type="text" class="form-control p_input" name="name" placeholder="Enter the name" :value="name" required autofocus>
             </div>
             <div class="form-group">
-                <label>Volume</label>
-                <input type="number" class="form-control p_input" name="volume" placeholder="Enter the volume" :value="volume">
-            </div>
-            <div class="form-group">
-                <label>Price</label>
-                <input type="number" class="form-control p_input" name="price" placeholder="Enter the price" :value="price">
-            </div>
-            <div class="form-group">
-                <label>Type</label>
-                <select class="form-control" name="type_id">
-                    @foreach($types as $type)
-                        <option value="{{ $type->id }}">{{ $type->name }}</option>
+                <label>Category</label>
+                <select class="form-control" name="category_id">
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}">{{ $category->name }}</option>
                     @endforeach
                 </select>
             </div>
@@ -252,42 +235,33 @@
     </div>
   </div>
 </div>
-
-@foreach($ingredients as $ingredient)
-<div class="modal fade" id="updateIngredientsModal_{{ $ingredient->id }}" tabindex="-1" aria-labelledby="updateIngredientsModalLabel_{{ $ingredient->id }}" aria-hidden="true">
+@foreach($types as $type)
+<div class="modal fade" id="updateTypesModal_{{ $type->id }}" tabindex="-1" aria-labelledby="updateTypesModalLabel_{{ $type->id }}" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="updateIngredientsModalLabel_{{ $ingredient->id }}">
+        <h5 class="modal-title" id="updateTypesModalLabel_{{ $type->id }}">
             <span class="menu-icon">
                 <i class="mdi mdi mdi-coffee"></i>
             </span>
-            <span>Edit Existing Ingredients</span>
+            <span>Edit Existing Type</span>
         </h5>
         <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <p class="text-muted">Please answer all the input fields to add a new ingredient.</p>
-        <form method="POST" action="/user/ingredient/{{ $ingredient->id }}">
+        <p class="text-muted">Please answer all the input fields to add a new type.</p>
+        <form method="POST" action="/user/type/{{ $type->id }}">
             @csrf
             @method('PUT')
             <div class="form-group">
                 <label>Name</label>
-                <input type="text" class="form-control p_input" name="name" placeholder="Enter the name" :value="name" value="{{ $ingredient->name }}" required autofocus>
+                <input type="text" class="form-control p_input" name="name" placeholder="Enter the name" :value="name" value="{{ $type->name }}" required autofocus>
             </div>
             <div class="form-group">
-                <label>Volume</label>
-                <input type="number" class="form-control p_input" name="volume" placeholder="Enter the volume" :value="volume"  value="{{ $ingredient->volume }}" >
-            </div>
-            <div class="form-group">
-                <label>Price</label>
-                <input type="number" class="form-control p_input" name="price" placeholder="Enter the price" :value="price"  value="{{ $ingredient->price }}" >
-            </div>
-            <div class="form-group">
-                <label>Type</label>
-                <select class="form-control" name="type_id">
-                    @foreach($types as $type)
-                        <option value="{{ $type->id }}" {{$type->id == $ingredient->type_id  ? 'selected' : ''}}>{{ $type->name }}</option>
+                <label>Category</label>
+                <select class="form-control" name="category_id">
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}" {{$category->id == $type->category_id  ? 'selected' : ''}}>{{ $category->name }}</option>
                     @endforeach
                 </select>
             </div>

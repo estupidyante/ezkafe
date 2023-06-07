@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import ReactSearchBox from 'react-search-box';
+import Switch from '@mui/material/Switch';
 import {
   Wrapper,
   ContentContainer,
@@ -218,9 +219,9 @@ function App() {
         {!isOrdered && <Section>
           <Button kind={''} onClick={handleClickOrder}>Order Now</Button>
         </Section>}
-        <Section>
+        {isOrdered && <Section>
           <DividerLineTop></DividerLineTop>
-        </Section>
+        </Section>}
       </ContentContainer>
       
       <Footer>

@@ -88,43 +88,59 @@
             <span class="nav-link">ADMIN PANEL</span>
           </li>
           <li class="nav-item menu-items">
-          <a class="nav-link" data-bs-toggle="collapse" href="#dashboard" aria-expanded="false" aria-controls="dashboard">
+            <a class="nav-link" href="/user/dashboard">
               <span class="menu-icon">
                 <i class="mdi mdi-view-dashboard"></i>
               </span>
               <span class="menu-title">Dashboard</span>
+            </a>
+          </li>
+          <li class="nav-item menu-items">
+            <a class="nav-link" data-bs-toggle="collapse" href="#analytics" aria-expanded="false" aria-controls="analytics">
+              <span class="menu-icon">
+                <i class="mdi mdi-chart-tree"></i>
+              </span>
+              <span class="menu-title">Analytics</span>
               <i class="menu-arrow"></i>
             </a>
-            <div class="collapse" id="dashboard">
+            <div class="collapse" id="analytics">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="/user/dashboard"> Dashboard </a></li>
-                <li class="nav-item"> <a class="nav-link" href="/user/analytics"> Analytics </a></li>
+                <li class="nav-item"> <a class="nav-link" href="/user/analytics"> Top Products </a></li>
+                <li class="nav-item"> <a class="nav-link" href="/user/summary"> Summary </a></li>
               </ul>
             </div>
           </li>
           <li class="nav-item menu-items">
-            <a class="nav-link" data-bs-toggle="collapse" href="#frontend" aria-expanded="false" aria-controls="frontend">
+            <a class="nav-link" data-bs-toggle="collapse" href="#inventory" aria-expanded="false" aria-controls="inventory">
               <span class="menu-icon">
                 <i class="mdi mdi-account-card-details"></i>
               </span>
-              <span class="menu-title">Frontend</span>
+              <span class="menu-title">Inventory</span>
               <i class="menu-arrow"></i>
             </a>
-            <div class="collapse" id="frontend">
+            <div class="collapse" id="inventory">
               <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="/user/categories"> Categories </a></li>
+                <li class="nav-item"> <a class="nav-link" href="/user/types"> Types </a></li>
                 <li class="nav-item"> <a class="nav-link" href="/user/ingredients"> Ingredients </a></li>
-                <li class="nav-item"> <a class="nav-link" href="/user/faqs"> FAQs </a></li>
-                <li class="nav-item"> <a class="nav-link" href="/user/aboutus"> About Us </a></li>
+                <li class="nav-item"> <a class="nav-link" href="/user/products"> Products </a></li>
               </ul>
             </div>
           </li>
           <li class="nav-item menu-items">
-            <a class="nav-link" href="/user/orders">
+            <a class="nav-link" data-bs-toggle="collapse" href="#reports" aria-expanded="false" aria-controls="reports">
               <span class="menu-icon">
-                <i class="mdi mdi-basket"></i>
+                <i class="mdi mdi-account-card-details"></i>
               </span>
-              <span class="menu-title">Orders</span>
+              <span class="menu-title">Reports</span>
+              <i class="menu-arrow"></i>
             </a>
+            <div class="collapse" id="reports">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="/user/users"> Users </a></li>
+                <li class="nav-item"> <a class="nav-link" href="/user/orders"> Orders </a></li>
+              </ul>
+            </div>
           </li>
           <li class="nav-item menu-items">
             <a class="nav-link" href="/user/accounts">
@@ -135,11 +151,11 @@
             </a>
           </li>
           <li class="nav-item menu-items">
-            <a class="nav-link" href="/user/ingredients">
+            <a class="nav-link" href="/user/faqs">
               <span class="menu-icon">
-                <i class="mdi mdi-food"></i>
+                <i class="mdi mdi-frequently-asked-questions"></i>
               </span>
-              <span class="menu-title">Ingredients</span>
+              <span class="menu-title">FAQs</span>
             </a>
           </li>
           <li class="nav-item menu-items">

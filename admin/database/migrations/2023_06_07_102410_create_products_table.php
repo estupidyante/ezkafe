@@ -13,13 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('ingredients', function (Blueprint $table) {
+        Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('categories_id')->references('id')->on('categories')->onDelete('cascade');
             $table->string('name');
-            $table->string('amount');
-            $table->string('srp');
+            $table->text('description');
+            $table->foreignId('type_id')->references('id')->on('types')->onDelete('cascade');
+            $table->text('ing_ids');
+            $table->string('image')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -30,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ingredients');
+        Schema::dropIfExists('products');
     }
 };

@@ -17,4 +17,9 @@ class Orders extends Model
         'details',
         'status'
     ];
+
+    public function clients()
+    {
+        return $this->hasMany(Clients::class);
+    }
 }

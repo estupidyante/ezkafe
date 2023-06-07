@@ -6,15 +6,15 @@ use Livewire\Component;
 use Illuminate\Http\Request;
 
 use App\Models\Ingredients;
-use App\Models\Categories;
+use App\Models\Types;
 
 class UserIngredientsComponent extends Component
 {
     public function render(Request $request)
     {
-        $categories = Categories::with('ingredients')->get();
+        $types = Types::with('ingredients')->get();
         $catTab = isset($request->id) ? $request->id : 0;
         $ingredients = Ingredients::all();
-        return view('livewire.user.user-ingredients-component', compact('ingredients', 'categories', 'catTab'))->layout('layouts.base');
+        return view('livewire.user.user-ingredients-component', compact('ingredients', 'types', 'catTab'))->layout('layouts.base');
     }
 }

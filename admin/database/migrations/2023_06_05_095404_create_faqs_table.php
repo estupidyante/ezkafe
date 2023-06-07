@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('question');
             $table->string('answer');
-            $table->foreignId('categories_id')->references('id')->on('categories')->onDelete('cascade');
+            $table->foreignId('category_id')->references('id')->on('category')->onDelete('cascade');
             $table->timestamps();
         });
     }

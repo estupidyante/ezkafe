@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Ingredients;
-use App\Models\Categories;
+use App\Models\Types;
 
 class IngredientsController extends Controller
 {
@@ -23,14 +23,18 @@ class IngredientsController extends Controller
     public function create(Request $request)
     {
         $data = $request->input();
-        Ingredients::create([
-            'name' => $data['name'],
-            'amount' => $data['amount'],
-            'srp' => $data['amount'],
-            'categories_id' => $data['category_id']
-        ]);
+        if ($data) {
+            Ingredients::create([
+                'name' => $data['name'],
+                'volume' => $data['volume'],
+                'price' => $data['price'],
+                'types_id' => $data['type_id']
+            ]);
 
-        return redirect('/user/ingredients')->with('status',"Ingredient created successfully");
+            return redirect('/user/ingredients')->with('status',"Ingredient created successfully");
+        } else {
+            return redirect('/user/ingredients')->with('failed',"Something went wrong");
+        }
     }
 
     public function update(Request $request, $id)
@@ -40,9 +44,9 @@ class IngredientsController extends Controller
         try {
             $ingredient = Ingredients::find($id);
             $ingredient->name = $data['name'];
-            $ingredient->amount = $data['amount'];
-            $ingredient->srp = $data['amount'];
-            $ingredient->categories_id = $data['category_id'];
+            $ingredient->volume = $data['volume'];
+            $ingredient->price = $data['price'];
+            $ingredient->types_id = $data['type_id'];
             $ingredient->update();
             return redirect('/user/ingredients')->with('status',"Ingredients updated successfully");
         }

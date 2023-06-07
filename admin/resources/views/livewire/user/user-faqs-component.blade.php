@@ -149,7 +149,7 @@
                                 @foreach ($faqs as $question)
                                     <tr>
                                         <td> {{$question->id}} </td>
-                                        <td> {{ $categories->find($question->categories_id)->name }} </td>
+                                        <td> {{ $categories->find($question->category_id)->name }} </td>
                                         <td> {{$question->question}} </td>
                                         <td> 
                                             <label class="switch">

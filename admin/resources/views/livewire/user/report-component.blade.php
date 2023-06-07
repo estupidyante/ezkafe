@@ -1,3 +1,0 @@
-<div>
-    Reports Page
-</div>

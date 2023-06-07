@@ -3,19 +3,19 @@
 namespace App\Http\Livewire\User;
 
 use Livewire\Component;
-use App\Models\Product;
+use App\Models\Products;
 use App\Models\Ingredients;
-use App\Models\ProductsCategory;
-use App\Models\User;
+use App\Models\Clients;
+use App\Models\Orders;
 
 class UserDashboardComponent extends Component
 {
     public function render() {
-        $product = Product::latest()->paginate(5);
-        $revenue =  Product::count();
+        $product = Products::latest()->paginate(5);
+        $revenue =  Products::count();
         $ingredients = Ingredients::count();
-        $orders = ProductsCategory::count();
-        $users = User::count();
+        $orders = Orders::count();
+        $users = Clients::count();
         return view('livewire.user.user-dashboard-component', compact('product', 'ingredients','revenue','orders','users'))->layout('layouts.base');
     }
 }

@@ -5,15 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Categories extends Model
+class Category extends Model
 {
     use HasFactory;
 
-    protected $table = 'categories';
+    protected $table = 'category';
 
-    public function ingredients()
+    protected $fillable = [
+        'name',
+    ];
+
+    public function types()
     {
-        return $this->hasMany(Ingredients::class);
+        return $this->hasMany(Types::class);
     }
 
     public function faqs()
