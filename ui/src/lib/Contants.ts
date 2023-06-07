@@ -16,7 +16,7 @@ const Wrapper = styled.div`
 const ContentContainer = styled.div`
 `;
 
-const SeeAll = styled.button`
+const SimpleButton = styled.button`
   display:flex;
   align-items:center;
   justify-content:space-between;
@@ -169,18 +169,87 @@ const CardProductContainer = styled.section`
 const CardProductLists = styled.ul`
   display: grid;
   gap: 50px 25px;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(1, 1fr);
+
+  @media only screen and (min-width: 420px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  @media only screen and (min-width: 575px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  @media only screen and (max-width: 991) and (min-width: 767px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  @media only screen and (min-width: 992px) {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  @media only screen and (min-width: 1200px) {
+    grid-template-columns: repeat(6, 1fr);
+  }
 `;
 
 const CardProductItem = styled.li`
   background: #ffffff;
   border:1px solid #99918E;
   border-radius: 20px;
-  width:180px;
+  width:160px;
   height:280px;
   box-shadow: 0px 10px 10px 0px rgba(38,20,13,0.30);
   -webkit-box-shadow: 0px 10px 10px 0px rgba(38,20,13,0.30);
   -moz-box-shadow: 0px 10px 10px 0px rgba(38,20,13,0.30);
+
+  @media only screen and (min-width: 340px) {
+    width:320px;
+    height:380px;
+  }
+
+  @media only screen and (min-width: 375px) {
+    width:340px;
+    height:410px;
+  }
+
+  @media only screen and (min-width: 376px) {
+    width:380px;
+    height:480px;
+  }
+
+  @media only screen and (max-width: 395px) and (min-width: 377px) {
+    width:350px;
+    height:410px;
+  }
+
+  @media only screen and (min-width: 420px) {
+    width:180px;
+    height:280px;
+  }
+
+  @media only screen and (min-width: 575px) {
+    width:180px;
+  }
+
+  @media only screen and (min-width: 720px) {
+    width:168px;
+    height: 270px;
+  }
+
+  @media only screen and (max-width: 991px) and (min-width: 767px) {
+    width:165px;
+    height: 270px;
+  }
+
+  @media only screen and (min-width: 992px) {
+    width:180px;
+    height: 270px;
+  }
+
+  @media only screen and (min-width: 1200px) {
+    width:180px;
+    height: 270px;
+  }
 `;
 
 const CardProduct = styled.div`
@@ -248,11 +317,16 @@ const FooterTop = styled.div`
 const FooterBrand = styled.div`
 `;
 
+const DividerLineTop = styled.div`
+  border-top:1px solid #26140D;
+  width:100%;
+`;
+
 export {
     logoSpinAnime,
     Wrapper,
     ContentContainer,
-    SeeAll,
+    SimpleButton,
     Header,
     IconContainer,
     Logo,
@@ -282,5 +356,6 @@ export {
     OrderButton,
     Footer,
     FooterTop, 
-    FooterBrand 
+    FooterBrand,
+    DividerLineTop
 };

@@ -3,7 +3,7 @@ import ReactSearchBox from 'react-search-box';
 import {
   Wrapper,
   ContentContainer,
-  SeeAll,
+  SimpleButton,
   Header,
   IconContainer,
   Logo,
@@ -31,8 +31,8 @@ import {
   OrderButton,
   Footer,
   FooterTop, 
-  FooterBrand 
-
+  FooterBrand,
+  DividerLineTop
 } from './lib/Contants';
 import { 
   MenuOutline,
@@ -42,10 +42,10 @@ import {
 } from 'react-ionicons';
 
 function App() {
-  const [isOpen, setOpen] = useState(false);
+  const [isOrdered, setIsOrdered] = useState(false);
 
-  const handleClick = () => {
-    setOpen(!isOpen);
+  const handleClickOrder = () => {
+    setIsOrdered(!isOrdered);
   };
 
   const data = [
@@ -132,7 +132,7 @@ function App() {
         </CardHero>
         <Section>
           <h2>EzKafe Drink Menu</h2>
-          <SeeAll>
+          {!isOrdered && <Button onClick={handleClickOrder}>
             <span>See all</span>
             <ArrowForwardOutline
                 color={'#26140D'}
@@ -140,11 +140,12 @@ function App() {
                 height="18px"
                 width="18px"
               />
-          </SeeAll>
+          </Button>}
         </Section>
-        <CardProductContainer>
+        {!isOrdered && <CardProductContainer>
           <Container>
             <CardProductLists>
+              
               <CardProductItem>
                 <CardProduct>
                   <CardProductImage src="/assets/images/products/americano.png" alt="Product Image Name" />
@@ -188,12 +189,37 @@ function App() {
                   </CardProductContent>
                 </CardProduct>
               </CardProductItem>
+
+              <CardProductItem>
+                <CardProduct>
+                  <CardProductImage src="/assets/images/products/espresso_coffee.png" alt="Product Image Name" />
+                  <CardProductContent>
+                    <CardProductTitle>Product Name</CardProductTitle>
+                    <CardProductDescription>Product Description</CardProductDescription>
+                    <CardProductPrice value="180.85">Php 180.85</CardProductPrice>
+                  </CardProductContent>
+                </CardProduct>
+              </CardProductItem>
+
+              <CardProductItem>
+                <CardProduct>
+                  <CardProductImage src="/assets/images/products/espresso_coffee.png" alt="Product Image Name" />
+                  <CardProductContent>
+                    <CardProductTitle>Product Name</CardProductTitle>
+                    <CardProductDescription>Product Description</CardProductDescription>
+                    <CardProductPrice value="180.85">Php 180.85</CardProductPrice>
+                  </CardProductContent>
+                </CardProduct>
+              </CardProductItem>
     
             </CardProductLists>
           </Container>
-        </CardProductContainer>
+        </CardProductContainer>}
+        {!isOrdered && <Section>
+          <Button kind={''} onClick={handleClickOrder}>Order Now</Button>
+        </Section>}
         <Section>
-          <Button onClick={handleClick}>Order Now</Button>
+          <DividerLineTop></DividerLineTop>
         </Section>
       </ContentContainer>
       
@@ -209,12 +235,20 @@ function App() {
   );
 }
 
-const Button = ({ onClick, children }) => {
-  return (
-    <OrderButton type="button" onClick={onClick}>
-      {children}
-    </OrderButton>
-  );
+const Button = ({ kind = 'simple', onClick, children }) => {
+  if (kind == 'simple') {
+    return (
+      <SimpleButton type="button" onClick={onClick}>
+        {children}
+      </SimpleButton>
+    );
+  } else {
+    return (
+      <OrderButton type="button" onClick={onClick}>
+        {children}
+      </OrderButton>
+    );
+  }
 };
 
 export default App;
