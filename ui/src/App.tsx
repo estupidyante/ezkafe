@@ -86,7 +86,7 @@ function App() {
               <span>Latte</span>
             </CardHeroText>
             <CardHeroButton>
-              <span>More Info</span>
+              <TextSpan>More Info</TextSpan>
               <ArrowForwardOutline
                 color={'#ffffff'}
                 title={''}
@@ -96,33 +96,68 @@ function App() {
             </CardHeroButton>
           </Container>
         </CardHero>
-        <h1>EzKafe UI</h1>
-        <CardContainer>
-          <Card>
-            <button onClick={() => setCount(count => count + 1)}>count is {count}</button>
-            <p>
-              Edit <code>src/App.tsx</code> and save to test HMR
-            </p>
-          </Card>
-          <Card>
-            <button onClick={() => setCount(count => count + 1)}>count is {count}</button>
-            <p>
-              Edit <code>src/App.tsx</code> and save to test HMR
-            </p>
-          </Card>
-          <Card>
-            <button onClick={() => setCount(count => count + 1)}>count is {count}</button>
-            <p>
-              Edit <code>src/App.tsx</code> and save to test HMR
-            </p>
-          </Card>
-          <Card>
-            <button onClick={() => setCount(count => count + 1)}>count is {count}</button>
-            <p>
-              Edit <code>src/App.tsx</code> and save to test HMR
-            </p>
-          </Card>
-        </CardContainer>
+        <Section>
+          <h2>EzKafe Drink Menu</h2>
+          <SeeAll>
+            <span>See all</span>
+            <ArrowForwardOutline
+                color={'#26140D'}
+                title={''}
+                height="18px"
+                width="18px"
+              />
+          </SeeAll>
+        </Section>
+        <CardProductContainer>
+          <Container>
+            <CardProductLists>
+              <CardProductItem>
+                <CardProduct>
+                  <CardProductImage src="/assets/images/products/americano.png" alt="Product Image Name" />
+                  <CardProductContent>
+                    <h3>Product Name</h3>
+                    <p>Product Description</p>
+                    <CardProductPrice value="180.85">Php 180.85</CardProductPrice>
+                  </CardProductContent>
+                </CardProduct>
+              </CardProductItem>
+
+              <CardProductItem>
+                <CardProduct>
+                  <CardProductImage src="/assets/images/products/amaretto_macchiato.png" alt="Product Image Name" />
+                  <CardProductContent>
+                    <h3>Product Name</h3>
+                    <p>Product Description</p>
+                    <CardProductPrice value="180.85">Php 180.85</CardProductPrice>
+                  </CardProductContent>
+                </CardProduct>
+              </CardProductItem>
+  
+              <CardProductItem>
+                <CardProduct>
+                  <CardProductImage src="/assets/images/products/coffee_milk.png" alt="Product Image Name" />
+                  <CardProductContent>
+                    <h3>Product Name</h3>
+                    <p>Product Description</p>
+                    <CardProductPrice value="180.85">Php 180.85</CardProductPrice>
+                  </CardProductContent>
+                </CardProduct>
+              </CardProductItem>
+
+              <CardProductItem>
+                <CardProduct>
+                  <CardProductImage src="/assets/images/products/espresso_coffee.png" alt="Product Image Name" />
+                  <CardProductContent>
+                    <h3>Product Name</h3>
+                    <p>Product Description</p>
+                    <CardProductPrice value="180.85">Php 180.85</CardProductPrice>
+                  </CardProductContent>
+                </CardProduct>
+              </CardProductItem>
+    
+            </CardProductLists>
+          </Container>
+        </CardProductContainer>
       </ContentContainer>
       
       <Footer>
@@ -151,7 +186,13 @@ const Wrapper = styled.div`
 `;
 
 const ContentContainer = styled.div`
+`;
 
+const SeeAll = styled.button`
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
 `;
 
 const Header = styled.header`
@@ -174,8 +215,6 @@ const IconContainer = styled.div`
 `;
 const Logo = styled.img`
   width:160px;
-  will-change: filter;
-
   &:hover {
     filter: drop-shadow(0 0 2em #646cffaa);
   }
@@ -209,7 +248,7 @@ const SearchIconContainer = styled.div`
   top: 5px;
 `;
 
-const CardHero = styled.div`
+const CardHero = styled.section`
   background-repeat: no-repeat;
   background-size: cover;
   background-position: left;
@@ -232,6 +271,15 @@ const Container = styled.div`
   display: flex;
   flex-wrap: wrap;
 `;
+
+const Section = styled.section`
+  display: flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap: wrap;
+  padding: 0 1.2em 1.2em;
+`;
+
 const CardHeroTitle = styled.h2`
   color:#ffffff;
   margin-bottom: 10px;
@@ -255,6 +303,11 @@ const CardHeroButton = styled.div`
   font-size: 1.2rem;
   display: flex;
   gap: 10px;
+  width:100%;
+`;
+
+const TextSpan = styled.span`
+  align-self:center;
 `;
 
 const CardContainer = styled.div`
@@ -271,6 +324,45 @@ const Card = styled.div`
   box-shadow: 0px 10px 10px 0px rgba(38,20,13,0.30);
   -webkit-box-shadow: 0px 10px 10px 0px rgba(38,20,13,0.30);
   -moz-box-shadow: 0px 10px 10px 0px rgba(38,20,13,0.30);
+`;
+
+const CardProductContainer = styled.section`
+  margin-bottom: 1.2em;
+`;
+
+const CardProductLists = styled.ul`
+  display: grid;
+  gap: 50px 25px;
+  grid-template-columns: repeat(2, 1fr);
+`;
+
+const CardProductItem = styled.li`
+  background: #ffffff;
+  border:1px solid #99918E;
+  border-radius: 20px;
+  width:180px;
+  height:280px;
+`;
+
+const CardProduct = styled.div`
+  display: flex;
+  flex-flow: wrap;
+  justify-content: center;
+  height:100%;
+  position:relative;
+`;
+
+const CardProductImage = styled.img`
+  height:50%;
+`;
+
+const CardProductContent = styled.div`
+  position:absolute;
+  bottom:20px;
+  height:40$;
+`;
+
+const CardProductPrice = styled.data`
 `;
 
 const Footer = styled.footer`
