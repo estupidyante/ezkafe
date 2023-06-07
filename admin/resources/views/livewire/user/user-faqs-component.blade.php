@@ -182,7 +182,7 @@
       <div class="modal-header">
         <h5 class="modal-title" id="addQuestionModalLabel">
             <span class="menu-icon">
-                <i class="mdi mdi mdi-frequently-asked-questions"></i>
+                <i class="mdi mdi-frequently-asked-questions"></i>
             </span>
             <span>Add New Question</span>
         </h5>
@@ -227,7 +227,7 @@
       <div class="modal-header">
         <h5 class="modal-title" id="updateQuestionModalLabel_{{ $faq->id }}">
             <span class="menu-icon">
-                <i class="mdi mdi mdi-frequently-asked-questions"></i>
+                <i class="mdi mdi-frequently-asked-questions"></i>
             </span>
             <span>Edit Existing Question</span>
         </h5>

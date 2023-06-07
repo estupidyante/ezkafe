@@ -1,10 +1,118 @@
 @section('title')
 <title>EzKafe | Categories</title>
 @endsection
+@section('page-style')
+<style type="text/css">
+    .category {
+        display: flex;
+    }
+    body {
+        background-color: #d2d2d2;
+    }
+    .categories {
+        height: 500px;
+    }
+    .nav-tabs.table-tabs .nav-link {
+        background: #ffffff;
+        color: #000000;
+        border:0px;
+    }
+    .nav-tabs.table-tabs .nav-link.active {
+        background: #D9D9D9;
+        color: #000000;
+    }
+    .card .card-body {
+        padding:0px !important;
+    }
+    .card.card-accounts {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+    .card-header {
+        background: transparent !important;
+        border: none !important;
+        box-shadow: none !important;
+    }
+    .table {
+        margin: 0px !important;
+    }
+    .table thead tr {
+        border: none !important;
+    }
+    .tab-content {
+        padding: 0px !important;
+        background: #ffffff !important;
+        border: none !important;
+    }
+    /* The switch - the box around the slider */
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 50px;
+        height: 24px;
+    }
+
+    /* Hide default HTML checkbox */
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    /* The slider */
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 16px;
+        width: 16px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    input:checked + .slider {
+        background-color: #2196F3;
+    }
+
+    input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: 24px;
+    }
+
+    .slider.round:before {
+    border-radius: 50%;
+    }
+</style>
+@endsection
 <div class="content-wrapper">
     <div class="row">
         <h3 class="text-dark">Categories</h3>
-        <p class="text-muted pb-4">EzKafe / Inventory / Categories</p>
+        <p class="text-muted pb-4">EzKafe / Components / Categories</p>
         @if (session('status'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <p>{{ session('status') }}</p>
@@ -23,7 +131,7 @@
                 <h6 class="card-header">
                     <a href="#" class="btn btn-primary float-end d-flex justify-content-center" data-mdb-toggle="modal" data-mdb-target="#addCategoryModal">
                         <span class="menu-icon">
-                            <i class="mdi mdi-shape"></i>
+                            <i class="mdi mdi-plus-circle"></i>
                         </span>
                         <span>Add New Category</span>
                     </a>
@@ -68,7 +176,7 @@
       <div class="modal-header">
         <h5 class="modal-title" id="addCategoryModalLabel">
             <span class="menu-icon">
-                <i class="mdi mdi mdi-coffee"></i>
+                <i class="mdi mdi-shape"></i>
             </span>
             <span>Add New Category</span>
         </h5>
@@ -97,7 +205,7 @@
       <div class="modal-header">
         <h5 class="modal-title" id="updateCategoryModalLabel_{{ $category->id }}">
             <span class="menu-icon">
-                <i class="mdi mdi mdi-coffee"></i>
+                <i class="mdi mdi-shape"></i>
             </span>
             <span>Edit Existing Category</span>
         </h5>

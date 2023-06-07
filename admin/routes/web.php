@@ -12,6 +12,7 @@ use App\Http\Controllers\IngredientsController;
 use App\Http\Controllers\FaqsController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\TypesController;
+use App\Http\Controllers\MeasurementsController;
 
 use App\Http\Livewire\Admin\AdminDashboardComponent;
 use App\Http\Livewire\User\UserDashboardComponent;
@@ -31,6 +32,7 @@ use App\Http\Livewire\User\UserAdminAccountsComponent;
 use App\Http\Livewire\User\UserListsComponent;
 use App\Http\Livewire\User\UserTypesComponent;
 use App\Http\Livewire\User\UserProductsComponent;
+use App\Http\Livewire\User\UserMeasurementsComponent;
 
 /*
 |--------------------------------------------------------------------------
@@ -66,12 +68,30 @@ Route::middleware([
     Route::get('/user/products', UserProductsComponent::class)->name('user.products');
     Route::get('/user/types', UserTypesComponent::class)->name('user.types');
     Route::get('/user/categories', UserCategoriesComponent::class)->name('user.categories');
+    Route::get('/user/measurements', UserMeasurementsComponent::class)->name('user.measurements');
     Route::get('/user/users', UserListsComponent::class)->name('user.users');
     Route::get('/user/orders', UserOrdersComponent::class);
     Route::get('/user/faqs', UserFAQsComponent::class);
     Route::get('/user/notifications', UserNotificationsComponent::class);
     Route::get('/user/accounts', UserAdminAccountsComponent::class)->name('user.accounts');
 
+    // For Category
+    Route::post('/user/category/create', [CategoriesController::class, 'create'])->name('user.category.create');
+    Route::put('/user/category/{id}', [CategoriesController::class, 'update'])->name('user.category.update');
+    Route::delete('/user/category/{user}', [CategoriesController::class, 'destroy'])->name('user.category.destroy');
+    // For Type
+    Route::post('/user/type/create', [TypesController::class, 'create'])->name('user.type.create');
+    Route::put('/user/type/{id}', [TypesController::class, 'update'])->name('user.type.update');
+    Route::delete('/user/type/{user}', [TypesController::class, 'destroy'])->name('user.type.destroy');
+    // For Measurements
+    Route::post('/user/measurement/create', [MeasurementsController::class, 'create'])->name('user.measurement.create');
+    Route::put('/user/measurement/{id}', [MeasurementsController::class, 'update'])->name('user.measurement.update');
+    Route::delete('/user/measurement/{user}', [MeasurementsController::class, 'destroy'])->name('user.measurement.destroy');
+    // For Compositions
+    // For Ingredients
+    Route::post('/user/ingredient/create', [IngredientsController::class, 'create'])->name('user.ingredient.create');
+    Route::put('/user/ingredient/{id}', [IngredientsController::class, 'update'])->name('user.ingredient.update');
+    Route::delete('/user/ingredient/{user}', [IngredientsController::class, 'destroy'])->name('user.ingredient.destroy');
     // For Products
     Route::get('/user/product/create', [ProductsController::class, 'create'])->name('user.product.create');
     Route::put('/user/product{id}', [ProductsController::class, 'update'])->name('user.product.update');
@@ -81,21 +101,9 @@ Route::middleware([
     Route::put('/user/account/{id}', [AccountsController::class, 'update'])->name('user.account.update');
     Route::delete('/user/account/{user}', [AccountsController::class, 'destroy'])->name('user.account.destroy');
 
-    Route::post('/user/ingredient/create', [IngredientsController::class, 'create'])->name('user.ingredient.create');
-    Route::put('/user/ingredient/{id}', [IngredientsController::class, 'update'])->name('user.ingredient.update');
-    Route::delete('/user/ingredient/{user}', [IngredientsController::class, 'destroy'])->name('user.ingredient.destroy');
-
     Route::post('/user/faq/create', [FaqsController::class, 'create'])->name('user.faq.create');
     Route::put('/user/faq/{id}', [FaqsController::class, 'update'])->name('user.faq.update');
     Route::delete('/user/faq/{user}', [FaqsController::class, 'destroy'])->name('user.faq.destroy');
-
-    Route::post('/user/category/create', [CategoriesController::class, 'create'])->name('user.category.create');
-    Route::put('/user/category/{id}', [CategoriesController::class, 'update'])->name('user.category.update');
-    Route::delete('/user/category/{user}', [CategoriesController::class, 'destroy'])->name('user.category.destroy');
-
-    Route::post('/user/type/create', [TypesController::class, 'create'])->name('user.type.create');
-    Route::put('/user/type/{id}', [TypesController::class, 'update'])->name('user.type.update');
-    Route::delete('/user/type/{user}', [TypesController::class, 'destroy'])->name('user.type.destroy');
 
     Route::delete('/user/user/{user}', [UserListsComponent::class, 'destroy'])->name('user.user.destroy');
 });

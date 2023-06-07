@@ -13,13 +13,14 @@ class Ingredients extends Model
     
     protected $fillable = [
         'name',
-        'volume',
-        'price',
         'types_id',
+        'measurements_id',
+        'volume',
     ];
 
-    public function ingredients()
+    public function ingredients(): HasManyThrough
     {
-        return $this->belongsTo(Types::class);
+        return $this->hasManyThrough(Types::class, Measurements::class);
     }
+
 }

@@ -139,11 +139,11 @@
                 <div class="card-body">
                     <ul class="nav nav-tabs table-tabs pb-1" role="tablist">
                         <li class="nav-item" role="presentation">
-                            <a href="{{ route('user.ingredients', ['id' => 0]) }}" class="nav-link {{ $catTab == 0 ? 'active' : '' }}" data-toggle="tab" role="tab">All</a>
+                            <a href="{{ route('user.ingredients', ['id' => 0]) }}" class="nav-link {{ $selectedTab == 0 ? 'active' : '' }}" data-toggle="tab" role="tab">All</a>
                         </li>   
                         @foreach ($types as $type)
                             <li class="nav-item" role="presentation">
-                                <a href="{{ route('user.ingredients', ['id' => $type->id]) }}" class="nav-link {{ $catTab == $type->id ? 'active' : '' }}" data-toggle="tab" role="tab">{{ $type->name }}</a>
+                                <a href="{{ route('user.ingredients', ['id' => $type->id]) }}" class="nav-link {{ $selectedTab == $type->id ? 'active' : '' }}" data-toggle="tab" role="tab">{{ $type->name }}</a>
                             </li>
                         @endforeach
                     </ul>
@@ -152,24 +152,22 @@
                             <table class="table table-striped table-bordered mb-5 tab-content">
                                 <thead class="table-secondary">
                                     <tr>
-                                        <th scope="col"> # </th>
-                                        <th scope="col"> Name of the Ingredients </th>
+                                        <th scope="col"> Name </th>
                                         <th scope="col"> Volume </th>
-                                        <th scope="col"> Price </th>
                                         <th scope="col"> Type </th>
+                                        <th scope="col"> Preferred Measurements </th>
                                         <th scope="col"> Action </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                 @foreach ($types as $item)
                                     @foreach ($item->ingredients as $element)
-                                        @if ($catTab == 0)
+                                        @if ($selectedTab == 0)
                                         <tr class="tab-pane">
-                                            <td> {{$element->id}} </td>
                                             <td> {{$element->name}} </td>
                                             <td> {{$element->volume}} </td>
-                                            <td> {{$element->price}} </td>
-                                            <td> {{$element->type}} </td>
+                                            <td> {{ $item->find($element->types_id)->name}} </td>
+                                            <td> {{ $measurements->find($element->measurements_id)->volume}} {{ $measurements->find($element->measurements_id)->unit}} </td>
                                             <td>
                                                 <a href="#" class="btn btn-success" data-mdb-toggle="modal" data-mdb-target="#updateIngredientsModal_{{ $element->id }}">Edit</a>
                                                 <form class="d-inline" action="{{ route('user.ingredient.destroy', $element ) }}" method="POST">
@@ -179,13 +177,12 @@
                                                 </form>
                                             </td>
                                         </tr>
-                                        @elseif ($catTab == $item->id && $item->id == $element->type_id)
+                                        @elseif ($selectedTab == $item->id && $item->id == $element->types_id)
                                         <tr class="tab-pane">
-                                            <td> {{$element->id}} </td>
                                             <td> {{$element->name}} </td>
                                             <td> {{$element->volume}} </td>
-                                            <td> {{$element->price}} </td>
-                                            <td> {{$element->type}} </td>
+                                            <td> {{ $item->find($element->types_id)->name}} </td>
+                                            <td> {{ $measurements->find($element->measurements_id)->volume}} {{ $measurements->find($element->measurements_id)->unit}} </td>
                                             <td>
                                                 <a href="#" class="btn btn-success" data-mdb-toggle="modal" data-mdb-target="#updateIngredientsModal_{{ $element->id }}">Edit</a>
                                                 <form class="d-inline" action="{{ route('user.ingredient.destroy', $element ) }}" method="POST">
@@ -214,7 +211,7 @@
       <div class="modal-header">
         <h5 class="modal-title" id="addIngredientsModalLabel">
             <span class="menu-icon">
-                <i class="mdi mdi mdi-coffee"></i>
+                <i class="mdi mdi-delete-variant"></i>
             </span>
             <span>Add New Ingredients</span>
         </h5>
@@ -229,20 +226,24 @@
                 <input type="text" class="form-control p_input" name="name" placeholder="Enter the name" :value="name" required autofocus>
             </div>
             <div class="form-group">
-                <label>Volume</label>
-                <input type="number" class="form-control p_input" name="volume" placeholder="Enter the volume" :value="volume">
-            </div>
-            <div class="form-group">
-                <label>Price</label>
-                <input type="number" class="form-control p_input" name="price" placeholder="Enter the price" :value="price">
-            </div>
-            <div class="form-group">
                 <label>Type</label>
                 <select class="form-control" name="type_id">
                     @foreach($types as $type)
                         <option value="{{ $type->id }}">{{ $type->name }}</option>
                     @endforeach
                 </select>
+            </div>
+            <div class="form-group">
+                <label>Preferred Measurement</label>
+                <select class="form-control" name="measurement_id">
+                    @foreach($measurements as $measure)
+                        <option value="{{ $measure->id }}">{{ $measure->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Volume</label>
+                <input type="text" class="form-control p_input" name="volume" placeholder="Enter the volume" :value="volume">
             </div>
             <div class="float-end">
                 <button type="submit" class="btn btn-success enter-btn" name="create">Submit</button>
@@ -260,7 +261,7 @@
       <div class="modal-header">
         <h5 class="modal-title" id="updateIngredientsModalLabel_{{ $ingredient->id }}">
             <span class="menu-icon">
-                <i class="mdi mdi mdi-coffee"></i>
+                <i class="mdi mdi-delete-variant"></i>
             </span>
             <span>Edit Existing Ingredients</span>
         </h5>
@@ -276,20 +277,24 @@
                 <input type="text" class="form-control p_input" name="name" placeholder="Enter the name" :value="name" value="{{ $ingredient->name }}" required autofocus>
             </div>
             <div class="form-group">
-                <label>Volume</label>
-                <input type="number" class="form-control p_input" name="volume" placeholder="Enter the volume" :value="volume"  value="{{ $ingredient->volume }}" >
-            </div>
-            <div class="form-group">
-                <label>Price</label>
-                <input type="number" class="form-control p_input" name="price" placeholder="Enter the price" :value="price"  value="{{ $ingredient->price }}" >
-            </div>
-            <div class="form-group">
                 <label>Type</label>
                 <select class="form-control" name="type_id">
                     @foreach($types as $type)
                         <option value="{{ $type->id }}" {{$type->id == $ingredient->type_id  ? 'selected' : ''}}>{{ $type->name }}</option>
                     @endforeach
                 </select>
+            </div>
+            <div class="form-group">
+                <label>Preferred Measurement</label>
+                <select class="form-control" name="measurement_id">
+                    @foreach($measurements as $measure)
+                        <option value="{{ $measure->id }}" {{$measure->id == $ingredient->measurement_id  ? 'selected' : ''}}>{{ $measure->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Volume</label>
+                <input type="number" class="form-control p_input" name="volume" placeholder="Enter the volume" :value="volume"  value="{{ $ingredient->volume }}" >
             </div>
             <div class="float-end">
                 <button type="submit" class="btn btn-success enter-btn" name="create">Submit</button>

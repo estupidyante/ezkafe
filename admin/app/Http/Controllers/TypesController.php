@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Ingredients;
 use App\Models\Types;
 
 class TypesController extends Controller
@@ -24,8 +23,7 @@ class TypesController extends Controller
     {
         $data = $request->input();
         Types::create([
-            'name' => $data['name'],
-            'category_id' => $data['category_id']
+            'name' => $data['name']
         ]);
 
         return redirect('/user/types')->with('status',"Type created successfully");
@@ -38,7 +36,6 @@ class TypesController extends Controller
         try {
             $type = Types::find($id);
             $type->name = $data['name'];
-            $type->category_id = $data['category_id'];
             $type->update();
             return redirect('/user/types')->with('status',"Type updated successfully");
         }

@@ -111,6 +111,22 @@
             </div>
           </li>
           <li class="nav-item menu-items">
+            <a class="nav-link" data-bs-toggle="collapse" href="#components" aria-expanded="false" aria-controls="components">
+              <span class="menu-icon">
+                <i class="mdi mdi mdi-video-input-component"></i>
+              </span>
+              <span class="menu-title">Components</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="components">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="/user/categories"> Categories </a></li>
+                <li class="nav-item"> <a class="nav-link" href="/user/types"> Types </a></li>
+                <li class="nav-item"> <a class="nav-link" href="/user/measurements"> Measurements </a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item menu-items">
             <a class="nav-link" data-bs-toggle="collapse" href="#inventory" aria-expanded="false" aria-controls="inventory">
               <span class="menu-icon">
                 <i class="mdi mdi-account-card-details"></i>
@@ -120,8 +136,6 @@
             </a>
             <div class="collapse" id="inventory">
               <ul class="nav flex-column sub-menu">
-                <li class="nav-item"> <a class="nav-link" href="/user/categories"> Categories </a></li>
-                <li class="nav-item"> <a class="nav-link" href="/user/types"> Types </a></li>
                 <li class="nav-item"> <a class="nav-link" href="/user/ingredients"> Ingredients </a></li>
                 <li class="nav-item"> <a class="nav-link" href="/user/products"> Products </a></li>
               </ul>

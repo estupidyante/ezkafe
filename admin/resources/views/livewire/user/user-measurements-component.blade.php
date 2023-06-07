@@ -1,5 +1,5 @@
 @section('title')
-<title>EzKafe | Types</title>
+<title>EzKafe | Measurements</title>
 @endsection
 @section('page-style')
 <style type="text/css">
@@ -111,8 +111,8 @@
 @endsection
 <div class="content-wrapper">
     <div class="row">
-        <h3 class="text-dark">Types</h3>
-        <p class="text-muted pb-4">EzKafe / Components / Types</p>
+        <h3 class="text-dark">Measurements</h3>
+        <p class="text-muted pb-4">EzKafe / Components / Measurements</p>
         @if (session('status'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <p>{{ session('status') }}</p>
@@ -129,11 +129,11 @@
         <div class="col-12 grid-margin categories">
             <div class="card card-accounts">
                 <h6 class="card-header">
-                    <a href="#" class="btn btn-primary float-end d-flex justify-content-center" data-mdb-toggle="modal" data-mdb-target="#addTypesModal">
+                    <a href="#" class="btn btn-primary float-end d-flex justify-content-center" data-mdb-toggle="modal" data-mdb-target="#addMeasurementsModal">
                         <span class="menu-icon">
                             <i class="mdi mdi-plus-circle"></i>
                         </span>
-                        <span>Add New Type</span>
+                        <span>Add New Measurement</span>
                     </a>
                 </h6>
                 <div class="card-body">
@@ -144,17 +144,23 @@
                                     <tr>
                                         <th scope="col"> # </th>
                                         <th scope="col"> Name </th>
+                                        <th scope="col"> Amount </th>
+                                        <th scope="col"> Unit </th>
+                                        <th scope="col"> Price </th>
                                         <th scope="col"> Action </th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                @foreach ($types as $element)
+                                @foreach ($measurements as $element)
                                     <tr class="tab-pane">
                                         <td> {{$element->id}} </td>
                                         <td> {{$element->name}} </td>
+                                        <td> {{$element->volume}} </td>
+                                        <td> {{$element->unit}} </td>
+                                        <td> {{$element->price}} </td>
                                         <td>
-                                            <a href="#" class="btn btn-success" data-mdb-toggle="modal" data-mdb-target="#updateTypesModal_{{ $element->id }}">Edit</a>
-                                            <form class="d-inline" action="{{ route('user.type.destroy', $element ) }}" method="POST">
+                                            <a href="#" class="btn btn-success" data-mdb-toggle="modal" data-mdb-target="#updateMeasurementsModal_{{ $element->id }}">Edit</a>
+                                            <form class="d-inline" action="{{ route('user.measurement.destroy', $element ) }}" method="POST">
                                                 @method('DELETE')
                                                 @csrf
                                                 <button class="btn btn-danger">Delete</button>
@@ -172,25 +178,37 @@
     </div>
 </div>
 <!-- Modal -->
-<div class="modal fade" id="addTypesModal" tabindex="-1" aria-labelledby="addTypesModalLabel" aria-hidden="true">
+<div class="modal fade" id="addMeasurementsModal" tabindex="-1" aria-labelledby="addMeasurementsModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="addTypesModalLabel">
+        <h5 class="modal-title" id="addMeasurementsModalLabel">
             <span class="menu-icon">
-                <i class="mdi mdi-language-typescript"></i>
+                <i class="mdi mdi-tape-measure"></i>
             </span>
-            <span>Add New Type</span>
+            <span>Add New Measurement</span>
         </h5>
         <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <p class="text-muted">Please answer all the input fields to add a new type.</p>
-        <form method="POST" action="{{ route('user.type.create') }}">
+        <p class="text-muted">Please answer all the input fields to add a new measurement.</p>
+        <form method="POST" action="{{ route('user.measurement.create') }}">
             @csrf
             <div class="form-group">
                 <label>Name</label>
                 <input type="text" class="form-control p_input" name="name" placeholder="Enter the name" :value="name" required autofocus>
+            </div>
+            <div class="form-group">
+                <label>Amount</label>
+                <input type="text" class="form-control p_input" name="volume" placeholder="Enter the amount" :value="volume" required autofocus>
+            </div>
+            <div class="form-group">
+                <label>Unit</label>
+                <input type="text" class="form-control p_input" name="unit" placeholder="Enter the unit" :value="unit" required autofocus>
+            </div>
+            <div class="form-group">
+                <label>Price</label>
+                <input type="text" class="form-control p_input" name="price" placeholder="Enter the price" :value="price" required autofocus>
             </div>
             <div class="float-end">
                 <button type="submit" class="btn btn-success enter-btn" name="create">Submit</button>
@@ -200,27 +218,39 @@
     </div>
   </div>
 </div>
-@foreach($types as $type)
-<div class="modal fade" id="updateTypesModal_{{ $type->id }}" tabindex="-1" aria-labelledby="updateTypesModalLabel_{{ $type->id }}" aria-hidden="true">
+@foreach($measurements as $measurement)
+<div class="modal fade" id="updateMeasurementsModal_{{ $measurement->id }}" tabindex="-1" aria-labelledby="updateMeasurementsModalLabel_{{ $measurement->id }}" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="updateTypesModalLabel_{{ $type->id }}">
+        <h5 class="modal-title" id="updateMeasurementsModalLabel_{{ $measurement->id }}">
             <span class="menu-icon">
-                <i class="mdi mdi-language-typescript"></i>
+                <i class="mdi mdi-tape-measure"></i>
             </span>
-            <span>Edit Existing Type</span>
+            <span>Edit Existing Measurement</span>
         </h5>
         <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <p class="text-muted">Please answer all the input fields to add a new type.</p>
-        <form method="POST" action="/user/type/{{ $type->id }}">
+        <p class="text-muted">Please answer all the input fields to add a new measurement.</p>
+        <form method="POST" action="/user/measurement/{{ $measurement->id }}">
             @csrf
             @method('PUT')
             <div class="form-group">
                 <label>Name</label>
-                <input type="text" class="form-control p_input" name="name" placeholder="Enter the name" :value="name" value="{{ $type->name }}" required autofocus>
+                <input type="text" class="form-control p_input" name="name" placeholder="Enter the name" :value="name" value="{{ $measurement->name }}" required autofocus>
+            </div>
+            <div class="form-group">
+                <label>Amount</label>
+                <input type="text" class="form-control p_input" name="volume" placeholder="Enter the amount" :value="volume" value="{{ $measurement->volume }}" required autofocus>
+            </div>
+            <div class="form-group">
+                <label>Unit</label>
+                <input type="text" class="form-control p_input" name="unit" placeholder="Enter the unit" :value="unit" value="{{ $measurement->unit }}" required autofocus>
+            </div>
+            <div class="form-group">
+                <label>Price</label>
+                <input type="text" class="form-control p_input" name="price" placeholder="Enter the price" :value="price" value="{{ $measurement->price }}" required autofocus>
             </div>
             <div class="float-end">
                 <button type="submit" class="btn btn-success enter-btn" name="create">Submit</button>

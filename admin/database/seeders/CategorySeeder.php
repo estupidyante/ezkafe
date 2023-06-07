@@ -8,7 +8,7 @@ use Illuminate\Support\Str;
 
 use App\Models\Category;
 
-class CategoriesSeeder extends Seeder
+class CategorySeeder extends Seeder
 {
     /**
      * Seed the application's database.
@@ -17,29 +17,13 @@ class CategoriesSeeder extends Seeder
      */
     public function run()
     {
-        /*  insert category  */
         Category::create([ 
             'name' => 'Coffee',
         ]);
 
         Category::create([ 
-            'name' => 'Syrup',
+            'name' => 'Non-Coffee',
         ]);
 
-        Category::create([ 
-            'name' => 'Choco',
-        ]);
-
-        Category::create([ 
-            'name' => 'Sugar',
-        ]);
-
-        Category::create([ 
-            'name' => 'Creamer',
-        ]);
-
-        Category::create([ 
-            'name' => 'Add-ons',
-        ]);
     }
 }

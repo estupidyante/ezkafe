@@ -26,9 +26,10 @@ class IngredientsController extends Controller
         if ($data) {
             Ingredients::create([
                 'name' => $data['name'],
+                'types_id' => $data['type_id'],
+                'measurements_id' => $data['measurement_id'],
                 'volume' => $data['volume'],
-                'price' => $data['price'],
-                'types_id' => $data['type_id']
+                
             ]);
 
             return redirect('/user/ingredients')->with('status',"Ingredient created successfully");
@@ -44,9 +45,9 @@ class IngredientsController extends Controller
         try {
             $ingredient = Ingredients::find($id);
             $ingredient->name = $data['name'];
-            $ingredient->volume = $data['volume'];
-            $ingredient->price = $data['price'];
             $ingredient->types_id = $data['type_id'];
+            $ingredient->measurements_id = $data['measurement_id'];
+            $ingredient->volume = $data['volume'];
             $ingredient->update();
             return redirect('/user/ingredients')->with('status',"Ingredients updated successfully");
         }

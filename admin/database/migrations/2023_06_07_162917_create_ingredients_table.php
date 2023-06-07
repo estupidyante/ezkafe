@@ -13,11 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('types', function (Blueprint $table) {
+        Schema::create('ingredients', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->foreignId('types_id')->references('id')->on('types')->onDelete('cascade');
+            $table->foreignId('measurements_id')->references('id')->on('measurements')->onDelete('cascade');
+            $table->string('volume');
             $table->timestamps();
-            $table->softDeletes();
         });
     }
 
@@ -28,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('types');
+        Schema::dropIfExists('ingredients');
     }
 };

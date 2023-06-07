@@ -6,7 +6,9 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
-class DatabaseSeeder extends Seeder
+use App\Models\Types;
+
+class TypeSeeder extends Seeder
 {
     /**
      * Seed the application's database.
@@ -15,11 +17,9 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call([
-            AdminSeeder::class,
-            CategorySeeder::class,
-            TypeSeeder::class,
-            MeasurementSeeder::class,
+        Types::create([ 
+            'name' => 'Base',
         ]);
+
     }
 }

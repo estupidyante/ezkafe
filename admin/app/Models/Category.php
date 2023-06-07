@@ -15,13 +15,13 @@ class Category extends Model
         'name',
     ];
 
-    public function types()
-    {
-        return $this->hasMany(Types::class);
-    }
-
     public function faqs()
     {
         return $this->hasMany(Faqs::class);
+    }
+
+    public function products()
+    {
+        return $this->hasMany(Products::class);
     }
 }
