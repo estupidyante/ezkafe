@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignId('category_id')->references('id')->on('category')->onDelete('cascade');
             $table->text('ing_ids');
             $table->string('image')->nullable();
+            $table->string('price');
             $table->timestamps();
             $table->softDeletes();
         });

@@ -15,6 +15,23 @@ class ProductsController extends Controller
         $this->products = $products;
     }
 
+    public function index() {
+        return response()->json(Products::all(), 200);
+    }
+    public function show(Product $product)
+	{
+	    return $product;
+	}
+	public function store(Request $request)
+	{
+	    $product = Products::create($request->all());
+	    return response()->json($product, 201);
+	}
+	public function edit(Request $request, Products $product)
+	{
+	    $product->update($request->all());
+	    return response()->json($product, 200);
+	}
     /**
      * Show the form for creating a new resource.
      *
@@ -25,7 +42,8 @@ class ProductsController extends Controller
         $validatedData = $request->validate([
             'name'             => 'required|min:1|max:64',
             'category_id'      => 'required',
-            'ing'              => 'required'
+            'ing'              => 'required',
+            'uploads'          => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         $products = new Products();
@@ -36,9 +54,10 @@ class ProductsController extends Controller
 
         if($request->file('uploads')){
             $file       = $request->file('uploads');
-            $filename   = $file->getClientOriginalName();
-            $file-> move(public_path('assets/uploads'), $filename);
-            $products->image = $filename;
+            $fileName   = $file->getClientOriginalName();
+            $destinationPath = public_path().'/assets/images/uploads';
+            $file->move($destinationPath,$fileName);
+            $products->image = '/public/assets/images/'.$fileName;
         }
 
         $products->save();
@@ -57,9 +76,10 @@ class ProductsController extends Controller
             $products->ing_ids     = implode(',', $request->input('ing'));
             if($request->file('uploads')){
                 $file       = $request->file('uploads');
-                $filename   = $file->getClientOriginalName();
-                $file-> move(public_path('assets/uploads'), $filename);
-                $products->image = $filename;
+                $fileName   = $file->getClientOriginalName();
+                $destinationPath = public_path().'/assets/images/uploads';
+                $file->move($destinationPath,$fileName);
+                $products->image = '/public/assets/images/'.$fileName;
             }
             $products->update();
             return redirect('/user/products')->with('status',"Product updated successfully");

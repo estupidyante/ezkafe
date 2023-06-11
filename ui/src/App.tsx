@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState, } from 'react';
 import ReactSearchBox from 'react-search-box';
 import Switch from '@mui/material/Switch';
+import api from './services/api';
 import {
   Wrapper,
   ContentContainer,
@@ -41,10 +42,22 @@ import {
   SearchOutline,
   ArrowForwardOutline
 } from 'react-ionicons';
+import axios from 'axios';
+
+const API_URI = 'http://127.0.0.1:8000/api';
 
 function App() {
   const [isOrdered, setIsOrdered] = useState(false);
+  const [products, setProducts] = useState([]);
 
+  useEffect(() => {
+    axios.get(API_URI + "/products")
+      .then(resp => {
+        console.log(resp);
+        setProducts(resp?.data);
+      });
+  }, []);
+  
   const handleClickOrder = () => {
     setIsOrdered(!isOrdered);
   };
@@ -146,72 +159,20 @@ function App() {
         {!isOrdered && <CardProductContainer>
           <Container>
             <CardProductLists>
-              
-              <CardProductItem>
+            {products.map((item, i) => {
+              return (
+                <CardProductItem key={i}>
                 <CardProduct>
-                  <CardProductImage src="/assets/images/products/americano.png" alt="Product Image Name" />
+                  <CardProductImage src="/assets/images/products/espresso_coffee.png" alt="{item?.name}" />
                   <CardProductContent>
-                    <CardProductTitle>Product Name</CardProductTitle>
-                    <CardProductDescription>Product Description</CardProductDescription>
-                    <CardProductPrice value="180.85">Php 180.85</CardProductPrice>
+                    <CardProductTitle>{item?.name}</CardProductTitle>
+                    <CardProductDescription>{item?.description}</CardProductDescription>
+                    <CardProductPrice value="180.85">Php {item?.price}</CardProductPrice>
                   </CardProductContent>
                 </CardProduct>
               </CardProductItem>
-
-              <CardProductItem>
-                <CardProduct>
-                  <CardProductImage src="/assets/images/products/amaretto_macchiato.png" alt="Product Image Name" />
-                  <CardProductContent>
-                    <CardProductTitle>Product Name</CardProductTitle>
-                    <CardProductDescription>Product Description</CardProductDescription>
-                    <CardProductPrice value="180.85">Php 180.85</CardProductPrice>
-                  </CardProductContent>
-                </CardProduct>
-              </CardProductItem>
-  
-              <CardProductItem>
-                <CardProduct>
-                  <CardProductImage src="/assets/images/products/coffee_milk.png" alt="Product Image Name" />
-                  <CardProductContent>
-                    <CardProductTitle>Product Name</CardProductTitle>
-                    <CardProductDescription>Product Description</CardProductDescription>
-                    <CardProductPrice value="180.85">Php 180.85</CardProductPrice>
-                  </CardProductContent>
-                </CardProduct>
-              </CardProductItem>
-
-              <CardProductItem>
-                <CardProduct>
-                  <CardProductImage src="/assets/images/products/espresso_coffee.png" alt="Product Image Name" />
-                  <CardProductContent>
-                    <CardProductTitle>Product Name</CardProductTitle>
-                    <CardProductDescription>Product Description</CardProductDescription>
-                    <CardProductPrice value="180.85">Php 180.85</CardProductPrice>
-                  </CardProductContent>
-                </CardProduct>
-              </CardProductItem>
-
-              <CardProductItem>
-                <CardProduct>
-                  <CardProductImage src="/assets/images/products/espresso_coffee.png" alt="Product Image Name" />
-                  <CardProductContent>
-                    <CardProductTitle>Product Name</CardProductTitle>
-                    <CardProductDescription>Product Description</CardProductDescription>
-                    <CardProductPrice value="180.85">Php 180.85</CardProductPrice>
-                  </CardProductContent>
-                </CardProduct>
-              </CardProductItem>
-
-              <CardProductItem>
-                <CardProduct>
-                  <CardProductImage src="/assets/images/products/espresso_coffee.png" alt="Product Image Name" />
-                  <CardProductContent>
-                    <CardProductTitle>Product Name</CardProductTitle>
-                    <CardProductDescription>Product Description</CardProductDescription>
-                    <CardProductPrice value="180.85">Php 180.85</CardProductPrice>
-                  </CardProductContent>
-                </CardProduct>
-              </CardProductItem>
+              );
+            })}
     
             </CardProductLists>
           </Container>
@@ -253,3 +214,7 @@ const Button = ({ kind = 'simple', onClick, children }) => {
 };
 
 export default App;
+function componentDidMount() {
+  throw new Error('Function not implemented.');
+}
+
