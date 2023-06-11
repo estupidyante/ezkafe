@@ -22,4 +22,9 @@ class Orders extends Model
     {
         return $this->hasMany(Clients::class);
     }
+
+    public function ingredients()
+    {
+        return $this->hasMany(Ingredients::class);
+    }
 }

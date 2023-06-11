@@ -15,11 +15,10 @@ return new class extends Migration
     {
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreignId('clients_id')->references('id')->on('clients')->onDelete('cascade');
+            $table->foreignId('products_id')->references('id')->on('products')->onDelete('cascade');
             $table->decimal('amount', 5, 2);
             $table->string('status');
-            $table->string('image');
             $table->timestamps();
         });
     }

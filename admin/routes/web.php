@@ -3,35 +3,36 @@
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\ChangePasswordController;
 
 use App\Http\Controllers\AccountsController;
-use App\Http\Controllers\IngredientsController;
 use App\Http\Controllers\FaqsController;
+
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\TypesController;
 use App\Http\Controllers\MeasurementsController;
+use App\Http\Controllers\IngredientsController;
+use App\Http\Controllers\ProductsController;
+
+use App\Http\Livewire\IndexComponent;
+use App\Http\Livewire\HomeComponent;
+use App\Http\Livewire\User\ChangePasswordComponent;
 
 use App\Http\Livewire\Admin\AdminDashboardComponent;
 use App\Http\Livewire\User\UserDashboardComponent;
 
-use App\Http\Livewire\IndexComponent;
-use App\Http\Livewire\HomeComponent;
-
-use App\Http\Livewire\User\ChangePasswordComponent;
-
 use App\Http\Livewire\User\UserAnalyticsComponent;
 use App\Http\Livewire\User\UserCategoriesComponent;
+use App\Http\Livewire\User\UserTypesComponent;
+use App\Http\Livewire\User\UserMeasurementsComponent;
 use App\Http\Livewire\User\UserIngredientsComponent;
+use App\Http\Livewire\User\UserProductsComponent;
+use App\Http\Livewire\User\UserListsComponent;
 use App\Http\Livewire\User\UserOrdersComponent;
+
+use App\Http\Livewire\User\UserAdminAccountsComponent;
 use App\Http\Livewire\User\UserFAQsComponent;
 use App\Http\Livewire\User\UserNotificationsComponent;
-use App\Http\Livewire\User\UserAdminAccountsComponent;
-use App\Http\Livewire\User\UserListsComponent;
-use App\Http\Livewire\User\UserTypesComponent;
-use App\Http\Livewire\User\UserProductsComponent;
-use App\Http\Livewire\User\UserMeasurementsComponent;
 
 /*
 |--------------------------------------------------------------------------
@@ -86,7 +87,6 @@ Route::middleware([
     Route::post('/user/measurement/create', [MeasurementsController::class, 'create'])->name('user.measurement.create');
     Route::put('/user/measurement/{id}', [MeasurementsController::class, 'update'])->name('user.measurement.update');
     Route::delete('/user/measurement/{user}', [MeasurementsController::class, 'destroy'])->name('user.measurement.destroy');
-    // For Compositions
     // For Ingredients
     Route::post('/user/ingredient/create', [IngredientsController::class, 'create'])->name('user.ingredient.create');
     Route::put('/user/ingredient/{id}', [IngredientsController::class, 'update'])->name('user.ingredient.update');
@@ -95,15 +95,19 @@ Route::middleware([
     Route::post('/user/product/create', [ProductsController::class, 'create'])->name('user.product.create');
     Route::put('/user/product/{id}', [ProductsController::class, 'update'])->name('user.product.update');
     Route::delete('/user/product/{id}', [ProductsController::class, 'destroy'])->name('user.product.destroy');
-
+    // For Ordes
+    Route::post('/user/order/create', [OrdersController::class, 'create'])->name('user.order.create');
+    Route::put('/user/order/{id}', [OrdersController::class, 'update'])->name('user.order.update');
+    Route::delete('/user/order/{id}', [OrdersController::class, 'destroy'])->name('user.order.destroy');
+    // For Admin Account
     Route::post('/user/account/create', [AccountsController::class, 'create'])->name('user.account.create');
     Route::put('/user/account/{id}', [AccountsController::class, 'update'])->name('user.account.update');
     Route::delete('/user/account/{user}', [AccountsController::class, 'destroy'])->name('user.account.destroy');
-
+    // For FAQs
     Route::post('/user/faq/create', [FaqsController::class, 'create'])->name('user.faq.create');
     Route::put('/user/faq/{id}', [FaqsController::class, 'update'])->name('user.faq.update');
     Route::delete('/user/faq/{user}', [FaqsController::class, 'destroy'])->name('user.faq.destroy');
-
+    // For Client User
     Route::delete('/user/user/{user}', [UserListsComponent::class, 'destroy'])->name('user.user.destroy');
 });
 

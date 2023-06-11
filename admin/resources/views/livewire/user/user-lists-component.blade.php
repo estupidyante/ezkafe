@@ -33,13 +33,13 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($users as $row)
+                                @foreach ($users as $user)
                                     <tr>
-                                        <td> {{$row->user_id}} </td>
-                                        <td> {{$row->order_id}} </td>
-                                        <td> {{$row->created_at}} </td>
+                                        <td> {{ $user->id }} </td>
+                                        <td> {{ $orders->find($user->id)->id }} </td>
+                                        <td> {{ $user->created_at }} </td>
                                         <td>
-                                            <form class="d-inline" action="{{ route('user.user.destroy', $row ) }}" method="POST">
+                                            <form class="d-inline" action="{{ route('user.user.destroy', $user ) }}" method="POST">
                                                 @method('DELETE')
                                                 @csrf
                                                 <button class="btn btn-danger">Delete</button>
