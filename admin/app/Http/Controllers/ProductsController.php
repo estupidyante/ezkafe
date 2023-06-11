@@ -42,24 +42,22 @@ class ProductsController extends Controller
         $validatedData = $request->validate([
             'name'             => 'required|min:1|max:64',
             'category_id'      => 'required',
-            'ing'              => 'required',
-            'uploads'          => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'ing'              => 'required'
         ]);
 
         $products = new Products();
         $products->name        = $request->input('name');
         $products->description = $request->input('description');
+        $products->price       = $request->input('price');
         $products->category_id = $request->input('category_id');
         $products->ing_ids     = implode(',', $request->input('ing'));
-
         if($request->file('uploads')){
             $file       = $request->file('uploads');
             $fileName   = $file->getClientOriginalName();
             $destinationPath = public_path().'/assets/images/uploads';
             $file->move($destinationPath,$fileName);
-            $products->image = '/public/assets/images/'.$fileName;
+            $products->image = '/assets/images/uploads/'.$fileName;
         }
-
         $products->save();
         return redirect('/user/products')->with('status',"Product created successfully");
     }
@@ -72,6 +70,7 @@ class ProductsController extends Controller
             $products = Products::find($id);
             $products->name        = $request->input('name');
             $products->description = $request->input('description');
+            $products->price       = $request->input('price');
             $products->category_id = $request->input('category_id');
             $products->ing_ids     = implode(',', $request->input('ing'));
             if($request->file('uploads')){
@@ -79,7 +78,7 @@ class ProductsController extends Controller
                 $fileName   = $file->getClientOriginalName();
                 $destinationPath = public_path().'/assets/images/uploads';
                 $file->move($destinationPath,$fileName);
-                $products->image = '/public/assets/images/'.$fileName;
+                $products->image = '/assets/images/uploads/'.$fileName;
             }
             $products->update();
             return redirect('/user/products')->with('status',"Product updated successfully");

@@ -157,6 +157,7 @@
                                         <th scope="col"> Description </th>
                                         <th scope="col"> Category </th>
                                         <th scope="col"> Ingredients </th>
+                                        <th scope="col"> Price </th>
                                         <th scope="col"> Action </th>
                                     </tr>
                                 </thead>
@@ -165,10 +166,11 @@
                                     @foreach ($item->products as $element)
                                         @if ($selectedTab == 0)
                                         <tr class="tab-pane">
-                                            <td> {{ $item->image }} </td>
+                                            <td><img src="{{ url( $element->image ) }}" style="height: 100px; width: 150px;"></td>
                                             <td> {{ $element->name }} </td>
                                             <td> {{ $element->description }} </td>
                                             <td> {{ $item->find($element->category_id)->name }} </td>
+                                            <td> {{ $element->price }} </td>
                                             <td>
                                                 @if ($element->ing_ids != "")
                                                     @foreach(explode(',', $element->ing_ids) as $ing_id) 
@@ -187,10 +189,11 @@
                                         </tr>
                                         @elseif ($selectedTab == $item->id && $item->id == $element->category_id)
                                         <tr class="tab-pane">
-                                            <td> {{ $item->image }} </td>
+                                            <td><img src="{{ url( $element->image ) }}" style="height: 100px; width: 150px;"></td>
                                             <td> {{ $element->name }} </td>
                                             <td> {{ $element->description }} </td>
                                             <td> {{ $item->find($element->category_id)->name }} </td>
+                                            <td> {{ $element->price }} </td>
                                             <td>
                                                 @if ($element->ing_ids != "")
                                                     @foreach(explode(',', $element->ing_ids) as $ing_id) 
@@ -234,7 +237,7 @@
       </div>
       <div class="modal-body">
         <p class="text-muted">Please answer all the input fields to add a new ingredient.</p>
-        <form method="POST" action="{{ route('user.product.create') }}">
+        <form method="POST" action="{{ route('user.product.create') }}" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
                 <label>Name</label>
@@ -264,6 +267,10 @@
                 <label>Image</label>
                 <input class="form-control" type="file" placeholder="{{ __('Image') }}" name="uploads" required autofocus>
             </div>
+            <div class="form-group">
+                <label>Price</label>
+                <input type="text" class="form-control p_input" name="price" placeholder="Enter the price" :value="price" required autofocus>
+            </div>
             <div class="float-end">
                 <button type="submit" class="btn btn-success enter-btn" name="create">Submit</button>
             </div>
@@ -287,7 +294,7 @@
       </div>
       <div class="modal-body">
         <p class="text-muted">Please answer all the input fields to add a new product.</p>
-        <form method="POST" action="/user/product/{{ $product->id }}">
+        <form method="POST" action="/user/product/{{ $product->id }}" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             <div class="form-group">
@@ -317,6 +324,10 @@
             <div class="form-group">
                 <label>Image</label>
                 <input class="form-control" type="file" placeholder="{{ __('Image') }}" name="uploads" required autofocus>
+            </div>
+            <div class="form-group">
+                <label>Price</label>
+                <input type="text" class="form-control p_input" name="price" placeholder="Enter the price" :value="price" value="{{ $product->price }}" required autofocus>
             </div>
             <div class="float-end">
                 <button type="submit" class="btn btn-success enter-btn" name="create">Submit</button>

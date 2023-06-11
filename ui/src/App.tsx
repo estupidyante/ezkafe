@@ -1,7 +1,6 @@
 import { useEffect, useState, } from 'react';
 import ReactSearchBox from 'react-search-box';
 import Switch from '@mui/material/Switch';
-import api from './services/api';
 import {
   Wrapper,
   ContentContainer,
@@ -44,6 +43,7 @@ import {
 } from 'react-ionicons';
 import axios from 'axios';
 
+const URI = 'http://127.0.0.1:8000';
 const API_URI = 'http://127.0.0.1:8000/api';
 
 function App() {
@@ -163,7 +163,7 @@ function App() {
               return (
                 <CardProductItem key={i}>
                 <CardProduct>
-                  <CardProductImage src="/assets/images/products/espresso_coffee.png" alt="{item?.name}" />
+                  <CardProductImage src={URI + item?.image} alt={item?.name} />
                   <CardProductContent>
                     <CardProductTitle>{item?.name}</CardProductTitle>
                     <CardProductDescription>{item?.description}</CardProductDescription>
