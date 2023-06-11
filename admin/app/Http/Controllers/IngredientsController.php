@@ -22,6 +22,13 @@ class IngredientsController extends Controller
      */
     public function create(Request $request)
     {
+        $validatedData = $request->validate([
+            'name'              => 'required|min:1|max:64',
+            'type_id'           => 'required',
+            'measurement_id'    => 'required',
+            'volume'            => 'required'
+        ]);
+
         $data = $request->input();
         if ($data) {
             Ingredients::create([

@@ -4,12 +4,17 @@ namespace App\Http\Livewire\User;
 
 use Livewire\Component;
 use App\Models\Products;
+use App\Models\Category;
+use App\Models\Ingredients;
 
 class UserProductsComponent extends Component
 {
     public function render()
     {
+        $categories = Category::with('products')->get();
+        $selectedTab = isset($request->id) ? $request->id : 0;
         $products = Products::all();
-        return view('livewire.user.user-products-component', compact('products'))->layout('layouts.base');
+        $ingredients = Ingredients::all();
+        return view('livewire.user.user-products-component', compact('products', 'categories', 'selectedTab', 'ingredients'))->layout('layouts.base');
     }
 }

@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->text('description');
-            $table->foreignId('type_id')->references('id')->on('types')->onDelete('cascade');
+            $table->foreignId('category_id')->references('id')->on('category')->onDelete('cascade');
             $table->text('ing_ids');
             $table->string('image')->nullable();
             $table->timestamps();

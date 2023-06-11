@@ -18,29 +18,57 @@ class MeasurementSeeder extends Seeder
     public function run()
     {
         Measurements::create([ 
-            'name' => '1 tsp',
+            'name' => '1 teaspoon',
             'volume' => '1',
             'unit' => 'tsp',
             'price' => '5'
         ]);
 
         Measurements::create([ 
-            'name' => '2 tsp',
+            'name' => '2 teaspoon',
             'volume' => '2',
             'unit' => 'tsp',
             'price' => '5'
         ]);
 
         Measurements::create([ 
-            'name' => '1 tbsp',
+            'name' => '3 teaspoon',
+            'volume' => '3',
+            'unit' => 'tsp',
+            'price' => '5'
+        ]);
+
+        Measurements::create([ 
+            'name' => '4 teaspoon',
+            'volume' => '4',
+            'unit' => 'tsp',
+            'price' => '5'
+        ]);
+    
+        Measurements::create([ 
+            'name' => '1 tablespoon',
             'volume' => '1',
             'unit' => 'tbsp',
             'price' => '5'
         ]);
 
         Measurements::create([ 
-            'name' => '2 tbsp',
+            'name' => '2 tablespoon',
             'volume' => '2',
+            'unit' => 'tbsp',
+            'price' => '5'
+        ]);
+
+        Measurements::create([ 
+            'name' => '3 tablespoon',
+            'volume' => '3',
+            'unit' => 'tbsp',
+            'price' => '5'
+        ]);
+
+        Measurements::create([ 
+            'name' => '4 tablespoon',
+            'volume' => '4',
             'unit' => 'tbsp',
             'price' => '5'
         ]);

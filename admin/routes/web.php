@@ -4,7 +4,6 @@ use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProductsController;
-use App\Http\Controllers\VendingController;
 use App\Http\Controllers\ChangePasswordController;
 
 use App\Http\Controllers\AccountsController;
@@ -93,9 +92,9 @@ Route::middleware([
     Route::put('/user/ingredient/{id}', [IngredientsController::class, 'update'])->name('user.ingredient.update');
     Route::delete('/user/ingredient/{user}', [IngredientsController::class, 'destroy'])->name('user.ingredient.destroy');
     // For Products
-    Route::get('/user/product/create', [ProductsController::class, 'create'])->name('user.product.create');
-    Route::put('/user/product{id}', [ProductsController::class, 'update'])->name('user.product.update');
-    Route::get('/user/product{id}', [ProductsController::class, 'destroy'])->name('user.product.destroy');
+    Route::post('/user/product/create', [ProductsController::class, 'create'])->name('user.product.create');
+    Route::put('/user/product/{id}', [ProductsController::class, 'update'])->name('user.product.update');
+    Route::delete('/user/product/{id}', [ProductsController::class, 'destroy'])->name('user.product.destroy');
 
     Route::post('/user/account/create', [AccountsController::class, 'create'])->name('user.account.create');
     Route::put('/user/account/{id}', [AccountsController::class, 'update'])->name('user.account.update');

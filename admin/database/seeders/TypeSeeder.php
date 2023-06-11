@@ -21,5 +21,9 @@ class TypeSeeder extends Seeder
             'name' => 'Base',
         ]);
 
+        Types::create([ 
+            'name' => 'Sweeteners',
+        ]);
+
     }
 }

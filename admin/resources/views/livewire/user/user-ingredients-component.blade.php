@@ -227,7 +227,7 @@
             </div>
             <div class="form-group">
                 <label>Type</label>
-                <select class="form-control" name="type_id">
+                <select class="form-control" name="type_id" required>
                     @foreach($types as $type)
                         <option value="{{ $type->id }}">{{ $type->name }}</option>
                     @endforeach
@@ -235,7 +235,7 @@
             </div>
             <div class="form-group">
                 <label>Preferred Measurement</label>
-                <select class="form-control" name="measurement_id">
+                <select class="form-control" name="measurement_id" required>
                     @foreach($measurements as $measure)
                         <option value="{{ $measure->id }}">{{ $measure->name }}</option>
                     @endforeach
@@ -243,7 +243,7 @@
             </div>
             <div class="form-group">
                 <label>Volume</label>
-                <input type="text" class="form-control p_input" name="volume" placeholder="Enter the volume" :value="volume">
+                <input type="text" class="form-control p_input" name="volume" placeholder="Enter the volume" :value="volume" required>
             </div>
             <div class="float-end">
                 <button type="submit" class="btn btn-success enter-btn" name="create">Submit</button>
@@ -278,7 +278,7 @@
             </div>
             <div class="form-group">
                 <label>Type</label>
-                <select class="form-control" name="type_id">
+                <select class="form-control" name="type_id" required>
                     @foreach($types as $type)
                         <option value="{{ $type->id }}" {{$type->id == $ingredient->type_id  ? 'selected' : ''}}>{{ $type->name }}</option>
                     @endforeach
@@ -286,7 +286,7 @@
             </div>
             <div class="form-group">
                 <label>Preferred Measurement</label>
-                <select class="form-control" name="measurement_id">
+                <select class="form-control" name="measurement_id" required>
                     @foreach($measurements as $measure)
                         <option value="{{ $measure->id }}" {{$measure->id == $ingredient->measurement_id  ? 'selected' : ''}}>{{ $measure->name }}</option>
                     @endforeach
@@ -294,7 +294,7 @@
             </div>
             <div class="form-group">
                 <label>Volume</label>
-                <input type="number" class="form-control p_input" name="volume" placeholder="Enter the volume" :value="volume"  value="{{ $ingredient->volume }}" >
+                <input type="number" class="form-control p_input" name="volume" placeholder="Enter the volume" :value="volume"  value="{{ $ingredient->volume }}" required>
             </div>
             <div class="float-end">
                 <button type="submit" class="btn btn-success enter-btn" name="create">Submit</button>

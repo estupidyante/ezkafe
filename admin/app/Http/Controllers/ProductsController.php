@@ -24,15 +24,14 @@ class ProductsController extends Controller
     {
         $validatedData = $request->validate([
             'name'             => 'required|min:1|max:64',
-            'type_id'          => 'required',
+            'category_id'      => 'required',
             'ing'              => 'required'
         ]);
 
-        $data = $request->input();
         $products = new Products();
         $products->name        = $request->input('name');
         $products->description = $request->input('description');
-        $products->type_id     = $request->input('type_id');
+        $products->category_id = $request->input('category_id');
         $products->ing_ids     = implode(',', $request->input('ing'));
 
         if($request->file('uploads')){
@@ -54,7 +53,7 @@ class ProductsController extends Controller
             $products = Products::find($id);
             $products->name        = $request->input('name');
             $products->description = $request->input('description');
-            $products->type_id     = $request->input('type_id');
+            $products->category_id = $request->input('category_id');
             $products->ing_ids     = implode(',', $request->input('ing'));
             if($request->file('uploads')){
                 $file       = $request->file('uploads');
