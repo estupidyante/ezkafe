@@ -32,6 +32,21 @@ class ProductsController extends Controller
 	    $product->update($request->all());
 	    return response()->json($product, 200);
 	}
+    public function delete($id)
+    {
+        try {
+            $product = Products::find($id);
+            if($product) {
+                $product->delete();
+                return response()->json($product, 204);
+            } else {
+                return response()->json([], 404);
+            }
+        }
+        catch(Exception $e){
+            return response()->json([], 404);
+        }
+    }
     /**
      * Show the form for creating a new resource.
      *

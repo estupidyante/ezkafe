@@ -1,6 +1,6 @@
 import { useEffect, useState, } from 'react';
 import ReactSearchBox from 'react-search-box';
-import Switch from '@mui/material/Switch';
+import LabeledSwitchMaterialUi from 'labeled-switch-material-ui';
 import {
   Wrapper,
   ContentContainer,
@@ -60,6 +60,10 @@ function App() {
   
   const handleClickOrder = () => {
     setIsOrdered(!isOrdered);
+  };
+
+  const handleSwitchChange = (knobOnLeft: boolean) => {
+    console.log(knobOnLeft);
   };
 
   const data = [
@@ -182,6 +186,11 @@ function App() {
         </Section>}
         {isOrdered && <Section>
           <DividerLineTop></DividerLineTop>
+          <LabeledSwitchMaterialUi
+            labelLeft="Use numbers"
+            labelRight="Use strings"
+            onChange={handleSwitchChange}
+          />
         </Section>}
       </ContentContainer>
       

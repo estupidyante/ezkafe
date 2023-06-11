@@ -63,19 +63,19 @@ Route::put('/user/ingredient/{id}', [IngredientsController::class, 'update'])->n
 Route::delete('/user/ingredient/{ingredient}', [IngredientsController::class, 'destroy'])->name('user.ingredient.destroy');
 // Products
 Route::get('/products', [ProductsController::class, 'index']);
-Route::post('/product/create', [ProductsController::class, 'create']);
-Route::put('/product/{id}', [ProductsController::class, 'update']);
-Route::delete('/product/{product}', [ProductsController::class, 'destroy']);
+Route::post('/product/store', [ProductsController::class, 'store']);
+Route::put('/product/{id}', [ProductsController::class, 'edit']);
+Route::delete('/product/{product}', [ProductsController::class, 'delete']);
 // Client Users
 Route::get('/user/users', UserListsComponent::class)->name('user.users');
 Route::post('/user/user/create', [UserListsComponent::class, 'create'])->name('user.user.create');
 Route::put('/user/user/{id}', [UserListsComponent::class, 'update'])->name('user.user.update');
 Route::delete('/user/user/{user}', [UserListsComponent::class, 'destroy'])->name('user.user.destroy');
 // Orders
-Route::get('/user/orders', UserOrdersComponent::class);
-Route::post('/user/order/create', [UserListsComponent::class, 'create'])->name('user.order.create');
-Route::put('/user/order/{id}', [UserListsComponent::class, 'update'])->name('user.order.update');
-Route::delete('/user/order/{order}', [UserListsComponent::class, 'destroy'])->name('user.order.destroy');
+Route::get('/user/orders', [UserListsComponent::class, 'index']);
+Route::post('/user/order/store', [UserListsComponent::class, 'edit']);
+Route::put('/user/order/{id}', [UserListsComponent::class, 'update']);
+Route::delete('/user/order/{order}', [UserListsComponent::class, 'delete']);
 // For Admin Accounts
 Route::get('/user/accounts', UserAdminAccountsComponent::class)->name('user.accounts');
 Route::post('/user/account/create', [AccountsController::class, 'create'])->name('user.account.create');

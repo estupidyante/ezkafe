@@ -625,7 +625,7 @@
   resolved "https://registry.yarnpkg.com/@mui/core-downloads-tracker/-/core-downloads-tracker-5.13.4.tgz#7e4b491d8081b6d45ae51556d82cb16b31315a19"
   integrity sha512-yFrMWcrlI0TqRN5jpb6Ma9iI7sGTHpytdzzL33oskFHNQ8UgrtPas33Y1K7sWAMwCrr1qbWDrOHLAQG4tAzuSw==
 
-"@mui/material@^5.13.4":
+"@mui/material@^5.10.17", "@mui/material@^5.13.4":
   version "5.13.4"
   resolved "https://registry.yarnpkg.com/@mui/material/-/material-5.13.4.tgz#1fed8249c980ed37f9767f9dba8aa3a589495ff3"
   integrity sha512-Yq+4f1KLPa/Szd3xqra2hbOAf2Usl8GbubncArM6LIp40mBLtXIdPE29MNtHsbtuzz4g+eidrETgoi3wdbEYfQ==
@@ -2110,6 +2110,13 @@ internal-slot@^1.0.5:
     has "^1.0.3"
     side-channel "^1.0.4"
 
+ios-switch-material-ui@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/ios-switch-material-ui/-/ios-switch-material-ui-4.0.0.tgz#096e3fa462ca4ec19a668c4f9e34343c13447d2b"
+  integrity sha512-zcIAFZNk1u9YErWaOKXxJIh4RaMIIZRt636cr1+gdDRorNx1Dv+DF7ibD5FPHDL5cd8i+eUCwHwm40pzzz9tdw==
+  dependencies:
+    "@mui/material" "^5.10.17"
+
 is-array-buffer@^3.0.1, is-array-buffer@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/is-array-buffer/-/is-array-buffer-3.0.2.tgz#f2653ced8412081638ecb0ebbd0c41c6e0aecbbe"
@@ -2318,6 +2325,14 @@ json5@^2.2.2:
   dependencies:
     array-includes "^3.1.5"
     object.assign "^4.1.3"
+
+labeled-switch-material-ui@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/labeled-switch-material-ui/-/labeled-switch-material-ui-4.0.0.tgz#336fd534dc9d7fde936c6b5c0ede27821469e44e"
+  integrity sha512-HaVKBa6T0NwV9TdAlfmvx8xAPrSgbvXdcV0LRe24OlQ1zxPcTfJQcSTUJB9KiCqPgfifNGN1CXOtNa7MYrjxlg==
+  dependencies:
+    "@mui/material" "^5.10.17"
+    ios-switch-material-ui "^4.0.0"
 
 levn@^0.4.1:
   version "0.4.1"

@@ -283,6 +283,10 @@ const CardProductDescription = styled.p`
   text-align:left;
   font-size:1.2rem;
   margin-bottom: 1.5rem;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
 const CardProductPrice = styled.data`
   width: 100%;
