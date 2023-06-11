@@ -42,10 +42,10 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
 // Categories
-Route::get('/user/categories', UserCategoriesComponent::class)->name('user.categories');
-Route::post('/user/category/create', [CategoriesController::class, 'create'])->name('user.category.create');
-Route::put('/user/category/{id}', [CategoriesController::class, 'update'])->name('user.category.update');
-Route::delete('/user/category/{category}', [CategoriesController::class, 'destroy'])->name('user.category.destroy');
+Route::get('/user/categories', UserCategoriesComponent::class);
+Route::post('/user/category/create', [CategoriesController::class, 'create']);
+Route::put('/user/category/{id}', [CategoriesController::class, 'update']);
+Route::delete('/user/category/{category}', [CategoriesController::class, 'destroy']);
 // Types
 Route::get('/user/types', UserTypesComponent::class)->name('user.types');
 Route::post('/user/type/create', [TypesController::class, 'create'])->name('user.type.create');
@@ -62,10 +62,10 @@ Route::post('/user/ingredient/create', [IngredientsController::class, 'create'])
 Route::put('/user/ingredient/{id}', [IngredientsController::class, 'update'])->name('user.ingredient.update');
 Route::delete('/user/ingredient/{ingredient}', [IngredientsController::class, 'destroy'])->name('user.ingredient.destroy');
 // Products
-Route::get('/products', [ProductsController::class, 'index'])->name('user.products');
-Route::post('/product/create', [ProductsController::class, 'create'])->name('user.product.create');
-Route::put('/product/{id}', [ProductsController::class, 'update'])->name('user.product.update');
-Route::delete('/product/{product}', [ProductsController::class, 'destroy'])->name('user.product.destroy');
+Route::get('/products', [ProductsController::class, 'index']);
+Route::post('/product/create', [ProductsController::class, 'create']);
+Route::put('/product/{id}', [ProductsController::class, 'update']);
+Route::delete('/product/{product}', [ProductsController::class, 'destroy']);
 // Client Users
 Route::get('/user/users', UserListsComponent::class)->name('user.users');
 Route::post('/user/user/create', [UserListsComponent::class, 'create'])->name('user.user.create');

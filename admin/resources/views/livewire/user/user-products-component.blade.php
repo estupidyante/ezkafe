@@ -10,7 +10,7 @@
         background-color: #d2d2d2;
     }
     .categories {
-        height: 500px;
+        min-height: 500px;
     }
     .nav-tabs.table-tabs .nav-link {
         background: #ffffff;
@@ -166,7 +166,7 @@
                                     @foreach ($item->products as $element)
                                         @if ($selectedTab == 0)
                                         <tr class="tab-pane">
-                                            <td><img src="{{ url( $element->image ) }}" style="height: 100px; width: 150px;"></td>
+                                            <td><img src="{{ url( $element->image ) }}" style="width: 150px; height:auto;"></td>
                                             <td> {{ $element->name }} </td>
                                             <td> {{ $element->description }} </td>
                                             <td> {{ $item->find($element->category_id)->name }} </td>
@@ -189,7 +189,7 @@
                                         </tr>
                                         @elseif ($selectedTab == $item->id && $item->id == $element->category_id)
                                         <tr class="tab-pane">
-                                            <td><img src="{{ url( $element->image ) }}" style="height: 100px; width: 150px;"></td>
+                                            <td><img src="{{ url( $element->image ) }}" style="width: 150px; height:auto;"></td>
                                             <td> {{ $element->name }} </td>
                                             <td> {{ $element->description }} </td>
                                             <td> {{ $item->find($element->category_id)->name }} </td>

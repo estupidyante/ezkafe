@@ -10,7 +10,7 @@
         background-color: #d2d2d2;
     }
     .categories {
-        height: 500px;
+        min-height: 500px;
     }
     .nav-tabs.table-tabs .nav-link {
         background: #ffffff;

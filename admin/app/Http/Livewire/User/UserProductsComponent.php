@@ -3,13 +3,15 @@
 namespace App\Http\Livewire\User;
 
 use Livewire\Component;
+use Illuminate\Http\Request;
+
 use App\Models\Products;
 use App\Models\Category;
 use App\Models\Ingredients;
 
 class UserProductsComponent extends Component
 {
-    public function render()
+    public function render(Request $request)
     {
         $categories = Category::with('products')->get();
         $selectedTab = isset($request->id) ? $request->id : 0;
