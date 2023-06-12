@@ -198,7 +198,7 @@ function App() {
         {!isOrdered && <Section>
           <Button kind={''} onClick={handleClickOrder}>Order Now</Button>
         </Section>}
-        <Section>
+        {isOrdered && <Section>
           <DividerLineTop></DividerLineTop>
           <br/>
           <br/>
@@ -213,9 +213,9 @@ function App() {
             );
           })}
           </div>
-        </Section>
+        </Section>}
       </ContentContainer>
-      <div style={{ backgroundColor: '#ffffff', width: '100%', height: 'auto', borderStartStartRadius: 20, borderStartEndRadius: 20, borderWidth: 1, borderStyle: 'solid', padding: 20 }}>
+      {isOrdered && <div style={{ backgroundColor: '#ffffff', width: '100%', height: 'auto', borderStartStartRadius: 20, borderStartEndRadius: 20, borderWidth: 1, borderStyle: 'solid', padding: 20 }}>
         {products.map((item, i) => {
             return (
               <AllProductContainer key={i}>
@@ -238,7 +238,7 @@ function App() {
               </AllProductContainer>
             );
           })}
-      </div>
+      </div>}
       
       <Footer>
         <FooterTop>
