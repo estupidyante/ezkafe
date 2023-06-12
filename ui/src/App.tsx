@@ -1,6 +1,5 @@
 import { useEffect, useState, } from 'react';
 import ReactSearchBox from 'react-search-box';
-import LabeledSwitchMaterialUi from 'labeled-switch-material-ui';
 import {
   Wrapper,
   ContentContainer,
@@ -19,6 +18,7 @@ import {
   CardHeroTitle,
   CardHeroText,
   CardHeroButton,
+  SwitchButton,
   TextSpan,
   CardProductContainer,
   CardProductLists,
@@ -33,13 +33,20 @@ import {
   Footer,
   FooterTop, 
   FooterBrand,
-  DividerLineTop
+  DividerLineTop,
+  AllProductContainer,
+  AllProductImage,
+  AllProductContentContainer,
+  AllProductTitle,
+  AllProductDescription,
+  AllProductPrice,
 } from './lib/Contants';
 import { 
   MenuOutline,
   CartOutline,
   SearchOutline,
-  ArrowForwardOutline
+  ArrowForwardOutline,
+  AddOutline
 } from 'react-ionicons';
 import axios from 'axios';
 
@@ -48,22 +55,28 @@ const API_URI = 'http://127.0.0.1:8000/api';
 
 function App() {
   const [isOrdered, setIsOrdered] = useState(false);
+  const [activeSwitch, setActiveSwitch] = useState('');
+
   const [products, setProducts] = useState([]);
+  const [categories, setCategories] = useState([]);
 
   useEffect(() => {
     axios.get(API_URI + "/products")
       .then(resp => {
-        console.log(resp);
+        // console.log(resp?.data);
         setProducts(resp?.data);
+      })
+      .finally(() => {
+        axios.get(API_URI + "/categories")
+        .then(resp => {
+          // console.log(resp?.data);
+          setCategories(resp?.data);
+        });
       });
   }, []);
   
   const handleClickOrder = () => {
     setIsOrdered(!isOrdered);
-  };
-
-  const handleSwitchChange = (knobOnLeft: boolean) => {
-    console.log(knobOnLeft);
   };
 
   const data = [
@@ -164,6 +177,7 @@ function App() {
           <Container>
             <CardProductLists>
             {products.map((item, i) => {
+              if(i >= 2) return ('');
               return (
                 <CardProductItem key={i}>
                 <CardProduct>
@@ -184,15 +198,47 @@ function App() {
         {!isOrdered && <Section>
           <Button kind={''} onClick={handleClickOrder}>Order Now</Button>
         </Section>}
-        {isOrdered && <Section>
+        <Section>
           <DividerLineTop></DividerLineTop>
-          <LabeledSwitchMaterialUi
-            labelLeft="Use numbers"
-            labelRight="Use strings"
-            onChange={handleSwitchChange}
-          />
-        </Section>}
+          <br/>
+          <br/>
+          <div style={{ backgroundColor: '#ffffff', width: '100%', display: 'flex', borderRadius: 20, borderWidth: 1, borderStyle: 'solid' }}>
+          {categories.map((item, i) => {
+            return(
+              <button style={{ flex: '1 1 0px', height: '50px', borderRadius: 20, }} onClick={() => {
+                setActiveSwitch(item?.name);
+              }}>
+                {item?.name}
+              </button>
+            );
+          })}
+          </div>
+        </Section>
       </ContentContainer>
+      <div style={{ backgroundColor: '#ffffff', width: '100%', height: 'auto', borderStartStartRadius: 20, borderStartEndRadius: 20, borderWidth: 1, borderStyle: 'solid', padding: 20 }}>
+        {products.map((item, i) => {
+            return (
+              <AllProductContainer key={i}>
+                <div style={{ display: 'flex', alignItems: 'center', marginRight: 20, width: 80,}}>
+                  <AllProductImage src={URI + item?.image} alt={item?.name} />
+                </div>
+                <AllProductContentContainer>
+                  <AllProductTitle>{item?.name}</AllProductTitle>
+                  <AllProductDescription>{item?.description}</AllProductDescription>
+                  <AllProductPrice>Php {item?.price}</AllProductPrice>
+                </AllProductContentContainer>
+                <span style={{backgroundColor:'#26140D', margin: 5, display: 'flex', alignItems: 'center'}}>
+                  <AddOutline
+                    color={'#ffffff'} 
+                    title={''}
+                    height="30px"
+                    width="30px"
+                  />
+                </span>
+              </AllProductContainer>
+            );
+          })}
+      </div>
       
       <Footer>
         <FooterTop>

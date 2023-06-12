@@ -14,11 +14,38 @@ class CategoriesController extends Controller
         $this->categories = $categories;
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    public function index() {
+        return response()->json(Category::all(), 200);
+    }
+    public function show(Category $category)
+	{
+	    return $categpry;
+	}
+	public function store(Request $request)
+	{
+	    $category = Category::create($request->all());
+	    return response()->json($category, 201);
+	}
+	public function edit(Request $request, Category $category)
+	{
+	    $category->update($request->all());
+	    return response()->json($category, 200);
+	}
+    public function delete($id)
+    {
+        try {
+            $category = Category::find($id);
+            if($category) {
+                $category->delete();
+                return response()->json($category, 204);
+            } else {
+                return response()->json([], 404);
+            }
+        }
+        catch(Exception $e){
+            return response()->json([], 404);
+        }
+    }
     public function create(Request $request)
     {
         $data = $request->input();

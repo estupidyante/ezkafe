@@ -14,7 +14,9 @@ class IngredientsController extends Controller
     {
         $this->ingredients = $ingredients;
     }
-
+    public function index() {
+        return response()->json(Ingredients::all(), 200);
+    }
     /**
      * Show the form for creating a new resource.
      *

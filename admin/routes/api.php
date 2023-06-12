@@ -41,11 +41,22 @@ use App\Http\Livewire\User\UserFAQsComponent;
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 
+// For EzKafe App
+// get all categories
+Route::get('/categories', [CategoriesController::class, 'index']);
+// get all products
+Route::get('/products', [ProductsController::class, 'index']);
+// get all measurements
+Route::get('/measurements', [MeasurementsController::class, 'index']);
+// get all ingredients
+Route::get('/ingredients', [IngredientsController::class, 'index']);
+
+
+
 // Categories
-Route::get('/user/categories', UserCategoriesComponent::class);
-Route::post('/user/category/create', [CategoriesController::class, 'create']);
-Route::put('/user/category/{id}', [CategoriesController::class, 'update']);
-Route::delete('/user/category/{category}', [CategoriesController::class, 'destroy']);
+Route::post('/category/create', [CategoriesController::class, 'create']);
+Route::put('/category/{id}', [CategoriesController::class, 'update']);
+Route::delete('/category/{category}', [CategoriesController::class, 'destroy']);
 // Types
 Route::get('/user/types', UserTypesComponent::class)->name('user.types');
 Route::post('/user/type/create', [TypesController::class, 'create'])->name('user.type.create');
@@ -62,7 +73,7 @@ Route::post('/user/ingredient/create', [IngredientsController::class, 'create'])
 Route::put('/user/ingredient/{id}', [IngredientsController::class, 'update'])->name('user.ingredient.update');
 Route::delete('/user/ingredient/{ingredient}', [IngredientsController::class, 'destroy'])->name('user.ingredient.destroy');
 // Products
-Route::get('/products', [ProductsController::class, 'index']);
+
 Route::post('/product/store', [ProductsController::class, 'store']);
 Route::put('/product/{id}', [ProductsController::class, 'edit']);
 Route::delete('/product/{product}', [ProductsController::class, 'delete']);

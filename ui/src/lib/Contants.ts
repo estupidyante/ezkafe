@@ -307,6 +307,12 @@ const OrderButton = styled.button`
   -moz-box-shadow: 0px 10px 10px 0px rgba(38,20,13,0.30);
 `;
 
+const SwitchButton = styled.button`
+  flex: 1 1 0px;
+  height: 50px;
+  border-radius: 20px;
+`;
+
 const Footer = styled.footer`
   color: #888;
   background: #26140D;
@@ -326,40 +332,82 @@ const DividerLineTop = styled.div`
   width:100%;
 `;
 
+const AllProductContainer = styled.div`
+  display: flex;
+  width: 100%;
+  align-items: center;
+  margin-top: 10px;
+  margin-bottom: 10px;
+`;
+const AllProductImage = styled.img`
+  max-width: 80px;
+  max-height: 120px;
+`;
+const AllProductContentContainer = styled.div`
+  text-align: start;
+  width:80%;
+`;
+const AllProductTitle = styled.p`
+  font-family: 'Josefin Sans', sans-serif;
+  font-size:1.5rem;
+  margin-top: 10px;
+  margin-bottom: 15px;
+`;
+const AllProductDescription = styled.p`
+  font-family: 'Roboto', sans-serif;
+  font-size:1rem;
+  margin-top: 10px;
+  margin-bottom: 10px;
+`;
+const AllProductPrice = styled.p`
+  font-family: 'Josefin Sans', sans-serif;
+  font-size:1.2rem;
+  margin-top: 10px;
+  margin-bottom: 10px;
+`;
+
+
 export {
-    logoSpinAnime,
-    Wrapper,
-    ContentContainer,
-    SimpleButton,
-    Header,
-    IconContainer,
-    Logo,
-    LogoLink,
-    SearchContainer,
-    SearchBoxContainer,
-    SearchIconContainer,
-    CardHeroContainer,
-    CardHero,
-    Container,
-    Section,
-    CardHeroTitle,
-    CardHeroText,
-    CardHeroButton,
-    TextSpan,
-    CardContainer,
-    Card,
-    CardProductContainer,
-    CardProductLists,
-    CardProductItem,
-    CardProduct,
-    CardProductImage,
-    CardProductContent,
-    CardProductTitle,
-    CardProductDescription,
-    CardProductPrice,
-    OrderButton,
-    Footer,
-    FooterTop, 
-    FooterBrand,
-    DividerLineTop
+  AllProductContainer,
+  AllProductImage,
+  AllProductContentContainer,
+  AllProductTitle,
+  AllProductDescription,
+  AllProductPrice,
+  logoSpinAnime,
+  Wrapper,
+  ContentContainer,
+  SimpleButton,
+  Header,
+  IconContainer,
+  Logo,
+  LogoLink,
+  SearchContainer,
+  SearchBoxContainer,
+  SearchIconContainer,
+  CardHeroContainer,
+  CardHero,
+  Container,
+  Section,
+  CardHeroTitle,
+  CardHeroText,
+  CardHeroButton,
+  TextSpan,
+  CardContainer,
+  Card,
+  CardProductContainer,
+  CardProductLists,
+  CardProductItem,
+  CardProduct,
+  CardProductImage,
+  CardProductContent,
+  CardProductTitle,
+  CardProductDescription,
+  CardProductPrice,
+  OrderButton,
+  SwitchButton,
+  Footer,
+  FooterTop, 
+  FooterBrand,
+  DividerLineTop
 };

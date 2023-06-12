@@ -21,7 +21,7 @@ const GlobalStyles = createGlobalStyle`
 		--black: hsl(0, 0%, 0%);
 		--onyx: hsl(0, 0%, 27%);
 		--ezkafe-light-brown: hsl(32,59%,87%);
-		--ezkafe-brown: hsl(24,61%,22%)
+		--ezkafe-brown: hsl(24,61%,22%);
 
 		/**
 		 * typography

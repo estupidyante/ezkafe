@@ -13,7 +13,9 @@ class MeasurementsController extends Controller
     {
         $this->measurements = $measurements;
     }
-
+    public function index() {
+        return response()->json(Measurements::all(), 200);
+    }
     /**
      * Show the form for creating a new resource.
      *
