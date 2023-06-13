@@ -77,6 +77,10 @@ function App() {
     console.log(data);
   }, [products]);
 
+  const handleDetailedState = () => {
+    setIsDetailed(!isDetailed);
+  }
+
   const handleClickOrder = () => {
     setIsOrdered(!isOrdered);
   };
@@ -215,7 +219,7 @@ function App() {
         </FooterTop>
       </Footer>
 
-      {isDetailed && <ProductDetailPage data={selectedProduct} state={isDetailed}/>}
+      {isDetailed && <ProductDetailPage product={selectedProduct} state={isDetailed} handleState={handleDetailedState}/>}
     </Wrapper>
   );
 }

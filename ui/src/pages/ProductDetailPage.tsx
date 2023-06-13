@@ -7,13 +7,10 @@ import {
     API,
 } from '../api';
 
-export const ProductDetailPage = (products: [], status: 'true') => {
-    const product = products?.data;
+export const ProductDetailPage = ({product, state, handleState}) => {
     return (
         <ProductDetailedContainer>
-            <button onClick={() => {
-                  console.log('close clicked');
-                }}>
+            <button onClick={handleState}>
                 <CloseOutline
                     color={'#00000'} 
                     title={''}
