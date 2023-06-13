@@ -18,9 +18,10 @@ class ProductsController extends Controller
     public function index() {
         return response()->json(Products::all(), 200);
     }
-    public function show(Product $product)
+    public function show($id)
 	{
-	    return $product;
+        $product = Products::find($id);
+	    return response()->json($product, 200);
 	}
 	public function store(Request $request)
 	{

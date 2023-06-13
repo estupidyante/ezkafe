@@ -50,6 +50,13 @@ Route::get('/products', [ProductsController::class, 'index']);
 Route::get('/measurements', [MeasurementsController::class, 'index']);
 // get all ingredients
 Route::get('/ingredients', [IngredientsController::class, 'index']);
+// get all types
+Route::get('/types', [TypesController::class, 'index']);
+
+// get specific ingredient
+Route::get('/ingredients/{id}', [IngredientsController::class, 'show']);
+// get specific types
+Route::get('/types/{id}', [TypesController::class, 'show']);
 
 
 

@@ -13,7 +13,14 @@ class TypesController extends Controller
     {
         $this->types = $types;
     }
-
+    public function index() {
+        return response()->json(Types::all(), 200);
+    }
+    public function show($id)
+	{
+        $type = Types::find($id);
+	    return response()->json($type, 200);
+	}
     /**
      * Show the form for creating a new resource.
      *

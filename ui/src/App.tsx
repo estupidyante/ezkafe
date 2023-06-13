@@ -74,7 +74,6 @@ function App() {
 
   useEffect(() => {
     data = products.map(item => ({key: item?.name, value: item?.name}));
-    console.log(data);
   }, [products]);
 
   const handleDetailedState = () => {
@@ -94,10 +93,8 @@ function App() {
             <ReactSearchBox
               placeholder="Search"
               data={data} onSelect={function (record: { item: { key: string; value: string; }; }): void {
-                console.log(record);
                 throw new Error('Function not implemented.');
               } } onChange={function (value: string): void {
-                console.log(value);
                 throw new Error('Function not implemented.');
               } }      />
           </SearchBoxContainer>
@@ -195,7 +192,6 @@ function App() {
                   <AllProductPrice>Php {item?.price}</AllProductPrice>
                 </AllProductContentContainer>
                 <button style={{backgroundColor:'#26140D', margin: 5, display: 'flex', alignItems: 'center'}} onClick={() => {
-                  console.log('button add ' + item?.name + ' been clicked');
                   setIsDetailed(true);
                   setSelectedProduct(item);
                 }}>

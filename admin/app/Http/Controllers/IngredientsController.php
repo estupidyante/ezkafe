@@ -17,6 +17,11 @@ class IngredientsController extends Controller
     public function index() {
         return response()->json(Ingredients::all(), 200);
     }
+    public function show($id)
+	{
+        $ingredient = Ingredients::find($id);
+	    return response()->json($ingredient, 200);
+	}
     /**
      * Show the form for creating a new resource.
      *
