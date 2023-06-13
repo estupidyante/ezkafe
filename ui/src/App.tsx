@@ -4,10 +4,6 @@ import {
   Wrapper,
   ContentContainer,
   SimpleButton,
-  Header,
-  IconContainer,
-  Logo,
-  LogoLink,
   SearchContainer,
   SearchBoxContainer,
   SearchIconContainer,
@@ -18,7 +14,6 @@ import {
   CardHeroTitle,
   CardHeroText,
   CardHeroButton,
-  SwitchButton,
   TextSpan,
   CardProductContainer,
   CardProductLists,
@@ -42,95 +37,62 @@ import {
   AllProductPrice,
 } from './lib/Contants';
 import { 
-  MenuOutline,
-  CartOutline,
   SearchOutline,
   ArrowForwardOutline,
   AddOutline
 } from 'react-ionicons';
-import axios from 'axios';
-
-const URI = 'http://127.0.0.1:8000';
-const API_URI = 'http://127.0.0.1:8000/api';
+import {
+  URI,
+  API,
+} from './api';
+import { ProductDetailPage } from './pages/ProductDetailPage';
+import { HeaderComponent } from 'components/Header';
 
 function App() {
   const [isOrdered, setIsOrdered] = useState(false);
   const [activeSwitch, setActiveSwitch] = useState('');
+  const [isDetailed, setIsDetailed] = useState(false);
 
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
 
   useEffect(() => {
-    axios.get(API_URI + "/products")
-      .then(resp => {
-        // console.log(resp?.data);
-        setProducts(resp?.data);
+    API.get('categories')
+      .then((res) => {
+        setCategories(res);
       })
       .finally(() => {
-        axios.get(API_URI + "/categories")
-        .then(resp => {
-          // console.log(resp?.data);
-          setCategories(resp?.data);
-        });
-      });
+        API.get(`products/`)
+        .then(res => {
+          setProducts(res);
+        })
+      })
   }, []);
   
+  let data = [];
+
+  useEffect(() => {
+    data = products.map(item => ({key: item?.name, value: item?.name}));
+    console.log(data);
+  }, [products]);
+
   const handleClickOrder = () => {
     setIsOrdered(!isOrdered);
   };
 
-  const data = [
-    {
-      key: "john",
-      value: "John Doe",
-    },
-    {
-      key: "jane",
-      value: "Jane Doe",
-    },
-    {
-      key: "mary",
-      value: "Mary Phillips",
-    },
-    {
-      key: "robert",
-      value: "Robert",
-    },
-    {
-      key: "karius",
-      value: "Karius",
-    },
-  ];
-
   return (
     <Wrapper>
-      <Header>
-        <LogoLink href="#" target="_self">
-          <Logo src="/assets/images/ezkafe-base-white.png" alt="EzKafe logo" />
-        </LogoLink>
-        <IconContainer>
-          <CartOutline
-            color={'#ffffff'} 
-            title={''}
-            height="30px"
-            width="30px"
-          />
-          <MenuOutline
-            color={'#ffffff'}
-            title={''}
-            height="30px"
-            width="30px"
-          />
-        </IconContainer>
-      </Header>
+      <HeaderComponent/>
       <ContentContainer>
         <SearchContainer>
           <SearchBoxContainer>
             <ReactSearchBox
               placeholder="Search"
               data={data} onSelect={function (record: { item: { key: string; value: string; }; }): void {
+                console.log(record);
                 throw new Error('Function not implemented.');
               } } onChange={function (value: string): void {
+                console.log(value);
                 throw new Error('Function not implemented.');
               } }      />
           </SearchBoxContainer>
@@ -203,15 +165,15 @@ function App() {
           <br/>
           <br/>
           <div style={{ backgroundColor: '#ffffff', width: '100%', display: 'flex', borderRadius: 20, borderWidth: 1, borderStyle: 'solid' }}>
-          {categories.map((item, i) => {
-            return(
-              <button style={{ flex: '1 1 0px', height: '50px', borderRadius: 20, }} onClick={() => {
-                setActiveSwitch(item?.name);
-              }}>
-                {item?.name}
-              </button>
-            );
-          })}
+            {categories.map((item, i) => {
+              return(
+                <button key={i} style={{ flex: '1 1 0px', height: '50px', borderRadius: 20, }} onClick={() => {
+                  setActiveSwitch(item?.name);
+                }}>
+                  {item?.name}
+                </button>
+              );
+            })}
           </div>
         </Section>}
       </ContentContainer>
@@ -227,14 +189,17 @@ function App() {
                   <AllProductDescription>{item?.description}</AllProductDescription>
                   <AllProductPrice>Php {item?.price}</AllProductPrice>
                 </AllProductContentContainer>
-                <span style={{backgroundColor:'#26140D', margin: 5, display: 'flex', alignItems: 'center'}}>
+                <button style={{backgroundColor:'#26140D', margin: 5, display: 'flex', alignItems: 'center'}} onClick={() => {
+                  console.log('button add ' + item?.name + ' been clicked');
+                  setIsDetailed(true);
+                }}>
                   <AddOutline
                     color={'#ffffff'} 
                     title={''}
                     height="30px"
                     width="30px"
                   />
-                </span>
+                </button>
               </AllProductContainer>
             );
           })}
@@ -248,6 +213,7 @@ function App() {
         </FooterTop>
       </Footer>
 
+      {isDetailed && <ProductDetailPage/>}
     </Wrapper>
   );
 }
@@ -269,7 +235,4 @@ const Button = ({ kind = 'simple', onClick, children }) => {
 };
 
 export default App;
-function componentDidMount() {
-  throw new Error('Function not implemented.');
-}
 

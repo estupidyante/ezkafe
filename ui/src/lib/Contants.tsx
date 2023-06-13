@@ -262,6 +262,7 @@ const CardProduct = styled.div`
 
 const CardProductImage = styled.img`
   height:50%;
+  margin-top:1rem;
 `;
 
 const CardProductContent = styled.div`

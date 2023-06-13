@@ -1,10 +1,14 @@
 import axios from 'axios';
-import type { DefaultResponse } from 'axios';
+import type { AxiosResponse, DefaultResponse, InternalAxiosRequestConfig } from 'axios';
+
+
+const URI = 'http://127.0.0.1:8000';
+const API_URI = 'http://127.0.0.1:8000/api';
 
 /**
  * Request Success Handler
  */
-const requestSuccessHandler = config => {
+const requestSuccessHandler = (config: InternalAxiosRequestConfig<any>) => {
   return config;
 };
 
@@ -18,11 +22,10 @@ const requestErrorHandler = err => {
 /**
  * Response Success Handler
  */
-const responseSuccessHandler = res => {
+const responseSuccessHandler = (res: AxiosResponse<any, any>) => {
   const response: DefaultResponse = res.data;
-
   if (200 <= res.status && res.status < 300) {
-    return response.data;
+    return response;
   } else {
     return responseErrorHandler(res);
   }
@@ -31,24 +34,25 @@ const responseSuccessHandler = res => {
 /**
  * Response Fail handler
  */
-const responseErrorHandler = err => {
+const responseErrorHandler = (err: AxiosResponse<any, any>) => {
   return Promise.reject(err);
 };
 
 /**
- * Axios 객체
+ * Axios
  */
-const request = axios.create({
+const API = axios.create({
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',
   },
+  baseURL: API_URI,
 });
 
 /**
  * Axios Request Middleware
  */
-request.interceptors.request.use(
+API.interceptors.request.use(
   config => requestSuccessHandler(config),
   err => requestErrorHandler(err),
 );
@@ -56,9 +60,13 @@ request.interceptors.request.use(
 /**
  * Axios Response Middleware
  */
-request.interceptors.response.use(
+API.interceptors.response.use(
   res => responseSuccessHandler(res),
   err => responseErrorHandler(err),
 );
 
-export default request;
+export {
+  URI,
+  API_URI,
+  API,
+}
