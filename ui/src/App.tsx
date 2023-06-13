@@ -52,6 +52,7 @@ function App() {
   const [isOrdered, setIsOrdered] = useState(false);
   const [activeSwitch, setActiveSwitch] = useState('');
   const [isDetailed, setIsDetailed] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState([]);
 
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
@@ -192,6 +193,7 @@ function App() {
                 <button style={{backgroundColor:'#26140D', margin: 5, display: 'flex', alignItems: 'center'}} onClick={() => {
                   console.log('button add ' + item?.name + ' been clicked');
                   setIsDetailed(true);
+                  setSelectedProduct(item);
                 }}>
                   <AddOutline
                     color={'#ffffff'} 
@@ -213,7 +215,7 @@ function App() {
         </FooterTop>
       </Footer>
 
-      {isDetailed && <ProductDetailPage/>}
+      {isDetailed && <ProductDetailPage data={selectedProduct} state={isDetailed}/>}
     </Wrapper>
   );
 }
