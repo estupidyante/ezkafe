@@ -10,7 +10,7 @@ import {
 
 export const ProductDetailPage = ({product, state, handleState}) => {
     const [ingredients, setIngredients] = useState([]);
-    let tempIng = [{}];
+    let tempIng = [];
 
     useEffect(() => {
         product?.ing_ids.split(',').map((item, i) => {
@@ -18,19 +18,19 @@ export const ProductDetailPage = ({product, state, handleState}) => {
                 .then((res_ing) => {
                     API.get('types/' + res_ing?.types_id)
                         .then((res_type) => {
-                            tempIng[i] = {
+                            let tempContent = {
                                 id: res_ing?.id,
                                 name: res_ing?.name,
-                                type_id: res_type.id,
-                                type_name: res_type.name
+                                type_id: res_type?.id,
+                                type_name: res_type?.name
                             }
+                            tempIng.push(tempContent);
                         }).finally(() => {
                             setIngredients(tempIng);
-                            console.log(ingredients);
                         })
                 });
         })
-    }, [product]);
+    }, []);
     
     return (
         <ProductDetailedContainer>
@@ -43,20 +43,22 @@ export const ProductDetailPage = ({product, state, handleState}) => {
                     style={{position:'absolute', left: '2rem', top: '2rem'}}
                 />
             </button>
-            <img src={URI + product?.image} alt={product?.name} style={{width:'60%', margin: 'auto'}}/>
-            <div style={{ backgroundColor: '#ffffff', width: '100%', height: '100%', borderStartStartRadius: 20, borderStartEndRadius: 20, borderWidth: 1, borderStyle: 'solid', justifyContent: 'space-evenly', padding: '3rem' }}>
-                <p style={{fontSize:'2rem'}}>{product?.name}</p>
-                <p>Php {product?.price}</p>
-                <button style={{width: '100%', height:50, backgroundColor: '#26140D', color: '#ffffff', borderRadius: 20}} onClick={() => {
+            <img src={URI + product?.image} alt={product?.name} style={{height:250, margin: 'auto', marginBottom:40}}/>
+            <div style={{ backgroundColor: '#ffffff', width: '100%', minHeight: 420, borderStartStartRadius: 20, borderStartEndRadius: 20, borderWidth: 1, borderStyle: 'solid', padding: '3rem' }}>
+                <p style={{fontSize:'2rem',marginBottom:20}}>{product?.name}</p>
+                <p style={{marginBottom:20}}>Php {product?.price}</p>
+                <button style={{width: '100%', height:50, backgroundColor: '#26140D', color: '#ffffff', borderRadius: 10}} onClick={() => {
                     console.log('clicked customized');
                 }}>
                     Customizations
                 </button>
                 <div>
                     {ingredients?.map((ingredients, idx) => {
+                        console.log(ingredients, idx);
                         return (
-                            <div key={idx} style={{borderBottomStyle:'solid',borderBottom:1,borderColor:'#26140D',height:80,display:'flex',alignItems:'center',justifyContent:'space-evenly'}}>
-                                <p style={{display:'flex', justifyContent:'space-evenly',width:'100%'}}><span>{ingredients.type_name}</span> <span>{ingredients.name}</span></p>
+                            <div key={idx} style={{height:80,display:'block',paddingBottom:10}}>
+                                <p style={{display:'flex', justifyContent:'space-evenly', alignItems:'center', width:'100%', height:'100%'}}><span>{ingredients.type_name}</span> <span>{ingredients.name}</span></p>
+                                <hr style={{ backgroundColor:'#26140D'}}/>
                             </div>
                         );
                     })}
@@ -69,9 +71,5 @@ export const ProductDetailPage = ({product, state, handleState}) => {
 const ProductDetailedContainer = styled.div`
     background: #F1DEC9;
     width: 100%;
-    max-height: 1280px;
-    z-index: 100;
-    position: absolute;
-    top: 0;
-    height: 1280px;
+    height: 100%;
 `;
