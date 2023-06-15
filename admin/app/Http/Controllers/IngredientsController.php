@@ -38,8 +38,10 @@ class IngredientsController extends Controller
 
         $data = $request->input();
         if ($data) {
+            $temp_tag = str_replace(' ', '_', strtolower($data['name']));
             Ingredients::create([
                 'name' => $data['name'],
+                'tag' => $temp_tag,
                 'types_id' => $data['type_id'],
                 'measurements_id' => $data['measurement_id'],
                 'volume' => $data['volume'],
@@ -59,6 +61,7 @@ class IngredientsController extends Controller
         try {
             $ingredient = Ingredients::find($id);
             $ingredient->name = $data['name'];
+            $ingredient->tag = str_replace(' ', '_', strtolower($data['name']));
             $ingredient->types_id = $data['type_id'];
             $ingredient->measurements_id = $data['measurement_id'];
             $ingredient->volume = $data['volume'];

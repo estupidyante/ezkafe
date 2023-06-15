@@ -13,6 +13,7 @@ class Ingredients extends Model
     
     protected $fillable = [
         'name',
+        'tag',
         'types_id',
         'measurements_id',
         'volume',

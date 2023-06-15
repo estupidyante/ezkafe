@@ -105,7 +105,27 @@
     }
 
     .slider.round:before {
-    border-radius: 50%;
+        border-radius: 50%;
+    }
+    .label_with_button {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom:1rem;
+    }
+    .label_with_button span {
+        width:60%;
+    }
+    .label_with_button button {
+        font-size: 0.6rem;
+    }
+    .dynamic_select_with_delete {
+        display: flex;
+        justify-content: space-between;
+        margin-top:0.5rem;
+    }
+    .dynamic_select_with_delete button {
+        margin-left:0.5rem;
     }
 </style>
 @endsection
@@ -237,6 +257,13 @@
       </div>
       <div class="modal-body">
         <p class="text-muted">Please answer all the input fields to add a new ingredient.</p>
+        <div class="alert alert-danger print-error-msg" style="display:none;">
+        <ul></ul>
+        </div>
+
+        <div class="alert alert-success print-success-msg" style="display:none;">
+        <ul></ul>
+        </div>
         <form method="POST" action="{{ route('user.product.create') }}" enctype="multipart/form-data">
             @csrf
             <div class="form-group">
@@ -255,13 +282,15 @@
                     @endforeach
                 </select>
             </div>
-            <div class="form-group">
-                <label>Ingredients</label>
-                <select class="form-control" name="ing[]" multiple>
-                    @foreach($ingredients as $ingredient)
-                        <option value="{{ $ingredient->id }}">{{ $ingredient->name }}</option>
-                    @endforeach
-                </select>
+            <div id="dynamicField" class="form-group">
+                <label class="label_with_button"><span>Ingredients</span> <button type="button" name="add_new_ing_field" id="addNewIngField" class="btn btn-success">Add More Ingredient</button></label>
+                <div class="dynamic_select_with_delete">
+                    <select class="form-control" name="ing[0]">
+                        @foreach($ingredients as $ingredient)
+                            <option value="{{ $ingredient->id }}">{{ $ingredient->name }}</option>
+                        @endforeach
+                    </select>
+                </div>
             </div>
             <div class="form-group">
                 <label>Image</label>
@@ -338,3 +367,23 @@
   </div>
 </div>
 @endforeach
+@section('page-script')
+<script type="text/javascript">
+    $(document).ready(function(){      
+        var postURL = "<?php echo url('addmore'); ?>";
+        var i=0;  
+
+        $('#addNewIngField').click(function() {  
+            i++;
+            $('#dynamicField').append('<div id="row'+i+'" class="dynamic_select_with_delete"><select class="form-control" name="ing['+i+']">@foreach($ingredients as $ingredient)<option value="{{ $ingredient->id }}">{{ $ingredient->name }}</option> @endforeach</select><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></div>');  
+        });  
+
+        $(document).on('click', '.btn_remove', function(){
+            i--;
+            var button_id = $(this).attr("id");   
+            $('#row'+button_id+'').remove();
+        });
+
+    });  
+</script>
+@endsection
