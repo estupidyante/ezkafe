@@ -63,6 +63,7 @@
                                 <tr class="table-success">
                                     <th scope="col"> Order ID </th>
                                     <th scope="col"> User ID </th>
+                                    <th scope="col"> Product </th>
                                     <th scope="col"> Date &amp; Time </th>
                                     <th scope="col"> Amount </th>
                                     <th scope="col"> Status </th>
@@ -73,6 +74,7 @@
                                     <tr>
                                         <td> #{{ $order->id }} </td>
                                         <td> {{ $order->user_id }} </td>
+                                        <td> {{ $products->where('id', $order->product_id)->name }} </td>
                                         <td> {{ $order->created_at }} </td>
                                         <td> {{ $order->amount }} </td>
                                         <td> {{ $order->status }} </td>
