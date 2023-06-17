@@ -52,11 +52,15 @@ Route::get('/measurements', [MeasurementsController::class, 'index']);
 Route::get('/ingredients', [IngredientsController::class, 'index']);
 // get all types
 Route::get('/types', [TypesController::class, 'index']);
+// get all orders
+Route::get('/orders', [OrdersController::class, 'index']);
 
 // get specific ingredient
 Route::get('/ingredients/{id}', [IngredientsController::class, 'show']);
 // get specific types
 Route::get('/types/{id}', [TypesController::class, 'show']);
+// get specific order
+Route::get('/order/{id}', [OrdersController::class, 'show']);
 
 
 
