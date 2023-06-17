@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\Products;
 use App\Models\Types;
 
+use App\Models\Ingredients;
+use App\Models\Measurements;
+use App\Models\ProductIngredients;
+
 class ProductsController extends Controller
 {
     protected $products;
@@ -61,12 +65,14 @@ class ProductsController extends Controller
             'ing'              => 'required'
         ]);
 
+        $arry = $request->input('ing');
+
         $products = new Products();
         $products->name        = $request->input('name');
         $products->description = $request->input('description');
         $products->price       = $request->input('price');
         $products->category_id = $request->input('category_id');
-        $products->ing_ids     = implode(',', $request->input('ing'));
+        $products->ing_ids     = implode(',', $arry);
         if($request->file('uploads')){
             $file       = $request->file('uploads');
             $fileName   = $file->getClientOriginalName();
@@ -75,6 +81,25 @@ class ProductsController extends Controller
             $products->image = '/assets/images/uploads/'.$fileName;
         }
         $products->save();
+        // save the product ingredients
+        // get the ingredients
+        if (sizeof($arry)) {
+            for($i = 0;$i<$arry.size();$i++)
+            {
+                $ingredient = Ingredients::find($arry[i]);
+                $measurement = Measurements::find($arry[i]);
+                ProductIngredients::create([
+                    'name' => $ingredient['name'],
+                    'tag' => $ingredient['tag'],
+                    'products_id' => $products['id'],
+                    'types_id' => $ingredient['type_id'],
+                    'measurement' => $measurement['volume'],
+                    'unit' => $measurement['unit'],
+                    'price' => $measurement['price'],
+                    'volume' => $ingredient['volume'],
+                ]);
+            }
+        }
         return redirect('/user/products')->with('status',"Product created successfully");
     }
 

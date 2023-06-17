@@ -292,7 +292,7 @@
                         <label style="margin-top:0.5rem;">Preferred Measurement</label>
                         <select class="form-control" name="measure[0]" required>
                             @foreach($measurements as $measure)
-                                <option value="{{ $measure->id }}" {{$measure->id == $ingredient->measurement_id  ? 'selected' : ''}}>{{ $measure->name }}</option>
+                                <option value="{{ $measure->id }}">{{ $measure->name }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -379,11 +379,11 @@
 <script type="text/javascript">
     $(document).ready(function(){      
         var postURL = "<?php echo url('addmore'); ?>";
-        var i=0;  
+        var i=0;
 
         $('#addNewIngField').click(function() {  
             i++;
-            $('#dynamicField').append('<div id="row'+i+'" style="margin-top:0.5rem;"><div class="dynamic_select_with_delete"><select class="form-control" name="ing['+i+']">@foreach($ingredients as $ingredient)<option value="{{ $ingredient->id }}">{{ $ingredient->name }}</option> @endforeach</select><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></div><label style="margin-top:0.5rem;">Preferred Measurement</label><select class="form-control" name="measure['+i+']" required>@foreach($measurements as $measure)<option value="{{ $measure->id }}" {{$measure->id == $ingredient->measurement_id  ? 'selected' : ''}}>{{ $measure->name }}</option>@endforeach</select></div>');  
+            $('#dynamicField').append('<div id="row'+i+'" style="margin-top:0.5rem;"><div class="dynamic_select_with_delete"><select class="form-control" name="ing['+i+']">@foreach($ingredients as $ingredient)<option value="{{ $ingredient->id }}">{{ $ingredient->name }}</option> @endforeach</select><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></div><label style="margin-top:0.5rem;">Preferred Measurement</label><select class="form-control" name="measure['+i+']" required>@foreach($measurements as $measure)<option value="{{ $measure->id }}">{{ $measure->name }}</option>@endforeach</select></div>');  
         });  
 
         $(document).on('click', '.btn_remove', function() {

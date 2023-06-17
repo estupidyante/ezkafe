@@ -15,11 +15,14 @@ return new class extends Migration
     {
         Schema::create('product_ingredients', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('products_id')->references('id')->on('products')->onDelete('cascade');
+            $table->string('name');
             $table->string('tag');
-            $table->string('type');
+            $table->foreignId('products_id')->references('id')->on('products')->onDelete('cascade');
+            $table->foreignId('types_id')->references('id')->on('types')->onDelete('cascade');
             $table->string('measurement');
             $table->string('unit');
+            $table->decimal('price',5,2);
+            $table->string('volume');
             $table->timestamps();
         });
     }
