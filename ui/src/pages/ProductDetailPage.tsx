@@ -7,31 +7,41 @@ import {
     URI,
     API,
 } from '../api';
+import { ProductIngredientLists } from 'components/Lists/ProductIngredientLists';
 
-export const ProductDetailPage = ({product, state, handleState}) => {
-    const [ingredients, setIngredients] = useState([]);
+export const ProductDetailPage = ({product, handleState}) => {
+    const [ingredients, setIngredients] = useState(Array);
     let tempIng = [];
 
     useEffect(() => {
+        console.log(product);
         product?.ing_ids.split(',').map((item, i) => {
             API.get('ingredients/' + item)
-                .then((res_ing) => {
-                    API.get('types/' + res_ing?.types_id)
-                        .then((res_type) => {
-                            let tempContent = {
-                                id: res_ing?.id,
-                                name: res_ing?.name,
-                                type_id: res_type?.id,
-                                type_name: res_type?.name
-                            }
-                            tempIng.push(tempContent);
-                        }).finally(() => {
-                            setIngredients(tempIng);
+                .then((response) => {
+                    console.log(response);
+                    setIngredients(response);
+                    API.get('types/' + response?.types_id)
+                        .then((response_type) => {
+                            console.log(response_type);
                         })
+                    // API.get('types/' + res_ing?.types_id)
+                    //     .then((res_type) => {
+                    //         let tempContent = {
+                    //             id: res_ing?.id,
+                    //             name: res_ing?.name,
+                    //             type_id: res_type?.id,
+                    //             type_name: res_type?.name
+                    //         }
+                    //         tempIng.push(tempContent);
+                    //     }).finally(() => {
+                    //         setIngredients(tempIng);
+                    //     });
+                }).catch((error) =>{
+                    console.log(error);
                 });
         })
     }, []);
-    
+
     return (
         <ProductDetailedContainer>
             <button onClick={handleState}>
@@ -52,17 +62,7 @@ export const ProductDetailPage = ({product, state, handleState}) => {
                 }}>
                     Customizations
                 </button>
-                <div>
-                    {ingredients?.map((ingredients, idx) => {
-                        console.log(ingredients, idx);
-                        return (
-                            <div key={idx} style={{height:80,display:'block',paddingBottom:10}}>
-                                <p style={{display:'flex', justifyContent:'space-evenly', alignItems:'center', width:'100%', height:'100%'}}><span>{ingredients.type_name}</span> <span>{ingredients.name}</span></p>
-                                <hr style={{ backgroundColor:'#26140D'}}/>
-                            </div>
-                        );
-                    })}
-                </div>
+                <ProductIngredientLists ingredients={ingredients}/>
             </div>
         </ProductDetailedContainer>
     )

@@ -113,11 +113,9 @@
         justify-content: space-between;
         margin-bottom:1rem;
     }
-    .label_with_button span {
-        width:60%;
-    }
-    .label_with_button button {
+    button.dynamic_add {
         font-size: 0.6rem;
+        margin-top:0.5rem;
     }
     .dynamic_select_with_delete {
         display: flex;
@@ -244,7 +242,7 @@
 </div>
 <!-- Modal -->
 <div class="modal fade" id="addProductsModal" tabindex="-1" aria-labelledby="addProductsModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+    <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="addProductsModalLabel">
@@ -282,15 +280,24 @@
                     @endforeach
                 </select>
             </div>
-            <div id="dynamicField" class="form-group">
-                <label class="label_with_button"><span>Ingredients</span> <button type="button" name="add_new_ing_field" id="addNewIngField" class="btn btn-success">Add More Ingredient</button></label>
-                <div class="dynamic_select_with_delete">
-                    <select class="form-control" name="ing[0]">
-                        @foreach($ingredients as $ingredient)
-                            <option value="{{ $ingredient->id }}">{{ $ingredient->name }}</option>
-                        @endforeach
-                    </select>
+            <div class="form-group">
+                <label>Ingredients</label>
+                <div id="dynamicField">
+                    <div style="margin-top:0.5rem;">
+                        <select class="form-control" name="ing[0]">
+                            @foreach($ingredients as $ingredient)
+                                <option value="{{ $ingredient->id }}">{{ $ingredient->name }}</option>
+                            @endforeach
+                        </select>
+                        <label style="margin-top:0.5rem;">Preferred Measurement</label>
+                        <select class="form-control" name="measure[0]" required>
+                            @foreach($measurements as $measure)
+                                <option value="{{ $measure->id }}" {{$measure->id == $ingredient->measurement_id  ? 'selected' : ''}}>{{ $measure->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
                 </div>
+                <button type="button" name="add_new_ing_field" id="addNewIngField" class="btn btn-success dynamic_add">Add More Ingredient</button>
             </div>
             <div class="form-group">
                 <label>Image</label>
@@ -368,6 +375,7 @@
 </div>
 @endforeach
 @section('page-script')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){      
         var postURL = "<?php echo url('addmore'); ?>";
@@ -375,13 +383,25 @@
 
         $('#addNewIngField').click(function() {  
             i++;
-            $('#dynamicField').append('<div id="row'+i+'" class="dynamic_select_with_delete"><select class="form-control" name="ing['+i+']">@foreach($ingredients as $ingredient)<option value="{{ $ingredient->id }}">{{ $ingredient->name }}</option> @endforeach</select><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></div>');  
+            $('#dynamicField').append('<div id="row'+i+'" style="margin-top:0.5rem;"><div class="dynamic_select_with_delete"><select class="form-control" name="ing['+i+']">@foreach($ingredients as $ingredient)<option value="{{ $ingredient->id }}">{{ $ingredient->name }}</option> @endforeach</select><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></div><label style="margin-top:0.5rem;">Preferred Measurement</label><select class="form-control" name="measure['+i+']" required>@foreach($measurements as $measure)<option value="{{ $measure->id }}" {{$measure->id == $ingredient->measurement_id  ? 'selected' : ''}}>{{ $measure->name }}</option>@endforeach</select></div>');  
         });  
 
-        $(document).on('click', '.btn_remove', function(){
-            i--;
-            var button_id = $(this).attr("id");   
-            $('#row'+button_id+'').remove();
+        $(document).on('click', '.btn_remove', function() {
+            event.preventDefault();
+            swal({
+                title: `Are you sure you want to delete this record?`,
+                text: "If you delete this, it will be gone forever.",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    i--;
+                    var button_id = $(this).attr("id");   
+                    $('#row'+button_id+'').remove();
+                }
+            });
         });
 
     });  

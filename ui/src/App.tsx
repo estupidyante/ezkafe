@@ -29,17 +29,10 @@ import {
   FooterTop, 
   FooterBrand,
   DividerLineTop,
-  AllProductContainer,
-  AllProductImage,
-  AllProductContentContainer,
-  AllProductTitle,
-  AllProductDescription,
-  AllProductPrice,
 } from './lib/Contants';
 import { 
   SearchOutline,
   ArrowForwardOutline,
-  AddOutline
 } from 'react-ionicons';
 import {
   URI,
@@ -47,6 +40,7 @@ import {
 } from './api';
 import { ProductDetailPage } from './pages/ProductDetailPage';
 import { HeaderComponent } from 'components/Header';
+import { ProductSmallCard } from 'components/Lists/ProductSmallCard';
 
 function App() {
   const [isOrdered, setIsOrdered] = useState(false);
@@ -70,7 +64,7 @@ function App() {
       })
   }, []);
   
-  let data = [];
+  let data = [{}];
 
   useEffect(() => {
     data = products.map(item => ({key: item?.name, value: item?.name}));
@@ -78,6 +72,10 @@ function App() {
 
   const handleDetailedState = () => {
     setIsDetailed(!isDetailed);
+  }
+
+  const handleSelectedProduct = (item) => {
+    setSelectedProduct(item);
   }
 
   const handleClickOrder = () => {
@@ -144,7 +142,10 @@ function App() {
               {products.map((item, i) => {
                 if(i >= 2) return ('');
                 return (
-                  <CardProductItem key={i}>
+                  <CardProductItem key={i} onClick={() => {
+                    setIsDetailed(true);
+                    setSelectedProduct(item);
+                  }}>
                   <CardProduct>
                     <CardProductImage src={URI + item?.image} alt={item?.name} />
                     <CardProductContent>
@@ -181,33 +182,9 @@ function App() {
           </Section>}
         </ContentContainer>
         {isOrdered && <div style={{ backgroundColor: '#ffffff', width: '100%', height: 'auto', borderStartStartRadius: 20, borderStartEndRadius: 20, borderWidth: 1, borderStyle: 'solid', padding: 20 }}>
-          {products.map((item, i) => {
-              return (
-                <AllProductContainer key={i}>
-                  <div style={{ display: 'flex', alignItems: 'center', marginRight: 20, width: 80,}}>
-                    <AllProductImage src={URI + item?.image} alt={item?.name} />
-                  </div>
-                  <AllProductContentContainer>
-                    <AllProductTitle>{item?.name}</AllProductTitle>
-                    <AllProductDescription>{item?.description}</AllProductDescription>
-                    <AllProductPrice>Php {item?.price}</AllProductPrice>
-                  </AllProductContentContainer>
-                  <button style={{backgroundColor:'#26140D', margin: 5, display: 'flex', alignItems: 'center'}} onClick={() => {
-                    setIsDetailed(true);
-                    setSelectedProduct(item);
-                  }}>
-                    <AddOutline
-                      color={'#ffffff'} 
-                      title={''}
-                      height="30px"
-                      width="30px"
-                    />
-                  </button>
-                </AllProductContainer>
-              );
-            })}
+          <ProductSmallCard products={products}  handleState={handleDetailedState} handleSelected={handleSelectedProduct}/>
         </div>}
-        
+
         <Footer>
           <FooterTop>
             <FooterBrand>
@@ -216,7 +193,7 @@ function App() {
           </FooterTop>
         </Footer>
       </div>}
-      {isDetailed && <ProductDetailPage product={selectedProduct} state={isDetailed} handleState={handleDetailedState}/>}
+      {isDetailed && <ProductDetailPage product={selectedProduct} handleState={handleDetailedState}/>}
     </Wrapper>
   );
 }

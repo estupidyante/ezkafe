@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Products;
 use App\Models\Category;
 use App\Models\Ingredients;
+use App\Models\Measurements;
 
 class UserProductsComponent extends Component
 {
@@ -17,6 +18,7 @@ class UserProductsComponent extends Component
         $selectedTab = isset($request->id) ? $request->id : 0;
         $products = Products::all();
         $ingredients = Ingredients::all();
-        return view('livewire.user.user-products-component', compact('products', 'categories', 'selectedTab', 'ingredients'))->layout('layouts.base');
+        $measurements = Measurements::all();
+        return view('livewire.user.user-products-component', compact('products', 'categories', 'selectedTab', 'ingredients', 'measurements'))->layout('layouts.base');
     }
 }
