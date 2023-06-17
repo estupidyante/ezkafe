@@ -62,7 +62,9 @@ Route::get('/types/{id}', [TypesController::class, 'show']);
 // get specific order
 Route::get('/order/{id}', [OrdersController::class, 'show']);
 // get specific product
-Route::get('/product/{id}', [OrdersController::class, 'show']);
+Route::get('/product/{id}', [ProductsController::class, 'show']);
+// get specific product ingredient
+Route::get('/product_ingredients/{id}', [ProductsController::class, 'getProductIngredients']);
 
 
 

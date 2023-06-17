@@ -27,6 +27,11 @@ class ProductsController extends Controller
         $product = Products::find($id);
 	    return response()->json($product, 200);
 	}
+    public function getProductIngredients($id)
+	{
+        $product = ProductIngredients::find($id);
+	    return response()->json($product, 200);
+	}
 	public function store(Request $request)
 	{
 	    $product = Products::create($request->all());

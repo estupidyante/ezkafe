@@ -16,29 +16,41 @@ export const ProductDetailPage = ({product, handleState}) => {
     useEffect(() => {
         console.log(product);
         product?.ing_ids.split(',').map((item, i) => {
-            API.get('ingredients/' + item)
+            console.log(item);
+            API.get('product_ingredients/' + item)
                 .then((response) => {
                     console.log(response);
-                    setIngredients(response);
-                    API.get('types/' + response?.types_id)
-                        .then((response_type) => {
-                            console.log(response_type);
-                        })
-                    // API.get('types/' + res_ing?.types_id)
-                    //     .then((res_type) => {
-                    //         let tempContent = {
-                    //             id: res_ing?.id,
-                    //             name: res_ing?.name,
-                    //             type_id: res_type?.id,
-                    //             type_name: res_type?.name
-                    //         }
-                    //         tempIng.push(tempContent);
-                    //     }).finally(() => {
-                    //         setIngredients(tempIng);
-                    //     });
-                }).catch((error) =>{
-                    console.log(error);
-                });
+                })
+            // API.get('ingredients/' + item)
+            //     .then((response) => {
+            //         console.log(response);
+            //         setIngredients(response);
+            //         API.get('types/' + response?.types_id)
+            //             .then((response_type) => {
+            //                 console.log(response_type);
+            //                 let tempContent = {
+            //                     id: response?.id,
+            //                     name: response?.name,
+            //                     type_id: response_type?.id,
+            //                     type_name: response_type?.name
+            //                 }
+            //                 tempIng.push(tempContent);
+            //             })
+            //         // API.get('types/' + res_ing?.types_id)
+            //         //     .then((res_type) => {
+            //         //         let tempContent = {
+            //         //             id: res_ing?.id,
+            //         //             name: res_ing?.name,
+            //         //             type_id: res_type?.id,
+            //         //             type_name: res_type?.name
+            //         //         }
+            //         //         tempIng.push(tempContent);
+            //         //     }).finally(() => {
+            //         //         setIngredients(tempIng);
+            //         //     });
+            //     }).catch((error) =>{
+            //         console.log(error);
+            //     });
         })
     }, []);
 
