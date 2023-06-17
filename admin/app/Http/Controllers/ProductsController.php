@@ -20,11 +20,11 @@ class ProductsController extends Controller
     }
 
     public function index() {
-        return response()->json(Products::all(), 200);
+        return response()->json(Products::with('ingredients')->get(), 200);
     }
     public function show($id)
 	{
-        $product = Products::find($id);
+        $product = Products::with('ingredients')->find($id)->get();
 	    return response()->json($product, 200);
 	}
     public function getProductIngredients($id)

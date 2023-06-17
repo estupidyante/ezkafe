@@ -25,4 +25,5 @@ class Products extends Model
     {
         return $this->hasMany(ProductIngredients::class);
     }
+
 }
