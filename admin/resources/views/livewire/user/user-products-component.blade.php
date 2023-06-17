@@ -351,11 +351,27 @@
             </div>
             <div class="form-group">
                 <label>Ingredients</label>
-                <select class="form-control" name="ing[]" multiple>
-                    @foreach($ingredients as $ingredient)
-                        <option value="{{ $ingredient->id }}">{{ $ingredient->name }}</option>
-                    @endforeach
-                </select>
+                <div id="dynamicFieldModify">
+                    <div style="margin-top:0.5rem;">
+                        <select class="form-control" name="ing[0]">
+                            @foreach($ingredients as $ingredient)
+                                <option value="{{ $ingredient->id }}" {{$ingredient->id == explode(',',$product->ing_ids)[0]  ? 'selected' : ''}}>{{ $ingredient->name }}</option>
+                            @endforeach
+                        </select>
+                        <label style="margin-top:0.5rem;">Preferred Measurement</label>
+                        <select class="form-control" name="measure[0]" required>
+                            @foreach($measurements as $measure)
+                                <option value="{{ $measure->id }}" {{$measure->id == $product->measurement_id  ? 'selected' : ''}}>{{ $measure->name }}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    @if ($product->ing_ids != "")
+                        @foreach(explode(',', $product->ing_ids) as $ing_id) 
+                            {{ $ing_id }}
+                        @endforeach
+                    @endif
+                </div>
+                <button type="button" name="add_new_ing_field" id="addNewIngFieldModify" class="btn btn-success dynamic_add">Add More Ingredient</button>
             </div>
             <div class="form-group">
                 <label>Image</label>

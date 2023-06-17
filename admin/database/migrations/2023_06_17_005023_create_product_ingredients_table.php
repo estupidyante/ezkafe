@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('tag');
             $table->foreignId('products_id')->references('id')->on('products')->onDelete('cascade');
             $table->foreignId('types_id')->references('id')->on('types')->onDelete('cascade');
+            $table->foreignId('measurements_id')->references('id')->on('measurements')->onDelete('cascade');
             $table->string('measurement');
             $table->string('unit');
             $table->decimal('price',5,2);
