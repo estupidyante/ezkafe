@@ -9,7 +9,7 @@ import {
 } from '../api';
 import { ProductIngredientLists } from 'components/Lists/ProductIngredientLists';
 
-export const ProductDetailPage = ({product, handleState}) => {
+export const ProductDetailPage = ({product, handleState, handleCustomize, handlePayment}) => {
     const [ingredients, setIngredients] = useState(Array);
 
     useEffect(() => {
@@ -31,15 +31,11 @@ export const ProductDetailPage = ({product, handleState}) => {
             <div style={{ backgroundColor: '#ffffff', width: '100%', minHeight: 420, borderStartStartRadius: 20, borderStartEndRadius: 20, borderWidth: 1, borderStyle: 'solid', padding: '3rem' }}>
                 <p style={{fontSize:'2rem',marginBottom:20}}>{product?.name}</p>
                 <p style={{marginBottom:20}}>Php {product?.price}</p>
-                <button style={{width: '100%', height:50, backgroundColor: '#26140D', color: '#ffffff', borderRadius: 10}} onClick={() => {
-                    console.log('clicked customized');
-                }}>
+                <button style={{width: '100%', height:50, backgroundColor: '#26140D', color: '#ffffff', borderRadius: 10}} onClick={handleCustomize}>
                     Customizations
                 </button>
                 <ProductIngredientLists ingredients={ingredients}/>
-                <button style={{width: '100%', height:50, backgroundColor: '#26140D', color: '#ffffff', borderRadius: 10, marginTop:'2rem'}} onClick={() => {
-                    console.log('clicked payment to print out');
-                }}>
+                <button style={{width: '100%', height:50, backgroundColor: '#26140D', color: '#ffffff', borderRadius: 10, marginTop:'2rem'}} onClick={handlePayment}>
                     Proceed Payment
                 </button>
             </div>

@@ -15,7 +15,7 @@ export const HeaderComponent = () => {
             <LogoLink href="#" target="_self">
             <Logo src="/assets/images/ezkafe-base-white.png" alt="EzKafe logo" />
             </LogoLink>
-            <IconContainer>
+            {/* <IconContainer>
             <CartOutline
                 color={'#ffffff'} 
                 title={''}
@@ -28,7 +28,7 @@ export const HeaderComponent = () => {
                 height="30px"
                 width="30px"
             />
-            </IconContainer>
+            </IconContainer> */}
         </Header>
     )
 }

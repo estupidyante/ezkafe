@@ -41,11 +41,14 @@ import {
 import { ProductDetailPage } from './pages/ProductDetailPage';
 import { HeaderComponent } from 'components/Header';
 import { ProductSmallCard } from 'components/Lists/ProductSmallCard';
+import { PaymentDetalPage } from 'pages/PaymentDetailPage';
 
 function App() {
   const [isOrdered, setIsOrdered] = useState(false);
   const [activeSwitch, setActiveSwitch] = useState('');
   const [isDetailed, setIsDetailed] = useState(false);
+  const [isPayment, setIsPayment] = useState(false);
+  const [isCustomized, setIsCustomized] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState([]);
 
   const [products, setProducts] = useState([]);
@@ -73,7 +76,12 @@ function App() {
   const handleDetailedState = () => {
     setIsDetailed(!isDetailed);
   }
-
+  const handleCustomize = () => {
+    setIsCustomized(!isCustomized);
+  }
+  const handlePayment = () => {
+    setIsPayment(!isPayment);
+  }
   const handleSelectedProduct = (item) => {
     setSelectedProduct(item);
   }
@@ -181,10 +189,9 @@ function App() {
             </div>
           </Section>}
         </ContentContainer>
-        {isOrdered && <div style={{ backgroundColor: '#ffffff', width: '100%', height: 'auto', borderStartStartRadius: 20, borderStartEndRadius: 20, borderWidth: 1, borderStyle: 'solid', padding: 20 }}>
+        {(isOrdered) && <div style={{ backgroundColor: '#ffffff', width: '100%', height: 'auto', borderStartStartRadius: 20, borderStartEndRadius: 20, borderWidth: 1, borderStyle: 'solid', padding: 20 }}>
           <ProductSmallCard products={products}  handleState={handleDetailedState} handleSelected={handleSelectedProduct}/>
         </div>}
-
         <Footer>
           <FooterTop>
             <FooterBrand>
@@ -193,7 +200,10 @@ function App() {
           </FooterTop>
         </Footer>
       </div>}
-      {isDetailed && <ProductDetailPage product={selectedProduct} handleState={handleDetailedState}/>}
+      {(isDetailed && !isPayment)&& <ProductDetailPage product={selectedProduct} handleState={handleDetailedState} handleCustomize={handleCustomize} handlePayment={handlePayment}/>}
+      {isPayment && <div style={{ backgroundColor: '#ffffff', width: '100%', height: 'auto', borderStartStartRadius: 20, borderStartEndRadius: 20, borderWidth: 1, borderStyle: 'solid', padding: 20 }}>
+        <PaymentDetalPage product={selectedProduct}  handlePayment={handlePayment}/>
+      </div>}
     </Wrapper>
   );
 }
