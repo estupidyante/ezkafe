@@ -23,4 +23,9 @@ class ProductIngredients extends Model
         'volume',
     ];
 
+    public function product_ingredients()
+    {
+        return $this->belongsTo(Products::class);
+    }
+
 }

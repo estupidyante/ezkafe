@@ -19,6 +19,7 @@ return new class extends Migration
             $table->text('description');
             $table->foreignId('category_id')->references('id')->on('category')->onDelete('cascade');
             $table->text('ing_ids');
+            $table->text('measurement_ids');
             $table->string('image')->nullable();
             $table->string('price');
             $table->timestamps();

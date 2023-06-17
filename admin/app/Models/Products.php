@@ -16,6 +16,7 @@ class Products extends Model
         'description',
         'category_id',
         'ing_ids',
+        'measurement_ids',
         'image',
         'price'
     ];

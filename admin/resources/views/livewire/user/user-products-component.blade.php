@@ -175,6 +175,7 @@
                                         <th scope="col"> Description </th>
                                         <th scope="col"> Category </th>
                                         <th scope="col"> Ingredients </th>
+                                        <th scope="col"> Preferred Measurements </th>
                                         <th scope="col"> Price </th>
                                         <th scope="col"> Action </th>
                                     </tr>
@@ -192,6 +193,13 @@
                                                 @if ($element->ing_ids != "")
                                                     @foreach(explode(',', $element->ing_ids) as $ing_id) 
                                                         {{ $ingredients->find($ing_id)->name }},
+                                                    @endforeach
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if ($element->measurement_ids != "")
+                                                    @foreach(explode(',', $element->measurement_ids) as $msr_id) 
+                                                        {{ $measurements->find($msr_id)->name }},
                                                     @endforeach
                                                 @endif
                                             </td>
@@ -216,6 +224,13 @@
                                                 @if ($element->ing_ids != "")
                                                     @foreach(explode(',', $element->ing_ids) as $ing_id) 
                                                         {{ $ingredients->find($ing_id)->name }},
+                                                    @endforeach
+                                                @endif
+                                            </td>
+                                            <td>
+                                                @if ($element->measurement_ids != "")
+                                                    @foreach(explode(',', $element->measurement_ids) as $msr_id) 
+                                                        {{ $measurements->find($msr_id)->name }},
                                                     @endforeach
                                                 @endif
                                             </td>
@@ -352,22 +367,42 @@
             <div class="form-group">
                 <label>Ingredients</label>
                 <div id="dynamicFieldModify">
-                    <div style="margin-top:0.5rem;">
-                        <select class="form-control" name="ing[0]">
-                            @foreach($ingredients as $ingredient)
-                                <option value="{{ $ingredient->id }}" {{$ingredient->id == explode(',',$product->ing_ids)[0]  ? 'selected' : ''}}>{{ $ingredient->name }}</option>
-                            @endforeach
-                        </select>
-                        <label style="margin-top:0.5rem;">Preferred Measurement</label>
-                        <select class="form-control" name="measure[0]" required>
-                            @foreach($measurements as $measure)
-                                <option value="{{ $measure->id }}" {{$measure->id == $product->measurement_id  ? 'selected' : ''}}>{{ $measure->name }}</option>
-                            @endforeach
-                        </select>
-                    </div>
                     @if ($product->ing_ids != "")
-                        @foreach(explode(',', $product->ing_ids) as $ing_id) 
-                            {{ $ing_id }}
+                        @foreach(explode(',', $product->ing_ids) as $ing_idx => $ing_id )
+                            @if (!empty($product->ingredients->where('products_id', $product->id)))
+                                @if ($ing_idx == 0)
+                                <div style="margin-top:0.5rem;">
+                                    <select class="form-control" name="ing[{{ $ing_idx }}]" required>
+                                        @foreach($ingredients as $ingredient)
+                                            <option value="{{ $ingredient->id }}" {{$ingredient->id == explode(',',$product->ing_ids)[$ing_idx]  ? 'selected' : ''}}>{{ $ingredient->name }}</option>
+                                        @endforeach
+                                    </select>
+                                    <label style="margin-top:0.5rem;">Preferred Measurement</label>
+                                    <select class="form-control" name="measure[{{ $ing_idx }}]" required>
+                                        @foreach($measurements as $measure)
+                                            <option value="{{ $measure->id }}" {{$measure->id == explode(',',$product->measurement_ids)[$ing_idx]  ? 'selected' : ''}}>{{ $measure->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                @else
+                                <div style="margin-top:0.5rem;">
+                                    <div class="dynamic_select_with_delete">
+                                        <select class="form-control" name="ing[{{ $ing_idx }}]" required>
+                                            @foreach($ingredients as $ingredient)
+                                                <option value="{{ $ingredient->id }}" {{$ingredient->id == explode(',',$product->ing_ids)[$ing_idx]  ? 'selected' : ''}}>{{ $ingredient->name }}</option>
+                                            @endforeach
+                                        </select>
+                                        <button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove_modify">X</button>
+                                    </div>
+                                    <label style="margin-top:0.5rem;">Preferred Measurement</label>
+                                    <select class="form-control" name="measure[{{ $ing_idx }}]" required>
+                                        @foreach($measurements as $measure)
+                                            <option value="{{ $measure->id }}" {{$measure->id == explode(',',$product->measurement_ids)[$ing_idx]  ? 'selected' : ''}}>{{ $measure->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                @endif
+                            @endif
                         @endforeach
                     @endif
                 </div>
@@ -402,7 +437,7 @@
             $('#dynamicField').append('<div id="row'+i+'" style="margin-top:0.5rem;"><div class="dynamic_select_with_delete"><select class="form-control" name="ing['+i+']">@foreach($ingredients as $ingredient)<option value="{{ $ingredient->id }}">{{ $ingredient->name }}</option> @endforeach</select><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></div><label style="margin-top:0.5rem;">Preferred Measurement</label><select class="form-control" name="measure['+i+']" required>@foreach($measurements as $measure)<option value="{{ $measure->id }}">{{ $measure->name }}</option>@endforeach</select></div>');  
         });  
 
-        $(document).on('click', '.btn_remove', function() {
+        $(document).on('click', '.btn_remove, .btn_remove_modify', function() {
             event.preventDefault();
             swal({
                 title: `Are you sure you want to delete this record?`,

@@ -62,17 +62,20 @@ class ProductsController extends Controller
         $validatedData = $request->validate([
             'name'             => 'required|min:1|max:64',
             'category_id'      => 'required',
-            'ing'              => 'required'
+            'ing'              => 'required',
+            'measure'          => 'required'
         ]);
 
-        $arry = $request->input('ing');
+        $arryIng = $request->input('ing');
+        $arryMsr = $request->input('measure');
 
         $products = new Products();
         $products->name        = $request->input('name');
         $products->description = $request->input('description');
         $products->price       = $request->input('price');
         $products->category_id = $request->input('category_id');
-        $products->ing_ids     = implode(',', $arry);
+        $products->ing_ids     = implode(',', $arryIng);
+        $products->measurement_ids     = implode(',', $arryMsr);
         if($request->file('uploads')){
             $file       = $request->file('uploads');
             $fileName   = $file->getClientOriginalName();
@@ -83,11 +86,11 @@ class ProductsController extends Controller
         $products->save();
         // save the product ingredients
         // get the ingredients
-        if (sizeof($arry)) {
-            for($i = 0;$i<sizeof($arry);$i++)
+        if (sizeof($arryIng)) {
+            for($i = 0;$i<sizeof($arryIng);$i++)
             {
-                $ingredient = Ingredients::find($arry[$i]);
-                $measurement = Measurements::find($arry[$i]);
+                $ingredient = Ingredients::find($arryIng[$i]);
+                $measurement = Measurements::find($arryIng[$i]);
                 ProductIngredients::create([
                     'name' => $ingredient['name'],
                     'tag' => $ingredient['tag'],
