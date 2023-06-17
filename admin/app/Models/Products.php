@@ -19,4 +19,9 @@ class Products extends Model
         'image',
         'price'
     ];
+
+    public function ingredients()
+    {
+        return $this->hasMany(ProductIngredients::class);
+    }
 }

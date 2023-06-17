@@ -84,15 +84,15 @@ class ProductsController extends Controller
         // save the product ingredients
         // get the ingredients
         if (sizeof($arry)) {
-            for($i = 0;$i<$arry.size();$i++)
+            for($i = 0;$i<sizeof($arry);$i++)
             {
-                $ingredient = Ingredients::find($arry[i]);
-                $measurement = Measurements::find($arry[i]);
+                $ingredient = Ingredients::find($arry[$i]);
+                $measurement = Measurements::find($arry[$i]);
                 ProductIngredients::create([
                     'name' => $ingredient['name'],
                     'tag' => $ingredient['tag'],
                     'products_id' => $products['id'],
-                    'types_id' => $ingredient['type_id'],
+                    'types_id' => $ingredient['types_id'],
                     'measurement' => $measurement['volume'],
                     'unit' => $measurement['unit'],
                     'price' => $measurement['price'],
