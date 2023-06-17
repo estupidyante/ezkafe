@@ -219,7 +219,6 @@
                                             <td> {{ $element->name }} </td>
                                             <td> {{ $element->description }} </td>
                                             <td> {{ $item->find($element->category_id)->name }} </td>
-                                            <td> {{ $element->price }} </td>
                                             <td>
                                                 @if ($element->ing_ids != "")
                                                     @foreach(explode(',', $element->ing_ids) as $ing_id) 
@@ -234,6 +233,7 @@
                                                     @endforeach
                                                 @endif
                                             </td>
+                                            <td> {{ $element->price }} </td>
                                             <td>
                                                 <a href="#" class="btn btn-success" data-mdb-toggle="modal" data-mdb-target="#updateProductsModal_{{ $element->id }}">Edit</a>
                                                 <form class="d-inline" action="{{ route('user.product.destroy', $element ) }}" method="POST">
