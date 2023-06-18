@@ -25,6 +25,6 @@ class Orders extends Model
 
     public function ingredients()
     {
-        return $this->hasMany(Ingredients::class);
+        return $this->hasMany(OrderIngredients::class);
     }
 }

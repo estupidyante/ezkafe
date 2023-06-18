@@ -15,13 +15,16 @@ return new class extends Migration
     {
         Schema::create('order_ingredients', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('order_id')->references('id')->on('orders')->onDelete('cascade');
-            $table->foreignId('products_id')->references('id')->on('products')->onDelete('cascade');
+            $table->string('name');
             $table->string('tag');
-            $table->string('type');
+            $table->foreignId('order_id')->references('id')->on('orders')->onDelete('cascade');
+            $table->foreignId('types_id')->references('id')->on('types')->onDelete('cascade');
+            $table->foreignId('measurements_id')->references('id')->on('measurements')->onDelete('cascade');
             $table->string('measurement');
             $table->integer('actuators');
             $table->string('unit');
+            $table->decimal('price',5,2);
+            $table->string('volume');
             $table->timestamps();
         });
     }

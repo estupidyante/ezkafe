@@ -17,11 +17,11 @@ class OrdersController extends Controller
         $this->orders = $orders;
     }
     public function index() {
-        return response()->json(Orders::all(), 200);
+        return response()->json(Orders::with('ingredients')->get(), 200);
     }
     public function show($id)
 	{
-        $orders = Orders::find($id);
+        $orders = Orders::with('ingredients')->find($id)->get();
 	    return response()->json($orders, 200);
 	}
     public function store(Request $request, Ingredients $ingredients)
