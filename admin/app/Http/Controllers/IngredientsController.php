@@ -33,6 +33,7 @@ class IngredientsController extends Controller
             'name'              => 'required|min:1|max:64',
             'type_id'           => 'required',
             'measurement_id'    => 'required',
+            'actuator'          => 'required',
             'volume'            => 'required'
         ]);
 
@@ -44,6 +45,7 @@ class IngredientsController extends Controller
                 'tag' => $temp_tag,
                 'types_id' => $data['type_id'],
                 'measurements_id' => $data['measurement_id'],
+                'actuators' => $data['actuator'],
                 'volume' => $data['volume'],
                 
             ]);
@@ -64,6 +66,7 @@ class IngredientsController extends Controller
             $ingredient->tag = str_replace(' ', '_', strtolower($data['name']));
             $ingredient->types_id = $data['type_id'];
             $ingredient->measurements_id = $data['measurement_id'];
+            $ingredient->actuators = $data['actuator'];
             $ingredient->volume = $data['volume'];
             $ingredient->update();
             return redirect('/user/ingredients')->with('status',"Ingredients updated successfully");

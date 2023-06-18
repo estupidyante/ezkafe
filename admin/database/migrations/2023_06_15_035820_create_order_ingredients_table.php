@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('tag');
             $table->string('type');
             $table->string('measurement');
+            $table->integer('actuators');
             $table->string('unit');
             $table->timestamps();
         });

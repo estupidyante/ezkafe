@@ -16,6 +16,7 @@ class Ingredients extends Model
         'tag',
         'types_id',
         'measurements_id',
+        'actuators',
         'volume',
     ];
 
