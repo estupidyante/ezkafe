@@ -96,6 +96,7 @@ Route::middleware([
     Route::put('/user/product/{id}', [ProductsController::class, 'update'])->name('user.product.update');
     Route::delete('/user/product/{id}', [ProductsController::class, 'destroy'])->name('user.product.destroy');
     // For Ordes
+    Route::get('/user/orders/top', [UserOrdersComponent::class, 'getTop5'])->name('user.order.top');
     Route::post('/user/order/create', [OrdersController::class, 'create'])->name('user.order.create');
     Route::put('/user/order/{id}', [OrdersController::class, 'update'])->name('user.order.update');
     Route::delete('/user/order/{id}', [OrdersController::class, 'destroy'])->name('user.order.destroy');
