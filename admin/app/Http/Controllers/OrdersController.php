@@ -27,10 +27,11 @@ class OrdersController extends Controller
         $order = Orders::create($input);
         return response()->json($order, 201);
     }
-
-    public function update(Request $request, $id)
+    public function edit(Request $request, $id)
     {
-        //
+        $order = Orders::find($id);
+        $order->update($request->all());
+        return response()->json($order, 201);
     }
 
     public function destroy($id)

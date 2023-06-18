@@ -140,7 +140,7 @@
                     <div>
                         <div class="table-responsive">
                             <table class="table table-striped table-bordered mb-5 tab-content">
-                                <thead class="table-secondary">
+                                <thead class="table-secondary" style="border-top:1px solid #000000">
                                     <tr>
                                         <th scope="col"> # </th>
                                         <th scope="col"> Name </th>

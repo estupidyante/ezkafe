@@ -136,7 +136,7 @@
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered mb-5">
-                            <thead>
+                            <thead style="border-top:1px solid #000000">
                                 <tr class="table-success">
                                     <th scope="col"> # </th>
                                     <th scope="col"> Category </th>

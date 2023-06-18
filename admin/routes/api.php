@@ -113,6 +113,8 @@ Route::get('/user/faqs', UserFAQsComponent::class);
 Route::group(['middleware' => ['api']], function () {
     // create order
     Route::post('/order/create', [OrdersController::class, 'store']);
+    // update order
+    Route::put('/order/{id}', [OrdersController::class, 'edit']);
     // create client
     Route::post('/client/create', [UserClientController::class, 'store']);
 });
