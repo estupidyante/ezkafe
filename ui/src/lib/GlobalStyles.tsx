@@ -27,8 +27,8 @@ const GlobalStyles = createGlobalStyle`
 		 * typography
 		 */
 		
-		--ff-roboto: 'Roboto', sans-serif;
-		--ff-josefin-sans: 'Josefin Sans', sans-serif;
+		--ff-roboto: 'Playfair Display', sans-serif;
+		--ff-josefin-sans: 'Cormorant Garamond', serif;
 
 		--fs-1: 3rem;
 		--fs-2: 2.6rem;

@@ -273,14 +273,14 @@ const CardProductContent = styled.div`
 `;
 
 const CardProductTitle = styled.h3`
-  font-family: 'Josefin Sans', sans-serif;
+  font-family: 'Cormorant Garamond', sans-serif;
   text-align: left;
   font-size: 1.5rem;
   margin-bottom: 1.5rem;
 `;
 
 const CardProductDescription = styled.p`
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Cormorant Garamond', serif;
   text-align:left;
   font-size:1.2rem;
   margin-bottom: 1.5rem;
@@ -349,19 +349,19 @@ const AllProductContentContainer = styled.div`
   width:80%;
 `;
 const AllProductTitle = styled.p`
-  font-family: 'Josefin Sans', sans-serif;
+  font-family: 'Cormorant Garamond', sans-serif;
   font-size:1.5rem;
   margin-top: 10px;
   margin-bottom: 15px;
 `;
 const AllProductDescription = styled.p`
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Playfair Display', sans-serif;
   font-size:1rem;
   margin-top: 10px;
   margin-bottom: 10px;
 `;
 const AllProductPrice = styled.p`
-  font-family: 'Josefin Sans', sans-serif;
+  font-family: 'Cormorant Garamond', sans-serif;
   font-size:1.2rem;
   margin-top: 10px;
   margin-bottom: 10px;

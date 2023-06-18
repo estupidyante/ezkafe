@@ -4,13 +4,19 @@ namespace App\Http\Livewire\User;
 
 use LaravelDaily\LaravelCharts\Classes\LaravelChart;
 use Livewire\Component;
+use App\Models\Clients;
+use App\Models\Orders;
+use App\Models\Products;
 
 class UserGraphComponent extends Component
 {
     public function render()
     {
+        $users = Clients::all();
+        $orders = Orders::all();
+        $products = Products::all();
         $chart_options = [
-            'chart_title' => 'Users by months',
+            'chart_title' => 'Users by Months',
             'report_type' => 'group_by_date',
             'model' => 'App\Models\Clients',
             'group_by_field' => 'created_at',
@@ -21,6 +27,6 @@ class UserGraphComponent extends Component
         ];
 
         $user_chart = new LaravelChart($chart_options);
-        return view('livewire..user.user-graph-component', compact('user_chart'))->layout('layouts.base');
+        return view('livewire..user.user-graph-component', compact('users','orders','products','user_chart'))->layout('layouts.base');
     }
 }

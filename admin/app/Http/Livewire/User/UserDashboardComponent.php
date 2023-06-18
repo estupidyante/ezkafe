@@ -29,7 +29,7 @@ class UserDashboardComponent extends Component
             ->get();
 
         $user_chart_options = [
-            'chart_title' => 'Users by months',
+            'chart_title' => 'Users by Months',
             'report_type' => 'group_by_date',
             'model' => 'App\Models\Clients',
             'group_by_field' => 'created_at',
@@ -42,7 +42,7 @@ class UserDashboardComponent extends Component
         $user_chart = new LaravelChart($user_chart_options);
 
         $transaction_chart_options = [
-            'chart_title' => 'Transactions by dates',
+            'chart_title' => 'Transactions by Dates',
             'report_type' => 'group_by_date',
             'model' => 'App\Models\Orders',
             'group_by_field' => 'updated_at',
