@@ -25,7 +25,7 @@ export const PaymentDetalPage = ({product, handlePayment}) => {
                 var order = {
                     clients_id: response?.id,
                     products_id: product.id,
-                    amount: total,
+                    amount: parseInt(product.price) + electricFee,
                     status: 'in-progress'
                 }
                 console.log(order);
@@ -78,7 +78,7 @@ export const PaymentDetalPage = ({product, handlePayment}) => {
             <PaymentTotalHolder>
                 <strong style={{textAlign:'left',marginRight:1}}>Total:</strong>
                 <PaymentTotalSpanSpace>..............................................................................................................................................................</PaymentTotalSpanSpace>
-                <p>Php {total.toFixed(2)}</p>
+                <p>Php {(parseInt(product.price) + electricFee).toFixed(2)}</p>
             </PaymentTotalHolder>
             {!isPlaced && <button style={{width:'100%',height:50, backgroundColor: '#26140D', color: '#ffffff', borderRadius: 10,marginTop:'5rem'}} onClick={handleBuyNow}>
                 Buy Now
