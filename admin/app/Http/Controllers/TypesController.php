@@ -14,7 +14,7 @@ class TypesController extends Controller
         $this->types = $types;
     }
     public function index() {
-        return response()->json(Types::all(), 200);
+        return response()->json(Types::with('ingredients')->get(), 200);
     }
     public function show($id)
 	{

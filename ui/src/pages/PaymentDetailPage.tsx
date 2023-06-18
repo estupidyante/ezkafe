@@ -11,6 +11,13 @@ import { OrderLists } from 'components/Lists/OrderLists';
 
 export const PaymentDetalPage = ({product, handlePayment}) => {
     let electricFee = 10;
+    useEffect(() => {
+        console.log(product);
+        API.get('types')
+            .then((response) => {
+                console.log(response);
+            })
+    }, []);
 
     return (<PaymentDetailedContainer>
         <div style={{height:80, marginBottom:40,display:'flex',alignItems:'center',justifyContent:'space-evenly'}}>

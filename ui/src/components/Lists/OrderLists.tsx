@@ -12,23 +12,50 @@ export function OrderLists({ingredients}) {
             })
     }, []);
 
-    var ingredient = ingredients.map(function(item, idx){
-        console.log(item);
+    var ingredient = types.map(function(type, idx){
+        console.log(type);
         return (
             <li key={idx} style={{height:80,padding:'1rem',borderBottomColor:'#26140D',borderBottomStyle:'solid',borderBottomWidth:1,}}>
-                <p style={{display:'flex', justifyContent:'space-evenly', alignItems:'center',height:'50%'}}>
-                {
-                        types?.map((type, i) => {
-                            if (item.types_id == type?.id) return(<span key={i} style={{textAlign:'left',width:'50%'}}><strong>{type?.name}</strong></span>)
-                            else return('')
+                <p style={{textAlign:'left',marginTop:'2rem'}}><strong>{type?.name}</strong></p>
+                <ul>
+                    {
+                        type?.ingredients.map((item, idx) => {
+                            return(
+                            <li key={idx} style={{height:80,padding:'1rem',borderBottomColor:'#26140D',borderBottomStyle:'solid',borderBottomWidth:1,}}>
+                                <p style={{display:'flex', justifyContent:'space-evenly', alignItems:'center',height:'50%'}}>
+                                {
+                                        types?.map((type, i) => {
+                                            if (item.types_id == type?.id) return(<span key={i} style={{textAlign:'left',width:'50%'}}><strong>{type?.name}</strong></span>)
+                                            else return('')
+                                        })
+                                    }
+                                    <span style={{textAlign:'right',width:'50%'}}>{item.name}</span>
+                                </p>
+                                <p style={{textAlign:'right',width:'100%',height:'50%'}}>{item.measurement} {item.unit}</p>
+                            </li>
+                            )
                         })
                     }
-                    <span style={{textAlign:'right',width:'50%'}}>{item.name}</span>
-                </p>
-                <p style={{textAlign:'right',width:'100%',height:'50%'}}>{item.measurement} {item.unit}</p>
+                </ul>
             </li>
         );
     })
+    // var ingredient = ingredients.map(function(item, idx){
+    //     return (
+    //         <li key={idx} style={{height:80,padding:'1rem',borderBottomColor:'#26140D',borderBottomStyle:'solid',borderBottomWidth:1,}}>
+    //             <p style={{display:'flex', justifyContent:'space-evenly', alignItems:'center',height:'50%'}}>
+    //             {
+    //                     types?.map((type, i) => {
+    //                         if (item.types_id == type?.id) return(<span key={i} style={{textAlign:'left',width:'50%'}}><strong>{type?.name}</strong></span>)
+    //                         else return('')
+    //                     })
+    //                 }
+    //                 <span style={{textAlign:'right',width:'50%'}}>{item.name}</span>
+    //             </p>
+    //             <p style={{textAlign:'right',width:'100%',height:'50%'}}>{item.measurement} {item.unit}</p>
+    //         </li>
+    //     );
+    // })
     return(
         <ul>
             <li style={{padding:'1rem',borderBottomColor:'#26140D',borderBottomStyle:'solid',borderBottomWidth:1,}}>
