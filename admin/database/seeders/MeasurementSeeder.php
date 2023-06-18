@@ -28,21 +28,21 @@ class MeasurementSeeder extends Seeder
             'name' => '2 teaspoon',
             'volume' => '2',
             'unit' => 'tsp',
-            'price' => '5'
+            'price' => '6'
         ]);
 
         Measurements::create([ 
             'name' => '3 teaspoon',
             'volume' => '3',
             'unit' => 'tsp',
-            'price' => '5'
+            'price' => '7'
         ]);
 
         Measurements::create([ 
             'name' => '4 teaspoon',
             'volume' => '4',
             'unit' => 'tsp',
-            'price' => '5'
+            'price' => '8'
         ]);
     
         Measurements::create([ 
@@ -56,21 +56,21 @@ class MeasurementSeeder extends Seeder
             'name' => '2 tablespoon',
             'volume' => '2',
             'unit' => 'tbsp',
-            'price' => '5'
+            'price' => '6'
         ]);
 
         Measurements::create([ 
             'name' => '3 tablespoon',
             'volume' => '3',
             'unit' => 'tbsp',
-            'price' => '5'
+            'price' => '7'
         ]);
 
         Measurements::create([ 
             'name' => '4 tablespoon',
             'volume' => '4',
             'unit' => 'tbsp',
-            'price' => '5'
+            'price' => '8'
         ]);
 
     }
