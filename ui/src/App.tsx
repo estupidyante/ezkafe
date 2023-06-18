@@ -56,6 +56,9 @@ function App() {
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
 
+  const [isTopProduct, setIsTopProduct] = useState(false);
+  const [topProduct, setTopProduct] = useState([]);
+
   useEffect(() => {
     API.get('categories')
       .then((res) => {
@@ -66,6 +69,16 @@ function App() {
         .then(res => {
           setProducts(res);
         })
+      })
+    API.get('/products/ordered')
+      .then((res_ordered) => {
+        console.log('product_id: ', res_ordered[0]['products_id']);
+        API.get('/product/' + res_ordered[0]['products_id'])
+          .then((res_product_ordered) => {
+            console.log('product: ', res_product_ordered[0]);
+            setTopProduct(res_product_ordered[0]);
+            setIsTopProduct(true);
+          })
       })
   }, []);
   
@@ -125,15 +138,18 @@ function App() {
               />
             </SearchIconContainer>
           </SearchContainer>
-          <CardHero>
+          {(topProduct && isTopProduct) && <CardHero>
             <CardHeroContainer>
               <CardHeroTitle>
                 Best Seller<br/>
                 <strong>of the week</strong>
               </CardHeroTitle>
-              <CardHeroText>Hot Butterscotch Latte</CardHeroText>
+              <CardHeroText>{topProduct.name}</CardHeroText>
               <CardHeroButton>
-                <TextSpan>More Info</TextSpan>
+                <TextSpan onClick={() => {
+                    setIsDetailed(true);
+                    setSelectedProduct(topProduct);
+                  }}>More Info</TextSpan>
                 <ArrowForwardOutline
                   color={'#ffffff'}
                   title={''}
@@ -142,7 +158,8 @@ function App() {
                 />
               </CardHeroButton>
             </CardHeroContainer>
-          </CardHero>
+            <img src={URI + topProduct?.image} alt={topProduct?.name} style={{width:200}}/>
+          </CardHero>}
           <Section>
             <h2>EzKafe Drink Menu</h2>
             {!isOrdered && <Button onClick={handleClickOrder}>

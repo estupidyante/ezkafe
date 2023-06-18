@@ -17,7 +17,7 @@ export function CustomOrderLists({ingredients, handlePriceChange}) {
             if(measurement?.id === selectedMeasure) {
                 console.log('selected: ', measurement);
                 console.log('ingredients: ', item);
-                handlePriceChange(item?.price);
+                handlePriceChange(measurement?.price);
             }
         })
         // compute also the toal

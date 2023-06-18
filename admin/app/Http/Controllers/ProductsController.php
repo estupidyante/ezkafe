@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Products;
 use App\Models\Types;
 
+use App\Models\Orders;
 use App\Models\Ingredients;
 use App\Models\Measurements;
 use App\Models\ProductIngredients;
@@ -27,10 +28,24 @@ class ProductsController extends Controller
         $product = Products::with('ingredients')->find($id)->get();
 	    return response()->json($product, 200);
 	}
+    public function getProduct($id)
+	{
+        $product = Products::with('ingredients')->where('id', $id)->get();
+	    return response()->json($product, 200);
+	}
     public function getProductIngredients($id)
 	{
         $product = ProductIngredients::find($id);
 	    return response()->json($product, 200);
+	}
+    public function getProductOrdered()
+	{
+        $ordered = Orders::select('products_id')
+            ->groupBy('products_id')
+            ->orderByRaw('COUNT(*) DESC')
+            ->limit(1)
+            ->get();
+	    return response()->json($ordered, 200);
 	}
 	public function store(Request $request)
 	{

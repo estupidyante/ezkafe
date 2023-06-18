@@ -53,13 +53,13 @@
     <div class="row">
         <div class="col-12 grid-margin">
             <div class="card card-accounts">
-                <h6 class="card-header">
+                <h6 class="card-header" style="color:#000000">
                     this is where the calendar filter goes
                 </h6>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered mb-5">
-                            <thead>
+                            <thead style="border-top:1px solid #000000">
                                 <tr class="table-success">
                                     <th scope="col"> Order ID </th>
                                     <th scope="col"> User ID </th>
