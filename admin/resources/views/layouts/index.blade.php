@@ -106,7 +106,7 @@
             <div class="collapse" id="analytics">
               <ul class="nav flex-column sub-menu">
                 <li class="nav-item"> <a class="nav-link" href="/user/analytics"> Top Records </a></li>
-                <li class="nav-item"> <a class="nav-link" href="/user/summary"> Summary </a></li>
+                <li class="nav-item"> <a class="nav-link" href="/user/usergraphs"> User </a></li>
               </ul>
             </div>
           </li>

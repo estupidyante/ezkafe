@@ -22,6 +22,7 @@ use App\Http\Livewire\Admin\AdminDashboardComponent;
 use App\Http\Livewire\User\UserDashboardComponent;
 
 use App\Http\Livewire\User\UserAnalyticsComponent;
+use App\Http\Livewire\User\UserGraphComponent;
 use App\Http\Livewire\User\UserCategoriesComponent;
 use App\Http\Livewire\User\UserTypesComponent;
 use App\Http\Livewire\User\UserMeasurementsComponent;
@@ -64,6 +65,7 @@ Route::middleware([
 ])->group(function () {
     Route::get('/user/dashboard', UserDashboardComponent::class)->name('user.dashboard');
     Route::get('/user/analytics', UserAnalyticsComponent::class)->name('user.analytics');
+    Route::get('/user/usergraphs', UserGraphComponent::class)->name('user.usergraph');
     Route::get('/user/ingredients', UserIngredientsComponent::class)->name('user.ingredients');
     Route::get('/user/products', UserProductsComponent::class)->name('user.products');
     Route::get('/user/types', UserTypesComponent::class)->name('user.types');

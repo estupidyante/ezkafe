@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\User;
 
+use LaravelDaily\LaravelCharts\Classes\LaravelChart;
 use Livewire\Component;
 use App\Models\Products;
 use App\Models\Ingredients;
@@ -26,7 +27,33 @@ class UserDashboardComponent extends Component
             ->orderByRaw('COUNT(*) DESC')
             ->limit(5)
             ->get();
-        return view('livewire.user.user-dashboard-component', compact('products', 'ingredients','ingredients_count','revenue_count','orders_count','users_count', 'top_orders', 'categories', 'measurements'))->layout('layouts.base');
+
+        $user_chart_options = [
+            'chart_title' => 'Users by months',
+            'report_type' => 'group_by_date',
+            'model' => 'App\Models\Clients',
+            'group_by_field' => 'created_at',
+            'group_by_period' => 'month',
+            'chart_type' => 'bar',
+            'filter_field' => 'created_at',
+            'filter_days' => 30, // show only last 30 days
+        ];
+
+        $user_chart = new LaravelChart($user_chart_options);
+
+        $transaction_chart_options = [
+            'chart_title' => 'Transactions by dates',
+            'report_type' => 'group_by_date',
+            'model' => 'App\Models\Orders',
+            'group_by_field' => 'updated_at',
+            'group_by_period' => 'day',
+            'aggregate_function' => 'sum',
+            'aggregate_field' => 'amount',
+            'chart_type' => 'line',
+        ];
+
+        $transaction_chart = new LaravelChart($transaction_chart_options);
+        return view('livewire.user.user-dashboard-component', compact('products', 'ingredients','ingredients_count','revenue_count','orders_count','users_count', 'top_orders', 'categories', 'measurements','user_chart','transaction_chart'))->layout('layouts.base');
     }
 }
 
