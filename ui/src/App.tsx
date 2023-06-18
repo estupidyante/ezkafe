@@ -72,13 +72,14 @@ function App() {
       })
     API.get('/products/ordered')
       .then((res_ordered) => {
-        console.log('product_id: ', res_ordered[0]['products_id']);
-        API.get('/product/' + res_ordered[0]['products_id'])
-          .then((res_product_ordered) => {
-            console.log('product: ', res_product_ordered[0]);
-            setTopProduct(res_product_ordered[0]);
-            setIsTopProduct(true);
-          })
+        if(res_ordered && (res_ordered[0] && res_ordered[0]['products_id'])) {
+          API.get('/product/' + res_ordered[0]['products_id'])
+            .then((res_product_ordered) => {
+              console.log('product: ', res_product_ordered[0]);
+              setTopProduct(res_product_ordered[0]);
+              setIsTopProduct(true);
+            })
+        }
       })
   }, []);
   

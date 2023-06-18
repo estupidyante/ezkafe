@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Orders;
+use App\Models\Products;
+use App\Models\Ingredients;
+use App\Models\OrderIngredients;
 
 class OrdersController extends Controller
 {
@@ -21,10 +24,22 @@ class OrdersController extends Controller
         $orders = Orders::find($id);
 	    return response()->json($orders, 200);
 	}
-    public function store(Request $request)
+    public function store(Request $request, Ingredients $ingredients)
     {
         $input = $request->all();
         $order = Orders::create($input);
+        foreach( $ingredients->toArray() as $item => $value )
+        {
+            $temp_tag = str_replace(' ', '_', strtolower($item.name));
+            OrderIngredients::create(
+                order_id: $order.id,
+                products_id: $order.products_id,
+                type: $item.type,
+                measurement: $item.measurement,
+                actuators: $item.actuators,
+                unit: $item.unit
+            );
+        }
         return response()->json($order, 201);
     }
     public function edit(Request $request, $id)

@@ -20,6 +20,8 @@ export const PaymentDetalPage = ({product, handlePayment}) => {
         var user = {
             name: 'x'
         }
+        console.log(product);
+        console.log(product.ingredients);
         API.post('client/create', user)
             .then((response) => {
                 var order = {
@@ -29,7 +31,7 @@ export const PaymentDetalPage = ({product, handlePayment}) => {
                     status: 'in-progress'
                 }
                 console.log(order);
-                API.post('order/create', order)
+                API.post('order/create', order, product.ingredients)
                     .then((res_order) => {
                         setOrdered(res_order);
                         setIsPlaced(true);
