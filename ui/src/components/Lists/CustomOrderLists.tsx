@@ -4,20 +4,22 @@ import {
 } from '../../api';
 import Checkbox  from "../Checkbox";
 
-export function CustomOrderLists({ingredients}) {
+export function CustomOrderLists({ingredients, handlePriceChange}) {
     const [types, setTypes] = useState(Array);
     const [measurements, setMeasurements] = useState(Array);
     const [selectedMeasure, setSelectedMeasure] = useState(0);
     let electricFee = 10;
 
     // This function will be triggered when a radio button is selected
-    const radioHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const radioHandler = (event: React.ChangeEvent<HTMLInputElement>, item) => {
         setSelectedMeasure(parseInt(event.target.value));
-        // measurements.map((measurement, idx) => {
-        //     if(measurement?.id === selectedMeasure) {
-        //         console.log('selected', measurement);
-        //     }
-        // })
+        measurements.map((measurement, idx) => {
+            if(measurement?.id === selectedMeasure) {
+                console.log('selected: ', measurement);
+                console.log('ingredients: ', item);
+                handlePriceChange(item?.price);
+            }
+        })
         // compute also the toal
     };
 
@@ -53,7 +55,9 @@ export function CustomOrderLists({ingredients}) {
                                                                 name={item?.id}
                                                                 type="radio"
                                                                 value={measure?.id}
-                                                                onChange={radioHandler}
+                                                                onChange={(e) => {
+                                                                    radioHandler(e, item);
+                                                                }}
                                                             />
                                                             <label style={{width:'40%',textAlign:'left'}} htmlFor={item?.id + '_' + measure?.id}>{measure?.name}</label>
                                                             <p style={{width:'50%',textAlign:'right',display:'inline-block'}}>Php {measure?.price}</p>

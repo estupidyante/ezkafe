@@ -20,6 +20,10 @@ export const CustomProductDetailPage = ({product, handlePayment, handleState}) =
         setIngredients(product.ingredients);
     }, []);
 
+    const handlePriceChange = (price) => {
+        console.log(price);
+    }
+
     const handleBuyNow = () => {
         setTotal(parseInt(product.price) + electricFee);
         // var user = {
@@ -70,7 +74,7 @@ export const CustomProductDetailPage = ({product, handlePayment, handleState}) =
                         <p>{ordered.clients_id}</p>
                     </PaymentTotalHolder>
                 </>}
-                <CustomOrderLists ingredients={product?.ingredients}/>
+                <CustomOrderLists ingredients={product?.ingredients} handlePriceChange={handlePriceChange}/>
                 <PaymentTotalHolder>
                     <strong style={{textAlign:'left',marginRight:1}}>Subtotal:</strong>
                     <PaymentTotalSpanSpace>..............................................................................................................................................................</PaymentTotalSpanSpace>
