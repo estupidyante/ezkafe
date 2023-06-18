@@ -50,10 +50,9 @@ export function CustomOrderLists({ingredients}) {
                                                         <div key={index} style={{display:'flex',alignItems:'center',marginTop:'1rem',marginBottom:'1rem'}}>
                                                             <input style={{display:'inline-block',width:'20px',marginRight:10}}
                                                                 id={item?.id + '_' + measure?.id}
-                                                                name={item?.id + '_' + measure?.id}
+                                                                name={item?.id}
                                                                 type="radio"
                                                                 value={measure?.id}
-                                                                checked={(selectedMeasure === measure?.id || item?.measurements_id === measure?.id) ? true : false}
                                                                 onChange={radioHandler}
                                                             />
                                                             <label style={{width:'40%',textAlign:'left'}} htmlFor={item?.id + '_' + measure?.id}>{measure?.name}</label>
