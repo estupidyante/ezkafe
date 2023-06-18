@@ -1,10 +1,13 @@
-import { useEffect, useState, } from 'react';
+import { JSXElementConstructor, ReactElement, ReactFragment, useEffect, useState, } from 'react';
 import {
     API,
 } from '../../api';
 
 export function OrderLists({ingredients}) {
     const [types, setTypes] = useState(Array);
+
+    var product: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | JSX.Element[] | null | undefined;
+
     useEffect(() => {
         API.get('types')
             .then((res) => {
@@ -12,33 +15,27 @@ export function OrderLists({ingredients}) {
             })
     }, []);
 
-    var ingredient = types.map(function(type, idx){
-        console.log(type);
-        return (
-            <li key={idx} style={{height:80,padding:'1rem',borderBottomColor:'#26140D',borderBottomStyle:'solid',borderBottomWidth:1,}}>
-                <p style={{textAlign:'left',marginTop:'2rem'}}><strong>{type?.name}</strong></p>
-                <ul>
-                    {
-                        type?.ingredients.map((item, idx) => {
-                            return(
-                            <li key={idx} style={{height:80,padding:'1rem',borderBottomColor:'#26140D',borderBottomStyle:'solid',borderBottomWidth:1,}}>
-                                <p style={{display:'flex', justifyContent:'space-evenly', alignItems:'center',height:'50%'}}>
-                                {
-                                        types?.map((type, i) => {
-                                            if (item.types_id == type?.id) return(<span key={i} style={{textAlign:'left',width:'50%'}}><strong>{type?.name}</strong></span>)
-                                            else return('')
-                                        })
-                                    }
-                                    <span style={{textAlign:'right',width:'50%'}}>{item.name}</span>
-                                </p>
-                                <p style={{textAlign:'right',width:'100%',height:'50%'}}>{item.measurement} {item.unit}</p>
-                            </li>
-                            )
-                        })
-                    }
-                </ul>
-            </li>
-        );
+    ingredients.map((ingredient, i) => {
+        console.log('ingredient: ', ingredient);
+        product = types.map((type, idx) => {
+            console.log('type: ', type);
+            return (
+                <li key={idx} style={{height:'auto',padding:'1rem',borderBottomColor:'#26140D',borderBottomStyle:'solid',borderBottomWidth:1,}}>
+                    <p style={{textAlign:'left',marginTop:'2rem'}}><strong>{type?.name}</strong></p>
+                    <ul>
+                        {
+                            type?.ingredients.map((item, idx) => {
+                                return(
+                                <li key={idx}>
+                                    <p style={{textAlign:'left',marginTop:'1rem'}}>{item.name}</p>
+                                </li>
+                                )
+                            })
+                        }
+                    </ul>
+                </li>
+            );
+        })
     })
     // var ingredient = ingredients.map(function(item, idx){
     //     return (
@@ -64,7 +61,7 @@ export function OrderLists({ingredients}) {
                     <span style={{textAlign:'right',width:'50%'}}>16 oz.</span>
                 </p>
             </li>
-            { ingredient }
+            { product }
         </ul>
     )
 }

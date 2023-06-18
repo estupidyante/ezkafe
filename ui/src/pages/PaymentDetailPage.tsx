@@ -11,13 +11,6 @@ import { OrderLists } from 'components/Lists/OrderLists';
 
 export const PaymentDetalPage = ({product, handlePayment}) => {
     let electricFee = 10;
-    useEffect(() => {
-        console.log(product);
-        API.get('types')
-            .then((response) => {
-                console.log(response);
-            })
-    }, []);
 
     return (<PaymentDetailedContainer>
         <div style={{height:80, marginBottom:40,display:'flex',alignItems:'center',justifyContent:'space-evenly'}}>
@@ -34,7 +27,7 @@ export const PaymentDetalPage = ({product, handlePayment}) => {
         </div>
         <div style={{ backgroundColor: '#ffffff', width: '100%', minHeight: 620, borderStartStartRadius: 20, borderStartEndRadius: 20, borderWidth: 1, borderStyle: 'solid', padding: '3rem' }}>
             <p style={{fontSize:'2rem',marginBottom:20}}>{product?.name}</p>
-            <p style={{marginBottom:20}}>Php {product?.price}</p>
+            <p style={{marginBottom:20}}>Php {parseFloat(product?.price).toFixed(2)}</p>
             <OrderLists ingredients={product?.ingredients}/>
             <PaymentTotalHolder>
                 <strong style={{textAlign:'left',marginRight:1}}>Subtotal:</strong>
