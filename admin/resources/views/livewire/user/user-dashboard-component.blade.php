@@ -204,7 +204,7 @@
             </div>
         </div>
     </div>
-    @if(sizeof($products))
+    @if(sizeof($top_orders))
     <div class="row">
         <div class="col-12 grid-margin">
             <div class="card">
