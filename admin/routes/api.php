@@ -12,7 +12,7 @@ use App\Http\Controllers\TypesController;
 use App\Http\Controllers\MeasurementsController;
 use App\Http\Controllers\IngredientsController;
 use App\Http\Controllers\ProductsController;
-use App\Http\Controllers\ClientsController;
+use App\Http\Controllers\UserClientController;
 use App\Http\Controllers\OrdersController;
 
 use App\Http\Livewire\User\UserCategoriesComponent;
@@ -66,9 +66,6 @@ Route::get('/product/{id}', [ProductsController::class, 'show']);
 // get specific product ingredient
 Route::get('/product_ingredients/{id}', [ProductsController::class, 'getProductIngredients']);
 
-// create order
-Route::post('/order/create', [OrdersController::class, 'create']);
-
 // Categories
 Route::post('/category/create', [CategoriesController::class, 'create']);
 Route::put('/category/{id}', [CategoriesController::class, 'update']);
@@ -111,7 +108,11 @@ Route::delete('/user/account/{user}', [AccountsController::class, 'destroy'])->n
 // FAQs
 Route::get('/user/faqs', UserFAQsComponent::class);
 // Protected routes
-Route::group(['middleware' => ['auth:sanctum']], function () {
+Route::group(['middleware' => ['api']], function () {
+    // create order
+    Route::post('/order/create', [OrdersController::class, 'store']);
+    // create client
+    Route::post('/client/create', [UserClientController::class, 'store']);
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

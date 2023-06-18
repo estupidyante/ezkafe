@@ -21,9 +21,11 @@ class OrdersController extends Controller
         $orders = Orders::find($id);
 	    return response()->json($orders, 200);
 	}
-    public function create(Request $request)
+    public function store(Request $request)
     {
-        //
+        $input = $request->all();
+        $order = Orders::create($input);
+        return response()->json($order, 201);
     }
 
     public function update(Request $request, $id)

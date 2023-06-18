@@ -22,7 +22,7 @@ const requestErrorHandler = err => {
 /**
  * Response Success Handler
  */
-const responseSuccessHandler = (res: AxiosResponse<any, any>) => {
+const responseSuccessHandler = (res) => {
   const response: DefaultResponse = res.data;
   if (200 <= res.status && res.status < 300) {
     return response;
@@ -45,6 +45,9 @@ const API = axios.create({
   headers: {
     'Content-Type': 'application/json',
     Accept: 'application/json',
+    withCredentials: false,
+    accesscontrolalloworigin: "*",
+    accesscontrolallowMethods: "Origin, X-Api-Key, X-Requested-With, Content-Type, Accept, Authorization",
   },
   baseURL: API_URI,
 });

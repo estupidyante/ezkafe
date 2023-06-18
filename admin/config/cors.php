@@ -15,13 +15,13 @@ return [
     |
     */
 
-    'paths' => ['api/*'],
-    'allowed_methods' => ['*'],
-    'allowed_origins' => ['*'],
+    'paths' => ['api/*', 'api/admin/*', 'api/users/*', '*'],
+    'allowed_methods' => ['POST', 'GET', 'DELETE', 'PUT', '*'],
+    'allowed_origins' => ['http://localhost:8080', 'http://localhost:3000', '*'],
     'allowed_origins_patterns' => [],
-    'allowed_headers' => ['*'],
-    'exposed_headers' => [],
-    'max_age' => 0,
+    'allowed_headers' => ['X-Custom-Header', 'Upgrade-Insecure-Requests', '*'],
+    'exposed_headers' => false,
+    'max_age' => false,
     'supports_credentials' => false,
 
 ];

@@ -18,4 +18,9 @@ class Clients extends Authenticatable
     use Notifiable;
     use TwoFactorAuthenticatable;
 
+    protected $table = 'clients';
+
+    protected $fillable = [
+        'name',
+    ];
 }

@@ -73,8 +73,8 @@
                                 @foreach ($orders as $order)
                                     <tr>
                                         <td> #{{ $order->id }} </td>
-                                        <td> {{ $order->user_id }} </td>
-                                        <td> {{ $products->where('id', $order->product_id)->name }} </td>
+                                        <td> {{ $order->clients_id }} </td>
+                                        <td> {{ $products->find($order->products_id)->name }} </td>
                                         <td> {{ $order->created_at }} </td>
                                         <td> {{ $order->amount }} </td>
                                         <td> {{ $order->status }} </td>

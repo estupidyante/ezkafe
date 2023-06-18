@@ -14,19 +14,16 @@ export function OrderLists({ingredients}) {
     }, []);
 
     var product = types.map((type, idx) => {
-        console.log(ingredients);
-        // console.log('type: ', type);
         return (
             <li key={idx} style={{height:'auto',padding:'1rem',borderBottomColor:'#26140D',borderBottomStyle:'solid',borderBottomWidth:1,}}>
                 <p style={{textAlign:'left',marginTop:'2rem'}}><strong>{type?.name}</strong></p>
                 <ul>
                     {
                         ingredients.map((item, idx) => {
-                            // console.log('type?.ingredients: ', item);
                             if(item.types_id == type.id) {
                                 return(
                                     <li key={idx}>
-                                        <p style={{textAlign:'left',marginTop:'1rem'}}>{item.name}: {parseInt(item.measurement)}{item.unit}</p>
+                                        <p style={{textAlign:'left',marginTop:'1rem'}}>{item.name}: {parseInt(item.measurement)} {item.unit}</p>
                                     </li>
                                 )
                             } else {

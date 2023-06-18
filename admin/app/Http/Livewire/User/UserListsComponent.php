@@ -12,7 +12,8 @@ class UserListsComponent extends Component
     public function render()
     {
         $users = Clients::all();
-        return view('livewire.user.user-lists-component', compact('users'))->layout('layouts.base');
+        $orders = Orders::all();
+        return view('livewire.user.user-lists-component', compact('users', 'orders'))->layout('layouts.base');
     }
 
     public function destroy($id)
