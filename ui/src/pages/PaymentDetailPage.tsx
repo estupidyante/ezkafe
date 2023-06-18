@@ -27,7 +27,7 @@ export const PaymentDetalPage = ({product, handlePayment}) => {
         </div>
         <div style={{ backgroundColor: '#ffffff', width: '100%', minHeight: 620, borderStartStartRadius: 20, borderStartEndRadius: 20, borderWidth: 1, borderStyle: 'solid', padding: '3rem' }}>
             <p style={{fontSize:'2rem',marginBottom:20}}>{product?.name}</p>
-            <p style={{marginBottom:20}}>Php {parseFloat(product?.price).toFixed(2)}</p>
+            {/* <p style={{marginBottom:20}}>Php {parseFloat(product?.price).toFixed(2)}</p> */}
             <OrderLists ingredients={product?.ingredients}/>
             <PaymentTotalHolder>
                 <strong style={{textAlign:'left',marginRight:1}}>Subtotal:</strong>
@@ -44,7 +44,7 @@ export const PaymentDetalPage = ({product, handlePayment}) => {
                 <PaymentTotalSpanSpace>..............................................................................................................................................................</PaymentTotalSpanSpace>
                 <p>Php {(parseFloat(product.price) + electricFee).toFixed(2)}</p>
             </PaymentTotalHolder>
-            <button style={{width: '100%', height:50, backgroundColor: '#26140D', color: '#ffffff', borderRadius: 10, marginTop:'2rem'}} onClick={handlePayment}>
+            <button style={{height:50, backgroundColor: '#26140D', color: '#ffffff', borderRadius: 10,position:'absolute',bottom:0,left:'2rem',right:'2rem' }} onClick={handlePayment}>
                 Buy Now
             </button>
         </div>

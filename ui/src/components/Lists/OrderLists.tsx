@@ -6,8 +6,6 @@ import {
 export function OrderLists({ingredients}) {
     const [types, setTypes] = useState(Array);
 
-    var product: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | JSX.Element[] | null | undefined;
-
     useEffect(() => {
         API.get('types')
             .then((res) => {
@@ -15,44 +13,32 @@ export function OrderLists({ingredients}) {
             })
     }, []);
 
-    ingredients.map((ingredient, i) => {
-        console.log('ingredient: ', ingredient);
-        product = types.map((type, idx) => {
-            console.log('type: ', type);
-            return (
-                <li key={idx} style={{height:'auto',padding:'1rem',borderBottomColor:'#26140D',borderBottomStyle:'solid',borderBottomWidth:1,}}>
-                    <p style={{textAlign:'left',marginTop:'2rem'}}><strong>{type?.name}</strong></p>
-                    <ul>
-                        {
-                            type?.ingredients.map((item, idx) => {
+    var product = types.map((type, idx) => {
+        console.log(ingredients);
+        // console.log('type: ', type);
+        return (
+            <li key={idx} style={{height:'auto',padding:'1rem',borderBottomColor:'#26140D',borderBottomStyle:'solid',borderBottomWidth:1,}}>
+                <p style={{textAlign:'left',marginTop:'2rem'}}><strong>{type?.name}</strong></p>
+                <ul>
+                    {
+                        ingredients.map((item, idx) => {
+                            // console.log('type?.ingredients: ', item);
+                            if(item.types_id == type.id) {
                                 return(
-                                <li key={idx}>
-                                    <p style={{textAlign:'left',marginTop:'1rem'}}>{item.name}</p>
-                                </li>
+                                    <li key={idx}>
+                                        <p style={{textAlign:'left',marginTop:'1rem'}}>{item.name}: {parseInt(item.measurement)}{item.unit}</p>
+                                    </li>
                                 )
-                            })
-                        }
-                    </ul>
-                </li>
-            );
-        })
+                            } else {
+                                return ('')
+                            }
+                        })
+                    }
+                </ul>
+            </li>
+        );
     })
-    // var ingredient = ingredients.map(function(item, idx){
-    //     return (
-    //         <li key={idx} style={{height:80,padding:'1rem',borderBottomColor:'#26140D',borderBottomStyle:'solid',borderBottomWidth:1,}}>
-    //             <p style={{display:'flex', justifyContent:'space-evenly', alignItems:'center',height:'50%'}}>
-    //             {
-    //                     types?.map((type, i) => {
-    //                         if (item.types_id == type?.id) return(<span key={i} style={{textAlign:'left',width:'50%'}}><strong>{type?.name}</strong></span>)
-    //                         else return('')
-    //                     })
-    //                 }
-    //                 <span style={{textAlign:'right',width:'50%'}}>{item.name}</span>
-    //             </p>
-    //             <p style={{textAlign:'right',width:'100%',height:'50%'}}>{item.measurement} {item.unit}</p>
-    //         </li>
-    //     );
-    // })
+
     return(
         <ul>
             <li style={{padding:'1rem',borderBottomColor:'#26140D',borderBottomStyle:'solid',borderBottomWidth:1,}}>

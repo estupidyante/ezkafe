@@ -66,7 +66,8 @@ Route::get('/product/{id}', [ProductsController::class, 'show']);
 // get specific product ingredient
 Route::get('/product_ingredients/{id}', [ProductsController::class, 'getProductIngredients']);
 
-
+// create order
+Route::post('/order/create', [OrdersController::class, 'create']);
 
 // Categories
 Route::post('/category/create', [CategoriesController::class, 'create']);
