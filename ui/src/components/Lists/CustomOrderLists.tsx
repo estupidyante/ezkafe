@@ -4,6 +4,7 @@ import {
 } from '../../api';
 import Checkbox  from "../Checkbox";
 import RadioButtonGroup from 'components/inputs/RadioButtonGroup';
+import { profile } from 'console';
 
 export function CustomOrderLists({product,ingredients, handlePriceChange}) {
     const [types, setTypes] = useState(Array);
@@ -27,8 +28,51 @@ export function CustomOrderLists({product,ingredients, handlePriceChange}) {
             .then((res_measure) => {
                 setMeasurements(res_measure);
             })
-        console.log('product: ',product);
     }, []);
+
+    var currentProduct = product.ingredients.map((ingredient, idx) => {
+        return(
+            <div key={idx} style={{padding:'1rem',borderColor:'#26140D',borderWidth:1,borderBottomStyle:'solid',}}>
+                <p style={{fontSize:'x-large',fontWeight:'bolder',textAlign:'left',display:'flex',justifyContent:'space-between',}}><span>{ingredient?.name}</span>
+                <span>
+                    {
+                        types.map((type, i) => {
+                            if (type.id == ingredient.types_id) return type.name
+                        })
+                    }
+                </span>
+                </p>
+                <p style={{marginBottom:20,display:'flex'}}>
+                    <span style={{fontSize:'small',fontWeight:'bolder',textAlign:'left',marginRight:5}}>{ ingredient.measurement }</span>
+                    <span style={{fontSize:'small',fontWeight:'bolder',textAlign:'left'}}>{ ingredient.unit }</span>
+                </p>
+                {
+                    types.map((type, idx) => {
+                        if(type?.id === ingredient.types_id) {
+                            setSelectedValue(
+                                ingredients.filter((ing: { types_id: any; }) => {
+                                    return (ing.types_id === ingredient.types_id) ? type?.value : '';
+                                })
+                            )
+                            return(
+                                <RadioButtonGroup
+                                    key={idx}
+                                    label=""
+                                    group={ingredient?.name}
+                                    options={
+                                        ingredients.filter((ing: { types_id: any; }) => {
+                                            return ing.types_id === ingredient.types_id;
+                                        })
+                                    }
+                                    onChange={radioGroupHandler}
+                                />
+                            )
+                        }
+                    })
+                }
+            </div>
+        )
+    });
 
     var productBase = types.map((type, idx) => {
         return(
@@ -57,7 +101,7 @@ export function CustomOrderLists({product,ingredients, handlePriceChange}) {
                 <p><span style={{fontSize:'small',fontWeight:'bolder',textAlign:'left'}}><strong>Note: </strong> Cup size available is 16 oz. only.</span></p>
             </li>
             <li>
-                { productBase }
+                { currentProduct }
             </li>
         </ul>
     )

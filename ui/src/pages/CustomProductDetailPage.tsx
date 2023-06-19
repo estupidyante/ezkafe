@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { 
-    ArrowBackCircleOutline,
+    CloseOutline,
 } from 'react-ionicons';
 import {
     URI,
@@ -52,7 +52,7 @@ export const CustomProductDetailPage = ({product, categories, handlePayment, han
         <CustomizedProductDetailedContainer>
             <div style={{height:80, marginBottom:40,display:'flex',alignItems:'center',justifyContent:'space-evenly'}}>
                 <button onClick={handleState}>
-                    <ArrowBackCircleOutline
+                    <CloseOutline
                         color={'#00000'} 
                         title={''}
                         height="30px"
