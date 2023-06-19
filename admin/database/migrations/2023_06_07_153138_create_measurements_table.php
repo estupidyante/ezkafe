@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('label');
             $table->string('name');
-            $table->decimal('volume',5,1);
+            $table->string('value');
             $table->string('unit');
             $table->decimal('price',5,2);
             $table->timestamps();

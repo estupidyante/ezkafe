@@ -3,11 +3,12 @@ import { InputHTMLAttributes } from "react";
 export interface IOption {
   label: string;
   name?: string;
-
+  value?: string;
   disabled?: boolean;
 }
 
 export interface IInputGroup {
+  group: string;
   label: string;
   options: IOption[];
   hasFullWidth?: boolean;

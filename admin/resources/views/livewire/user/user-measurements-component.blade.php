@@ -155,7 +155,7 @@
                                     <tr class="tab-pane">
                                         <td> {{$element->id}} </td>
                                         <td> {{$element->name}} </td>
-                                        <td> {{$element->volume}} </td>
+                                        <td> {{$element->value}} </td>
                                         <td> {{$element->unit}} </td>
                                         <td> {{$element->price}} </td>
                                         <td>

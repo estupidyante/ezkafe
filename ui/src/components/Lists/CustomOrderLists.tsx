@@ -35,11 +35,6 @@ export function CustomOrderLists({ingredients, handlePriceChange}) {
         return (
             <li key={idx} style={{height:'auto',padding:'1rem',borderBottomColor:'#26140D',borderBottomStyle:'solid',borderBottomWidth:1,}}>
                 <p style={{textAlign:'left',marginTop:'2rem'}}><strong>{type?.name}</strong></p>
-                <RadioButtonGroup
-                    label=""
-                    options={measurements}
-                    onChange={radioGroupHandler}
-                />
                 <ul>
                     {
                         ingredients.map((item, idx) => {
@@ -50,7 +45,7 @@ export function CustomOrderLists({ingredients, handlePriceChange}) {
                                         <p style={{textAlign:'left',marginTop:'1rem'}}><strong>{item.name}:</strong><span>{parseInt(item.measurement)} {item.unit}</span></p>
                                         <RadioButtonGroup
                                             label=""
-                                            name={item.name}
+                                            group={item?.name}
                                             options={measurements}
                                             onChange={radioGroupHandler}
                                         />

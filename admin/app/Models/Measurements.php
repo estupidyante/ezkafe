@@ -11,7 +11,7 @@ class Measurements extends Model
 
     protected $fillable = [
         'name',
-        'volume',
+        'value',
         'unit',
         'price'
     ];
