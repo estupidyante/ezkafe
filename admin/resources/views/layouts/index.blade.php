@@ -32,6 +32,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.1/mdb.min.css"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <!-- inject:css -->
     <!-- endinject -->
     <!-- Layout styles -->
@@ -39,6 +40,7 @@
     <!-- End layout styles -->
     <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}" />
     @livewireStyles
+    @stack('style')
     @yield('page-style')
   </head>
   <body>
@@ -306,6 +308,7 @@
       <!-- page-body-wrapper ends -->
     </div>
     <!-- container-scroller -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <!-- plugins:js -->
     <script src="{{ asset('assets/vendors/js/vendor.bundle.base.js') }}"></script>
     <!-- endinject -->
@@ -333,6 +336,7 @@
       src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.1/mdb.min.js"
     ></script>
     @livewireScripts
+    @stack('scripts')
     @yield('page-script')
   </body>
 </html>

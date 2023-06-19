@@ -32,6 +32,7 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.1/mdb.min.css"
       rel="stylesheet"
     />
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <!-- inject:css -->
     <!-- endinject -->
     <!-- Layout styles -->
@@ -39,6 +40,7 @@
     <!-- End layout styles -->
     <link rel="shortcut icon" href="{{ asset('assets/images/favicon.png') }}" />
     @livewireStyles
+    @stack('style')
     @yield('page-style')
   </head>
   <body>
@@ -314,7 +316,6 @@
     <script src="{{ asset('assets/vendors/progressbar.js/progressbar.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/jvectormap/jquery-jvectormap.min.js') }}"></script>
     <script src="{{ asset('assets/vendors/jvectormap/jquery-jvectormap-world-mill-en.js') }}"></script>
-    <script src="a{{ asset('ssets/vendors/owl-carousel-2/owl.carousel.min.js') }}"></script>
     <script src="{{ asset('assets/js/jquery.cookie.js" type="text/javascript') }}"></script>
     <!-- End plugin js for this page -->
     <!-- inject:js -->
@@ -332,7 +333,9 @@
       type="text/javascript"
       src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.1/mdb.min.js"
     ></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     @livewireScripts
+    @stack('scripts')
     @yield('page-script')
   </body>
 </html>

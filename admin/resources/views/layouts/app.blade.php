@@ -14,11 +14,14 @@
 
         <!-- Styles -->
         <link rel="stylesheet" href="{{ mix('css/app.css') }}">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
+        @stack('style')
         @livewireStyles
 
         <!-- Scripts -->
         <script src="{{ mix('js/app.js') }}" defer></script>
+        <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     </head>
     <body class="font-sans antialiased">
         <x-jet-banner />
@@ -42,7 +45,7 @@
         </div>
 
         @stack('modals')
-
+        @stack('scripts')
         @livewireScripts
     </body>
 </html>

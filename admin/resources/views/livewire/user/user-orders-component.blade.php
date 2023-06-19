@@ -44,18 +44,23 @@
     }
 </style>
 @endsection
+@push('style')
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+@endpush
 <div class="content-wrapper">
     <div class="row">
         <h3 class="text-dark">Orders</h3>
         <p class="text-muted pb-0 m-0">EzKafe / Reports / Orders</p>
         <p class="text-muted pb-4">Here are all the orders from the machine</p>
     </div>
+    <div class="row justify-content-end" style="padding:0rem 1.5625rem;">
+        <div class="col-md-4">
+            <input type="datetime-local" class="form-control" name="filter_date" style="background:#000000;">
+        </div>
+    </div>
     <div class="row">
         <div class="col-12 grid-margin">
             <div class="card card-accounts">
-                <h6 class="card-header" style="color:#000000">
-                    this is where the calendar filter goes
-                </h6>
                 <div class="card-body">
                     <div class="table-responsive">
                         <table class="table table-striped table-bordered mb-5">
@@ -88,3 +93,14 @@
         </div>
     </div>
 </div>
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    config = {
+        enableTime: false,
+        dateFormat: 'Y-m-d',
+        maxDate: "today",
+    }
+    flatpickr("input[type=datetime-local]", config);
+</script>
+@endpush
