@@ -8,6 +8,7 @@ import {
     API,
 } from '../api';
 import { OrderLists } from 'components/Lists/OrderLists';
+import { NumericFormat } from 'react-number-format';
 
 export const PaymentDetalPage = ({product, handlePayment}) => {
     const [total, setTotal] = useState(0);
@@ -53,7 +54,7 @@ export const PaymentDetalPage = ({product, handlePayment}) => {
             <h1 style={{width:'90%'}}>Order Details</h1>
         </div>
         <div style={{ backgroundColor: '#ffffff', width: '100%', minHeight: 620, borderStartStartRadius: 20, borderStartEndRadius: 20, borderWidth: 1, borderStyle: 'solid', padding: '3rem' }}>
-            <p style={{fontSize:'2rem',marginBottom:20}}>{product?.name}</p>
+            <p style={{fontFamily:'Cormorant Garamond',fontSize:'xx-large',fontWeight:'bolder',marginBottom:20}}>{product?.name}</p>
             {isPlaced && <>
                 <PaymentTotalHolder>
                     <strong style={{textAlign:'left',marginRight:1}}>Order ID:</strong>
@@ -70,22 +71,22 @@ export const PaymentDetalPage = ({product, handlePayment}) => {
             <PaymentTotalHolder>
                 <strong style={{textAlign:'left',marginRight:1}}>Subtotal:</strong>
                 <PaymentTotalSpanSpace>..............................................................................................................................................................</PaymentTotalSpanSpace>
-                <p>Php {(parseFloat(product.price)).toFixed(2)}</p>
+                <p><NumericFormat value={parseInt(product?.price)} displayType={'text'} thousandSeparator={true} decimalScale={2} fixedDecimalScale={true} prefix={'Php '} /></p>
             </PaymentTotalHolder>
             <PaymentTotalHolder>
                 <strong style={{textAlign:'left',marginRight:1}}>Electric Fee:</strong>
                 <PaymentTotalSpanSpace>..............................................................................................................................................................</PaymentTotalSpanSpace>
-                <p>Php {electricFee.toFixed(2)}</p>
+                <p><NumericFormat value={electricFee} displayType={'text'} thousandSeparator={true} decimalScale={2} fixedDecimalScale={true} prefix={'Php '} /></p>
             </PaymentTotalHolder>
             <PaymentTotalHolder>
                 <strong style={{textAlign:'left',marginRight:1}}>Total:</strong>
                 <PaymentTotalSpanSpace>..............................................................................................................................................................</PaymentTotalSpanSpace>
-                <p>Php {(parseInt(product.price) + electricFee).toFixed(2)}</p>
+                <p><NumericFormat value={parseInt(product?.price) + electricFee} displayType={'text'} thousandSeparator={true} decimalScale={2} fixedDecimalScale={true} prefix={'Php '} /></p>
             </PaymentTotalHolder>
-            {!isPlaced && <button style={{width:'100%',height:50, backgroundColor: '#26140D', color: '#ffffff', borderRadius: 10,marginTop:'5rem'}} onClick={handleBuyNow}>
+            {!isPlaced && <button style={{fontFamily:'Cormorant Garamond',fontSize:'x-large',fontWeight:'bolder',width:'100%',height:50, backgroundColor: '#26140D', color: '#ffffff', borderRadius: 10,marginTop:'5rem'}} onClick={handleBuyNow}>
                 Buy Now
             </button>}
-            {isPlaced && <button style={{width:'100%',height:50, backgroundColor: '#26140D', color: '#ffffff', borderRadius: 10,marginTop:'5rem'}} onClick={() => {
+            {isPlaced && <button style={{fontFamily:'Cormorant Garamond',fontSize:'x-large',fontWeight:'bolder',width:'100%',height:50, backgroundColor: '#26140D', color: '#ffffff', borderRadius: 10,marginTop:'5rem'}} onClick={() => {
                 window.print();
             }}>
                 Print Order

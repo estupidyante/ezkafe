@@ -12,6 +12,7 @@ import {
 import {
     URI,
 } from '../../api';
+import { NumericFormat } from 'react-number-format';
 
 export function ProductSmallCard({products, handleState, handleSelected}) {
     if (products.length > 0) return(
@@ -25,7 +26,7 @@ export function ProductSmallCard({products, handleState, handleSelected}) {
                     <AllProductContentContainer>
                     <AllProductTitle>{item?.name}</AllProductTitle>
                     <AllProductDescription>{item?.description}</AllProductDescription>
-                    <AllProductPrice>Php {item?.price}</AllProductPrice>
+                    <AllProductPrice><p><NumericFormat value={parseInt(item?.price)} displayType={'text'} thousandSeparator={true} decimalScale={2} fixedDecimalScale={true} prefix={'Php '} /></p></AllProductPrice>
                     </AllProductContentContainer>
                     <button style={{backgroundColor:'#26140D', margin: 5, display: 'flex', alignItems: 'center'}} onClick={() => {
                         handleState(true);

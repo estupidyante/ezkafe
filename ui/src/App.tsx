@@ -44,6 +44,7 @@ import { ProductSmallCard } from 'components/Lists/ProductSmallCard';
 import { PaymentDetalPage } from 'pages/PaymentDetailPage';
 import { ProductDetailPage } from './pages/ProductDetailPage';
 import { CustomProductDetailPage } from './pages/CustomProductDetailPage';
+import { NumericFormat } from 'react-number-format';
 
 function App() {
   const [isOrdered, setIsOrdered] = useState(false);
@@ -188,7 +189,7 @@ function App() {
                     <CardProductContent>
                       <CardProductTitle>{item?.name}</CardProductTitle>
                       <CardProductDescription>{item?.description}</CardProductDescription>
-                      <CardProductPrice value="180.85">Php {item?.price}</CardProductPrice>
+                      <CardProductPrice value="180.85"><p><NumericFormat value={parseInt(item?.price)} displayType={'text'} thousandSeparator={true} decimalScale={2} fixedDecimalScale={true} prefix={'Php '} /></p></CardProductPrice>
                     </CardProductContent>
                   </CardProduct>
                 </CardProductItem>

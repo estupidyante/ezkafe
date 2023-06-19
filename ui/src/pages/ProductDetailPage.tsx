@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import styled, { keyframes } from 'styled-components';
+import styled from 'styled-components';
+import { NumericFormat } from 'react-number-format';
 import { 
     CloseOutline,
 } from 'react-ionicons';
@@ -29,13 +30,13 @@ export const ProductDetailPage = ({product, handleState, handleCustomize, handle
             </button>
             <img src={URI + product?.image} alt={product?.name} style={{height:250, margin: 'auto', marginBottom:40}}/>
             <div style={{ backgroundColor: '#ffffff', width: '100%', minHeight: 420, borderStartStartRadius: 20, borderStartEndRadius: 20, borderWidth: 1, borderStyle: 'solid', padding: '3rem' }}>
-                <p style={{fontSize:'2rem',marginBottom:20}}>{product?.name}</p>
-                <p style={{marginBottom:20}}>Php {parseFloat(product?.price).toFixed(2)}</p>
-                <button style={{width: '100%', height:50, backgroundColor: '#26140D', color: '#ffffff', borderRadius: 10}} onClick={handleCustomize}>
+                <p style={{fontFamily:'Cormorant Garamond',fontSize:'xx-large',fontWeight:'bolder'}}>{product?.name}</p>
+                <p style={{marginBottom:20,fontSize:'xx-large',fontWeight:'bolder'}}><NumericFormat value={parseInt(product?.price)} displayType={'text'} thousandSeparator={true} decimalScale={2} fixedDecimalScale={true} prefix={'Php '} /></p>
+                <button style={{fontFamily:'Cormorant Garamond',fontSize:'large',fontWeight:'bolder',width: '100%', height:50, backgroundColor: '#26140D', color: '#ffffff', borderRadius: 10}} onClick={handleCustomize}>
                     Customize
                 </button>
                 <ProductIngredientLists ingredients={ingredients}/>
-                <button style={{width: '100%', height:50, backgroundColor: '#26140D', color: '#ffffff', borderRadius: 10, marginTop:'2rem'}} onClick={handlePayment}>
+                <button style={{fontFamily:'Cormorant Garamond',fontSize:'large',fontWeight:'bolder',width: '100%', height:50, backgroundColor: '#26140D', color: '#ffffff', borderRadius: 10, marginTop:'2rem'}} onClick={handlePayment}>
                     Proceed Payment
                 </button>
             </div>
