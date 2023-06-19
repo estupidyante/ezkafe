@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('measurements', function (Blueprint $table) {
             $table->id();
+            $table->string('label');
             $table->string('name');
             $table->decimal('volume',5,1);
             $table->string('unit');

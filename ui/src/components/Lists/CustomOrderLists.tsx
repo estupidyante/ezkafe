@@ -3,12 +3,19 @@ import {
     API,
 } from '../../api';
 import Checkbox  from "../Checkbox";
+import RadioButtonGroup from 'components/inputs/RadioButtonGroup';
 
 export function CustomOrderLists({ingredients, handlePriceChange}) {
     const [types, setTypes] = useState(Array);
     const [measurements, setMeasurements] = useState(Array);
     const [selectedMeasure, setSelectedMeasure] = useState(0);
     let electricFee = 10;
+
+    const [selectedValue, setSelectedValue] = useState<String>(ingredients[0].id);
+
+    function radioGroupHandler(event: React.ChangeEvent<HTMLInputElement>) {
+        setSelectedValue(event.target.value);
+    }
 
     // This function will be triggered when a radio button is selected
     const radioHandler = (event: React.ChangeEvent<HTMLInputElement>, item) => {
@@ -22,6 +29,10 @@ export function CustomOrderLists({ingredients, handlePriceChange}) {
         })
         // compute also the toal
     };
+
+    useEffect(() => {
+        console.log(selectedValue);
+    }, [selectedValue]);
 
     useEffect(() => {
         API.get('types')
@@ -47,23 +58,28 @@ export function CustomOrderLists({ingredients, handlePriceChange}) {
                                         <p style={{textAlign:'left',marginTop:'1rem'}}><strong>{item.name}:</strong><span>{parseInt(item.measurement)} {item.unit}</span></p>
                                         <div>
                                             { 
-                                                measurements.map((measure, index) => {
-                                                    return(
-                                                        <div key={index} style={{display:'flex',alignItems:'center',marginTop:'1rem',marginBottom:'1rem'}}>
-                                                            <input style={{display:'inline-block',width:'20px',marginRight:10}}
-                                                                id={item?.id + '_' + measure?.id}
-                                                                name={item?.id}
-                                                                type="radio"
-                                                                value={measure?.id}
-                                                                onChange={(e) => {
-                                                                    radioHandler(e, item);
-                                                                }}
-                                                            />
-                                                            <label style={{width:'40%',textAlign:'left'}} htmlFor={item?.id + '_' + measure?.id}>{measure?.name}</label>
-                                                            <p style={{width:'50%',textAlign:'right',display:'inline-block'}}>Php {measure?.price}</p>
-                                                        </div>
-                                                    )
-                                                }) 
+                                                <RadioButtonGroup
+                                                    label="Select your measurement:"
+                                                    options={measurements}
+                                                    onChange={radioGroupHandler}
+                                                />
+                                                // measurements.map((measure, index) => {
+                                                //     return(
+                                                //         <div key={index} style={{display:'flex',alignItems:'center',marginTop:'1rem',marginBottom:'1rem'}}>
+                                                //             <input style={{display:'inline-block',width:'20px',marginRight:10}}
+                                                //                 id={item?.id + '_' + measure?.id}
+                                                //                 name={item?.id}
+                                                //                 type="radio"
+                                                //                 value={measure?.id}
+                                                //                 onChange={(e) => {
+                                                //                     radioHandler(e, item);
+                                                //                 }}
+                                                //             />
+                                                //             <label style={{width:'40%',textAlign:'left'}} htmlFor={item?.id + '_' + measure?.id}>{measure?.name}</label>
+                                                //             <p style={{width:'50%',textAlign:'right',display:'inline-block'}}>Php {measure?.price}</p>
+                                                //         </div>
+                                                //     )
+                                                // })
                                             }
                                         </div>
                                     </li>
