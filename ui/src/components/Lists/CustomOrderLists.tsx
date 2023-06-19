@@ -32,8 +32,8 @@ export function CustomOrderLists({product,ingredients, handlePriceChange}) {
 
     var productBase = types.map((type, idx) => {
         return(
-            <div key={idx}>
-                <p style={{fontSize:'x-large',fontWeight:'bolder',textAlign:'left',marginTop:'2rem'}}>{type?.name}</p>
+            <div key={idx} style={{padding:'1rem',borderColor:'#26140D',borderWidth:1,borderBottomStyle:'solid',}}>
+                <p style={{fontSize:'x-large',fontWeight:'bolder',textAlign:'left',}}>{type?.name}</p>
                 <p style={{marginBottom:20}}><span style={{fontSize:'small',fontWeight:'bolder',textAlign:'left'}}>Fixed according to the combo selected. </span></p>
                 {
                     <RadioButtonGroup
@@ -56,7 +56,7 @@ export function CustomOrderLists({product,ingredients, handlePriceChange}) {
             <li style={{padding:'1rem',borderBottomColor:'#26140D',borderBottomStyle:'solid',borderBottomWidth:1,}}>
                 <p><span style={{fontSize:'small',fontWeight:'bolder',textAlign:'left'}}><strong>Note: </strong> Cup size available is 16 oz. only.</span></p>
             </li>
-            <li style={{padding:'1rem',borderBottomColor:'#26140D',borderBottomStyle:'solid',borderBottomWidth:1,}}>
+            <li>
                 { productBase }
             </li>
         </ul>
