@@ -23,7 +23,7 @@
     }
     .card .card-body {
         background:white;
-        padding:0px !important;
+        padding:0px;
     }
     .card.card-accounts {
         background: white !important;
@@ -126,6 +126,9 @@
     .dynamic_select_with_delete button {
         margin-left:0.5rem;
     }
+    .text-wrap {
+        white-space:normal;
+    }
 </style>
 @endsection
 <div class="content-wrapper">
@@ -136,7 +139,7 @@
     <div class="row">
         <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
             <div class="card card-dashboard">
-                <div class="card-body">
+                <div class="card-body" style="padding:1.75rem 1.5625rem">
                     <div class="row">
                         <div class="col-3">
                             <div class="icon icon-circle icon-box-warning ">
@@ -153,7 +156,7 @@
         </div>
         <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
             <div class="card card-dashboard">
-                <div class="card-body">
+                <div class="card-body" style="padding:1.75rem 1.5625rem">
                     <div class="row">
                         <div class="col-3">
                             <div class="icon icon-circle icon-box-danger">
@@ -171,7 +174,7 @@
         </div>
         <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
             <div class="card card-dashboard">
-                <div class="card-body">
+                <div class="card-body" style="padding:1.75rem 1.5625rem">
                     <div class="row">
                         <div class="col-3">
                             <div class="icon icon-circle icon-box-success ">
@@ -188,7 +191,7 @@
         </div>
         <div class="col-xl-3 col-sm-6 grid-margin stretch-card">
             <div class="card card-dashboard">
-                <div class="card-body">
+                <div class="card-body" style="padding:1.75rem 1.5625rem">
                     <div class="row">
                         <div class="col-3">
                             <div class="icon icon-circle icon-box-primary">
@@ -248,23 +251,23 @@
                                         @if ($item->products_id == $element->id)
                                         <tr class="tab-pane">
                                             <td><img src="{{ url( $element->image ) }}" style="width: 150px; height:auto;"></td>
-                                            <td> {{ $element->name }} </td>
-                                            <td> {{ $element->description }} </td>
-                                            <td>
+                                            <td class="text-wrap"> {{ $element->name }} </td>
+                                            <td class="text-wrap"> {{ $element->description }} </td>
+                                            <td class="text-wrap">
                                                 @if ($element->ing_ids != "")
                                                     @foreach(explode(',', $element->ing_ids) as $ing_id) 
                                                         {{ $ingredients->find($ing_id)->name }},
                                                     @endforeach
                                                 @endif
                                             </td>
-                                            <td>
+                                            <td class="text-wrap">
                                                 @if ($element->measurement_ids != "")
                                                     @foreach(explode(',', $element->measurement_ids) as $msr_id) 
                                                         {{ $measurements->find($msr_id)->name }},
                                                     @endforeach
                                                 @endif
                                             </td>
-                                            <td> {{ $element->price }} </td>
+                                            <td class="text-wrap"> {{ number_format($element->price, 2) }} </td>
                                         </tr>
                                         @endif
                                     @endforeach

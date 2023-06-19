@@ -157,7 +157,7 @@
                                             <form class="d-inline" action="{{ route('user.type.destroy', $element ) }}" method="POST">
                                                 @method('DELETE')
                                                 @csrf
-                                                <button class="btn btn-danger">Delete</button>
+                                                <button class="btn btn-danger delete-type">Delete</button>
                                             </form>
                                         </td>
                                     </tr>
@@ -231,3 +231,25 @@
   </div>
 </div>
 @endforeach
+@section('page-script')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function(){ 
+        $('.delete-type').click(function(e){
+            e.preventDefault() // Don't post the form, unless confirmed
+            swal({
+                title: `Are you sure you want to delete this record?`,
+                text: "If you delete this, it will be gone forever.",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    $(e.target).closest('form').submit();
+                }
+            });
+        });
+    });  
+</script>
+@endsection

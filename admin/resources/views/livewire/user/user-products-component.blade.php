@@ -125,6 +125,9 @@
     .dynamic_select_with_delete button {
         margin-left:0.5rem;
     }
+    .text-wrap {
+        white-space:normal;
+    }
 </style>
 @endsection
 <div class="content-wrapper">
@@ -167,7 +170,7 @@
                     </ul>
                     <div>
                         <div class="table-responsive">
-                            <table class="table table-striped table-bordered mb-5 tab-content">
+                            <table class="table table-striped table-bordered mb-5 tab-content text-wrap">
                                 <thead class="table-secondary">
                                     <tr>
                                         <th scope="col"> Image </th>
@@ -186,60 +189,61 @@
                                         @if ($selectedTab == 0)
                                         <tr class="tab-pane">
                                             <td><img src="{{ url( $element->image ) }}" style="width: 150px; height:auto;"></td>
-                                            <td> {{ $element->name }} </td>
-                                            <td> {{ $element->description }} </td>
-                                            <td> {{ $item->find($element->category_id)->name }} </td>
-                                            <td>
+                                            <td class="text-wrap"> {{ $element->name }} </td>
+                                            <td class="text-wrap"> {{ $element->description }} </td>
+                                            <td class="text-wrap"> {{ $item->find($element->category_id)->name }} </td>
+                                            <td class="text-wrap">
                                                 @if ($element->ing_ids != "")
                                                     @foreach(explode(',', $element->ing_ids) as $ing_id) 
                                                         {{ $ingredients->find($ing_id)->name }},
                                                     @endforeach
                                                 @endif
                                             </td>
-                                            <td>
+                                            <td class="text-wrap">
                                                 @if ($element->measurement_ids != "")
                                                     @foreach(explode(',', $element->measurement_ids) as $msr_id) 
                                                         {{ $measurements->find($msr_id)->name }},
                                                     @endforeach
                                                 @endif
                                             </td>
-                                            <td> {{ $element->price }} </td>
+                                            <td class="text-wrap"> {{ number_format($element->price,2) }} </td>
                                             <td>
                                                 <a href="#" class="btn btn-success" data-mdb-toggle="modal" data-mdb-target="#updateProductsModal_{{ $element->id }}">Edit</a>
                                                 <form class="d-inline" action="{{ route('user.product.destroy', $element ) }}" method="POST">
                                                     @method('DELETE')
                                                     @csrf
-                                                    <button class="btn btn-danger">Delete</button>
+                                                    <button type="submit" class="btn btn-danger delete-product">Delete</button>
                                                 </form>
                                             </td>
                                         </tr>
                                         @elseif ($selectedTab == $item->id && $item->id == $element->category_id)
                                         <tr class="tab-pane">
                                             <td><img src="{{ url( $element->image ) }}" style="width: 150px; height:auto;"></td>
-                                            <td> {{ $element->name }} </td>
-                                            <td> {{ $element->description }} </td>
-                                            <td> {{ $item->find($element->category_id)->name }} </td>
-                                            <td>
+                                            <td class="text-wrap"> {{ $element->name }} </td>
+                                            <td class="text-wrap"> {{ $element->description }} </td>
+                                            <td class="text-wrap"> {{ $item->find($element->category_id)->name }} </td>
+                                            <td class="text-wrap">
                                                 @if ($element->ing_ids != "")
                                                     @foreach(explode(',', $element->ing_ids) as $ing_id) 
                                                         {{ $ingredients->find($ing_id)->name }},
                                                     @endforeach
                                                 @endif
                                             </td>
-                                            <td>
+                                            <td class="text-wrap">
                                                 @if ($element->measurement_ids != "")
                                                     @foreach(explode(',', $element->measurement_ids) as $msr_id) 
                                                         {{ $measurements->find($msr_id)->name }},
                                                     @endforeach
                                                 @endif
                                             </td>
-                                            <td> {{ $element->price }} </td>
+                                            <td class="text-wrap"> {{ number_format($element->price, 2) }} </td>
                                             <td>
                                                 <a href="#" class="btn btn-success" data-mdb-toggle="modal" data-mdb-target="#updateProductsModal_{{ $element->id }}">Edit</a>
                                                 <form class="d-inline" action="{{ route('user.product.destroy', $element ) }}" method="POST">
                                                     @method('DELETE')
                                                     @csrf
-                                                    <button class="btn btn-danger">Delete</button>
+                                                    <button type="submit" class="btn btn-danger delete-product">Delete</button>
+                                                    <!-- <button class="btn btn-danger delete-product">Delete</button> -->
                                                 </form>
                                             </td>
                                         </tr>
@@ -406,7 +410,7 @@
                         @endforeach
                     @endif
                 </div>
-                <button type="button" name="add_new_ing_field" id="addNewIngFieldModify" class="btn btn-success dynamic_add">Add More Ingredient</button>
+                <!-- <button type="button" name="add_new_ing_field" id="addNewIngFieldModify" class="btn btn-success dynamic_add">Add More Ingredient</button> -->
             </div>
             <div class="form-group">
                 <label>Image</label>
@@ -454,7 +458,21 @@
                 }
             });
         });
-
+        $('.delete-product').click(function(e){
+            e.preventDefault() // Don't post the form, unless confirmed
+            swal({
+                title: `Are you sure you want to delete this record?`,
+                text: "If you delete this, it will be gone forever.",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    $(e.target).closest('form').submit();
+                }
+            });
+        });
     });  
 </script>
 @endsection
