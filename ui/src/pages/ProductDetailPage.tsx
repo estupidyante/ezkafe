@@ -37,7 +37,7 @@ export const ProductDetailPage = ({product, handleState, handleCustomize, handle
                 </button>
                 <ProductIngredientLists ingredients={ingredients}/>
                 <button style={{fontFamily:'Cormorant Garamond',fontSize:'large',fontWeight:'bolder',width: '100%', height:50, backgroundColor: '#26140D', color: '#ffffff', borderRadius: 10, marginTop:'2rem'}} onClick={handlePayment}>
-                    Proceed Payment
+                    Proceed
                 </button>
             </div>
         </ProductDetailedContainer>

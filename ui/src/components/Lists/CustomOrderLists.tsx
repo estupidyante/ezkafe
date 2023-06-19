@@ -49,11 +49,7 @@ export function CustomOrderLists({product,ingredients, handlePriceChange}) {
                 {
                     types.map((type, idx) => {
                         if(type?.id === ingredient.types_id) {
-                            setSelectedValue(
-                                ingredients.filter((ing: { types_id: any; }) => {
-                                    return (ing.types_id === ingredient.types_id) ? type?.value : '';
-                                })
-                            )
+                            console.log(selectedValue);
                             return(
                                 <RadioButtonGroup
                                     key={idx}

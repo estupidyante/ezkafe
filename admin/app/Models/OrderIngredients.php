@@ -14,7 +14,7 @@ class OrderIngredients extends Model
     protected $fillable = [
         'name',
         'tag',
-        'products_id',
+        'order_id',
         'types_id',
         'measurements_id',
         'measurement',

@@ -32,16 +32,16 @@ class IngredientsController extends Controller
         $validatedData = $request->validate([
             'name'              => 'required|min:1|max:64',
             'type_id'           => 'required',
+            'tag'               => 'required',
             'actuator'          => 'required',
             'volume'            => 'required'
         ]);
 
         $data = $request->input();
         if ($data) {
-            $temp_tag = str_replace(' ', '_', strtolower($data['name']));
             Ingredients::create([
                 'name' => $data['name'],
-                'tag' => $temp_tag,
+                'tag' => $data['tag'],
                 'types_id' => $data['type_id'],
                 'actuators' => $data['actuator'],
                 'volume' => $data['volume'],
@@ -61,7 +61,7 @@ class IngredientsController extends Controller
         try {
             $ingredient = Ingredients::find($id);
             $ingredient->name = $data['name'];
-            $ingredient->tag = str_replace(' ', '_', strtolower($data['name']));
+            $ingredient->tag = $data['tag'];
             $ingredient->types_id = $data['type_id'];
             $ingredient->actuators = $data['actuator'];
             $ingredient->volume = $data['volume'];

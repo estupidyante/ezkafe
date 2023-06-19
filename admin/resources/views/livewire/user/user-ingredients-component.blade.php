@@ -234,6 +234,14 @@
                 </select>
             </div>
             <div class="form-group">
+                <label>Tag</label>
+                <select class="form-control" name="tag" required>
+                    @foreach($tags as $tag)
+                        <option value="{{ $tag->name }}">{{ $tag->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group">
                 <label>Actuator</label>
                 <input type="number" class="form-control p_input" name="actuator" placeholder="Enter the actuator number" :value="actuator" required autofocus>
             </div>
@@ -277,6 +285,14 @@
                 <select class="form-control" name="type_id" required>
                     @foreach($types as $type)
                         <option value="{{ $type->id }}" {{$type->id == $ingredient->type_id  ? 'selected' : ''}}>{{ $type->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Tag</label>
+                <select class="form-control" name="tag" required>
+                    @foreach($tags as $tag)
+                        <option value="{{ $tag->name }}" {{$tag->name == $ingredient->tag  ? 'selected' : ''}}>{{ $tag->name }}</option>
                     @endforeach
                 </select>
             </div>

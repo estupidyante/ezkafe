@@ -13,14 +13,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('ingredients', function (Blueprint $table) {
+        Schema::create('tag', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('tag');
-            $table->foreignId('types_id')->references('id')->on('types')->onDelete('cascade');
-            $table->integer('actuators');
-            $table->string('volume');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -31,6 +28,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ingredients');
+        Schema::dropIfExists('tag');
     }
 };

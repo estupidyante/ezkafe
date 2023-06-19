@@ -6,7 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\Orders;
 use App\Models\Products;
 use App\Models\Ingredients;
+use App\Models\ProductIngredients;
 use App\Models\OrderIngredients;
+use App\Models\CustomOrder;
 
 class OrdersController extends Controller
 {
@@ -24,22 +26,48 @@ class OrdersController extends Controller
         $orders = Orders::with('ingredients')->find($id)->get();
 	    return response()->json($orders, 200);
 	}
-    public function store(Request $request, Ingredients $ingredients)
+    public function store(Request $request)
     {
-        $input = $request->all();
+        $input = $request[0];
+        $product = $request[1];
         $order = Orders::create($input);
-        foreach( $ingredients->toArray() as $item => $value )
+
+        $arrayIng = $product['ingredients'];
+        $customOrderIngredients = [
+            'coffee_qty' => 0,
+            'milk_qty' => 0,
+            'soya_qty' => 0,
+            'classic_qty' => 0,
+            'brownSugar_qty' => 0,
+            'whiteSugar_qty' => 0,
+            'cocoa_qty' => 0,
+            'creamer_qty' => 0,
+            'frenchVanilla_qty' => 0,
+            'hazelnut_qty' => 0,
+            'butterscotch_qty' => 0,
+            'caramel_qty' => 0,
+            'chocolate_qty' => 0,
+        ];
+        for($i = 0;$i<sizeof($arrayIng);$i++)
         {
-            $temp_tag = str_replace(' ', '_', strtolower($item.name));
-            OrderIngredients::create(
-                order_id: $order.id,
-                products_id: $order.products_id,
-                type: $item.type,
-                measurement: $item.measurement,
-                actuators: $item.actuators,
-                unit: $item.unit
-            );
+            OrderIngredients::create([
+                'name' => $arrayIng[$i]['name'],
+                'tag' => $arrayIng[$i]['tag'],
+                'order_id' => $order['id'],
+                'types_id' => $arrayIng[$i]['types_id'],
+                'measurements_id' => $arrayIng[$i]['id'],
+                'measurement' => $arrayIng[$i]['measurement'],
+                'actuators' => $arrayIng[$i]['actuators'],
+                'unit' => $arrayIng[$i]['unit'],
+                'price' => $arrayIng[$i]['price'],
+                'volume' => $arrayIng[$i]['volume'],
+            ]);
+
+            // assemble ingredients
+            $customOrderIngredients[$arrayIng[$i]['tag']] = $arrayIng[$i]['measurement'];
         }
+
+        CustomOrder::create($customOrderIngredients);
         return response()->json($order, 201);
     }
     public function edit(Request $request, $id)

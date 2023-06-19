@@ -29,7 +29,8 @@ export const PaymentDetalPage = ({product, handlePayment}) => {
                     amount: parseInt(product.price) + electricFee,
                     status: 'in-progress'
                 }
-                API.post('order/create', order, product.ingredients)
+                console.log(product.ingredients);
+                API.post('order/create', [order, product])
                     .then((res_order) => {
                         setOrdered(res_order);
                         setIsPlaced(true);
