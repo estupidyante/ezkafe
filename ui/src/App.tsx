@@ -76,7 +76,7 @@ function App() {
         if(res_ordered && (res_ordered[0] && res_ordered[0]['products_id'])) {
           API.get('/product/' + res_ordered[0]['products_id'])
             .then((res_product_ordered) => {
-              console.log('product: ', res_product_ordered[0]);
+              // console.log('product: ', res_product_ordered[0]);
               setTopProduct(res_product_ordered[0]);
               setIsTopProduct(true);
             })
@@ -231,7 +231,7 @@ function App() {
         </Footer>
       </div>}
       {(isDetailed && !isPayment && !isCustomized) && <ProductDetailPage product={selectedProduct} handleState={handleDetailedState} handleCustomize={handleCustomize} handlePayment={handlePayment}/>}
-      {(isCustomized && !isPayment) && <CustomProductDetailPage product={selectedProduct} handlePayment={handlePayment} handleState={handleToDetails}/>}
+      {(isCustomized && !isPayment) && <CustomProductDetailPage product={selectedProduct} categories={categories} handlePayment={handlePayment} handleState={handleToDetails}/>}
       {(isPayment) && <div style={{ backgroundColor: '#ffffff', width: '100%', height: 'auto', borderStartStartRadius: 20, borderStartEndRadius: 20, borderWidth: 1, borderStyle: 'solid', padding: 20 }}>
         <PaymentDetalPage product={selectedProduct} handlePayment={handlePayment}/>
       </div>}

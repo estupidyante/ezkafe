@@ -21,8 +21,6 @@ export const PaymentDetalPage = ({product, handlePayment}) => {
         var user = {
             name: 'x'
         }
-        console.log(product);
-        console.log(product.ingredients);
         API.post('client/create', user)
             .then((response) => {
                 var order = {
@@ -31,7 +29,6 @@ export const PaymentDetalPage = ({product, handlePayment}) => {
                     amount: parseInt(product.price) + electricFee,
                     status: 'in-progress'
                 }
-                console.log(order);
                 API.post('order/create', order, product.ingredients)
                     .then((res_order) => {
                         setOrdered(res_order);

@@ -26,7 +26,7 @@ const RadioButtonGroup = ({ label, group, options, onChange }: IInputGroup) => {
           label={label}
           key={optionId}
           id={optionId}
-          name={group}
+          name={shortenedOptionGroupLabel}
           disabled={disabled}
           defaultChecked={index === 0}
           onChange={onChange}

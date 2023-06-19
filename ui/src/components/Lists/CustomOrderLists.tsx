@@ -63,9 +63,8 @@ export function CustomOrderLists({ingredients, handlePriceChange}) {
     return(
         <ul>
             <li style={{padding:'1rem',borderBottomColor:'#26140D',borderBottomStyle:'solid',borderBottomWidth:1,}}>
-                <p style={{display:'flex', justifyContent:'space-evenly', alignItems:'center',height:'50%'}}>
-                    <span style={{fontSize:'x-large',fontWeight:'bolder',textAlign:'left',width:'50%'}}><strong>Cup Size</strong></span>
-                    <span style={{textAlign:'right',width:'50%'}}>16 oz.</span>
+                <p>
+                    <span style={{fontSize:'small',fontWeight:'bolder',textAlign:'left'}}><strong>Note: </strong> Cup size available is 16 oz. only.</span>
                 </p>
             </li>
             { product }

@@ -10,7 +10,7 @@ import {
 import { CustomOrderLists } from 'components/Lists/CustomOrderLists';
 import { NumericFormat } from 'react-number-format';
 
-export const CustomProductDetailPage = ({product, handlePayment, handleState}) => {
+export const CustomProductDetailPage = ({product, categories, handlePayment, handleState}) => {
     const [ingredients, setIngredients] = useState(Array);
     const [total, setTotal] = useState(0);
     const [ordered, setOrdered] = useState(0);
@@ -18,11 +18,12 @@ export const CustomProductDetailPage = ({product, handlePayment, handleState}) =
     let electricFee = 10;
 
     useEffect(() => {
+        console.log(product);
         setIngredients(product.ingredients);
     }, []);
 
     const handlePriceChange = (price) => {
-        console.log(price);
+        //
     }
 
     const handleBuyNow = () => {
@@ -38,7 +39,6 @@ export const CustomProductDetailPage = ({product, handlePayment, handleState}) =
         //             amount: parseInt(product.price) + electricFee,
         //             status: 'in-progress'
         //         }
-        //         console.log(order);
         //         API.post('order/create', order)
         //             .then((res_order) => {
         //                 setOrdered(res_order);
@@ -62,7 +62,16 @@ export const CustomProductDetailPage = ({product, handlePayment, handleState}) =
                 <h1 style={{fontSize:'xx-large',fontWeight:'bolder',width:'90%'}}>Create Order</h1>
             </div>
             <div style={{ backgroundColor: '#ffffff', width: '100%', minHeight: 620, borderStartStartRadius: 20, borderStartEndRadius: 20, borderWidth: 1, borderStyle: 'solid', padding: '3rem' }}>
-            <p style={{fontSize:'xx-large',fontWeight:'bolder',marginBottom:20}}>{product?.name}</p>
+                <div style={{padding:'2rem',backgroundColor:'#D9D9D9',marginBottom:20,borderRadius:10,minHeight:80,height:'auto'}}>
+                    <p style={{fontFamily:'Cormorant Garamond',fontSize:'xx-large',fontWeight:'bolder',textAlign:'left'}}>{product?.name}</p>
+                    {
+                        categories.map((category, idx) => {
+                            if(category.id === product?.category_id) {
+                                return (<p style={{fontFamily:'Playfair Display',fontStyle:'italic',textAlign:'left'}}>{category.name} base drink</p>)
+                            }
+                        })
+                    }
+                </div>
                 {isPlaced && <>
                     <PaymentTotalHolder>
                         <strong style={{textAlign:'left',marginRight:1}}>Order ID:</strong>
@@ -91,10 +100,10 @@ export const CustomProductDetailPage = ({product, handlePayment, handleState}) =
                     <PaymentTotalSpanSpace>..............................................................................................................................................................</PaymentTotalSpanSpace>
                     <p><NumericFormat value={parseInt(product?.price) + electricFee} displayType={'text'} thousandSeparator={true} decimalScale={2} fixedDecimalScale={true} prefix={'Php '} /></p>
                 </PaymentTotalHolder>
-                {!isPlaced && <button style={{width:'100%',height:50, backgroundColor: '#26140D', color: '#ffffff', borderRadius: 10,marginTop:'5rem'}} onClick={handleBuyNow}>
+                {!isPlaced && <button style={{fontSize:'x-large',fontWeight:'bolder',width:'100%',height:50, backgroundColor: '#26140D', color: '#ffffff', borderRadius: 10,marginTop:'5rem'}} onClick={handleBuyNow}>
                     Buy Now
                 </button>}
-                {isPlaced && <button style={{width:'100%',height:50, backgroundColor: '#26140D', color: '#ffffff', borderRadius: 10,marginTop:'5rem'}} onClick={() => {
+                {isPlaced && <button style={{fontSize:'x-large',fontWeight:'bolder',width:'100%',height:50, backgroundColor: '#26140D', color: '#ffffff', borderRadius: 10,marginTop:'5rem'}} onClick={() => {
                     window.print();
                 }}>
                     Print Order
