@@ -1,5 +1,4 @@
 import { useEffect, useState, } from 'react';
-import ReactSearchBox from 'react-search-box';
 import {
   Wrapper,
   ContentContainer,
@@ -45,6 +44,7 @@ import { PaymentDetalPage } from 'pages/PaymentDetailPage';
 import { ProductDetailPage } from './pages/ProductDetailPage';
 import { CustomProductDetailPage } from './pages/CustomProductDetailPage';
 import { NumericFormat } from 'react-number-format';
+import { SearchBar } from 'components/SearchBar/SearchBar';
 
 function App() {
   const [isOrdered, setIsOrdered] = useState(false);
@@ -83,12 +83,7 @@ function App() {
         }
       })
   }, []);
-  
-  let data = [{}];
 
-  useEffect(() => {
-    data = products.map(item => ({key: item?.name, value: item?.name}));
-  }, [products]);
 
   const handleDetailedState = () => {
     if(isDetailed) setIsDetailed(false)
@@ -122,15 +117,7 @@ function App() {
         <HeaderComponent/>
         <ContentContainer>
           <SearchContainer>
-            <SearchBoxContainer>
-              <ReactSearchBox
-                placeholder="Search"
-                data={data} onSelect={function (record: { item: { key: string; value: string; }; }): void {
-                  throw new Error('Function not implemented.');
-                } } onChange={function (value: string): void {
-                  throw new Error('Function not implemented.');
-                } }      />
-            </SearchBoxContainer>
+            <SearchBar data={products} handleState={handleDetailedState} handleSelected={handleSelectedProduct} />
             <SearchIconContainer>
               <SearchOutline
                 color={'#00000'} 

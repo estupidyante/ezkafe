@@ -2,9 +2,7 @@ import { JSXElementConstructor, ReactElement, ReactFragment, useEffect, useState
 import {
     API,
 } from '../../api';
-import Checkbox  from "../Checkbox";
-import RadioButtonGroup from 'components/inputs/RadioButtonGroup';
-import { profile } from 'console';
+import RadioButtonGroup from 'components/Radio/RadioButtonGroup';
 
 export function CustomOrderLists({product,ingredients, handlePriceChange}) {
     const [types, setTypes] = useState(Array);

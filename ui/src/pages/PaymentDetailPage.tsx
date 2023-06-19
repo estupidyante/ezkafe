@@ -34,6 +34,7 @@ export const PaymentDetalPage = ({product, handlePayment}) => {
                     .then((res_order) => {
                         setOrdered(res_order);
                         setIsPlaced(true);
+                        handlePayment();
                     })
             })
     }
@@ -83,11 +84,6 @@ export const PaymentDetalPage = ({product, handlePayment}) => {
             </PaymentTotalHolder>
             {!isPlaced && <button style={{fontFamily:'Cormorant Garamond',fontSize:'x-large',fontWeight:'bolder',width:'100%',height:50, backgroundColor: '#26140D', color: '#ffffff', borderRadius: 10,marginTop:'5rem'}} onClick={handleBuyNow}>
                 Buy Now
-            </button>}
-            {isPlaced && <button style={{fontFamily:'Cormorant Garamond',fontSize:'x-large',fontWeight:'bolder',width:'100%',height:50, backgroundColor: '#26140D', color: '#ffffff', borderRadius: 10,marginTop:'5rem'}} onClick={() => {
-                window.print();
-            }}>
-                Print Order
             </button>}
         </div>
     </PaymentDetailedContainer>)

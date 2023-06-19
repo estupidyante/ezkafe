@@ -21,7 +21,6 @@ return new class extends Migration
             $table->foreignId('types_id')->references('id')->on('types')->onDelete('cascade');
             $table->foreignId('measurements_id')->references('id')->on('measurements')->onDelete('cascade');
             $table->string('measurement');
-            $table->integer('actuators');
             $table->string('unit');
             $table->decimal('price',5,2);
             $table->string('volume');

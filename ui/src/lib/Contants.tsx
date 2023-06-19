@@ -59,8 +59,13 @@ const LogoLink = styled.a`
 const SearchContainer = styled.div`
   margin: 1.2em;
   height: 40px;
-  background: transparent;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: white;
+  border-radius: 10px;
   position: relative;
+  border:1px solid #26140D;
 `;
 
 const SearchBoxContainer = styled.div`

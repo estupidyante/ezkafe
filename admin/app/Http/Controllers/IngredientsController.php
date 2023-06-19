@@ -33,7 +33,6 @@ class IngredientsController extends Controller
             'name'              => 'required|min:1|max:64',
             'type_id'           => 'required',
             'tag'               => 'required',
-            'actuator'          => 'required',
             'volume'            => 'required'
         ]);
 
@@ -43,7 +42,6 @@ class IngredientsController extends Controller
                 'name' => $data['name'],
                 'tag' => $data['tag'],
                 'types_id' => $data['type_id'],
-                'actuators' => $data['actuator'],
                 'volume' => $data['volume'],
                 
             ]);

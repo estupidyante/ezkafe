@@ -18,7 +18,6 @@ class ProductIngredients extends Model
         'types_id',
         'measurements_id',
         'measurement',
-        'actuators',
         'unit',
         'price',
         'volume',

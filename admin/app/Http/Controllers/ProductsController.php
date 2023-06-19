@@ -118,7 +118,6 @@ class ProductsController extends Controller
                     'types_id' => $ingredient['types_id'],
                     'measurements_id' => $measurement['id'],
                     'measurement' => $measurement['value'],
-                    'actuators' => $ingredient['actuators'],
                     'unit' => $measurement['unit'],
                     'price' => $measurement['price'],
                     'volume' => $ingredient['volume'],
