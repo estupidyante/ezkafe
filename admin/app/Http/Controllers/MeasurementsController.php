@@ -25,6 +25,7 @@ class MeasurementsController extends Controller
     {
         $data = $request->input();
         Measurements::create([
+            'label' => $data['name'],
             'name' => $data['name'],
             'volume' => $data['volume'],
             'unit' => $data['unit'],
@@ -40,6 +41,7 @@ class MeasurementsController extends Controller
 
         try {
             $measurement = Measurements::find($id);
+            $measurement->label = $data['name'];
             $measurement->name = $data['name'];
             $measurement->volume = $data['volume'];
             $measurement->unit = $data['unit'];

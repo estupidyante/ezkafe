@@ -36,9 +36,9 @@ export const Radio = styled.input`
     content: "";
     display: block;
     border-radius: 50%;
-    width: 0.75em;
-    height: 0.75em;
-    margin: 3px;
+    width: 1.5rem;
+    height: 1.5rem;
+    margin: 2.7px;
   }
   :checked {
     ::after {

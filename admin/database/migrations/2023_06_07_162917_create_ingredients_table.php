@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('name');
             $table->string('tag');
             $table->foreignId('types_id')->references('id')->on('types')->onDelete('cascade');
-            $table->foreignId('measurements_id')->references('id')->on('measurements')->onDelete('cascade');
+            // $table->foreignId('measurements_id')->references('id')->on('measurements')->onDelete('cascade');
             $table->integer('actuators');
             $table->string('volume');
             $table->timestamps();

@@ -32,7 +32,6 @@ class IngredientsController extends Controller
         $validatedData = $request->validate([
             'name'              => 'required|min:1|max:64',
             'type_id'           => 'required',
-            'measurement_id'    => 'required',
             'actuator'          => 'required',
             'volume'            => 'required'
         ]);
@@ -44,7 +43,6 @@ class IngredientsController extends Controller
                 'name' => $data['name'],
                 'tag' => $temp_tag,
                 'types_id' => $data['type_id'],
-                'measurements_id' => $data['measurement_id'],
                 'actuators' => $data['actuator'],
                 'volume' => $data['volume'],
                 
@@ -65,7 +63,6 @@ class IngredientsController extends Controller
             $ingredient->name = $data['name'];
             $ingredient->tag = str_replace(' ', '_', strtolower($data['name']));
             $ingredient->types_id = $data['type_id'];
-            $ingredient->measurements_id = $data['measurement_id'];
             $ingredient->actuators = $data['actuator'];
             $ingredient->volume = $data['volume'];
             $ingredient->update();

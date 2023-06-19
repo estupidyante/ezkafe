@@ -15,8 +15,7 @@ class UserIngredientsComponent extends Component
     {
         $types = Types::with('ingredients')->get();
         $selectedTab = isset($request->id) ? $request->id : 0;
-        $measurements = Measurements::with('ingredients')->get();
         $ingredients = Ingredients::all();
-        return view('livewire.user.user-ingredients-component', compact('ingredients', 'types', 'measurements', 'selectedTab'))->layout('layouts.base');
+        return view('livewire.user.user-ingredients-component', compact('ingredients', 'types', 'selectedTab'))->layout('layouts.base');
     }
 }

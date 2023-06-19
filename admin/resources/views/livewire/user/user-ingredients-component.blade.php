@@ -155,7 +155,6 @@
                                         <th scope="col"> Name </th>
                                         <th scope="col"> Volume </th>
                                         <th scope="col"> Type </th>
-                                        <th scope="col"> Preferred Measurements </th>
                                         <th scope="col"> Actuators </th>
                                         <th scope="col"> Action </th>
                                     </tr>
@@ -168,7 +167,6 @@
                                             <td> {{$element->name}} </td>
                                             <td> {{$element->volume}} </td>
                                             <td> {{ $item->find($element->types_id)->name}} </td>
-                                            <td> {{ $measurements->find($element->measurements_id)->volume}} {{ $measurements->find($element->measurements_id)->unit}} </td>
                                             <td> {{ $element->actuators }} </td>
                                             <td>
                                                 <a href="#" class="btn btn-success" data-mdb-toggle="modal" data-mdb-target="#updateIngredientsModal_{{ $element->id }}">Edit</a>
@@ -184,7 +182,6 @@
                                             <td> {{$element->name}} </td>
                                             <td> {{$element->volume}} </td>
                                             <td> {{ $item->find($element->types_id)->name}} </td>
-                                            <td> {{ $measurements->find($element->measurements_id)->volume}} {{ $measurements->find($element->measurements_id)->unit}} </td>
                                             <td> {{ $element->actuators }} </td>
                                             <td>
                                                 <a href="#" class="btn btn-success" data-mdb-toggle="modal" data-mdb-target="#updateIngredientsModal_{{ $element->id }}">Edit</a>
@@ -237,14 +234,6 @@
                 </select>
             </div>
             <div class="form-group">
-                <label>Preferred Measurement</label>
-                <select class="form-control" name="measurement_id" required>
-                    @foreach($measurements as $measure)
-                        <option value="{{ $measure->id }}">{{ $measure->name }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="form-group">
                 <label>Actuator</label>
                 <input type="number" class="form-control p_input" name="actuator" placeholder="Enter the actuator number" :value="actuator" required autofocus>
             </div>
@@ -292,16 +281,8 @@
                 </select>
             </div>
             <div class="form-group">
-                <label>Preferred Measurement</label>
-                <select class="form-control" name="measurement_id" required>
-                    @foreach($measurements as $measure)
-                        <option value="{{ $measure->id }}" {{$measure->id == $ingredient->measurement_id  ? 'selected' : ''}}>{{ $measure->name }}</option>
-                    @endforeach
-                </select>
-            </div>
-            <div class="form-group">
                 <label>Actuator</label>
-                <input type="number" class="form-control p_input" name="actuator" placeholder="Enter the actuator number" :value="actuator" value="{{ $ingredient->actuator }}" required autofocus>
+                <input type="number" class="form-control p_input" name="actuator" placeholder="Enter the actuator number" :value="actuator" value="{{ $ingredient->actuators }}" required autofocus>
             </div>
             <div class="form-group">
                 <label>Volume</label>
