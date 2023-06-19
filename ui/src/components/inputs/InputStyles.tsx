@@ -4,7 +4,7 @@ import { BrandColor } from "../../styled-components/GlobalStyles";
 export const Label = styled.label<{ disabled?: boolean }>`
   font-weight: 600;
   font-size: 2rem;
-  color: ${BrandColor.DARK_PURPLE};
+  color: ${BrandColor.DARK_BROWN};
   font-family: StabilGrotesk, -apple-system, BlinkMacSystemFont, "Segoe UI",
     Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
   ${({ disabled }) =>
@@ -18,7 +18,7 @@ export const Label = styled.label<{ disabled?: boolean }>`
 export const Legend = styled.legend`
   font-weight: 600;
   font-size: 1rem;
-  color: ${BrandColor.DARK_PURPLE};
+  color: ${BrandColor.DARK_BROWN};
   font-family: StabilGrotesk, -apple-system, BlinkMacSystemFont, "Segoe UI",
     Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
 `;
@@ -29,7 +29,7 @@ export const Radio = styled.input`
   margin: 0;
   width: 1.5em;
   height: 1.5em;
-  border: 2px solid ${BrandColor.DARK_PURPLE};
+  border: 2px solid ${BrandColor.DARK_BROWN};
   border-radius: 50%;
   transition: all 0.1s ease-in-out;
   ::after {
@@ -42,13 +42,13 @@ export const Radio = styled.input`
   }
   :checked {
     ::after {
-      background-color: ${BrandColor.DARK_PURPLE};
+      background-color: ${BrandColor.DARK_BROWN};
     }
     :hover {
       background-color: ${BrandColor.WHITE};
-      border: 2px solid ${BrandColor.DARK_PURPLE};
+      border: 2px solid ${BrandColor.DARK_BROWN};
       ::after {
-        background-color: ${BrandColor.DARK_PURPLE};
+        background-color: ${BrandColor.DARK_BROWN};
       }
     }
   }
