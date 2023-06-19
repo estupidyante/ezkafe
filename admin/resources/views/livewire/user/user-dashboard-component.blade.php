@@ -242,7 +242,7 @@
                                     <th scope="col"> Description </th>
                                     <th scope="col"> Ingredients </th>
                                     <th scope="col"> Preferred Measurements </th>
-                                    <th scope="col"> Price </th>
+                                    <th scope="col"> Current Price </th>
                                 </tr>
                             </thead>
                             <tbody>
