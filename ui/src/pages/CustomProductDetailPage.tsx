@@ -18,10 +18,11 @@ export const CustomProductDetailPage = ({product, categories, handlePayment, han
     let electricFee = 10;
 
     useEffect(() => {
-        console.log(product);
-        setIngredients(product.ingredients);
+        API.get('ingredients')
+            .then((response_ing) => {
+                setIngredients(response_ing);
+            })
     }, []);
-
     const handlePriceChange = (price) => {
         //
     }
@@ -84,7 +85,7 @@ export const CustomProductDetailPage = ({product, categories, handlePayment, han
                         <p>{ordered.clients_id}</p>
                     </PaymentTotalHolder>
                 </>}
-                <CustomOrderLists ingredients={product?.ingredients} handlePriceChange={handlePriceChange}/>
+                <CustomOrderLists product={product} ingredients={ingredients} handlePriceChange={handlePriceChange}/>
                 <PaymentTotalHolder>
                     <strong style={{textAlign:'left',marginRight:1}}>Subtotal:</strong>
                     <PaymentTotalSpanSpace>..............................................................................................................................................................</PaymentTotalSpanSpace>

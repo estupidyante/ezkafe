@@ -3,7 +3,7 @@ import { BrandColor } from "../../styled-components/GlobalStyles";
 
 export const Label = styled.label<{ disabled?: boolean }>`
   font-weight: 600;
-  font-size: 1rem;
+  font-size: 2rem;
   color: ${BrandColor.DARK_PURPLE};
   font-family: StabilGrotesk, -apple-system, BlinkMacSystemFont, "Segoe UI",
     Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;

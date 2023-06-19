@@ -15,15 +15,15 @@ const Wrapper = styled.div`
 
 const RadioButtonGroup = ({ label, group, options, onChange }: IInputGroup) => {
   function renderOptions() {
-    return options.map(({ label, value, disabled }: IOption, index) => {
+    return options.map(({ name, value, disabled }: IOption, index) => {
       const shortenedOptionGroupLabel = group.replace(/\s+/g, "").toLowerCase();
-      const shortenedOptionLabel = label.replace(/\s+/g, "");
+      const shortenedOptionLabel = (label) ? label.replace(/\s+/g, "") : name.replace(/\s+/g, "").toLowerCase();
       const optionId = `radio-option-${shortenedOptionLabel}-${shortenedOptionGroupLabel}`;
 
       return (
         <RadioButton
           value={value}
-          label={label}
+          label={(label) ? label : name}
           key={optionId}
           id={optionId}
           name={shortenedOptionGroupLabel}

@@ -1,7 +1,7 @@
 import { InputHTMLAttributes } from "react";
 
 export interface IOption {
-  label: string;
+  label?: string;
   name?: string;
   value?: string;
   disabled?: boolean;
