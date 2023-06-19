@@ -66,7 +66,7 @@ function App() {
         setCategories(res);
       })
       .finally(() => {
-        API.get(`products/`)
+        API.get(`products`)
         .then(res => {
           setProducts(res);
         })

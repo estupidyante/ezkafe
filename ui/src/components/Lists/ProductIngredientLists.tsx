@@ -24,12 +24,7 @@ export function ProductIngredientLists({ingredients}) {
                     }
                     <span style={{textAlign:'right',width:'50%'}}>{item.name}</span>
                 </p>
-                {
-                    types?.map((type, i) => {
-                        if (item.types_id == type?.id) return(<p key={i} style={{textAlign:'right',width:'100%',height:'50%'}}>{type?.measurement} {type?.unit}</p>)
-                        else return('')
-                    })
-                }
+                <p style={{textAlign:'right',width:'100%',height:'50%'}}>{item.measurement} {item?.unit}</p>
             </li>
         );
     })

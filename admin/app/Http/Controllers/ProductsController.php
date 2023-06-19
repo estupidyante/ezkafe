@@ -110,7 +110,7 @@ class ProductsController extends Controller
             for($i = 0;$i<sizeof($arryIng);$i++)
             {
                 $ingredient = Ingredients::find($arryIng[$i]);
-                $measurement = Measurements::find($arryIng[$i]);
+                $measurement = Measurements::find($arryMsr[$i]);
                 ProductIngredients::create([
                     'name' => $ingredient['name'],
                     'tag' => $ingredient['tag'],
