@@ -410,7 +410,7 @@
                         @endforeach
                     @endif
                 </div>
-                <!-- <button type="button" name="add_new_ing_field" id="addNewIngFieldModify" class="btn btn-success dynamic_add">Add More Ingredient</button> -->
+                <button type="button" name="add_new_ing_field_modify" id="addNewIngFieldModify" class="btn btn-success dynamic_add">Add More Ingredient</button>
             </div>
             <div class="form-group">
                 <label>Image</label>
@@ -434,14 +434,13 @@
 <script type="text/javascript">
     $(document).ready(function(){      
         var postURL = "<?php echo url('addmore'); ?>";
-        var i=0;
+        var i=0, h=0;
 
         $('#addNewIngField').click(function() {  
             i++;
             $('#dynamicField').append('<div id="row'+i+'" style="margin-top:0.5rem;"><div class="dynamic_select_with_delete"><select class="form-control" name="ing['+i+']">@foreach($ingredients as $ingredient)<option value="{{ $ingredient->id }}">{{ $ingredient->name }}</option> @endforeach</select><button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove">X</button></div><label style="margin-top:0.5rem;">Preferred Measurement</label><select class="form-control" name="measure['+i+']" required>@foreach($measurements as $measure)<option value="{{ $measure->id }}">{{ $measure->name }}</option>@endforeach</select></div>');  
-        });  
-
-        $(document).on('click', '.btn_remove, .btn_remove_modify', function() {
+        });
+        $(document).on('click', '.btn_remove', function() {
             event.preventDefault();
             swal({
                 title: `Are you sure you want to delete this record?`,
@@ -453,6 +452,29 @@
             .then((willDelete) => {
                 if (willDelete) {
                     i--;
+                    var button_id = $(this).attr("id");   
+                    $('#row'+button_id+'').remove();
+                }
+            });
+        });
+
+        $('#addNewIngFieldModify').click(function() {
+            console.log('click add to modify');
+            h++;
+            $('#dynamicFieldModify').append('<div id="row'+h+'" style="margin-top:0.5rem;"><div class="dynamic_select_with_delete"><select class="form-control" name="ing['+h+']">@foreach($ingredients as $ingredient)<option value="{{ $ingredient->id }}">{{ $ingredient->name }}</option> @endforeach</select><button type="button" name="remove" id="'+h+'" class="btn btn-danger btn_remove_modify">X</button></div><label style="margin-top:0.5rem;">Preferred Measurement</label><select class="form-control" name="measure['+h+']" required>@foreach($measurements as $measure)<option value="{{ $measure->id }}">{{ $measure->name }}</option>@endforeach</select></div>');  
+        });
+        $(document).on('click', '.btn_remove_modify', function() {
+            event.preventDefault();
+            swal({
+                title: `Are you sure you want to delete this record?`,
+                text: "If you delete this, it will be gone forever.",
+                icon: "warning",
+                buttons: true,
+                dangerMode: true,
+            })
+            .then((willDelete) => {
+                if (willDelete) {
+                    h--;
                     var button_id = $(this).attr("id");   
                     $('#row'+button_id+'').remove();
                 }
