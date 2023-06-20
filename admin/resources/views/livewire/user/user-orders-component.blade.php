@@ -99,7 +99,7 @@
 <script>
     config = {
         enableTime: false,
-        dateFormat: "Y-m-d H:i",
+        dateFormat: "Y-m-d",
         maxDate: "today",
         disableMobile: "false",
         onChange: function(selectedDates, dateStr, instance) {
