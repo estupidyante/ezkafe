@@ -14,7 +14,7 @@ export function CustomOrderLists({product,ingredients, handlePriceChange}) {
     }
 
     useEffect(() => {
-        console.log(selectedValue);
+        // console.log(selectedValue);
     }, [selectedValue]);
 
     useEffect(() => {
@@ -47,12 +47,12 @@ export function CustomOrderLists({product,ingredients, handlePriceChange}) {
                 {
                     types.map((type, idx) => {
                         if(type?.id === ingredient.types_id) {
-                            console.log(selectedValue);
                             return(
                                 <RadioButtonGroup
                                     key={idx}
                                     label=""
                                     group={ingredient?.name}
+                                    ing={ingredient?.name}
                                     options={
                                         ingredients.filter((ing: { types_id: any; }) => {
                                             return ing.types_id === ingredient.types_id;
@@ -77,6 +77,7 @@ export function CustomOrderLists({product,ingredients, handlePriceChange}) {
                     <RadioButtonGroup
                         label=""
                         group={type?.name}
+                        ing={type?.name}
                         options={
                             ingredients.filter((ing: { types_id: any; }) => {
                                 return ing.types_id === type?.id;
