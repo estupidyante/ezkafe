@@ -15,7 +15,7 @@ const Wrapper = styled.div`
 
 const RadioButtonGroup = ({ label, group, ing, options, onChange }: IInputGroup) => {
   function renderOptions() {
-    return options.map(({ name, value, disabled }: IOption, index) => {
+    return options.map(({ name, id, disabled }: IOption, index) => {
       const shortenedOptionGroupLabel = group.replace(/\s+/g, "").toLowerCase();
       const shortenedOptionLabel = (label) ? label.replace(/\s+/g, "") : name?.replace(/\s+/g, "").toLowerCase();
       const optionId = `radio-option-${shortenedOptionLabel}-${shortenedOptionGroupLabel}`;
@@ -25,7 +25,7 @@ const RadioButtonGroup = ({ label, group, ing, options, onChange }: IInputGroup)
 
       return (
         <RadioButton
-          value={value}
+          value={id}
           label={(label) ? label : name}
           key={optionId}
           id={optionId}

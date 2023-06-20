@@ -17,7 +17,7 @@ export const PaymentDetalPage = ({product, handlePayment}) => {
     let electricFee = 10;
 
     const handleBuyNow = () => {
-        setTotal(parseInt(product.price) + electricFee);
+        setTotal(parseInt(product.price));
         var user = {
             name: 'x'
         }
@@ -26,7 +26,7 @@ export const PaymentDetalPage = ({product, handlePayment}) => {
                 var order = {
                     clients_id: response?.id,
                     products_id: product.id,
-                    amount: parseInt(product.price) + electricFee,
+                    amount: parseInt(product.price),
                     status: 'in-progress'
                 }
                 console.log(product.ingredients);

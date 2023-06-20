@@ -14,7 +14,7 @@ export function CustomOrderLists({product,ingredients, handlePriceChange}) {
     }
 
     useEffect(() => {
-        // console.log(selectedValue);
+        console.log(selectedValue);
     }, [selectedValue]);
 
     useEffect(() => {
