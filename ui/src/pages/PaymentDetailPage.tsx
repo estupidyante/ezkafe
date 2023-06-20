@@ -34,7 +34,6 @@ export const PaymentDetalPage = ({product, handlePayment}) => {
                     .then((res_order) => {
                         setOrdered(res_order);
                         setIsPlaced(true);
-                        handlePayment();
                     })
             })
     }
@@ -54,40 +53,75 @@ export const PaymentDetalPage = ({product, handlePayment}) => {
         </div>
         <div style={{ backgroundColor: '#ffffff', width: '100%', minHeight: 620, borderStartStartRadius: 20, borderStartEndRadius: 20, borderWidth: 1, borderStyle: 'solid', padding: '3rem' }}>
             <p style={{fontFamily:'Cormorant Garamond',fontSize:'xx-large',fontWeight:'bolder',marginBottom:20}}>{product?.name}</p>
-            {isPlaced && <>
-                <PaymentTotalHolder>
-                    <strong style={{textAlign:'left',marginRight:1}}>Order ID:</strong>
-                    <PaymentTotalSpanSpace>..............................................................................................................................................................</PaymentTotalSpanSpace>
-                    <p>{ordered.id}</p>
-                </PaymentTotalHolder>
-                <PaymentTotalHolder style={{marginBottom:'5rem'}}>
-                    <strong style={{textAlign:'left',marginRight:1}}>User ID:</strong>
-                    <PaymentTotalSpanSpace>..............................................................................................................................................................</PaymentTotalSpanSpace>
-                    <p>{ordered.clients_id}</p>
-                </PaymentTotalHolder>
-            </>}
             <OrderLists ingredients={product?.ingredients}/>
             <PaymentTotalHolder>
                 <strong style={{textAlign:'left',marginRight:1}}>Subtotal:</strong>
                 <PaymentTotalSpanSpace>..............................................................................................................................................................</PaymentTotalSpanSpace>
                 <p><NumericFormat value={parseInt(product?.price)} displayType={'text'} thousandSeparator={true} decimalScale={2} fixedDecimalScale={true} prefix={'Php '} /></p>
             </PaymentTotalHolder>
-            <PaymentTotalHolder>
+            {/* <PaymentTotalHolder>
                 <strong style={{textAlign:'left',marginRight:1}}>Electric Fee:</strong>
                 <PaymentTotalSpanSpace>..............................................................................................................................................................</PaymentTotalSpanSpace>
                 <p><NumericFormat value={electricFee} displayType={'text'} thousandSeparator={true} decimalScale={2} fixedDecimalScale={true} prefix={'Php '} /></p>
-            </PaymentTotalHolder>
+            </PaymentTotalHolder> */}
             <PaymentTotalHolder>
                 <strong style={{textAlign:'left',marginRight:1}}>Total:</strong>
                 <PaymentTotalSpanSpace>..............................................................................................................................................................</PaymentTotalSpanSpace>
-                <p><NumericFormat value={parseInt(product?.price) + electricFee} displayType={'text'} thousandSeparator={true} decimalScale={2} fixedDecimalScale={true} prefix={'Php '} /></p>
+                <p><NumericFormat value={parseInt(product?.price)} displayType={'text'} thousandSeparator={true} decimalScale={2} fixedDecimalScale={true} prefix={'Php '} /></p>
             </PaymentTotalHolder>
             {!isPlaced && <button style={{fontFamily:'Cormorant Garamond',fontSize:'x-large',fontWeight:'bolder',width:'100%',height:50, backgroundColor: '#26140D', color: '#ffffff', borderRadius: 10,marginTop:'5rem'}} onClick={handleBuyNow}>
                 Buy Now
             </button>}
         </div>
+        {
+            isPlaced && <PaymentOrderDetailsOverlay>
+                <PaymentOrderDetails>
+                    <p style={{display:'flex',justifyContent:'center'}}>
+                        <strong style={{fontFamily:'Cormorant Garamond',fontSize:'x-large',fontWeight:'bolder',textAlign:'left',marginRight:5}}>Order ID:</strong>
+                        <span style={{fontFamily:'Cormorant Garamond',fontSize:'large',fontWeight:'bolder',textAlign:'left',}}>{ordered.id}</span>
+                    </p>
+                    <p style={{display:'flex',justifyContent:'center',marginBottom:'5rem'}}>
+                        <strong style={{fontFamily:'Cormorant Garamond',fontSize:'x-large',fontWeight:'bolder',textAlign:'left',marginRight:5}}>User ID:</strong>
+                        <span style={{fontFamily:'Cormorant Garamond',fontSize:'large',fontWeight:'bolder',textAlign:'left',}}>{ordered.clients_id}</span>
+                    </p>
+                    <p style={{fontFamily:'Cormorant Garamond',fontSize:'large',fontWeight:'bolder',textAlign:'center',marginRight:1}}>Payment Due</p>
+                    <p style={{fontFamily:'Cormorant Garamond',fontSize:'xx-large',fontWeight:'bolder',textAlign:'center',marginRight:1}}>
+                        <NumericFormat value={parseInt(ordered.amount)} displayType={'text'} thousandSeparator={true} decimalScale={2} fixedDecimalScale={true} prefix={'Php '} />
+                    </p>
+                    <button style={{fontFamily:'Cormorant Garamond',fontSize:'x-large',fontWeight:'bolder',width:'100%',height:50, backgroundColor: '#26140D', color: '#ffffff', borderRadius: 10,marginTop:'5rem'}} onClick={() => {
+                        handlePayment();
+                    }}>
+                        Confirm
+                    </button>
+                </PaymentOrderDetails>
+            </PaymentOrderDetailsOverlay>
+        }
     </PaymentDetailedContainer>)
 }
+
+const PaymentOrderDetails = styled.section`
+    background:#ffffff;
+    width:320px;
+    height:320px;
+    margin:auto;
+    border-radius: 10px;
+    padding:20px;
+    box-shadow: 0px 10px 10px 0px rgba(38,20,13,0.30);
+    -webkit-box-shadow: 0px 10px 10px 0px rgba(38,20,13,0.30);
+    -moz-box-shadow: 0px 10px 10px 0px rgba(38,20,13,0.30);
+`;
+const PaymentOrderDetailsOverlay = styled.section`
+    background: rgba(0,0,0,0.70);
+    position:absolute;
+    scroll:none;
+    top:0;
+    bottom:0;
+    left:0;
+    right:0;
+    margin-top:-50px;
+    display:flex;
+    height:800px;
+`;
 
 const PaymentTotalHolder = styled.section`
     display: flex;                     /* 1 */
