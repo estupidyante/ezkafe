@@ -7,14 +7,27 @@ use App\Models\User;
 use App\Models\Orders;
 use App\Models\Products;
 use Illuminate\Support\Facades\Auth;
+use Livewire\WithPagination;
+use Illuminate\Http\Request;
 
 class UserOrdersComponent extends Component
 {
-    public function render()
+    use WithPagination;
+
+    public $perPage = 10;
+    public $search = '';
+    public $orderBy = 'id';
+    public $orderAsc = true;
+
+    public function render(Request $request)
     {
-        $users = User::all();
-        $orders = Orders::all();
+        $this->search = ($request) ? $request->input('search-date') : '';
         $products = Products::all();
-        return view('livewire.user.user-orders-component', compact('users','orders','products'))->layout('layouts.base');
+        return view('livewire.user.user-orders-component', [
+            'orders' => Orders::search($this->search)
+                ->orderBy($this->orderBy, $this->orderAsc ? 'asc' : 'desc')
+                ->simplePaginate($this->perPage),
+            'products' => $products,
+        ])->layout('layouts.base');
     }
 }

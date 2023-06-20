@@ -46,6 +46,7 @@
 @endsection
 @push('style')
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+<link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/dark.css">
 @endpush
 <div class="content-wrapper">
     <div class="row">
@@ -98,8 +99,23 @@
 <script>
     config = {
         enableTime: false,
-        dateFormat: 'Y-m-d',
+        dateFormat: "Y-m-d H:i",
         maxDate: "today",
+        disableMobile: "false",
+        onChange: function(selectedDates, dateStr, instance) {
+            console.log('onChange: ', dateStr);
+        },
+        onOpen: [
+            function(selectedDates, dateStr, instance){
+                //...
+            },
+            function(selectedDates, dateStr, instance){
+                //...
+            }
+        ],
+        onClose: function(selectedDates, dateStr, instance){
+            console.log('onClose: ', dateStr);
+        }
     }
     flatpickr("input[type=datetime-local]", config);
 </script>

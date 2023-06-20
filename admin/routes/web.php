@@ -13,6 +13,7 @@ use App\Http\Controllers\TypesController;
 use App\Http\Controllers\MeasurementsController;
 use App\Http\Controllers\IngredientsController;
 use App\Http\Controllers\ProductsController;
+use App\Http\Controllers\OrdersController;
 
 use App\Http\Livewire\IndexComponent;
 use App\Http\Livewire\HomeComponent;

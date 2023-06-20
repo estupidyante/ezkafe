@@ -18,6 +18,14 @@ class Orders extends Model
         'status'
     ];
 
+    public static function search($search)
+    {
+        return empty($search) ? static::query()
+            : static::query()->where('id', 'like', '%'.$search.'%')
+                ->orWhere('name', 'like', '%'.$search.'%')
+                ->orWhere('email', 'like', '%'.$search.'%');
+    }
+
     public function clients()
     {
         return $this->hasMany(Clients::class);

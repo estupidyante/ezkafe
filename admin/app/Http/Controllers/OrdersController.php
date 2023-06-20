@@ -9,6 +9,7 @@ use App\Models\Ingredients;
 use App\Models\ProductIngredients;
 use App\Models\OrderIngredients;
 use App\Models\CustomOrder;
+use DB;
 
 class OrdersController extends Controller
 {
@@ -75,7 +76,6 @@ class OrdersController extends Controller
         $order->update($request->all());
         return response()->json($order, 201);
     }
-
     public function destroy($id)
     {
         try {
