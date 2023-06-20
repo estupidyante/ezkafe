@@ -370,12 +370,12 @@
             </div>
             <div class="form-group">
                 <label>Ingredients</label>
-                <div id="dynamicFieldModify">
+                <div id="dynamicFieldModify_{{ $product->id }}">
                     @if ($product->ing_ids != "")
                         @foreach(explode(',', $product->ing_ids) as $ing_idx => $ing_id )
                             @if (!empty($product->ingredients->where('products_id', $product->id)))
                                 @if ($ing_idx == 0)
-                                <div style="margin-top:0.5rem;">
+                                <div class="field_modify" style="margin-top:0.5rem;">
                                     <select class="form-control" name="ing[{{ $ing_idx }}]" required>
                                         @foreach($ingredients as $ingredient)
                                             <option value="{{ $ingredient->id }}" {{$ingredient->id == explode(',',$product->ing_ids)[$ing_idx]  ? 'selected' : ''}}>{{ $ingredient->name }}</option>
@@ -389,14 +389,14 @@
                                     </select>
                                 </div>
                                 @else
-                                <div style="margin-top:0.5rem;">
+                                <div class="field_modify" style="margin-top:0.5rem;">
                                     <div class="dynamic_select_with_delete">
                                         <select class="form-control" name="ing[{{ $ing_idx }}]" required>
                                             @foreach($ingredients as $ingredient)
                                                 <option value="{{ $ingredient->id }}" {{$ingredient->id == explode(',',$product->ing_ids)[$ing_idx]  ? 'selected' : ''}}>{{ $ingredient->name }}</option>
                                             @endforeach
                                         </select>
-                                        <button type="button" name="remove" id="'+i+'" class="btn btn-danger btn_remove_modify">X</button>
+                                        <button type="button" name="remove" id="'+h+'" class="btn btn-danger btn_remove_modify_{{ $product->id }}">X</button>
                                     </div>
                                     <label style="margin-top:0.5rem;">Preferred Measurement</label>
                                     <select class="form-control" name="measure[{{ $ing_idx }}]" required>
@@ -410,7 +410,7 @@
                         @endforeach
                     @endif
                 </div>
-                <button type="button" name="add_new_ing_field_modify" id="addNewIngFieldModify" class="btn btn-success dynamic_add">Add More Ingredient</button>
+                <button type="button" name="add_new_ing_field_modify" id="addNewIngFieldModify_{{ $product->id }}" class="btn btn-success dynamic_add">Add More Ingredient</button>
             </div>
             <div class="form-group">
                 <label>Image</label>
@@ -432,9 +432,10 @@
 @section('page-script')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
 <script type="text/javascript">
-    $(document).ready(function(){      
+    var products = {{ Js::from($products) }};
+    $(document).ready(function(){
         var postURL = "<?php echo url('addmore'); ?>";
-        var i=0, h=0;
+        var i=0;
 
         $('#addNewIngField').click(function() {  
             i++;
@@ -458,28 +459,35 @@
             });
         });
 
-        $('#addNewIngFieldModify').click(function() {
-            console.log('click add to modify');
-            h++;
-            $('#dynamicFieldModify').append('<div id="row'+h+'" style="margin-top:0.5rem;"><div class="dynamic_select_with_delete"><select class="form-control" name="ing['+h+']">@foreach($ingredients as $ingredient)<option value="{{ $ingredient->id }}">{{ $ingredient->name }}</option> @endforeach</select><button type="button" name="remove" id="'+h+'" class="btn btn-danger btn_remove_modify">X</button></div><label style="margin-top:0.5rem;">Preferred Measurement</label><select class="form-control" name="measure['+h+']" required>@foreach($measurements as $measure)<option value="{{ $measure->id }}">{{ $measure->name }}</option>@endforeach</select></div>');  
-        });
-        $(document).on('click', '.btn_remove_modify', function() {
-            event.preventDefault();
-            swal({
-                title: `Are you sure you want to delete this record?`,
-                text: "If you delete this, it will be gone forever.",
-                icon: "warning",
-                buttons: true,
-                dangerMode: true,
-            })
-            .then((willDelete) => {
-                if (willDelete) {
-                    h--;
-                    var button_id = $(this).attr("id");   
-                    $('#row'+button_id+'').remove();
-                }
+        var h = [];
+        for(var a=0;a<products.length;a++) {
+            h[a] = $('#dynamicFieldModify_' + products[a].id + ' .field_modify').length;
+            var appendMoodify = $('#dynamicFieldModify_' + products[a].id);
+            var appendModifyContent = '<div id="rowModify'+h[a]+'_'+products[a].id+'" style="margin-top:0.5rem;"><div class="dynamic_select_with_delete"><select class="form-control" name="ing['+h[a]+']">@foreach($ingredients as $ingredient)<option value="{{ $ingredient->id }}">{{ $ingredient->name }}</option> @endforeach</select><button type="button" name="remove" id="'+h[a]+'_'+products[a].id+'" class="btn btn-danger btn_remove_modify_'+products[a].id+'">X</button></div><label style="margin-top:0.5rem;">Preferred Measurement</label><select class="form-control" name="measure['+h[a]+']" required>@foreach($measurements as $measure)<option value="{{ $measure->id }}">{{ $measure->name }}</option>@endforeach</select></div>';
+            $(document).on('click', '#addNewIngFieldModify_' + products[a].id, function() {
+                h[a]++;
+                appendMoodify.append(appendModifyContent);
             });
-        });
+
+            $(document).on('click', '.btn_remove_modify_'  + products[a].id, function() {
+                event.preventDefault();
+                swal({
+                    title: `Are you sure you want to delete this record?`,
+                    text: "If you delete this, it will be gone forever.",
+                    icon: "warning",
+                    buttons: true,
+                    dangerMode: true,
+                })
+                .then((willDelete) => {
+                    if (willDelete) {
+                        h[a]--;
+                        var button_id = $(this).attr("id");   
+                        $('#rowModify'+button_id).remove();
+                    }
+                });
+            });
+        }
+
         $('.delete-product').click(function(e){
             e.preventDefault() // Don't post the form, unless confirmed
             swal({

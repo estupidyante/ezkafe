@@ -131,13 +131,17 @@ class ProductsController extends Controller
     {
         $data = $request->input();
 
+        $arryIng = $request->input('ing');
+        $arryMsr = $request->input('measure');
+
         try {
             $products = Products::find($id);
             $products->name        = $request->input('name');
             $products->description = $request->input('description');
             $products->price       = $request->input('price');
             $products->category_id = $request->input('category_id');
-            $products->ing_ids     = implode(',', $request->input('ing'));
+            $products->ing_ids     = implode(',', $arryIng);
+            $products->measurement_ids     = implode(',', $arryMsr);
             if($request->file('uploads')){
                 $file       = $request->file('uploads');
                 $fileName   = $file->getClientOriginalName();
@@ -146,6 +150,41 @@ class ProductsController extends Controller
                 $products->image = '/assets/images/uploads/'.$fileName;
             }
             $products->update();
+            // get the ingredients
+            if (sizeof($arryIng)) {
+                for($i = 0;$i<sizeof($arryIng);$i++)
+                {
+                    $ingredient = Ingredients::find($arryIng[$i]);
+                    $measurement = Measurements::find($arryMsr[$i]);
+                    // check if product ingredients is existing
+                    $productIng = ProductIngredients::where('products_id', $id)->get();
+                    if(sizeof($productIng) > 0) {
+                        // update the record
+                        $productIng->name = $ingredient['name'];
+                        $productIng->tag = $ingredient['tag'];
+                        $productIng->products_id = $products['id'];
+                        $productIng->types_id = $ingredient['types_id'];
+                        $productIng->measurements_id = $measurement['id'];
+                        $productIng->measurement = $measurement['value'];
+                        $productIng->unit = $measurement['unit'];
+                        $productIng->price = $measurement['price'];
+                        $productIng->volume = $ingredient['volume'];
+                    } else {
+                        // create new record
+                        ProductIngredients::create([
+                            'name' => $ingredient['name'],
+                            'tag' => $ingredient['tag'],
+                            'products_id' => $products['id'],
+                            'types_id' => $ingredient['types_id'],
+                            'measurements_id' => $measurement['id'],
+                            'measurement' => $measurement['value'],
+                            'unit' => $measurement['unit'],
+                            'price' => $measurement['price'],
+                            'volume' => $ingredient['volume'],
+                        ]);
+                    }
+                }
+            }
             return redirect('/user/products')->with('status',"Product updated successfully");
         }
         catch(Exception $e){
