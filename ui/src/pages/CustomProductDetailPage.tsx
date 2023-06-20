@@ -28,7 +28,7 @@ export const CustomProductDetailPage = ({product, categories, handlePayment, han
     }
 
     const handleBuyNow = () => {
-        setTotal(parseInt(product.price) + electricFee);
+        setTotal(parseInt(product.price));
         // var user = {
         //     name: 'x'
         // }
@@ -46,6 +46,10 @@ export const CustomProductDetailPage = ({product, categories, handlePayment, han
         //                 setIsPlaced(true);
         //             })
         //     })
+    }
+
+    const handleCustomProduct = (customProduct: any) => {
+        console.log('handleCustomProduct: ', customProduct);
     }
 
     return (
@@ -85,7 +89,7 @@ export const CustomProductDetailPage = ({product, categories, handlePayment, han
                         <p>{ordered.clients_id}</p>
                     </PaymentTotalHolder>
                 </>}
-                <CustomOrderLists product={product} ingredients={ingredients} handlePriceChange={handlePriceChange}/>
+                <CustomOrderLists product={product} ingredients={ingredients} handlePriceChange={handlePriceChange} handleCustomProduct={handleCustomProduct}/>
                 <PaymentTotalHolder>
                     <strong style={{textAlign:'left',marginRight:1}}>Subtotal:</strong>
                     <PaymentTotalSpanSpace>..............................................................................................................................................................</PaymentTotalSpanSpace>

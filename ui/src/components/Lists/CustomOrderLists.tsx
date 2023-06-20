@@ -4,7 +4,7 @@ import {
 } from '../../api';
 import RadioButtonGroup from 'components/Radio/RadioButtonGroup';
 
-export function CustomOrderLists({product,ingredients, handlePriceChange}) {
+export function CustomOrderLists({product, ingredients, handlePriceChange, handleCustomProduct}) {
     const [types, setTypes] = useState(Array);
     const [measurements, setMeasurements] = useState(Array);
     const [selectedValue, setSelectedValue] = useState<String>();
@@ -14,7 +14,8 @@ export function CustomOrderLists({product,ingredients, handlePriceChange}) {
     }
 
     useEffect(() => {
-        console.log(selectedValue);
+        // console.log(selectedValue);
+        handleCustomProduct(selectedValue);
     }, [selectedValue]);
 
     useEffect(() => {
@@ -53,6 +54,7 @@ export function CustomOrderLists({product,ingredients, handlePriceChange}) {
                                     label=""
                                     group={ingredient?.name}
                                     ing={ingredient?.name}
+                                    prod_id={product.id}
                                     options={
                                         ingredients.filter((ing: { types_id: any; }) => {
                                             return ing.types_id === ingredient.types_id;
