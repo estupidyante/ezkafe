@@ -133,6 +133,34 @@
         <h3 class="text-dark">Top Records</h3>
         <p class="text-muted pb-4">EzKafe / Analytics</p>
     </div>
+    <div class="row justify-content-center" style="margin-bottom:40px">
+        <div class="col-md-4">
+            <div class="card">
+                <strong class="card-header">{{ $ingredients_chart->options['chart_title'] }}</strong>
+                <div class="card-body">
+                    {!! $ingredients_chart->renderHtml() !!}
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+                <strong class="card-header">{{ $ingredients_bar_chart->options['chart_title'] }}</strong>
+                <div class="card-body">
+                    {!! $ingredients_bar_chart->renderHtml() !!}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row justify-content-center" style="margin-bottom:40px">
+        <div class="col-12 grid-margin">
+            <div class="card">
+                <strong class="card-header">{{ $transaction_chart->options['chart_title'] }}</strong>
+                <div class="card-body">
+                    {!! $transaction_chart->renderHtml() !!}
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="row">
         <div class="col-12 grid-margin">
             <div class="card">
@@ -156,16 +184,16 @@
                                         @if ($item->products_id == $element->id)
                                         <tr class="tab-pane">
                                             <td><img src="{{ url( $element->image ) }}" style="width: 150px; height:auto;"></td>
-                                            <td> {{ $element->name }} </td>
-                                            <td> {{ $element->description }} </td>
-                                            <td>
+                                            <td class="text-wrap"> {{ $element->name }} </td>
+                                            <td class="text-wrap"> {{ $element->description }} </td>
+                                            <td class="text-wrap">
                                                 @if ($element->ing_ids != "")
                                                     @foreach(explode(',', $element->ing_ids) as $ing_id) 
                                                         {{ $ingredients->find($ing_id)->name }},
                                                     @endforeach
                                                 @endif
                                             </td>
-                                            <td>
+                                            <td class="text-wrap">
                                                 @if ($element->measurement_ids != "")
                                                     @foreach(explode(',', $element->measurement_ids) as $msr_id) 
                                                         {{ $measurements->find($msr_id)->name }},
@@ -185,3 +213,10 @@
         </div>
     </div>
 </div>
+@section('page-script')
+{!! $ingredients_chart->renderChartJsLibrary() !!}
+
+{!! $ingredients_chart->renderJs() !!}
+{!! $ingredients_bar_chart->renderJs() !!}
+{!! $transaction_chart->renderJs() !!}
+@endsection

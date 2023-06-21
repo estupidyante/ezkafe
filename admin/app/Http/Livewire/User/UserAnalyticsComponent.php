@@ -2,8 +2,10 @@
 
 namespace App\Http\Livewire\User;
 
+use LaravelDaily\LaravelCharts\Classes\LaravelChart;
 use Livewire\Component;
 use App\Models\Products;
+use App\Models\ProductIngredients;
 use App\Models\Ingredients;
 use App\Models\Clients;
 use App\Models\Orders;
@@ -22,6 +24,37 @@ class UserAnalyticsComponent extends Component
             ->orderByRaw('COUNT(*) DESC')
             ->limit(5)
             ->get();
-        return view('livewire.user.user-analytics-component', compact('products','ingredients','measurements','top_orders'))->layout('layouts.base');
+        $ingredients_chart_option = [
+            'chart_title' => 'Top Ingredients (Pie)',
+            'chart_type' => 'pie',
+            'report_type' => 'group_by_string',
+            'model' => 'App\Models\ProductIngredients',
+            'group_by_field' => 'name',
+        ];
+
+        $ingredients_chart = new LaravelChart($ingredients_chart_option);
+        $ingredients_bar_chart_option = [
+            'chart_title' => 'Top Ingredients (Bar)',
+            'chart_type' => 'bar',
+            'report_type' => 'group_by_string',
+            'model' => 'App\Models\ProductIngredients',
+            'group_by_field' => 'name',
+        ];
+
+        $ingredients_bar_chart = new LaravelChart($ingredients_bar_chart_option);
+
+        $transaction_chart_options = [
+            'chart_title' => 'Transactions by Dates',
+            'report_type' => 'group_by_date',
+            'model' => 'App\Models\Orders',
+            'group_by_field' => 'updated_at',
+            'group_by_period' => 'day',
+            'aggregate_function' => 'sum',
+            'aggregate_field' => 'amount',
+            'chart_type' => 'line',
+        ];
+    
+        $transaction_chart = new LaravelChart($transaction_chart_options);
+        return view('livewire.user.user-analytics-component', compact('products','ingredients','measurements','top_orders','ingredients_chart','ingredients_bar_chart','transaction_chart'))->layout('layouts.base');
     }
 }

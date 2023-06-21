@@ -16,11 +16,11 @@ class UserGraphComponent extends Component
         $orders = Orders::all();
         $products = Products::all();
         $chart_options = [
-            'chart_title' => 'Users by Months',
+            'chart_title' => 'Users by Day',
             'report_type' => 'group_by_date',
             'model' => 'App\Models\Clients',
             'group_by_field' => 'created_at',
-            'group_by_period' => 'month',
+            'group_by_period' => 'day',
             'chart_type' => 'bar',
             'filter_field' => 'created_at',
             'filter_days' => 30, // show only last 30 days
