@@ -170,19 +170,26 @@
             </div>
           </li>
           <li class="nav-item menu-items">
+            <a class="nav-link" data-bs-toggle="collapse" href="#faq" aria-expanded="false" aria-controls="faq">
+              <span class="menu-icon">
+                <i class="mdi mdi-frequently-asked-questions"></i>
+              </span>
+              <span class="menu-title">FAQ</span>
+              <i class="menu-arrow"></i>
+            </a>
+            <div class="collapse" id="faq">
+              <ul class="nav flex-column sub-menu">
+                <li class="nav-item"> <a class="nav-link" href="/user/faqscategory"> Category </a></li>
+                <li class="nav-item"> <a class="nav-link" href="/user/faqs"> FAQs </a></li>
+              </ul>
+            </div>
+          </li>
+          <li class="nav-item menu-items">
             <a class="nav-link" href="/user/accounts">
               <span class="menu-icon">
                 <i class="mdi mdi-account-multiple"></i>
               </span>
               <span class="menu-title">Admin Accounts</span>
-            </a>
-          </li>
-          <li class="nav-item menu-items">
-            <a class="nav-link" href="/user/faqs">
-              <span class="menu-icon">
-                <i class="mdi mdi-frequently-asked-questions"></i>
-              </span>
-              <span class="menu-title">FAQs</span>
             </a>
           </li>
           <li class="nav-item menu-items">

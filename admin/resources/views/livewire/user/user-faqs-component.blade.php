@@ -102,7 +102,14 @@
     }
 
     .slider.round:before {
-    border-radius: 50%;
+        border-radius: 50%;
+    }
+    .text-wrap {
+        white-space:normal;
+    }
+    textarea {
+        border:1px solid #000000;
+        width:100%;
     }
 </style>
 @endsection
@@ -148,16 +155,16 @@
                             <tbody>
                                 @foreach ($faqs as $question)
                                     <tr>
-                                        <td> {{$question->id}} </td>
-                                        <td> {{ $categories->find($question->category_id)->name }} </td>
-                                        <td> {{$question->question}} </td>
-                                        <td> 
+                                        <td class="text-wrap"> {{$question->id}} </td>
+                                        <td class="text-wrap"> {{ $categories->find($question->category_id)->name }} </td>
+                                        <td class="text-wrap"> {{$question->question}} </td>
+                                        <td class="text-wrap"> 
                                             <label class="switch">
                                                 <input type="checkbox">
                                                 <span class="slider round"></span>
                                             </label>
                                         </td>
-                                        <td>
+                                        <td class="text-wrap">
                                             <a href="#" class="btn btn-success" data-mdb-toggle="modal" data-mdb-target="#updateQuestionModal_{{ $question->id }}">Edit</a>
                                             <form class="d-inline" action="{{ route('user.faq.destroy', $question ) }}" method="POST">
                                                 @method('DELETE')
@@ -194,12 +201,12 @@
             @csrf
             <div class="form-group">
                 <label>Question</label>
-                <textarea id="question" name="question" rows="4" cols="50" :value="question" required autofocus></textarea>
+                <textarea id="question" name="question" rows="4" :value="question" required autofocus></textarea>
                 <!-- <input type="text" class="form-control p_input" name="question" placeholder="Enter the question" :value="question" required autofocus> -->
             </div>
             <div class="form-group">
                 <label>Answer</label>
-                <textarea id="answer" name="answer" rows="4" cols="50" :value="answer" required autofocus></textarea>
+                <textarea id="answer" name="answer" rows="4" :value="answer" required autofocus></textarea>
                 <!-- <textarea type="text" class="form-control p_input" name="answer" placeholder="Enter the answer" :value="answer" required autofocus> -->
             </div>
             <div class="form-group">
@@ -240,11 +247,11 @@
             @method('PUT')
             <div class="form-group">
                 <label>Question</label>
-                <textarea id="question" name="question" rows="4" cols="50" :value="question" required autofocus>{{ $faq->question }}</textarea>
+                <textarea id="question" name="question" rows="4" :value="question" required autofocus>{{ $faq->question }}</textarea>
             </div>
             <div class="form-group">
                 <label>Answer</label>
-                <textarea id="answer" name="answer" rows="4" cols="50" :value="answer" required autofocus>{{ $faq->answer }}</textarea>
+                <textarea id="answer" name="answer" rows="4" :value="answer" required autofocus>{{ $faq->answer }}</textarea>
             </div>
             <div class="form-group">
                 <label>Category</label>
