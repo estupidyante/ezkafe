@@ -62,20 +62,20 @@ function App() {
 
   useEffect(() => {
     API.get('categories')
-      .then((res) => {
+      .then((res: any) => {
         setCategories(res);
       })
       .finally(() => {
         API.get(`products`)
-        .then(res => {
-          setProducts(res);
+        .then((res_prod: any) => {
+          setProducts(res_prod);
         })
       })
     API.get('/products/ordered')
       .then((res_ordered) => {
         if(res_ordered && (res_ordered[0] && res_ordered[0]['products_id'])) {
           API.get('/product/' + res_ordered[0]['products_id'])
-            .then((res_product_ordered) => {
+            .then((res_product_ordered: any) => {
               // console.log('product: ', res_product_ordered[0]);
               setTopProduct(res_product_ordered[0]);
               setIsTopProduct(true);
@@ -116,7 +116,7 @@ function App() {
       {(!isDetailed && !isPayment && !isCustomized) && <div>
         <HeaderComponent/>
         <ContentContainer>
-          <SearchContainer>
+          {/* <SearchContainer>
             <SearchBar data={products} handleState={handleDetailedState} handleSelected={handleSelectedProduct} />
             <SearchIconContainer>
               <SearchOutline
@@ -126,7 +126,7 @@ function App() {
                 width="30px"
               />
             </SearchIconContainer>
-          </SearchContainer>
+          </SearchContainer> */}
           {(topProduct && isTopProduct) && <CardHero>
             <CardHeroContainer>
               <CardHeroTitle>

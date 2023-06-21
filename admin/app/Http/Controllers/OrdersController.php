@@ -35,8 +35,8 @@ class OrdersController extends Controller
 
         $arrayIng = $product['ingredients'];
         $customOrderIngredients = [
-            'name' => $product->name,
-            'price' => $product->price,
+            'name' => $product['name'],
+            'price' => $product['price'],
             'coffee_qty' => 0,
             'milk_qty' => 0,
             'soya_qty' => 0,

@@ -2,6 +2,9 @@ import { useEffect, useState } from 'react';
 import styled from 'styled-components';
 import { 
     ArrowBackCircleOutline,
+    CheckmarkCircleOutline,
+    CheckmarkCircleSharp,
+    CheckmarkDoneCircleSharp,
 } from 'react-ionicons';
 import {
     URI,
@@ -14,10 +17,11 @@ export const PaymentDetalPage = ({product, handlePayment}) => {
     const [total, setTotal] = useState(0);
     const [ordered, setOrdered] = useState(0);
     const [isPlaced, setIsPlaced] = useState(false);
-    let electricFee = 10;
+    const [isConfirmed, setIsConfirmed] = useState(false);
 
     const handleBuyNow = () => {
         setTotal(parseInt(product.price));
+        // setIsPlaced(true);
         var user = {
             name: 'x'
         }
@@ -29,13 +33,19 @@ export const PaymentDetalPage = ({product, handlePayment}) => {
                     amount: parseInt(product.price),
                     status: 'in-progress'
                 }
-                console.log(product.ingredients);
                 API.post('order/create', [order, product])
-                    .then((res_order) => {
+                    .then((res_order: any) => {
                         setOrdered(res_order);
                         setIsPlaced(true);
                     })
             })
+    }
+
+    const handleConfirmed = () => {
+        setIsConfirmed(true);
+        setTimeout(() => {
+            handlePayment();
+        }, 3000);
     }
 
     return (<PaymentDetailedContainer>
@@ -59,11 +69,6 @@ export const PaymentDetalPage = ({product, handlePayment}) => {
                 <PaymentTotalSpanSpace>..............................................................................................................................................................</PaymentTotalSpanSpace>
                 <p><NumericFormat value={parseInt(product?.price)} displayType={'text'} thousandSeparator={true} decimalScale={2} fixedDecimalScale={true} prefix={'Php '} /></p>
             </PaymentTotalHolder>
-            {/* <PaymentTotalHolder>
-                <strong style={{textAlign:'left',marginRight:1}}>Electric Fee:</strong>
-                <PaymentTotalSpanSpace>..............................................................................................................................................................</PaymentTotalSpanSpace>
-                <p><NumericFormat value={electricFee} displayType={'text'} thousandSeparator={true} decimalScale={2} fixedDecimalScale={true} prefix={'Php '} /></p>
-            </PaymentTotalHolder> */}
             <PaymentTotalHolder>
                 <strong style={{textAlign:'left',marginRight:1}}>Total:</strong>
                 <PaymentTotalSpanSpace>..............................................................................................................................................................</PaymentTotalSpanSpace>
@@ -74,7 +79,7 @@ export const PaymentDetalPage = ({product, handlePayment}) => {
             </button>}
         </div>
         {
-            isPlaced && <PaymentOrderDetailsOverlay>
+            (isPlaced && !isConfirmed) && <PaymentOrderDetailsOverlay>
                 <PaymentOrderDetails>
                     <p style={{display:'flex',justifyContent:'center'}}>
                         <strong style={{fontFamily:'Cormorant Garamond',fontSize:'x-large',fontWeight:'bolder',textAlign:'left',marginRight:5}}>Order ID:</strong>
@@ -89,9 +94,53 @@ export const PaymentDetalPage = ({product, handlePayment}) => {
                         <NumericFormat value={parseInt(ordered.amount)} displayType={'text'} thousandSeparator={true} decimalScale={2} fixedDecimalScale={true} prefix={'Php '} />
                     </p>
                     <button style={{fontFamily:'Cormorant Garamond',fontSize:'x-large',fontWeight:'bolder',width:'100%',height:50, backgroundColor: '#26140D', color: '#ffffff', borderRadius: 10,marginTop:'5rem'}} onClick={() => {
-                        handlePayment();
+                        handleConfirmed();
                     }}>
                         Confirm
+                    </button>
+                </PaymentOrderDetails>
+            </PaymentOrderDetailsOverlay>
+        }
+        {
+            isConfirmed && <PaymentOrderDetailsOverlay>
+                <PaymentOrderDetails>
+                    <p style={{display:'flex',justifyContent:'center'}}>
+                        <strong style={{fontFamily:'Cormorant Garamond',fontSize:'x-large',fontWeight:'bolder',textAlign:'left',marginRight:5}}>Order ID:</strong>
+                        <span style={{fontFamily:'Cormorant Garamond',fontSize:'large',fontWeight:'bolder',textAlign:'left',}}>{ordered.id}</span>
+                    </p>
+                    <p style={{display:'flex',justifyContent:'center',marginBottom:'5rem'}}>
+                        <strong style={{fontFamily:'Cormorant Garamond',fontSize:'x-large',fontWeight:'bolder',textAlign:'left',marginRight:5}}>User ID:</strong>
+                        <span style={{fontFamily:'Cormorant Garamond',fontSize:'large',fontWeight:'bolder',textAlign:'left',}}>{ordered.clients_id}</span>
+                    </p>
+                    <p style={{fontFamily:'Cormorant Garamond',fontSize:'large',fontWeight:'bolder',textAlign:'center',marginRight:1,display:'flex',alignItems:'center',justifyContent:'space-evenly',width:'65%',margin:'auto'}}>
+                            <CheckmarkCircleSharp
+                                color={'#6BA91D'} 
+                                beat 
+                                title={'check'}
+                                height="30px"
+                                width="30px"
+                            />
+                        <span>Payment Successful</span>
+                    </p>
+                    <div style={{fontFamily:'Cormorant Garamond',fontSize:'large',fontWeight:'bolder',textAlign:'center',marginRight:1,display:'flex',alignItems:'center',justifyContent:'space-evenly',width:'65%',margin:'auto'}}>
+                        <div>
+                            <CheckmarkCircleSharp
+                                color={'#6BA91D'} 
+                                beat 
+                                title={'check'}
+                                height="30px"
+                                width="30px"
+                            />
+                        </div>
+                        <div>
+                            <p style={{textAlign:'left'}}>Order Status</p>
+                            <p style={{textAlign:'left',fontSize:'small'}}>Despensing { ordered.status }...</p>
+                        </div>
+                    </div>
+                    <button style={{fontFamily:'Cormorant Garamond',fontSize:'x-large',fontWeight:'bolder',width:'100%',height:50, backgroundColor: '#97C361', color: '#000000', borderRadius: 10,marginTop:'5rem'}} onClick={() => {
+                        handlePayment();
+                    }}>
+                        Order Complete
                     </button>
                 </PaymentOrderDetails>
             </PaymentOrderDetailsOverlay>

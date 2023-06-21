@@ -13,13 +13,13 @@ import { NumericFormat } from 'react-number-format';
 export const CustomProductDetailPage = ({product, categories, handlePayment, handleState}) => {
     const [ingredients, setIngredients] = useState(Array);
     const [total, setTotal] = useState(0);
-    const [ordered, setOrdered] = useState(0);
+    const [ordered, setOrdered] = useState([]);
     const [isPlaced, setIsPlaced] = useState(false);
     let electricFee = 10;
 
     useEffect(() => {
         API.get('ingredients')
-            .then((response_ing) => {
+            .then((response_ing:any) => {
                 setIngredients(response_ing);
             })
     }, []);

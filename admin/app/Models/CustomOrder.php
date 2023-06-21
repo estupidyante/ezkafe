@@ -12,6 +12,8 @@ class CustomOrder extends Model
     protected $table = 'custom_order';
 
     protected $fillable = [
+        'name',
+        'price',
         'coffee_qty',
         'milk_qty',
         'soya_qty',
