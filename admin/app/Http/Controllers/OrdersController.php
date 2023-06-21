@@ -35,6 +35,8 @@ class OrdersController extends Controller
 
         $arrayIng = $product['ingredients'];
         $customOrderIngredients = [
+            'name' => $product->name,
+            'price' => $product->price,
             'coffee_qty' => 0,
             'milk_qty' => 0,
             'soya_qty' => 0,
@@ -69,6 +71,11 @@ class OrdersController extends Controller
 
         CustomOrder::create($customOrderIngredients);
         return response()->json($order, 201);
+    }
+    public function getCustomOrder($id)
+    {
+        $custom_orders = CutomOrder::find($id)->get();
+	    return response()->json($custom_orders, 200);
     }
     public function edit(Request $request, $id)
     {

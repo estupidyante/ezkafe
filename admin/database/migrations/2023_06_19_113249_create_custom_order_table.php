@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('custom_order', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('price');
             $table->string('coffee_qty')->nullable();
             $table->string('milk_qty')->nullable();
             $table->string('soya_qty')->nullable();
