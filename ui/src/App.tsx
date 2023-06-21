@@ -44,11 +44,14 @@ import { PaymentDetalPage } from 'pages/PaymentDetailPage';
 import { ProductDetailPage } from './pages/ProductDetailPage';
 import { CustomProductDetailPage } from './pages/CustomProductDetailPage';
 import { NumericFormat } from 'react-number-format';
-import { SearchBar } from 'components/SearchBar/SearchBar';
+// import { SearchBar } from 'components/SearchBar/SearchBar';
+import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
+import "react-tabs/style/react-tabs.css";
+import "./lib/tabStyles.css";
 
 function App() {
   const [isOrdered, setIsOrdered] = useState(false);
-  const [activeSwitch, setActiveSwitch] = useState('');
+  const [tabIndex, setTabIndex] = useState(0);
   const [isDetailed, setIsDetailed] = useState(false);
   const [isPayment, setIsPayment] = useState(false);
   const [isCustomized, setIsCustomized] = useState(false);
@@ -59,6 +62,8 @@ function App() {
 
   const [isTopProduct, setIsTopProduct] = useState(false);
   const [topProduct, setTopProduct] = useState([]);
+
+  let productTabPanel = {};
 
   useEffect(() => {
     API.get('categories')
@@ -83,7 +88,6 @@ function App() {
         }
       })
   }, []);
-
 
   const handleDetailedState = () => {
     if(isDetailed) setIsDetailed(false)
@@ -189,26 +193,31 @@ function App() {
           {!isOrdered && <Section>
             <Button kind={''} onClick={handleClickOrder}>Order Now</Button>
           </Section>}
-          {isOrdered && <Section>
+          {isOrdered && <Section style={{paddingBottom:'0px'}}>
             <DividerLineTop></DividerLineTop>
             <br/>
             <br/>
-            <div style={{ backgroundColor: '#ffffff', width: '100%', display: 'flex', borderRadius: 20, borderWidth: 1, borderStyle: 'solid' }}>
+            <Tabs defaultIndex={tabIndex} style={{width:'100%'}}>
+              <TabList style={{background:'#ffffff',borderRadius:20,border:'none',display:'flex',alignItems:'center',justifyContent:'space-evenly',fontSize:'large',overflow:'hidden'}}>
               {categories.map((item, i) => {
+                productTabPanel[i] = products.filter(product => {
+                  return product.category_id === item.id;
+                });
                 return(
-                  <button key={i} style={{ flex: '1 1 0px', height: '50px', borderRadius: 20, }} onClick={() => {
-                    setActiveSwitch(item?.name);
-                  }}>
-                    {item?.name}
-                  </button>
+                    <Tab key={i} style={{ flex: '1 1 0px', height: '50px', borderRadius: 20, display:'flex',alignItems:'center',justifyContent:'center'}}>
+                      {item?.name} based
+                    </Tab>
                 );
               })}
-            </div>
+              </TabList>
+              {categories.map((_item, idx) => {
+                return(<TabPanel key={idx} style={{ backgroundColor: '#ffffff', width: '110%', marginLeft:'-5%', height: 'auto', borderStartStartRadius: 20, borderStartEndRadius: 20, borderWidth: 1, borderStyle: 'solid', padding: 20 }}>
+                  <ProductSmallCard products={productTabPanel[idx]}  handleState={handleDetailedState} handleSelected={handleSelectedProduct}/>
+                </TabPanel>);
+              })}
+            </Tabs>
           </Section>}
         </ContentContainer>
-        {(isOrdered) && <div style={{ backgroundColor: '#ffffff', width: '100%', height: 'auto', borderStartStartRadius: 20, borderStartEndRadius: 20, borderWidth: 1, borderStyle: 'solid', padding: 20 }}>
-          <ProductSmallCard products={products}  handleState={handleDetailedState} handleSelected={handleSelectedProduct}/>
-        </div>}
         <Footer>
           <FooterTop>
             <FooterBrand>
