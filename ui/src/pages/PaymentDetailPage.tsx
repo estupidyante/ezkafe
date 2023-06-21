@@ -37,6 +37,7 @@ export const PaymentDetalPage = ({product, handlePayment}) => {
                     .then((res_order: any) => {
                         setOrdered(res_order);
                         setIsPlaced(true);
+                        alert("Order Created Successfully");
                     })
             })
     }
