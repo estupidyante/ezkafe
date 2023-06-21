@@ -61,7 +61,6 @@ class IngredientsController extends Controller
             $ingredient->name = $data['name'];
             $ingredient->tag = $data['tag'];
             $ingredient->types_id = $data['type_id'];
-            $ingredient->actuators = $data['actuator'];
             $ingredient->volume = $data['volume'];
             $ingredient->update();
             return redirect('/user/ingredients')->with('status',"Ingredients updated successfully");
