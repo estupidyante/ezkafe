@@ -198,13 +198,13 @@ function App() {
             <br/>
             <br/>
             <Tabs defaultIndex={tabIndex} style={{width:'100%'}}>
-              <TabList style={{background:'#ffffff',borderRadius:20,border:'none',display:'flex',alignItems:'center',justifyContent:'space-evenly',fontSize:'large',overflow:'hidden'}}>
+              <TabList>
               {categories.map((item, i) => {
                 productTabPanel[i] = products.filter(product => {
                   return product.category_id === item.id;
                 });
                 return(
-                    <Tab key={i} style={{ flex: '1 1 0px', height: '50px', borderRadius: 20, display:'flex',alignItems:'center',justifyContent:'center'}}>
+                    <Tab key={i}>
                       {item?.name} based
                     </Tab>
                 );
