@@ -156,7 +156,7 @@
                                 @foreach ($faqs as $question)
                                     <tr>
                                         <td class="text-wrap"> {{$question->id}} </td>
-                                        <td class="text-wrap"> {{ $categories->find($question->category_id)->name }} </td>
+                                        <td class="text-wrap"> {{ $categories->find($question->faq_category_id)->name }} </td>
                                         <td class="text-wrap"> {{$question->question}} </td>
                                         <td class="text-wrap"> 
                                             <label class="switch">

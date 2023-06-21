@@ -7,6 +7,7 @@ import {
   import { 
     MenuOutline,
     CartOutline,
+    InformationCircleOutline,
   } from 'react-ionicons';
 
 export const HeaderComponent = () => {
@@ -28,7 +29,14 @@ export const HeaderComponent = () => {
                 height="30px"
                 width="30px"
             />
-            </IconContainer> */}
+            </IconContainer> 
+            <InformationCircleOutline
+                color={'#ffffff'} 
+                shake 
+                title={'faqs'}
+                height="30px"
+                width="30px"
+            />*/}
         </Header>
     )
 }
