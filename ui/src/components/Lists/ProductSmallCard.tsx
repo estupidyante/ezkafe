@@ -21,12 +21,12 @@ export function ProductSmallCard({products, handleState, handleSelected}) {
                 return (
                 <AllProductContainer key={i}>
                     <div style={{ display: 'flex', alignItems: 'center', marginRight: 20, width: 80,}}>
-                    <AllProductImage src={URI + item?.image} alt={item?.name} />
+                        <AllProductImage src={URI + item?.image} alt={item?.name} />
                     </div>
                     <AllProductContentContainer>
-                    <AllProductTitle>{item?.name}</AllProductTitle>
-                    <AllProductDescription>{item?.description}</AllProductDescription>
-                    <AllProductPrice><p><NumericFormat value={parseInt(item?.price)} displayType={'text'} thousandSeparator={true} decimalScale={2} fixedDecimalScale={true} prefix={'Php '} /></p></AllProductPrice>
+                        <AllProductTitle>{item?.name}</AllProductTitle>
+                        <AllProductDescription>{item?.description}</AllProductDescription>
+                        <AllProductPrice><NumericFormat value={parseInt(item?.price)} displayType={'text'} thousandSeparator={true} decimalScale={2} fixedDecimalScale={true} prefix={'Php '} /></AllProductPrice>
                     </AllProductContentContainer>
                     <button style={{backgroundColor:'#26140D', margin: 5, display: 'flex', alignItems: 'center'}} onClick={() => {
                         handleState(true);

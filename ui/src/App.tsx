@@ -149,7 +149,7 @@ function App() {
             </CardHeroContainer>
             <img src={URI + topProduct?.image} alt={topProduct?.name} style={{width:200}}/>
           </CardHero>}
-          <Section>
+          <Section style={{marginTop:'1rem'}}>
             <h2>EzKafe Drink Menu</h2>
             {!isOrdered && <Button onClick={handleClickOrder}>
               <span>See all</span>
@@ -176,7 +176,7 @@ function App() {
                     <CardProductContent>
                       <CardProductTitle>{item?.name}</CardProductTitle>
                       <CardProductDescription>{item?.description}</CardProductDescription>
-                      <CardProductPrice value="180.85"><p><NumericFormat value={parseInt(item?.price)} displayType={'text'} thousandSeparator={true} decimalScale={2} fixedDecimalScale={true} prefix={'Php '} /></p></CardProductPrice>
+                      <CardProductPrice value="180.85"><NumericFormat value={parseInt(item?.price)} displayType={'text'} thousandSeparator={true} decimalScale={2} fixedDecimalScale={true} prefix={'Php '} /></CardProductPrice>
                     </CardProductContent>
                   </CardProduct>
                 </CardProductItem>
