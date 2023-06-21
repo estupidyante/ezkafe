@@ -38,7 +38,7 @@ class FaqsController extends Controller
         Faqs::create([
             'question' => $data['question'],
             'answer' => $data['answer'],
-            'category_id' => $data['category_id'],
+            'faq_category_id' => $data['category_id'],
         ]);
 
         session()->flash('status', 'FAQs has been created !!');

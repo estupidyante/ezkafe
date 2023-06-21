@@ -7,7 +7,7 @@ use App\Http\Controllers\ChangePasswordController;
 
 use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\FaqsController;
-
+use App\Http\Controllers\FAQsCategoriesController;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\TypesController;
 use App\Http\Controllers\MeasurementsController;
@@ -34,6 +34,7 @@ use App\Http\Livewire\User\UserOrdersComponent;
 
 use App\Http\Livewire\User\UserAdminAccountsComponent;
 use App\Http\Livewire\User\UserFAQsComponent;
+use App\Http\Livewire\User\UserFAQsCategoryComponent;
 use App\Http\Livewire\User\UserNotificationsComponent;
 
 /*
@@ -75,6 +76,7 @@ Route::middleware([
     Route::get('/user/users', UserListsComponent::class)->name('user.users');
     Route::get('/user/orders', UserOrdersComponent::class);
     Route::get('/user/faqs', UserFAQsComponent::class);
+    Route::get('/user/faqscategory', UserFAQsCategoryComponent::class);
     Route::get('/user/notifications', UserNotificationsComponent::class);
     Route::get('/user/accounts', UserAdminAccountsComponent::class)->name('user.accounts');
 
@@ -111,6 +113,10 @@ Route::middleware([
     Route::post('/user/faq/create', [FaqsController::class, 'create'])->name('user.faq.create');
     Route::put('/user/faq/{id}', [FaqsController::class, 'update'])->name('user.faq.update');
     Route::delete('/user/faq/{user}', [FaqsController::class, 'destroy'])->name('user.faq.destroy');
+    // For FAQs Category
+    Route::post('/user/faqscategory/create', [FAQsCategoriesController::class, 'create'])->name('user.faqscategory.create');
+    Route::put('/user/faqscategory/{id}', [FAQsCategoriesController::class, 'update'])->name('user.faqscategory.update');
+    Route::delete('/user/faqscategory/{user}', [FAQsCategoriesController::class, 'destroy'])->name('user.faqscategory.destroy');
     // For Client User
     Route::delete('/user/user/{user}', [UserListsComponent::class, 'destroy'])->name('user.user.destroy');
 });
