@@ -41,7 +41,7 @@ export function OrderLists({ingredients}) {
             <li style={{padding:'1rem',borderBottomColor:'#26140D',borderBottomStyle:'solid',borderBottomWidth:1,}}>
                 <p style={{display:'flex', justifyContent:'space-evenly', alignItems:'center',height:'50%'}}>
                     <span style={{fontSize:'x-large',fontWeight:'bolder',textAlign:'left',width:'50%'}}><strong>Cup Size</strong></span>
-                    <span style={{textAlign:'right',width:'50%'}}>16 oz.</span>
+                    <span style={{textAlign:'right',width:'50%'}}>12 oz.</span>
                 </p>
             </li>
             { product }

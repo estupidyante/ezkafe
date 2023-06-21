@@ -95,7 +95,7 @@ export function CustomOrderLists({product, ingredients, handlePriceChange, handl
     return(
         <ul>
             <li style={{padding:'1rem',borderBottomColor:'#26140D',borderBottomStyle:'solid',borderBottomWidth:1,}}>
-                <p><span style={{fontSize:'small',fontWeight:'bolder',textAlign:'left'}}><strong>Note: </strong> Cup size available is 16 oz. only.</span></p>
+                <p><span style={{fontSize:'small',fontWeight:'bolder',textAlign:'left'}}><strong>Note: </strong> Cup size available is 12 oz. only.</span></p>
             </li>
             <li>
                 { currentProduct }
