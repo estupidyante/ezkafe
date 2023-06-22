@@ -8,6 +8,7 @@ export function CustomOrderLists({product, ingredients, handlePriceChange, handl
     const [types, setTypes] = useState(Array);
     const [measurements, setMeasurements] = useState(Array);
     const [selectedValue, setSelectedValue] = useState<String>();
+    const [newBaseType, setNewBaseType] = useState(Array);
 
     function radioGroupHandler(event: React.ChangeEvent<HTMLInputElement>) {
         setSelectedValue(event.target.value);
@@ -16,7 +17,6 @@ export function CustomOrderLists({product, ingredients, handlePriceChange, handl
         let ing = ingredients.filter((ing: {id: any}) => {
             return ing.id == selectedIngArr[1];
         });
-        console.log(ing);
     }
 
     useEffect(() => {
@@ -49,7 +49,7 @@ export function CustomOrderLists({product, ingredients, handlePriceChange, handl
                     <span>{ingredient?.name}</span>
                 </p>
                 <p style={{marginBottom:20,textAlign:'right'}}>{ ingredient.measurement } { ingredient.unit }</p>
-                {
+                {/* {
                     types.map((type, idx) => {
                         if(type?.id === ingredient.types_id) {
                             return(
@@ -71,41 +71,50 @@ export function CustomOrderLists({product, ingredients, handlePriceChange, handl
                             )
                         }
                     })
-                }
+                } */}
             </div>
         )
     });
 
-    var productBase = types.map((type, idx) => {
+    const addNewBase = ((name: String) => {
+        console.log('add new base');
+        console.log(ingredients);
+        console.log(product.ingredients);
+    })
+
+    const addNewSweetener = ((name: String) => {
+        console.log('add new sweetener');
+    })
+
+    var productBase = product.ingredients.map((ingredient, idx) => {
         return(
             <div key={idx} style={{padding:'1rem',borderColor:'#26140D',borderWidth:1,borderBottomStyle:'solid',}}>
-                <p style={{fontSize:'x-large',fontWeight:'bolder',textAlign:'left',}}>{type?.name}</p>
                 <p style={{marginBottom:20}}><span style={{fontSize:'small',fontWeight:'bolder',textAlign:'left'}}>Fixed according to the combo selected. </span></p>
-                {
-                    <RadioButtonGroup
-                        label=""
-                        group={type?.name}
-                        ing={type?.name}
-                        options={
-                            ingredients.filter((ing: { types_id: any; }) => {
-                                return ing.types_id === type?.id;
-                            })
-                        }
-                        onChange={radioGroupHandler}
-                    />
-                }
             </div>
         )
     })
 
     return(
-        <ul>
-            <li style={{padding:'1rem',borderBottomColor:'#26140D',borderBottomStyle:'solid',borderBottomWidth:1,}}>
-                <p><span style={{fontSize:'small',fontWeight:'bolder',textAlign:'left'}}><strong>Note: </strong> Cup size available is 12 oz. only.</span></p>
-            </li>
-            <li>
-                { currentProduct }
-            </li>
-        </ul>
+        <div>
+            <ul>
+                <li style={{padding:'1rem',borderBottomColor:'#26140D',borderBottomStyle:'solid',borderBottomWidth:1,}}>
+                    <p><span style={{fontSize:'small',fontWeight:'bolder',textAlign:'left'}}><strong>Note: </strong> Cup size available is 12 oz. only.</span></p>
+                </li>
+                <li>
+                    { currentProduct }
+                </li>
+            </ul>
+            <button style={{fontFamily:'Cormorant Garamond',fontSize:'x-large',fontWeight:'bolder',width:'100%',height:50, backgroundColor: '#97C361', color: '#000000', borderRadius: 10,marginTop:'5rem'}} onClick={() => {
+                addNewBase('base');
+            }}>
+                Add Base
+            </button>
+            { productBase && newBaseType }
+            <button style={{fontFamily:'Cormorant Garamond',fontSize:'x-large',fontWeight:'bolder',width:'100%',height:50, backgroundColor: '#97C361', color: '#000000', borderRadius: 10,marginTop:'2rem'}} onClick={() => {
+                addNewSweetener('sweetener');
+            }}>
+                Add Sweetener
+            </button>
+        </div>
     )
 }
