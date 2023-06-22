@@ -323,7 +323,7 @@ const Footer = styled.footer`
   color: #888;
   background: #26140D;
   width:100%;
-  height:200px;
+  min-height:200px;
 `;
 
 const FooterTop = styled.div`
@@ -331,6 +331,23 @@ const FooterTop = styled.div`
 `;
 
 const FooterBrand = styled.div`
+  display: flex;
+  align-items: center;
+  margin: auto;
+  justify-content: center;
+  padding-top: 5rem;
+  span {
+    margin-left:1rem;
+    margin-right:1rem;
+  }
+`;
+
+const FooterBottom = styled.div`
+  display: flex;
+  align-items: center;
+  margin: auto;
+  justify-content: center;
+  padding: 5rem;
 `;
 
 const DividerLineTop = styled.div`
@@ -415,5 +432,6 @@ export {
   Footer,
   FooterTop, 
   FooterBrand,
+  FooterBottom,
   DividerLineTop
 };

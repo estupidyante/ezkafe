@@ -28,10 +28,14 @@ import {
   FooterTop, 
   FooterBrand,
   DividerLineTop,
+  FooterBottom,
 } from './lib/Contants';
 import { 
   SearchOutline,
   ArrowForwardOutline,
+  LogoFacebook,
+  LogoTwitter,
+  LogoInstagram,
 } from 'react-ionicons';
 import {
   URI,
@@ -221,9 +225,29 @@ function App() {
         <Footer>
           <FooterTop>
             <FooterBrand>
-
+              <LogoFacebook
+                color={'#ffffff'} 
+                title={'facebook'}
+                height="50px"
+                width="50px"
+              />
+              <LogoTwitter
+                color={'#ffffff'} 
+                title={'twitter'}
+                height="50px"
+                width="50px"
+              />
+              <LogoInstagram
+                color={'#ffffff'} 
+                title={'instagram'}
+                height="50px"
+                width="50px"
+              />
             </FooterBrand>
           </FooterTop>
+          <FooterBottom>
+            <p>Al Rights Reserve. 2023</p>
+          </FooterBottom>
         </Footer>
       </div>}
       {(isDetailed && !isPayment && !isCustomized) && <ProductDetailPage product={selectedProduct} handleState={handleDetailedState} handleCustomize={handleCustomize} handlePayment={handlePayment}/>}

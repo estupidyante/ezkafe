@@ -72,7 +72,7 @@ export const CustomProductDetailPage = ({product, categories, handlePayment, han
                     {
                         categories.map((category, idx) => {
                             if(category.id === product?.category_id) {
-                                return (<p style={{fontFamily:'Playfair Display',fontStyle:'italic',textAlign:'left'}}>{category.name} base drink</p>)
+                                return (<p key={idx} style={{fontFamily:'Playfair Display',fontStyle:'italic',textAlign:'left'}}>{category.name} base drink</p>)
                             }
                         })
                     }
@@ -94,11 +94,6 @@ export const CustomProductDetailPage = ({product, categories, handlePayment, han
                     <strong style={{textAlign:'left',marginRight:1}}>Subtotal:</strong>
                     <PaymentTotalSpanSpace>..............................................................................................................................................................</PaymentTotalSpanSpace>
                     <div><NumericFormat value={parseInt(product?.price)} displayType={'text'} thousandSeparator={true} decimalScale={2} fixedDecimalScale={true} prefix={'Php '} /></div>
-                </PaymentTotalHolder>
-                <PaymentTotalHolder>
-                    <strong style={{textAlign:'left',marginRight:1}}>Electric Fee:</strong>
-                    <PaymentTotalSpanSpace>..............................................................................................................................................................</PaymentTotalSpanSpace>
-                    <div><NumericFormat value={electricFee} displayType={'text'} thousandSeparator={true} decimalScale={2} fixedDecimalScale={true} prefix={'Php '} /></div>
                 </PaymentTotalHolder>
                 <PaymentTotalHolder>
                     <strong style={{textAlign:'left',marginRight:1}}>Total:</strong>
