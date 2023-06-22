@@ -2,6 +2,10 @@ import { useEffect, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { 
     CloseOutline,
+    ArrowBackCircleOutline,
+    CheckmarkCircleOutline,
+    CheckmarkCircleSharp,
+    CheckmarkDoneCircleSharp,
 } from 'react-ionicons';
 import {
     URI,

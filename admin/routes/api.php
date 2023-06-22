@@ -61,8 +61,6 @@ Route::get('/ingredients/{id}', [IngredientsController::class, 'show']);
 Route::get('/types/{id}', [TypesController::class, 'show']);
 // get specific order
 Route::get('/order/{id}', [OrdersController::class, 'show']);
-// get specific custom order
-Route::get('/order/custom/{id}', [OrdersController::class, 'getCustomOrder']);
 // get specific product
 Route::get('/product/{id}', [ProductsController::class, 'getProduct']);
 // get specific product ingredient
@@ -113,6 +111,8 @@ Route::delete('/user/account/{user}', [AccountsController::class, 'destroy'])->n
 Route::get('/user/faqs', UserFAQsComponent::class);
 // Protected routes
 Route::group(['middleware' => ['api']], function () {
+    // get specific custom order
+    Route::get('/order/custom/{id}', [OrdersController::class, 'getCustomOrder']);
     // create order
     Route::post('/order/create', [OrdersController::class, 'store']);
     // update order
