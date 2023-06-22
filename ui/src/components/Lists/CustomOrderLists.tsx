@@ -14,8 +14,6 @@ export function CustomOrderLists({product, ingredients, handlePriceChange, handl
         let selectedIng = event.target.value;
         let selectedIngArr = selectedIng.split('_');
         let ing = ingredients.filter((ing: {id: any}) => {
-            console.log('selectedIngArr: ',selectedIngArr[1]);
-            console.log('ing.id', ing.id);
             return ing.id == selectedIngArr[1];
         });
         console.log(ing);
@@ -40,20 +38,18 @@ export function CustomOrderLists({product, ingredients, handlePriceChange, handl
     var currentProduct = product.ingredients.map((ingredient, idx) => {
         return(
             <div key={idx} style={{padding:'1rem',borderColor:'#26140D',borderWidth:1,borderBottomStyle:'solid',}}>
-                <p style={{fontSize:'x-large',fontWeight:'bolder',textAlign:'left',display:'flex',justifyContent:'space-between',}}><span>{ingredient?.name}</span>
-                <span>
-                    {
-                        types.map((type, i) => {
-                            if (type.id == ingredient.types_id) return type.name
-                        })
-                    }
-                </span>
+                <p style={{fontSize:'x-large',fontWeight:'bolder',textAlign:'left',display:'flex',justifyContent:'space-between',}}>
+                    <span>
+                        {
+                            types.map((type, i) => {
+                                if (type.id == ingredient.types_id) return type.name
+                            })
+                        }
+                    </span>
+                    <span>{ingredient?.name}</span>
                 </p>
-                <p style={{marginBottom:20,display:'flex'}}>
-                    <span style={{fontSize:'small',fontWeight:'bolder',textAlign:'left',marginRight:5}}>{ ingredient.measurement }</span>
-                    <span style={{fontSize:'small',fontWeight:'bolder',textAlign:'left'}}>{ ingredient.unit }</span>
-                </p>
-                {
+                <p style={{marginBottom:20,textAlign:'right'}}>{ ingredient.measurement } { ingredient.unit }</p>
+                {/* {
                     types.map((type, idx) => {
                         if(type?.id === ingredient.types_id) {
                             return(
@@ -73,7 +69,7 @@ export function CustomOrderLists({product, ingredients, handlePriceChange, handl
                             )
                         }
                     })
-                }
+                } */}
             </div>
         )
     });

@@ -15,7 +15,7 @@ export const CustomProductDetailPage = ({product, categories, handlePayment, han
     const [total, setTotal] = useState(0);
     const [ordered, setOrdered] = useState([]);
     const [isPlaced, setIsPlaced] = useState(false);
-    let electricFee = 10;
+    const [isConfirmed, setIsConfirmed] = useState(false);
 
     useEffect(() => {
         API.get('ingredients')
@@ -29,6 +29,7 @@ export const CustomProductDetailPage = ({product, categories, handlePayment, han
 
     const handleBuyNow = () => {
         setTotal(parseInt(product.price));
+        setIsPlaced(true);
         // var user = {
         //     name: 'x'
         // }
@@ -44,6 +45,7 @@ export const CustomProductDetailPage = ({product, categories, handlePayment, han
         //             .then((res_order) => {
         //                 setOrdered(res_order);
         //                 setIsPlaced(true);
+        //                 alert("Order Created Successfully");
         //             })
         //     })
     }

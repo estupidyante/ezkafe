@@ -74,7 +74,7 @@ class OrdersController extends Controller
     }
     public function getCustomOrder($id)
     {
-        $custom_orders = CutomOrder::find($id)->get();
+        $custom_orders = CustomOrder::find($id)->get();
 	    return response()->json($custom_orders, 200);
     }
     public function edit(Request $request, $id)
