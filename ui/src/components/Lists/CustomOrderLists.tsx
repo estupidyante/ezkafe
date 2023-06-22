@@ -8,7 +8,8 @@ export function CustomOrderLists({product, ingredients, handlePriceChange, handl
     const [types, setTypes] = useState(Array);
     const [measurements, setMeasurements] = useState(Array);
     const [selectedValue, setSelectedValue] = useState<String>();
-    const [newBaseType, setNewBaseType] = useState(Array);
+    const [isBaseAdded, setIsBaseAdded] = useState(false);
+    const [isSweetenerAdded, setIsSweetenerAdded] = useState(false);
 
     function radioGroupHandler(event: React.ChangeEvent<HTMLInputElement>) {
         setSelectedValue(event.target.value);
@@ -78,24 +79,17 @@ export function CustomOrderLists({product, ingredients, handlePriceChange, handl
 
     const addNewBase = ((name: String) => {
         console.log('add new base');
-        console.log(ingredients);
-        console.log(product.ingredients);
+        setIsBaseAdded(true);
     })
 
     const addNewSweetener = ((name: String) => {
         console.log('add new sweetener');
-    })
-
-    var productBase = product.ingredients.map((ingredient, idx) => {
-        return(
-            <div key={idx} style={{padding:'1rem',borderColor:'#26140D',borderWidth:1,borderBottomStyle:'solid',}}>
-                <p style={{marginBottom:20}}><span style={{fontSize:'small',fontWeight:'bolder',textAlign:'left'}}>Fixed according to the combo selected. </span></p>
-            </div>
-        )
+        setIsSweetenerAdded(true);
     })
 
     return(
         <div>
+            <p style={{marginBottom:20}}><span style={{fontSize:'small',fontWeight:'bolder',textAlign:'left'}}>Fixed according to the combo selected. </span></p>
             <ul>
                 <li style={{padding:'1rem',borderBottomColor:'#26140D',borderBottomStyle:'solid',borderBottomWidth:1,}}>
                     <p><span style={{fontSize:'small',fontWeight:'bolder',textAlign:'left'}}><strong>Note: </strong> Cup size available is 12 oz. only.</span></p>
@@ -109,12 +103,47 @@ export function CustomOrderLists({product, ingredients, handlePriceChange, handl
             }}>
                 Add Base
             </button>
-            { productBase && newBaseType }
+            { isBaseAdded && <div style={{padding:'1rem',borderColor:'#26140D',borderWidth:1,borderBottomStyle:'solid',}}>
+                {
+                    <RadioButtonGroup
+                        label=""
+                        group={product.name}
+                        ing={product.name}
+                        prod_id={product.id}
+                        options={
+                            ingredients.filter((ing: {
+                                category_id: any; types_id: any; 
+                            }) => {
+                                return ((ing.types_id === 1) && (ing.category_id === product.category_id));
+                            })
+                        }
+                        onChange={radioGroupHandler}
+                    />
+                }
+            </div> }
             <button style={{fontFamily:'Cormorant Garamond',fontSize:'x-large',fontWeight:'bolder',width:'100%',height:50, backgroundColor: '#97C361', color: '#000000', borderRadius: 10,marginTop:'2rem'}} onClick={() => {
                 addNewSweetener('sweetener');
             }}>
                 Add Sweetener
             </button>
+            { isSweetenerAdded && <div style={{padding:'1rem',borderColor:'#26140D',borderWidth:1,borderBottomStyle:'solid',}}>
+                {
+                    <RadioButtonGroup
+                        label=""
+                        group={product.name}
+                        ing={product.name}
+                        prod_id={product.id}
+                        options={
+                            ingredients.filter((ing: {
+                                category_id: any; types_id: any; 
+                            }) => {
+                                return ((ing.types_id === 2) && (ing.category_id === product.category_id));
+                            })
+                        }
+                        onChange={radioGroupHandler}
+                    />
+                }
+            </div> }
         </div>
     )
 }
