@@ -16,6 +16,7 @@ class OrderIngredients extends Model
         'tag',
         'order_id',
         'types_id',
+        'category_id',
         'measurements_id',
         'measurement',
         'unit',

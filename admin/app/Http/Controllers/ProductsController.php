@@ -116,6 +116,7 @@ class ProductsController extends Controller
                     'tag' => $ingredient['tag'],
                     'products_id' => $products['id'],
                     'types_id' => $ingredient['types_id'],
+                    'category_id' => $ingredient['category_id'],
                     'measurements_id' => $measurement['id'],
                     'measurement' => $measurement['value'],
                     'unit' => $measurement['unit'],
@@ -164,6 +165,7 @@ class ProductsController extends Controller
                         $productIng->tag = $ingredient['tag'];
                         $productIng->products_id = $products['id'];
                         $productIng->types_id = $ingredient['types_id'];
+                        $productIng->category_id = $ingredient['category_id'];
                         $productIng->measurements_id = $measurement['id'];
                         $productIng->measurement = $measurement['value'];
                         $productIng->unit = $measurement['unit'];
@@ -176,6 +178,7 @@ class ProductsController extends Controller
                             'tag' => $ingredient['tag'],
                             'products_id' => $products['id'],
                             'types_id' => $ingredient['types_id'],
+                            'category_id' => $ingredient['category_id'],
                             'measurements_id' => $measurement['id'],
                             'measurement' => $measurement['value'],
                             'unit' => $measurement['unit'],

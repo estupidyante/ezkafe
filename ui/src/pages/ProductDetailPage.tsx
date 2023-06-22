@@ -14,7 +14,10 @@ export const ProductDetailPage = ({product, handleState, handleCustomize, handle
     const [ingredients, setIngredients] = useState(Array);
 
     useEffect(() => {
-        setIngredients(product.ingredients);
+        API.get(`product/` + product.id)
+            .then((res_prod: any) => {
+                setIngredients(res_prod[0].ingredients);
+            })
     }, []);
 
     return (
@@ -35,7 +38,7 @@ export const ProductDetailPage = ({product, handleState, handleCustomize, handle
                 <button style={{fontFamily:'Cormorant Garamond',fontSize:'large',fontWeight:'bolder',width: '100%', height:50, backgroundColor: '#26140D', color: '#ffffff', borderRadius: 10}} onClick={handleCustomize}>
                     Customize
                 </button>
-                <ProductIngredientLists ingredients={ingredients}/>
+                {ingredients && <ProductIngredientLists ingredients={ingredients}/>}
                 <button style={{fontFamily:'Cormorant Garamond',fontSize:'large',fontWeight:'bolder',width: '100%', height:50, backgroundColor: '#26140D', color: '#ffffff', borderRadius: 10, marginTop:'2rem'}} onClick={handlePayment}>
                     Proceed
                 </button>

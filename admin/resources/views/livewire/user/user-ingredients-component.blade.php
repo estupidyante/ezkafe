@@ -155,6 +155,7 @@
                                         <th scope="col"> Name </th>
                                         <th scope="col"> Volume </th>
                                         <th scope="col"> Type </th>
+                                        <th scope="col"> Category </th>
                                         <th scope="col"> Action </th>
                                     </tr>
                                 </thead>
@@ -166,6 +167,7 @@
                                             <td> {{$element->name}} </td>
                                             <td> {{$element->volume}} </td>
                                             <td> {{ $item->find($element->types_id)->name}} </td>
+                                            <td> {{ $categories->find($element->category_id)->name}} </td>
                                             <td>
                                                 <a href="#" class="btn btn-success" data-mdb-toggle="modal" data-mdb-target="#updateIngredientsModal_{{ $element->id }}">Edit</a>
                                                 <form class="d-inline" action="{{ route('user.ingredient.destroy', $element ) }}" method="POST">
@@ -180,6 +182,7 @@
                                             <td> {{$element->name}} </td>
                                             <td> {{$element->volume}} </td>
                                             <td> {{ $item->find($element->types_id)->name}} </td>
+                                            <td> {{ $categories->find($element->category_id)->name}} </td>
                                             <td>
                                                 <a href="#" class="btn btn-success" data-mdb-toggle="modal" data-mdb-target="#updateIngredientsModal_{{ $element->id }}">Edit</a>
                                                 <form class="d-inline" action="{{ route('user.ingredient.destroy', $element ) }}" method="POST">
@@ -231,6 +234,14 @@
                 </select>
             </div>
             <div class="form-group">
+                <label>Category</label>
+                <select class="form-control" name="category_id" required>
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}">{{ $category->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group">
                 <label>Tag</label>
                 <select class="form-control" name="tag" required>
                     @foreach($tags as $tag)
@@ -278,6 +289,14 @@
                 <select class="form-control" name="type_id" required>
                     @foreach($types as $type)
                         <option value="{{ $type->id }}" {{$type->id == $ingredient->types_id  ? 'selected' : ''}}>{{ $type->name }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Category</label>
+                <select class="form-control" name="category_id" required>
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}" {{$category->id == $ingredient->category_id  ? 'selected' : ''}}>{{ $category->name }}</option>
                     @endforeach
                 </select>
             </div>

@@ -32,6 +32,7 @@ class IngredientsController extends Controller
         $validatedData = $request->validate([
             'name'              => 'required|min:1|max:64',
             'type_id'           => 'required',
+            'category_id'       => 'required',
             'tag'               => 'required',
             'volume'            => 'required'
         ]);
@@ -42,6 +43,7 @@ class IngredientsController extends Controller
                 'name' => $data['name'],
                 'tag' => $data['tag'],
                 'types_id' => $data['type_id'],
+                'category_id' => $data['category_id'],
                 'volume' => $data['volume'],
                 
             ]);
@@ -61,6 +63,7 @@ class IngredientsController extends Controller
             $ingredient->name = $data['name'];
             $ingredient->tag = $data['tag'];
             $ingredient->types_id = $data['type_id'];
+            $ingredient->category_id = $data['category_id'];
             $ingredient->volume = $data['volume'];
             $ingredient->update();
             return redirect('/user/ingredients')->with('status',"Ingredients updated successfully");

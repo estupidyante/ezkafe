@@ -49,7 +49,7 @@ export function CustomOrderLists({product, ingredients, handlePriceChange, handl
                     <span>{ingredient?.name}</span>
                 </p>
                 <p style={{marginBottom:20,textAlign:'right'}}>{ ingredient.measurement } { ingredient.unit }</p>
-                {/* {
+                {
                     types.map((type, idx) => {
                         if(type?.id === ingredient.types_id) {
                             return(
@@ -60,8 +60,10 @@ export function CustomOrderLists({product, ingredients, handlePriceChange, handl
                                     ing={ingredient?.name}
                                     prod_id={product.id}
                                     options={
-                                        ingredients.filter((ing: { types_id: any; }) => {
-                                            return ing.types_id === ingredient.types_id;
+                                        ingredients.filter((ing: {
+                                            category_id: any; types_id: any; 
+                                        }) => {
+                                            return ((ing.types_id === ingredient.types_id) && (ing.category_id === product.category_id));
                                         })
                                     }
                                     onChange={radioGroupHandler}
@@ -69,7 +71,7 @@ export function CustomOrderLists({product, ingredients, handlePriceChange, handl
                             )
                         }
                     })
-                } */}
+                }
             </div>
         )
     });

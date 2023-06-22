@@ -16,6 +16,7 @@ class ProductIngredients extends Model
         'tag',
         'products_id',
         'types_id',
+        'category_id',
         'measurements_id',
         'measurement',
         'unit',
