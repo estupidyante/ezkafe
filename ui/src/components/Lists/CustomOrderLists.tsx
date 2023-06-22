@@ -11,6 +11,14 @@ export function CustomOrderLists({product, ingredients, handlePriceChange, handl
 
     function radioGroupHandler(event: React.ChangeEvent<HTMLInputElement>) {
         setSelectedValue(event.target.value);
+        let selectedIng = event.target.value;
+        let selectedIngArr = selectedIng.split('_');
+        let ing = ingredients.filter((ing: {id: any}) => {
+            console.log('selectedIngArr: ',selectedIngArr[1]);
+            console.log('ing.id', ing.id);
+            return ing.id == selectedIngArr[1];
+        });
+        console.log(ing);
     }
 
     useEffect(() => {
