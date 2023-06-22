@@ -34,9 +34,9 @@ export const CustomProductDetailPage = ({product, categories, handlePayment, han
     const handleBuyNow = () => {
         setTotal(parseInt(product.price));
         setIsPlaced(true);
-        // var user = {
-        //     name: 'x'
-        // }
+        var user = {
+            name: 'x'
+        }
         // API.post('client/create', user)
         //     .then((response) => {
         //         var order = {

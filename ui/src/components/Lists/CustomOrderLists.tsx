@@ -18,10 +18,10 @@ export function CustomOrderLists({product, ingredients, handlePriceChange, handl
         let ing = ingredients.filter((ing: {id: any}) => {
             return ing.id == selectedIngArr[1];
         });
+        product.ing_ids = product.ing_ids + ',' + ing[0].id;
     }
 
     useEffect(() => {
-        // console.log(selectedValue);
         handleCustomProduct(selectedValue);
     }, [selectedValue]);
 
@@ -107,7 +107,7 @@ export function CustomOrderLists({product, ingredients, handlePriceChange, handl
                 {
                     <RadioButtonGroup
                         label=""
-                        group={product.name}
+                        group={'base'}
                         ing={product.name}
                         prod_id={product.id}
                         options={
@@ -130,7 +130,7 @@ export function CustomOrderLists({product, ingredients, handlePriceChange, handl
                 {
                     <RadioButtonGroup
                         label=""
-                        group={product.name}
+                        group={'sweetener'}
                         ing={product.name}
                         prod_id={product.id}
                         options={
