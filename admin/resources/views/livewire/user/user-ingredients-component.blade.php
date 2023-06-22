@@ -277,7 +277,7 @@
                 <label>Type</label>
                 <select class="form-control" name="type_id" required>
                     @foreach($types as $type)
-                        <option value="{{ $type->id }}" {{$type->id == $ingredient->type_id  ? 'selected' : ''}}>{{ $type->name }}</option>
+                        <option value="{{ $type->id }}" {{$type->id == $ingredient->types_id  ? 'selected' : ''}}>{{ $type->name }}</option>
                     @endforeach
                 </select>
             </div>
