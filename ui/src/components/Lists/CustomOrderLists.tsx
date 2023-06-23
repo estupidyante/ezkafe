@@ -12,8 +12,8 @@ export function CustomOrderLists(this: any, {product, ingredients, handlePriceCh
     const [selectedValue, setSelectedValue] = useState<String>();
     const [isBaseAdded, setIsBaseAdded] = useState(false);
     const [isSweetenerAdded, setIsSweetenerAdded] = useState(false);
-
     const [isBaseSelected, setIsBaseSelected] = useState(false);
+    const [isSweetenerSelected, setIsSweetenerSelected] = useState(false);
     const [selectedNewIng, setSelectedNewIng] = useState(Array);
     const [selectedNewMeasure, setSelectedNewMeasure] = useState(Array);
 
@@ -26,22 +26,24 @@ export function CustomOrderLists(this: any, {product, ingredients, handlePriceCh
         let selectedIng = event.target.value;
         let selectedIngArr = selectedIng.split('_');
         console.log(selectedIngArr);
-        if(isBaseAdded && !isBaseSelected) {
+        if((isBaseAdded && !isBaseSelected) || (isSweetenerAdded && !isSweetenerSelected)) {
             let ing = ingredients.filter((ing: {id: any}) => {
                 return ing.id == selectedIngArr[1];
             });
             console.log('isBaseAdded', ing);
             setSelectedNewIng(ing);
-            setIsBaseSelected(true);
+            if(isBaseAdded && !isSweetenerAdded) { setIsBaseSelected(true); }
+            else { setIsSweetenerSelected(true) }
         }
 
-        if (isBaseSelected) {
+        if (isBaseSelected || isSweetenerSelected) {
             let measurement = measurements.filter((measure: {id: any}) => {
                 return measure.id == selectedIngArr[1];
             });
             console.log(measurement);
             setSelectedNewMeasure(measurement);
         }
+
         // product.ing_ids = product.ing_ids + ',' + ing[0].id;
 
         // display measurements and save button
@@ -109,30 +111,45 @@ export function CustomOrderLists(this: any, {product, ingredients, handlePriceCh
     const addNewBase = (() => {
         console.log('add new base');
         setIsBaseAdded(true);
+        cancelNewSweetener();
     })
 
     const cancelNewBase = (() => {
         console.log('cancel new base');
         setIsBaseAdded(false);
         setIsBaseSelected(false);
+        listenChange();
     })
-
     const addNewSweetener = (() => {
         console.log('add new sweetener');
+        cancelNewBase();
         setIsSweetenerAdded(true);
     })
-
-    const saveSelected = (() => {
-        console.log('saveSelected', selectedNewMeasure);
+    const cancelNewSweetener = (() => {
+        console.log('cancel new sweetener');
+        setIsSweetenerAdded(false);
+        setIsSweetenerSelected(false);
+        listenChange();
+    })
+    const saveBaseSelected = (() => {
+        console.log('saveBaseSelected', selectedNewMeasure);
         productIngredients.push(selectedNewIng[0]);
         productMeasurement.push(selectedNewMeasure[0]);
         setProductIngredients(productIngredients);
         setProductMeasurement(productMeasurement);
         cancelNewBase();
     })
-
+    const saveSweetenerSelected = (() => {
+        console.log('saveSweetenerSelected', selectedNewMeasure);
+        productIngredients.push(selectedNewIng[0]);
+        productMeasurement.push(selectedNewMeasure[0]);
+        setProductIngredients(productIngredients);
+        setProductMeasurement(productMeasurement);
+        cancelNewSweetener();
+    })
     const listenChange = useCallback(() => {
         console.log('callback');
+        
     }, []);
 
 
@@ -154,7 +171,7 @@ export function CustomOrderLists(this: any, {product, ingredients, handlePriceCh
             }}>
                 Add Base
             </button>}
-            { isBaseAdded && <div style={{padding:'1rem',borderColor:'#26140D',borderWidth:1,borderBottomStyle:'solid',}}>
+            { (isBaseAdded && !isSweetenerAdded) && <div style={{padding:'1rem',borderColor:'#26140D',borderWidth:1,borderBottomStyle:'solid',}}>
                 <button style={{fontFamily:'Cormorant Garamond',fontSize:'x-large',fontWeight:'bolder',width:'100%',height:50, backgroundColor: '#97C361', color: '#000000', borderRadius: 10,marginTop:'4rem',marginBottom:'2rem'}} onClick={() => {
                     cancelNewBase();
                 }}>
@@ -177,7 +194,7 @@ export function CustomOrderLists(this: any, {product, ingredients, handlePriceCh
                     />
                 }
             </div> }
-            { isBaseSelected && <div style={{padding:'1rem',borderColor:'#26140D',borderWidth:1,borderBottomStyle:'solid',}}>
+            { (isBaseSelected && (!isSweetenerSelected && !isSweetenerAdded)) && <div style={{padding:'1rem',borderColor:'#26140D',borderWidth:1,borderBottomStyle:'solid',}}>
                 {
                     <RadioButtonGroup
                         label=""
@@ -189,17 +206,22 @@ export function CustomOrderLists(this: any, {product, ingredients, handlePriceCh
                     />
                 }
                 <button style={{fontFamily:'Cormorant Garamond',fontSize:'x-large',fontWeight:'bolder',width:'100%',height:50, backgroundColor: '#26140D', color: '#ffffff', borderRadius: 10,marginTop:'2rem'}} onClick={() => {
-                    saveSelected();
+                    saveBaseSelected();
                 }}>
                     Save Base
                 </button>
             </div> }
-            <button style={{fontFamily:'Cormorant Garamond',fontSize:'x-large',fontWeight:'bolder',width:'100%',height:50, backgroundColor: '#97C361', color: '#000000', borderRadius: 10,marginTop:'2rem'}} onClick={() => {
+            {!isSweetenerAdded && <button style={{fontFamily:'Cormorant Garamond',fontSize:'x-large',fontWeight:'bolder',width:'100%',height:50, backgroundColor: '#97C361', color: '#000000', borderRadius: 10,marginTop:'2rem'}} onClick={() => {
                 addNewSweetener();
             }}>
                 Add Sweetener
-            </button>
-            { isSweetenerAdded && <div style={{padding:'1rem',borderColor:'#26140D',borderWidth:1,borderBottomStyle:'solid',}}>
+            </button>}
+            { (isSweetenerAdded && !isBaseAdded) && <div style={{padding:'1rem',borderColor:'#26140D',borderWidth:1,borderBottomStyle:'solid',}}>
+                <button style={{fontFamily:'Cormorant Garamond',fontSize:'x-large',fontWeight:'bolder',width:'100%',height:50, backgroundColor: '#97C361', color: '#000000', borderRadius: 10,marginTop:'4rem',marginBottom:'2rem'}} onClick={() => {
+                    cancelNewSweetener();
+                }}>
+                    Cancel Sweetener
+                </button>
                 {
                     <RadioButtonGroup
                         label=""
@@ -216,6 +238,23 @@ export function CustomOrderLists(this: any, {product, ingredients, handlePriceCh
                         onChange={radioGroupHandler}
                     />
                 }
+            </div> }
+            { (isSweetenerSelected && !isBaseSelected) && <div style={{padding:'1rem',borderColor:'#26140D',borderWidth:1,borderBottomStyle:'solid',}}>
+                {
+                    <RadioButtonGroup
+                        label=""
+                        group={'sweetener_measurement'}
+                        ing={product.name}
+                        prod_id={product.id}
+                        options={measurements}
+                        onChange={radioGroupHandler}
+                    />
+                }
+                <button style={{fontFamily:'Cormorant Garamond',fontSize:'x-large',fontWeight:'bolder',width:'100%',height:50, backgroundColor: '#26140D', color: '#ffffff', borderRadius: 10,marginTop:'2rem'}} onClick={() => {
+                    saveSweetenerSelected();
+                }}>
+                    Save Sweetener
+                </button>
             </div> }
         </div>
     )
