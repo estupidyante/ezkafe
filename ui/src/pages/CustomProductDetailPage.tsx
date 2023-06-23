@@ -90,18 +90,6 @@ export const CustomProductDetailPage = ({product, categories, handlePayment, han
                         })
                     }
                 </div>
-                {isPlaced && <>
-                    <PaymentTotalHolder>
-                        <strong style={{textAlign:'left',marginRight:1}}>Order ID:</strong>
-                        <PaymentTotalSpanSpace>..............................................................................................................................................................</PaymentTotalSpanSpace>
-                        <p>{ordered.id}</p>
-                    </PaymentTotalHolder>
-                    <PaymentTotalHolder style={{marginBottom:'5rem'}}>
-                        <strong style={{textAlign:'left',marginRight:1}}>User ID:</strong>
-                        <PaymentTotalSpanSpace>..............................................................................................................................................................</PaymentTotalSpanSpace>
-                        <p>{ordered.clients_id}</p>
-                    </PaymentTotalHolder>
-                </>}
                 <CustomOrderLists product={product} ingredients={ingredients} handlePriceChange={handlePriceChange} handleCustomProduct={handleCustomProduct}/>
                 <PaymentTotalHolder>
                     <strong style={{textAlign:'left',marginRight:1}}>Subtotal:</strong>

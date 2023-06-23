@@ -149,8 +149,11 @@ export function CustomOrderLists(this: any, {product, ingredients, handlePriceCh
     })
     const listenChange = useCallback(() => {
         console.log('callback');
-        
+        handleChange(product, productIngredients, productMeasurement)
     }, []);
+    const handleChange = (product, ingredient, measurement) => {
+        return
+    };
 
 
     return(
