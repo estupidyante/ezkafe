@@ -33,11 +33,12 @@ export function CustomOrderLists(this: any, {product, ingredients, handlePriceCh
             console.log('isBaseAdded', ing);
             setSelectedNewIng(ing);
             setIsBaseSelected(true);
-        } else if (isBaseSelected) {
+        }
+
+        if (isBaseSelected) {
             let measurement = measurements.filter((measure: {id: any}) => {
                 return measure.id == selectedIngArr[1];
             });
-            console.log(measurement);
             setSelectedNewMeasure(measurement);
         }
         // product.ing_ids = product.ing_ids + ',' + ing[0].id;
@@ -122,7 +123,7 @@ export function CustomOrderLists(this: any, {product, ingredients, handlePriceCh
 
     const saveSelected = (() => {
         console.log('saveSelected', selectedNewIng);
-        productIngredients.push(selectedNewIng);
+        productIngredients.push(selectedNewIng[0]);
         setProductIngredients(productIngredients);
         setProductMeasurement(selectedNewMeasure);
         cancelNewBase();

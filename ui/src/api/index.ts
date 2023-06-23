@@ -2,8 +2,8 @@ import axios from 'axios';
 import type { AxiosResponse, DefaultResponse, InternalAxiosRequestConfig } from 'axios';
 
 
-const URI = 'http://127.0.0.1:8000';
-const API_URI = 'http://127.0.0.1:8000/api';
+const URI = 'http://192.168.254.102:8000';
+const API_URI = 'http://192.168.254.102:8000/api';
 
 /**
  * Request Success Handler
