@@ -30,6 +30,8 @@ class UserAnalyticsComponent extends Component
             'report_type' => 'group_by_string',
             'model' => 'App\Models\ProductIngredients',
             'group_by_field' => 'name',
+            'aggregate_function' => 'sum',
+            'aggregate_field' => 'volume',
         ];
 
         $ingredients_chart = new LaravelChart($ingredients_chart_option);
@@ -39,6 +41,8 @@ class UserAnalyticsComponent extends Component
             'report_type' => 'group_by_string',
             'model' => 'App\Models\ProductIngredients',
             'group_by_field' => 'name',
+            'aggregate_function' => 'sum',
+            'aggregate_field' => 'volume',
         ];
 
         $ingredients_bar_chart = new LaravelChart($ingredients_bar_chart_option);

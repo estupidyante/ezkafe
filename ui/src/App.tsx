@@ -246,6 +246,7 @@ function App() {
             </FooterBrand>
           </FooterTop>
           <FooterBottom>
+            <p style={{ display:'flex',alignItems:'center',justifyContent:'center',marginBottom:'1rem'}}>Have a Questions? Click <button style={{color:'#ffffff',marginLeft:'0.5rem'}} onClick={() => {}}> here.</button></p>
             <p>Al Rights Reserve. 2023</p>
           </FooterBottom>
         </Footer>
