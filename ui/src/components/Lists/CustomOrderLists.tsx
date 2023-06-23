@@ -122,8 +122,9 @@ export function CustomOrderLists(this: any, {product, ingredients, handlePriceCh
     })
 
     const saveSelected = (() => {
-        console.log('saveSelected', selectedNewIng);
+        console.log('saveSelected', selectedNewMeasure);
         productIngredients.push(selectedNewIng[0]);
+        productMeasurement.push(selectedNewMeasure[0]);
         setProductIngredients(productIngredients);
         setProductMeasurement(selectedNewMeasure);
         cancelNewBase();

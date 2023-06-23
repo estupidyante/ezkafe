@@ -12,7 +12,7 @@ const CurrentProduct = ({ types, ingredients, measurement, handleChange }) => {
   }, [ingredients]);
 
   useEffect(() => {
-    // console.log("measurement: " + measurement);
+    console.log("measurement: " + measurement[0]);
   }, [measurement]);
 
   useEffect(() => {
@@ -32,8 +32,8 @@ const CurrentProduct = ({ types, ingredients, measurement, handleChange }) => {
                     </span>
                     <span>{ingredient.name}</span>
                 </p>
-                {!measurement && <p style={{marginBottom:20,textAlign:'right'}}>{ ingredient.measurement } { ingredient.unit }</p>}
-                {(measurement) && <p style={{marginBottom:20,textAlign:'right'}}>{ measurement.value } { measurement.unit }</p>}
+                {(!measurement && !measurement[0]) && <p style={{marginBottom:20,textAlign:'right'}}>{ ingredient.measurement } { ingredient.unit }</p>}
+                {(measurement && measurement[0]) && <p style={{marginBottom:20,textAlign:'right'}}>{ measurement[0].value } { measurement[0].unit }</p>}
             </div>
         )
     });
