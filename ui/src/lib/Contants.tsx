@@ -343,10 +343,7 @@ const FooterBrand = styled.div`
 `;
 
 const FooterBottom = styled.div`
-  display: flex;
-  align-items: center;
   margin: auto;
-  justify-content: center;
   padding: 5rem;
 `;
 
