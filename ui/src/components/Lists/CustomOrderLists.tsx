@@ -16,6 +16,7 @@ export function CustomOrderLists({product, ingredients, handlePriceChange, handl
     const [isSweetenerAdded, setIsSweetenerAdded] = useState(false);
     const [isBaseSelected, setIsBaseSelected] = useState(false);
     const [isSweetenerSelected, setIsSweetenerSelected] = useState(false);
+    const [isMeasurementSelected, setIsMeasurementSelected] = useState(false);
     const [selectedNewIng, setSelectedNewIng] = useState(Array);
     const [selectedNewMeasure, setSelectedNewMeasure] = useState(Array);
 
@@ -52,6 +53,7 @@ export function CustomOrderLists({product, ingredients, handlePriceChange, handl
             console.log(measurement);
             tempProductMeasureSelected = selectedIngArr[1];
             setSelectedNewMeasure(measurement);
+            setIsMeasurementSelected(true);
         }
         console.log('customProduct', customProduct);
         // product.ing_ids = product.ing_ids + ',' + ing[0].id;
@@ -90,6 +92,7 @@ export function CustomOrderLists({product, ingredients, handlePriceChange, handl
         console.log('cancel new base');
         setIsBaseAdded(false);
         setIsBaseSelected(false);
+        setIsMeasurementSelected(false);
     })
     const addNewSweetener = (() => {
         console.log('add new sweetener');
@@ -100,12 +103,11 @@ export function CustomOrderLists({product, ingredients, handlePriceChange, handl
         console.log('cancel new sweetener');
         setIsSweetenerAdded(false);
         setIsSweetenerSelected(false);
+        setIsMeasurementSelected(false);
     })
     const saveBaseSelected = (() => {
         console.log(selectedNewMeasure[0]);
         productMeasurement.push(selectedNewMeasure[0]);
-
-        tempProductMeasure = tempProductMeasure + ',' + selectedNewMeasure[0].id;
 
         selectedNewIng[0].measurement = selectedNewMeasure[0].value;
         selectedNewIng[0].measurements_id = selectedNewMeasure[0].id;
@@ -114,23 +116,19 @@ export function CustomOrderLists({product, ingredients, handlePriceChange, handl
         selectedNewIng[0].unit = selectedNewMeasure[0].unit;
 
         productIngredients.push(selectedNewIng[0]);
-
-        tempProductIng = tempProductIng + ',' + selectedNewIng[0].id;
 
         setProductIngredients(productIngredients);
         setProductMeasurement(productMeasurement);
         forceUpdate();
         cancelNewBase();
 
-        customProduct.ing_ids = customProduct.ing_ids + tempProductIng;
-        customProduct.measurement_ids = customProduct.measurement_ids + tempProductMeasure;
+        customProduct.ing_ids = customProduct.ing_ids + ',' + selectedNewIng[0].id;
+        customProduct.measurement_ids = customProduct.measurement_ids + ',' + selectedNewMeasure[0].id;
         handleCustomProduct(customProduct);
     })
     const saveSweetenerSelected = (() => {
         console.log(selectedNewMeasure[0]);
         productMeasurement.push(selectedNewMeasure[0]);
-
-        tempProductMeasure = tempProductMeasure + ',' + selectedNewMeasure[0].id;
 
         selectedNewIng[0].measurement = selectedNewMeasure[0].value;
         selectedNewIng[0].measurements_id = selectedNewMeasure[0].id;
@@ -140,13 +138,11 @@ export function CustomOrderLists({product, ingredients, handlePriceChange, handl
 
         productIngredients.push(selectedNewIng[0]);
 
-        tempProductIng = tempProductIng + ',' + selectedNewIng[0].id;
-
         setProductIngredients(productIngredients);
         setProductMeasurement(productMeasurement);
         cancelNewSweetener();
-        customProduct.ing_ids = customProduct.ing_ids + ',' + tempProductIng;
-        customProduct.measurement_ids = customProduct.measurement_ids + ',' + tempProductMeasure;
+        customProduct.ing_ids = customProduct.ing_ids + ',' + selectedNewIng[0].id;
+        customProduct.measurement_ids = customProduct.measurement_ids + ',' + selectedNewMeasure[0].id;
         listenChange();
         handleCustomProduct(customProduct);
     })
@@ -208,7 +204,7 @@ export function CustomOrderLists({product, ingredients, handlePriceChange, handl
                         onChange={radioGroupHandler}
                     />
                 }
-                <button style={{fontFamily:'Cormorant Garamond',fontSize:'x-large',fontWeight:'bolder',width:'100%',height:50, backgroundColor: '#26140D', color: '#ffffff', borderRadius: 10,marginTop:'2rem'}} onClick={() => {
+                <button style={{fontFamily:'Cormorant Garamond',fontSize:'x-large',fontWeight:'bolder',width:'100%',height:50, backgroundColor: '#26140D', color: '#ffffff', borderRadius: 10,marginTop:'2rem'}} disabled={!isMeasurementSelected} onClick={() => {
                     saveBaseSelected();
                 }}>
                     Save Base
@@ -253,7 +249,7 @@ export function CustomOrderLists({product, ingredients, handlePriceChange, handl
                         onChange={radioGroupHandler}
                     />
                 }
-                <button style={{fontFamily:'Cormorant Garamond',fontSize:'x-large',fontWeight:'bolder',width:'100%',height:50, backgroundColor: '#26140D', color: '#ffffff', borderRadius: 10,marginTop:'2rem'}} onClick={() => {
+                <button style={{fontFamily:'Cormorant Garamond',fontSize:'x-large',fontWeight:'bolder',width:'100%',height:50, backgroundColor: '#26140D', color: '#ffffff', borderRadius: 10,marginTop:'2rem'}} disabled={!isMeasurementSelected} onClick={() => {
                     saveSweetenerSelected();
                 }}>
                     Save Sweetener
@@ -262,3 +258,9 @@ export function CustomOrderLists({product, ingredients, handlePriceChange, handl
         </div>
     )
 }
+
+const styles = theme => ({
+    disabledButton: {
+      backgroundColor: theme.palette.primary || 'red'
+    }
+});
