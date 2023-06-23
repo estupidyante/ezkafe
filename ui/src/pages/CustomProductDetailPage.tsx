@@ -23,11 +23,14 @@ export const CustomProductDetailPage = ({product, categories, handlePayment, han
     const [isPlaced, setIsPlaced] = useState(false);
     const [isConfirmed, setIsConfirmed] = useState(false);
 
+    const [selectedCustomProduct, setSelectedCustomProduct] = useState(Array);
+
     useEffect(() => {
         API.get('ingredients')
             .then((response_ing:any) => {
                 setIngredients(response_ing);
             })
+        setSelectedCustomProduct(product);
     }, []);
     const handlePriceChange = (price) => {
         //
@@ -35,25 +38,25 @@ export const CustomProductDetailPage = ({product, categories, handlePayment, han
 
     const handleBuyNow = () => {
         setTotal(parseInt(product.price));
-        setIsPlaced(true);
+        // setIsPlaced(true);
         var user = {
             name: 'x'
         }
-        // API.post('client/create', user)
-        //     .then((response) => {
-        //         var order = {
-        //             clients_id: response?.id,
-        //             products_id: product.id,
-        //             amount: parseInt(product.price) + electricFee,
-        //             status: 'in-progress'
-        //         }
-        //         API.post('order/create', order)
-        //             .then((res_order) => {
-        //                 setOrdered(res_order);
-        //                 setIsPlaced(true);
-        //                 alert("Order Created Successfully");
-        //             })
-        //     })
+        API.post('client/create', user)
+            .then((response) => {
+                var order = {
+                    clients_id: response?.id,
+                    products_id: selectedCustomProduct.id,
+                    amount: parseInt(selectedCustomProduct.price),
+                    status: 'in-progress'
+                }
+                API.post('order/create', [order, selectedCustomProduct])
+                    .then((res_order: any) => {
+                        setOrdered(res_order);
+                        setIsPlaced(true);
+                        alert("Order Created Successfully");
+                    })
+            })
     }
 
     const handleConfirmed = () => {
@@ -65,6 +68,7 @@ export const CustomProductDetailPage = ({product, categories, handlePayment, han
 
     const handleCustomProduct = (customProduct: any) => {
         console.log('handleCustomProduct: ', customProduct);
+        setSelectedCustomProduct(customProduct);
         forceUpdate();
     }
 
@@ -192,7 +196,7 @@ const PaymentOrderDetails = styled.section`
 `;
 const PaymentOrderDetailsOverlay = styled.section`
     background: rgba(0,0,0,0.70);
-    position:absolute;
+    position:fixed;
     scroll:none;
     top:0;
     bottom:0;
