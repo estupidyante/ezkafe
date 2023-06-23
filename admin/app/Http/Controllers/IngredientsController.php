@@ -30,9 +30,11 @@ class IngredientsController extends Controller
 	}
     public function edit(Request $request, $id)
 	{
-        $ingredient = ProductIngredients::find($id);
-	    $ingredient->update($request->all());
-	    return response()->json($ingredient, 200);
+        $ingredient = ProductIngredients::find($id)->update([
+            'price' => $request->price,
+            'volume' => $request->volume
+        ]);
+	    return response()->json(['success'=>'User Updated Successfully!'], 200);
 	}
     /**
      * Show the form for creating a new resource.
