@@ -7,6 +7,8 @@ import React from 'react';
 import CurrentProducts from 'components/Products/CurrentProducts';
 
 export function CustomOrderLists(this: any, {product, ingredients, handlePriceChange, handleCustomProduct}) {
+    const [, updateState] = useState();
+    const forceUpdate = useCallback(() => updateState({}), []);
     const [types, setTypes] = useState(Array);
     const [measurements, setMeasurements] = useState(Array);
     const [selectedValue, setSelectedValue] = useState<String>();
@@ -23,16 +25,21 @@ export function CustomOrderLists(this: any, {product, ingredients, handlePriceCh
 
     const [customProduct, setCustomProduct] = useState(Array);
 
+    let tempProductIng = [];
+    let tempProductMeasure = [];
+    let tempProductIngSelected: string;
+    let tempProductMeasureSelected: string;
+
     function radioGroupHandler(event: React.ChangeEvent<HTMLInputElement>) {
         setSelectedValue(event.target.value);
         let selectedIng = event.target.value;
         let selectedIngArr = selectedIng.split('_');
-        console.log(selectedIngArr);
         if((isBaseAdded && !isBaseSelected) || (isSweetenerAdded && !isSweetenerSelected)) {
             let ing = ingredients.filter((ing: {id: any}) => {
                 return ing.id == selectedIngArr[1];
             });
             console.log('isBaseAdded', ing);
+            tempProductIngSelected = selectedIngArr[1];
             setSelectedNewIng(ing);
             if(isBaseAdded && !isSweetenerAdded) { setIsBaseSelected(true); }
             else { setIsSweetenerSelected(true) }
@@ -43,11 +50,11 @@ export function CustomOrderLists(this: any, {product, ingredients, handlePriceCh
                 return measure.id == selectedIngArr[1];
             });
             console.log(measurement);
+            tempProductMeasureSelected = selectedIngArr[1];
             setSelectedNewMeasure(measurement);
         }
         console.log('customProduct', customProduct);
         // product.ing_ids = product.ing_ids + ',' + ing[0].id;
-
         // display measurements and save button
     }
 
@@ -69,6 +76,12 @@ export function CustomOrderLists(this: any, {product, ingredients, handlePriceCh
             })
         setProductIngredients(product.ingredients);
         setCustomProduct(product);
+        tempProductIng =  product.ing_ids;
+        tempProductMeasure = product.measurement_ids;
+
+        console.log(product);
+        console.log('tempProductIng', tempProductIng);
+        console.log('tempProductMeasure', tempProductMeasure);
     }, []);
 
     // const currentProduct = product.ingredients.map((ingredient, idx) => {
@@ -139,6 +152,8 @@ export function CustomOrderLists(this: any, {product, ingredients, handlePriceCh
         console.log(selectedNewMeasure[0]);
         productMeasurement.push(selectedNewMeasure[0]);
 
+        tempProductMeasure = tempProductMeasure + ',' + selectedNewMeasure[0].id;
+
         selectedNewIng[0].measurement = selectedNewMeasure[0].value;
         selectedNewIng[0].measurements_id = selectedNewMeasure[0].id;
         selectedNewIng[0].price = selectedNewMeasure[0].price;
@@ -147,14 +162,22 @@ export function CustomOrderLists(this: any, {product, ingredients, handlePriceCh
 
         productIngredients.push(selectedNewIng[0]);
 
+        tempProductIng = tempProductIng + ',' + selectedNewIng[0].id;
+
         setProductIngredients(productIngredients);
         setProductMeasurement(productMeasurement);
         cancelNewBase();
+
+        customProduct.ing_ids = customProduct.ing_ids + tempProductIng;
+        customProduct.measurement_ids = customProduct.measurement_ids + tempProductMeasure;
+        handleCustomProduct(customProduct);
     })
     const saveSweetenerSelected = (() => {
         console.log(selectedNewMeasure[0]);
         productMeasurement.push(selectedNewMeasure[0]);
 
+        tempProductMeasure = tempProductMeasure + ',' + selectedNewMeasure[0].id;
+
         selectedNewIng[0].measurement = selectedNewMeasure[0].value;
         selectedNewIng[0].measurements_id = selectedNewMeasure[0].id;
         selectedNewIng[0].price = selectedNewMeasure[0].price;
@@ -163,17 +186,19 @@ export function CustomOrderLists(this: any, {product, ingredients, handlePriceCh
 
         productIngredients.push(selectedNewIng[0]);
 
+        tempProductIng = tempProductIng + ',' + selectedNewIng[0].id;
+
         setProductIngredients(productIngredients);
         setProductMeasurement(productMeasurement);
         cancelNewSweetener();
+        customProduct.ing_ids = customProduct.ing_ids + ',' + tempProductIng;
+        customProduct.measurement_ids = customProduct.measurement_ids + ',' + tempProductMeasure;
+        handleCustomProduct(customProduct);
     })
     const listenChange = useCallback(() => {
         console.log('callback');
-        handleChange(product, productIngredients, productMeasurement)
+        forceUpdate();
     }, []);
-    const handleChange = (product, ingredient, measurement) => {
-        return
-    };
 
 
     return(

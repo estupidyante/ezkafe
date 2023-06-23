@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { 
     CloseOutline,
@@ -15,6 +15,8 @@ import { CustomOrderLists } from 'components/Lists/CustomOrderLists';
 import { NumericFormat } from 'react-number-format';
 
 export const CustomProductDetailPage = ({product, categories, handlePayment, handleState}) => {
+    const [, updateState] = useState();
+    const forceUpdate = useCallback(() => updateState({}), []);
     const [ingredients, setIngredients] = useState(Array);
     const [total, setTotal] = useState(0);
     const [ordered, setOrdered] = useState([]);
@@ -63,6 +65,7 @@ export const CustomProductDetailPage = ({product, categories, handlePayment, han
 
     const handleCustomProduct = (customProduct: any) => {
         console.log('handleCustomProduct: ', customProduct);
+        forceUpdate();
     }
 
     return (
