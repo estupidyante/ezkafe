@@ -22,6 +22,16 @@ class IngredientsController extends Controller
         $ingredient = Ingredients::find($id);
 	    return response()->json($ingredient, 200);
 	}
+    public function getSpecificIngredients($id)
+	{
+        $ingredient = ProductIngredients::where('id', $id)->get();
+	    return response()->json($ingredient, 200);
+	}
+    public function edit(Request $request, ProductsIngredient $ingredient)
+	{
+	    $ingredient->update($request->all());
+	    return response()->json($ingredient, 200);
+	}
     /**
      * Show the form for creating a new resource.
      *

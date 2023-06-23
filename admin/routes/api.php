@@ -85,12 +85,12 @@ Route::post('/user/measurement/create', [MeasurementsController::class, 'create'
 Route::put('/user/measurement/{id}', [MeasurementsController::class, 'update'])->name('user.measurement.update');
 Route::delete('/user/measurement/{measurement}', [MeasurementsController::class, 'destroy'])->name('user.measurement.destroy');
 // Ingredients
-Route::get('/user/ingredients', UserIngredientsComponent::class)->name('user.ingredients');
-Route::post('/user/ingredient/create', [IngredientsController::class, 'create'])->name('user.ingredient.create');
-Route::put('/user/ingredient/{id}', [IngredientsController::class, 'update'])->name('user.ingredient.update');
-Route::delete('/user/ingredient/{ingredient}', [IngredientsController::class, 'destroy'])->name('user.ingredient.destroy');
+Route::get('/ingredients', UserIngredientsComponent::class)->name('user.ingredients');
+Route::get('/ingredient/{{id}', [IngredientsController::class, 'getSpecificIngredients']);
+Route::post('/ingredient/create', [IngredientsController::class, 'create'])->name('user.ingredient.create');
+Route::put('/ingredient/{id}', [IngredientsController::class, 'edit']);
+Route::delete('/ingredient/{ingredient}', [IngredientsController::class, 'destroy'])->name('user.ingredient.destroy');
 // Products
-
 Route::post('/product/store', [ProductsController::class, 'store']);
 Route::put('/product/{id}', [ProductsController::class, 'edit']);
 Route::delete('/product/{product}', [ProductsController::class, 'delete']);
