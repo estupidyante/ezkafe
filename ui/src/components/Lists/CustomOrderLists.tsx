@@ -39,6 +39,7 @@ export function CustomOrderLists(this: any, {product, ingredients, handlePriceCh
             let measurement = measurements.filter((measure: {id: any}) => {
                 return measure.id == selectedIngArr[1];
             });
+            console.log(measurement);
             setSelectedNewMeasure(measurement);
         }
         // product.ing_ids = product.ing_ids + ',' + ing[0].id;
@@ -126,12 +127,11 @@ export function CustomOrderLists(this: any, {product, ingredients, handlePriceCh
         productIngredients.push(selectedNewIng[0]);
         productMeasurement.push(selectedNewMeasure[0]);
         setProductIngredients(productIngredients);
-        setProductMeasurement(selectedNewMeasure);
+        setProductMeasurement(productMeasurement);
         cancelNewBase();
     })
 
     const listenChange = useCallback(() => {
-        // handleChange(checked, index)
         console.log('callback');
     }, []);
 
