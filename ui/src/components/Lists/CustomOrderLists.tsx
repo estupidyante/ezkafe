@@ -61,7 +61,8 @@ export function CustomOrderLists(this: any, {product, ingredients, handlePriceCh
     useEffect(() => {
         console.log('customProduct:', customProduct);
         // handleCustomProduct(selectedValue);
-    }, [productIngredients, productMeasurement]);
+        forceUpdate();
+    }, [productIngredients, productMeasurement, customProduct]);
 
 
     useEffect(() => {
@@ -166,6 +167,7 @@ export function CustomOrderLists(this: any, {product, ingredients, handlePriceCh
 
         setProductIngredients(productIngredients);
         setProductMeasurement(productMeasurement);
+        forceUpdate();
         cancelNewBase();
 
         customProduct.ing_ids = customProduct.ing_ids + tempProductIng;
@@ -190,6 +192,7 @@ export function CustomOrderLists(this: any, {product, ingredients, handlePriceCh
 
         setProductIngredients(productIngredients);
         setProductMeasurement(productMeasurement);
+        forceUpdate();
         cancelNewSweetener();
         customProduct.ing_ids = customProduct.ing_ids + ',' + tempProductIng;
         customProduct.measurement_ids = customProduct.measurement_ids + ',' + tempProductMeasure;
@@ -198,7 +201,7 @@ export function CustomOrderLists(this: any, {product, ingredients, handlePriceCh
     const listenChange = useCallback(() => {
         console.log('callback');
         forceUpdate();
-    }, []);
+    }, [customProduct]);
 
 
     return(

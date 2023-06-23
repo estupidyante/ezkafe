@@ -1,14 +1,14 @@
 import RadioButtonGroup from "components/Radio/RadioButtonGroup";
-import { memo, useEffect } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 
 const CurrentProduct = ({ types, ingredients, measurement, handleChange }) => {
 
   useEffect(() => {
-    // console.log("types: " + types);
+    console.log("types: " + types);
   }, [types]);
 
   useEffect(() => {
-    // console.log("ingredient: " + ingredients);
+    console.log("ingredient: " + ingredients);
   }, [ingredients]);
 
   useEffect(() => {
@@ -16,7 +16,7 @@ const CurrentProduct = ({ types, ingredients, measurement, handleChange }) => {
   }, [measurement]);
 
   useEffect(() => {
-    // console.log("handleChange: " + handleChange);
+    console.log("handleChange: " + handleChange);
   }, [handleChange]);
 
   const currentProduct = ingredients.map((ingredient, idx) => {
