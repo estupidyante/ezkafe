@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { InputElementProps } from "./InputInterface";
 import { Label, Radio } from "./InputStyles";
+import { NumericFormat } from "react-number-format";
 // import { DisabledIcon } from "src/styled-components/Icons";
 
 const Wrapper = styled.div`
@@ -9,14 +10,15 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-const RadioButton = ({ label, id, disabled, ...rest }: InputElementProps) => {
+const RadioButton = ({ label, id, price, disabled, ...rest }: InputElementProps) => {
   return (
     <Wrapper>
       <Radio id={id} type="radio" disabled={disabled} {...rest} />
-      <Label htmlFor={id} disabled={disabled}>
+      <Label style={{width:'50%',textAlign:'left'}} htmlFor={id} disabled={disabled}>
         <span>{label}</span>
         {/* disabled && <DisabledIcon small /> */}
       </Label>
+      <div style={{width:'40%',textAlign:'right'}}><NumericFormat value={parseInt(price)} displayType={'text'} thousandSeparator={true} decimalScale={2} fixedDecimalScale={true} prefix={'Php '} /></div>
     </Wrapper>
   );
 };

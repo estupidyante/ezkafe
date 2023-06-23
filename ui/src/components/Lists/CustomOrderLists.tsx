@@ -21,6 +21,8 @@ export function CustomOrderLists(this: any, {product, ingredients, handlePriceCh
     const [productIngredients, setProductIngredients] = useState(Array);
     const [productMeasurement, setProductMeasurement] = useState(Array);
 
+    const [customProduct, setCustomProduct] = useState(Array);
+
     function radioGroupHandler(event: React.ChangeEvent<HTMLInputElement>) {
         setSelectedValue(event.target.value);
         let selectedIng = event.target.value;
@@ -43,15 +45,16 @@ export function CustomOrderLists(this: any, {product, ingredients, handlePriceCh
             console.log(measurement);
             setSelectedNewMeasure(measurement);
         }
-
+        console.log('customProduct', customProduct);
         // product.ing_ids = product.ing_ids + ',' + ing[0].id;
 
         // display measurements and save button
     }
 
     useEffect(() => {
-        handleCustomProduct(selectedValue);
-    }, [selectedValue]);
+        console.log('customProduct:', customProduct);
+        // handleCustomProduct(selectedValue);
+    }, [productIngredients, productMeasurement]);
 
 
     useEffect(() => {
@@ -65,6 +68,7 @@ export function CustomOrderLists(this: any, {product, ingredients, handlePriceCh
                 setMeasurements(res_measure);
             })
         setProductIngredients(product.ingredients);
+        setCustomProduct(product);
     }, []);
 
     // const currentProduct = product.ingredients.map((ingredient, idx) => {
@@ -132,17 +136,33 @@ export function CustomOrderLists(this: any, {product, ingredients, handlePriceCh
         listenChange();
     })
     const saveBaseSelected = (() => {
-        console.log('saveBaseSelected', selectedNewMeasure);
-        productIngredients.push(selectedNewIng[0]);
+        console.log(selectedNewMeasure[0]);
         productMeasurement.push(selectedNewMeasure[0]);
+
+        selectedNewIng[0].measurement = selectedNewMeasure[0].value;
+        selectedNewIng[0].measurements_id = selectedNewMeasure[0].id;
+        selectedNewIng[0].price = selectedNewMeasure[0].price;
+        selectedNewIng[0].products_id = product.id;
+        selectedNewIng[0].unit = selectedNewMeasure[0].unit;
+
+        productIngredients.push(selectedNewIng[0]);
+
         setProductIngredients(productIngredients);
         setProductMeasurement(productMeasurement);
         cancelNewBase();
     })
     const saveSweetenerSelected = (() => {
-        console.log('saveSweetenerSelected', selectedNewMeasure);
-        productIngredients.push(selectedNewIng[0]);
+        console.log(selectedNewMeasure[0]);
         productMeasurement.push(selectedNewMeasure[0]);
+
+        selectedNewIng[0].measurement = selectedNewMeasure[0].value;
+        selectedNewIng[0].measurements_id = selectedNewMeasure[0].id;
+        selectedNewIng[0].price = selectedNewMeasure[0].price;
+        selectedNewIng[0].products_id = product.id;
+        selectedNewIng[0].unit = selectedNewMeasure[0].unit;
+
+        productIngredients.push(selectedNewIng[0]);
+
         setProductIngredients(productIngredients);
         setProductMeasurement(productMeasurement);
         cancelNewSweetener();
@@ -158,7 +178,6 @@ export function CustomOrderLists(this: any, {product, ingredients, handlePriceCh
 
     return(
         <div>
-            <p style={{marginBottom:20}}><span style={{fontSize:'small',fontWeight:'bolder',textAlign:'left'}}>Fixed according to the combo selected. </span></p>
             <ul id="productIngredients">
                 <li style={{padding:'1rem',borderBottomColor:'#26140D',borderBottomStyle:'solid',borderBottomWidth:1,}}>
                     <p><span style={{fontSize:'small',fontWeight:'bolder',textAlign:'left'}}><strong>Note: </strong> Cup size available is 12 oz. only.</span></p>
@@ -181,20 +200,23 @@ export function CustomOrderLists(this: any, {product, ingredients, handlePriceCh
                     Cancel Base
                 </button>
                 {
-                    <RadioButtonGroup
-                        label=""
-                        group={'base'}
-                        ing={product.name}
-                        prod_id={product.id}
-                        options={
-                            ingredients.filter((ing: {
-                                category_id: any; types_id: any; 
-                            }) => {
-                                return ((ing.types_id === 1) && (ing.category_id === product.category_id));
-                            })
-                        }
-                        onChange={radioGroupHandler}
-                    />
+                    <>
+                        <p style={{marginBottom:20}}><span style={{fontSize:'small',fontWeight:'bolder',textAlign:'left'}}>Fixed according to the combo selected. </span></p>
+                        <RadioButtonGroup
+                            label=""
+                            group={'base'}
+                            ing={product.name}
+                            prod_id={product.id}
+                            options={
+                                ingredients.filter((ing: {
+                                    category_id: any; types_id: any; 
+                                }) => {
+                                    return ((ing.types_id === 1) && (ing.category_id === product.category_id));
+                                })
+                            }
+                            onChange={radioGroupHandler}
+                        />
+                    </>
                 }
             </div> }
             { (isBaseSelected && (!isSweetenerSelected && !isSweetenerAdded)) && <div style={{padding:'1rem',borderColor:'#26140D',borderWidth:1,borderBottomStyle:'solid',}}>

@@ -4,6 +4,7 @@ export interface IOption {
   id?:BigInteger;
   label?: string;
   name?: string;
+  price?: string;
   value?: string;
   disabled?: boolean;
 }
@@ -22,6 +23,7 @@ export interface InputElementProps
   extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
   id: string;
+  price?:string;
   error?: boolean;
   disabled?: boolean;
 }
