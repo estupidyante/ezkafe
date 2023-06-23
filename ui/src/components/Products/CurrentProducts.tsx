@@ -1,5 +1,4 @@
-import RadioButtonGroup from "components/Radio/RadioButtonGroup";
-import { memo, useCallback, useEffect, useState } from "react";
+import { memo, useEffect } from "react";
 
 const CurrentProduct = ({ types, ingredients, measurement, handleChange }) => {
 
@@ -43,4 +42,4 @@ const CurrentProduct = ({ types, ingredients, measurement, handleChange }) => {
   return (currentProduct);
 };
 
-export default memo(CurrentProduct);
+export default CurrentProduct;

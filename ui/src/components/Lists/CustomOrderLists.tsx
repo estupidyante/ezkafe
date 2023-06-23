@@ -1,4 +1,4 @@
-import { JSXElementConstructor, ReactElement, ReactFragment, useCallback, useEffect, useState, } from 'react';
+import { useCallback, useEffect, useState, } from 'react';
 import {
     API,
 } from '../../api';
@@ -6,7 +6,7 @@ import RadioButtonGroup from 'components/Radio/RadioButtonGroup';
 import React from 'react';
 import CurrentProducts from 'components/Products/CurrentProducts';
 
-export function CustomOrderLists(this: any, {product, ingredients, handlePriceChange, handleCustomProduct}) {
+export function CustomOrderLists({product, ingredients, handlePriceChange, handleCustomProduct}) {
     const [, updateState] = useState();
     const forceUpdate = useCallback(() => updateState({}), []);
     const [types, setTypes] = useState(Array);
@@ -60,9 +60,8 @@ export function CustomOrderLists(this: any, {product, ingredients, handlePriceCh
 
     useEffect(() => {
         console.log('customProduct:', customProduct);
-        // handleCustomProduct(selectedValue);
         forceUpdate();
-    }, [productIngredients, productMeasurement, customProduct]);
+    }, [productIngredients, productMeasurement, customProduct, productTypes]);
 
 
     useEffect(() => {
@@ -79,52 +78,7 @@ export function CustomOrderLists(this: any, {product, ingredients, handlePriceCh
         setCustomProduct(product);
         tempProductIng =  product.ing_ids;
         tempProductMeasure = product.measurement_ids;
-
-        console.log(product);
-        console.log('tempProductIng', tempProductIng);
-        console.log('tempProductMeasure', tempProductMeasure);
     }, []);
-
-    // const currentProduct = product.ingredients.map((ingredient, idx) => {
-    //     return(
-    //         <div key={idx} style={{padding:'1rem',borderColor:'#26140D',borderWidth:1,borderBottomStyle:'solid',}}>
-    //             <p style={{fontSize:'x-large',fontWeight:'bolder',textAlign:'left',display:'flex',justifyContent:'space-between',}}>
-    //                 <span>
-    //                     {
-    //                         types.map((type, i) => {
-    //                             if (type.id == ingredient.types_id) return type.name
-    //                         })
-    //                     }
-    //                 </span>
-    //                 <span>{ingredient?.name}</span>
-    //             </p>
-    //             <p style={{marginBottom:20,textAlign:'right'}}>{ ingredient.measurement } { ingredient.unit }</p>
-    //             {
-    //                 types.map((type, idx) => {
-    //                     if(type?.id === ingredient.types_id) {
-    //                         return(
-    //                             <RadioButtonGroup
-    //                                 key={idx}
-    //                                 label=""
-    //                                 group={ingredient?.name}
-    //                                 ing={ingredient?.name}
-    //                                 prod_id={product.id}
-    //                                 options={
-    //                                     ingredients.filter((ing: {
-    //                                         category_id: any; types_id: any; 
-    //                                     }) => {
-    //                                         return ((ing.types_id === ingredient.types_id) && (ing.category_id === product.category_id));
-    //                                     })
-    //                                 }
-    //                                 onChange={radioGroupHandler}
-    //                             />
-    //                         )
-    //                     }
-    //                 })
-    //             }
-    //         </div>
-    //     )
-    // });
 
     const addNewBase = (() => {
         console.log('add new base');
@@ -136,7 +90,6 @@ export function CustomOrderLists(this: any, {product, ingredients, handlePriceCh
         console.log('cancel new base');
         setIsBaseAdded(false);
         setIsBaseSelected(false);
-        listenChange();
     })
     const addNewSweetener = (() => {
         console.log('add new sweetener');
@@ -147,7 +100,6 @@ export function CustomOrderLists(this: any, {product, ingredients, handlePriceCh
         console.log('cancel new sweetener');
         setIsSweetenerAdded(false);
         setIsSweetenerSelected(false);
-        listenChange();
     })
     const saveBaseSelected = (() => {
         console.log(selectedNewMeasure[0]);
@@ -192,28 +144,26 @@ export function CustomOrderLists(this: any, {product, ingredients, handlePriceCh
 
         setProductIngredients(productIngredients);
         setProductMeasurement(productMeasurement);
-        forceUpdate();
         cancelNewSweetener();
         customProduct.ing_ids = customProduct.ing_ids + ',' + tempProductIng;
         customProduct.measurement_ids = customProduct.measurement_ids + ',' + tempProductMeasure;
+        listenChange();
         handleCustomProduct(customProduct);
     })
     const listenChange = useCallback(() => {
         console.log('callback');
         forceUpdate();
     }, [customProduct]);
-
+    const childCurrentProducts = <CurrentProducts key={undefined} types={productTypes} ingredients={productIngredients} measurement={productMeasurement} handleChange={listenChange} />;
 
     return(
         <div>
-            <ul id="productIngredients">
+            <ul>
                 <li style={{padding:'1rem',borderBottomColor:'#26140D',borderBottomStyle:'solid',borderBottomWidth:1,}}>
                     <p><span style={{fontSize:'small',fontWeight:'bolder',textAlign:'left'}}><strong>Note: </strong> Cup size available is 12 oz. only.</span></p>
                 </li>
                 <li>
-                    {
-                        productIngredients && <CurrentProducts key={undefined} types={productTypes} ingredients={productIngredients} measurement={productMeasurement} handleChange={listenChange} />
-                    }
+                    { childCurrentProducts }
                 </li>
             </ul>
             {!isBaseAdded && <button style={{fontFamily:'Cormorant Garamond',fontSize:'x-large',fontWeight:'bolder',width:'100%',height:50, backgroundColor: '#97C361', color: '#000000', borderRadius: 10,marginTop:'5rem'}} onClick={() => {
