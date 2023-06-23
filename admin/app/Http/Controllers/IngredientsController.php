@@ -28,8 +28,9 @@ class IngredientsController extends Controller
         $ingredient = ProductIngredients::where('id', $id)->get();
 	    return response()->json($ingredient, 200);
 	}
-    public function edit(Request $request, ProductsIngredients $ingredient)
+    public function edit(Request $request, $id)
 	{
+        $ingredient = ProductIngredients::find($id);
 	    $ingredient->update($request->all());
 	    return response()->json($ingredient, 200);
 	}
