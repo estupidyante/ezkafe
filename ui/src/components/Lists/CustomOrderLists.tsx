@@ -1,9 +1,10 @@
-import { JSXElementConstructor, ReactElement, ReactFragment, useEffect, useState, } from 'react';
+import { JSXElementConstructor, ReactElement, ReactFragment, useCallback, useEffect, useState, } from 'react';
 import {
     API,
 } from '../../api';
 import RadioButtonGroup from 'components/Radio/RadioButtonGroup';
 import React from 'react';
+import CurrentProducts from 'components/Products/CurrentProducts';
 
 export function CustomOrderLists(this: any, {product, ingredients, handlePriceChange, handleCustomProduct}) {
     const [types, setTypes] = useState(Array);
@@ -16,21 +17,23 @@ export function CustomOrderLists(this: any, {product, ingredients, handlePriceCh
     const [selectedNewIng, setSelectedNewIng] = useState(Array);
     const [selectedNewMeasure, setSelectedNewMeasure] = useState(Array);
 
+    const [productTypes, setProductTypes] = useState(Array);
+    const [productIngredients, setProductIngredients] = useState(Array);
+    const [productMeasurement, setProductMeasurement] = useState(Array);
+
     function radioGroupHandler(event: React.ChangeEvent<HTMLInputElement>) {
         setSelectedValue(event.target.value);
         let selectedIng = event.target.value;
         let selectedIngArr = selectedIng.split('_');
         console.log(selectedIngArr);
-        if(isBaseAdded) {
+        if(isBaseAdded && !isBaseSelected) {
             let ing = ingredients.filter((ing: {id: any}) => {
                 return ing.id == selectedIngArr[1];
             });
-            console.log(ing);
+            console.log('isBaseAdded', ing);
             setSelectedNewIng(ing);
             setIsBaseSelected(true);
-        }
-
-        if (isBaseSelected) {
+        } else if (isBaseSelected) {
             let measurement = measurements.filter((measure: {id: any}) => {
                 return measure.id == selectedIngArr[1];
             });
@@ -46,63 +49,60 @@ export function CustomOrderLists(this: any, {product, ingredients, handlePriceCh
         handleCustomProduct(selectedValue);
     }, [selectedValue]);
 
+
     useEffect(() => {
         API.get('types')
             .then((res_type) => {
                 setTypes(res_type);
+                setProductTypes(res_type);
             })
         API.get('measurements')
             .then((res_measure) => {
                 setMeasurements(res_measure);
             })
+        setProductIngredients(product.ingredients);
     }, []);
 
-    const currentProduct = product.ingredients.map((ingredient, idx) => {
-        return(
-            <div key={idx} style={{padding:'1rem',borderColor:'#26140D',borderWidth:1,borderBottomStyle:'solid',}}>
-                <p style={{fontSize:'x-large',fontWeight:'bolder',textAlign:'left',display:'flex',justifyContent:'space-between',}}>
-                    <span>
-                        {
-                            types.map((type, i) => {
-                                if (type.id == ingredient.types_id) return type.name
-                            })
-                        }
-                    </span>
-                    <span>{ingredient?.name}</span>
-                </p>
-                <p style={{marginBottom:20,textAlign:'right'}}>{ ingredient.measurement } { ingredient.unit }</p>
-                {/* {
-                    types.map((type, idx) => {
-                        if(type?.id === ingredient.types_id) {
-                            return(
-                                <RadioButtonGroup
-                                    key={idx}
-                                    label=""
-                                    group={ingredient?.name}
-                                    ing={ingredient?.name}
-                                    prod_id={product.id}
-                                    options={
-                                        ingredients.filter((ing: {
-                                            category_id: any; types_id: any; 
-                                        }) => {
-                                            return ((ing.types_id === ingredient.types_id) && (ing.category_id === product.category_id));
-                                        })
-                                    }
-                                    onChange={radioGroupHandler}
-                                />
-                            )
-                        }
-                    })
-                } */}
-            </div>
-        )
-    });
-
-    // const selectedElement = (() => {
+    // const currentProduct = product.ingredients.map((ingredient, idx) => {
     //     return(
-    //         <li><div style={{padding:'1rem',borderColor:'#26140D',borderWidth:1,borderBottomStyle:'solid',}}><p style={{fontSize:'x-large',fontWeight:'bolder',textAlign:'left',display:'flex',justifyContent:'space-between',}}><span>{types.map((type, i) => {if (type.id == selectedNewIng[0].types_id) return type.name})}</span><span>{selectedNewIng[0]?.name}</span></p><p style={{marginBottom:20,textAlign:'right'}}>{ selectedNewMeasure[0].value } { selectedNewMeasure.unit }</p></div></li>
+    //         <div key={idx} style={{padding:'1rem',borderColor:'#26140D',borderWidth:1,borderBottomStyle:'solid',}}>
+    //             <p style={{fontSize:'x-large',fontWeight:'bolder',textAlign:'left',display:'flex',justifyContent:'space-between',}}>
+    //                 <span>
+    //                     {
+    //                         types.map((type, i) => {
+    //                             if (type.id == ingredient.types_id) return type.name
+    //                         })
+    //                     }
+    //                 </span>
+    //                 <span>{ingredient?.name}</span>
+    //             </p>
+    //             <p style={{marginBottom:20,textAlign:'right'}}>{ ingredient.measurement } { ingredient.unit }</p>
+    //             {
+    //                 types.map((type, idx) => {
+    //                     if(type?.id === ingredient.types_id) {
+    //                         return(
+    //                             <RadioButtonGroup
+    //                                 key={idx}
+    //                                 label=""
+    //                                 group={ingredient?.name}
+    //                                 ing={ingredient?.name}
+    //                                 prod_id={product.id}
+    //                                 options={
+    //                                     ingredients.filter((ing: {
+    //                                         category_id: any; types_id: any; 
+    //                                     }) => {
+    //                                         return ((ing.types_id === ingredient.types_id) && (ing.category_id === product.category_id));
+    //                                     })
+    //                                 }
+    //                                 onChange={radioGroupHandler}
+    //                             />
+    //                         )
+    //                     }
+    //                 })
+    //             }
+    //         </div>
     //     )
-    // })
+    // });
 
     const addNewBase = (() => {
         console.log('add new base');
@@ -121,10 +121,18 @@ export function CustomOrderLists(this: any, {product, ingredients, handlePriceCh
     })
 
     const saveSelected = (() => {
-        console.log(product);
-        console.log(selectedNewIng);
-        console.log(selectedNewMeasure);
+        console.log('saveSelected', selectedNewIng);
+        productIngredients.push(selectedNewIng);
+        setProductIngredients(productIngredients);
+        setProductMeasurement(selectedNewMeasure);
+        cancelNewBase();
     })
+
+    const listenChange = useCallback(() => {
+        // handleChange(checked, index)
+        console.log('callback');
+    }, []);
+
 
     return(
         <div>
@@ -134,7 +142,9 @@ export function CustomOrderLists(this: any, {product, ingredients, handlePriceCh
                     <p><span style={{fontSize:'small',fontWeight:'bolder',textAlign:'left'}}><strong>Note: </strong> Cup size available is 12 oz. only.</span></p>
                 </li>
                 <li>
-                    { currentProduct }
+                    {
+                        productIngredients && <CurrentProducts key={undefined} types={productTypes} ingredients={productIngredients} measurement={productMeasurement} handleChange={listenChange} />
+                    }
                 </li>
             </ul>
             {!isBaseAdded && <button style={{fontFamily:'Cormorant Garamond',fontSize:'x-large',fontWeight:'bolder',width:'100%',height:50, backgroundColor: '#97C361', color: '#000000', borderRadius: 10,marginTop:'5rem'}} onClick={() => {
