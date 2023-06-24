@@ -34,12 +34,11 @@ class IngredientsController extends Controller
             'price' => $request->price,
             'volume' => $request->volume
         ]);
-        event('toast',[
-            'type'=> 'success',
-            'message'=> "Sugar has only 10% remaining!",
-        ]);
-        notify()->success('Welcome to Laravel Notify ⚡️');
-	    return response()->json(['success'=>'Ingredient Updated Successfully!'], 200);
+        $updatedIng = ProductIngredients::find($id);
+        toast()
+            ->success($updatedIng->name . ' has only '. $updatedIng->volume . ' remaining!')
+            ->push();
+	    return response()->json(['success'=> $updatedIng->name . ' Updated Successfully! has only '. $updatedIng->volume . ' remaining!'], 200);
 	}
     /**
      * Show the form for creating a new resource.

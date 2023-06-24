@@ -4,6 +4,8 @@ import type { AxiosResponse, DefaultResponse, InternalAxiosRequestConfig } from 
 
 const URI = 'http://192.168.254.102:8000';
 const API_URI = 'http://192.168.254.102:8000/api';
+// const URI = 'http://localhost:8000';
+// const API_URI = 'http://localhost:8000/api';
 
 /**
  * Request Success Handler

@@ -184,6 +184,7 @@ return [
         Yajra\DataTables\DataTablesServiceProvider::class,
         Yajra\DataTables\ButtonsServiceProvider::class,
         Mckenziearts\Notify\LaravelNotifyServiceProvider::class,
+        Usernotnull\Toast\ToastServiceProvider::class,
 
         /*
          * Package Service Providers...

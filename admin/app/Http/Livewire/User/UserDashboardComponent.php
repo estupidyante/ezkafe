@@ -51,7 +51,6 @@ class UserDashboardComponent extends Component
             'aggregate_field' => 'amount',
             'chart_type' => 'line',
         ];
-
         $transaction_chart = new LaravelChart($transaction_chart_options);
         return view('livewire.user.user-dashboard-component', compact('products', 'ingredients','ingredients_count','revenue_count','orders_count','users_count', 'top_orders', 'categories', 'measurements','user_chart','transaction_chart'))->layout('layouts.base');
     }

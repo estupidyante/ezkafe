@@ -9,6 +9,7 @@ use App\Models\Ingredients;
 use App\Models\ProductIngredients;
 use App\Models\OrderIngredients;
 use App\Models\CustomOrder;
+use App\Models\Clients;
 use DB;
 
 class OrdersController extends Controller
@@ -70,12 +71,15 @@ class OrdersController extends Controller
             $customOrderIngredients[$arrayIng[$i]['tag']] = $arrayIng[$i]['measurement'];
         }
 
-        CustomOrder::create($customOrderIngredients);
-        event('toast',[
-            'type'=> 'success',
-            'message'=> "  placed an order successfully",
-        ]);
-        return response()->json($order, 201);
+        $customOrdered = CustomOrder::create($customOrderIngredients);
+        $customOrdered->clients_id = $order->clients_id;
+        $customOrdered->amount = $order->amount;
+        $user = Clients::find($order->clients_id);
+        toast()
+            ->success('User'. $user->id .' placed an order successfully')
+            ->sticky()
+            ->push();
+        return response()->json($customOrdered, 201);
     }
     public function getCustomOrder($id)
     {

@@ -14,7 +14,6 @@ use App\Http\Controllers\MeasurementsController;
 use App\Http\Controllers\IngredientsController;
 use App\Http\Controllers\ProductsController;
 use App\Http\Controllers\OrdersController;
-use App\Http\Controllers\InvoiceController;
 
 use App\Http\Livewire\IndexComponent;
 use App\Http\Livewire\HomeComponent;
@@ -80,6 +79,7 @@ Route::middleware([
     Route::get('/user/faqscategory', UserFAQsCategoryComponent::class);
     Route::get('/user/notifications', UserNotificationsComponent::class);
     Route::get('/user/accounts', UserAdminAccountsComponent::class)->name('user.accounts');
+
     // For Category
     Route::post('/user/category/create', [CategoriesController::class, 'create'])->name('user.category.create');
     Route::put('/user/category/{id}', [CategoriesController::class, 'update'])->name('user.category.update');
@@ -119,9 +119,6 @@ Route::middleware([
     Route::delete('/user/faqscategory/{user}', [FAQsCategoriesController::class, 'destroy'])->name('user.faqscategory.destroy');
     // For Client User
     Route::delete('/user/user/{user}', [UserListsComponent::class, 'destroy'])->name('user.user.destroy');
-
-    Route::get('/invoice/{id}', [InvoiceController::class, 'show'])->name('show.invoice');
-    Route::post('/invoice-paid', [InvoiceController::class, 'sendInvoicePaidNotification'])->name('notify.invoice.paid');
 });
 
 // For Admin

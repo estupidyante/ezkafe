@@ -8,6 +8,10 @@ module.exports = {
         './resources/views/**/*.blade.php',
         './node_modules/tw-elements/dist/js/**/*.js',
     ],
+    purge: [
+        './vendor/usernotnull/tall-toasts/config/**/*.php',
+        './vendor/usernotnull/tall-toasts/resources/views/**/*.blade.php',
+    ],
 
     theme: {
         extend: {
