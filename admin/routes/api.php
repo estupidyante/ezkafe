@@ -118,6 +118,11 @@ Route::group(['middleware' => ['api']], function () {
     Route::put('/order/{id}', [OrdersController::class, 'edit']);
     // create client
     Route::post('/client/create', [UserClientController::class, 'store']);
+    // For Notifications
+    Route::get('/notifcations', [NotificationController::class, 'index']);
+    Route::get('/notifcation/{id}', [NotificationController::class, 'show']);
+    Route::put('/notifcation/{id}', [NotificationController::class, 'update']);
+    Route::post('/notifcation/create', [NotificationController::class, 'create']);
 });
 
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {

@@ -34,7 +34,7 @@ class IngredientsController extends Controller
             'price' => $request->price,
             'volume' => $request->volume
         ]);
-	    return response()->json(['success'=>'User Updated Successfully!'], 200);
+	    return response()->json(['success'=>'Ingredient Updated Successfully!'], 200);
 	}
     /**
      * Show the form for creating a new resource.
