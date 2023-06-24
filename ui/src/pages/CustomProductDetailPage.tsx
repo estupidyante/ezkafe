@@ -31,16 +31,25 @@ export const CustomProductDetailPage = ({product, categories, handlePayment, han
                 setIngredients(response_ing);
             })
         setSelectedCustomProduct(product);
+        console.log('product.price: ', product.price);
         setTotal(product.price);
+        console.log('total: ', total);
     }, []);
+
     const handlePriceChange = (price: string) => {
+        if(parseInt(total) == 0) {
+            setTotal(product.price);
+        }
         console.log('handlePriceChange: ', parseInt(price), parseInt(total));
-        let tempTotal = parseInt(price) + parseInt(total);
-        setTotal(tempTotal);
+        let tempTotal = parseInt(total) + parseInt(price);
+        console.log(tempTotal);
+        setTotal(tempTotal.toString());
+        forceUpdate();
     }
 
     const handleBuyNow = () => {
-        setTotal(total);
+        // setTotal(total);
+        console.log(total);
         // setIsPlaced(true);
         var user = {
             name: 'x'
@@ -109,7 +118,7 @@ export const CustomProductDetailPage = ({product, categories, handlePayment, han
                 <PaymentTotalHolder>
                     <strong style={{textAlign:'left',marginRight:1}}>Total:</strong>
                     <PaymentTotalSpanSpace>..............................................................................................................................................................</PaymentTotalSpanSpace>
-                    <div><NumericFormat value={total} displayType={'text'} thousandSeparator={true} decimalScale={2} fixedDecimalScale={true} prefix={'Php '} /></div>
+                    <div><NumericFormat value={parseInt(total)} displayType={'text'} thousandSeparator={true} decimalScale={2} fixedDecimalScale={true} prefix={'Php '} /></div>
                 </PaymentTotalHolder>
                 {!isPlaced && <button style={{fontFamily:'Cormorant Garamond',fontSize:'x-large',fontWeight:'bolder',width:'100%',height:50, backgroundColor: '#26140D', color: '#ffffff', borderRadius: 10,marginTop:'5rem'}} onClick={handleBuyNow}>
                     Buy Now

@@ -77,6 +77,11 @@ export function CustomOrderLists({product, ingredients, handlePriceChange, handl
         setCustomProduct(product);
         tempProductIng =  product.ing_ids;
         tempProductMeasure = product.measurement_ids;
+
+        product.ingredients.map((ing: { price: any; }) => {
+            console.log('price tracker', ing);
+            handlePriceChange(ing.price);
+        })
     }, []);
 
     const addNewBase = (() => {

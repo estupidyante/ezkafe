@@ -19,6 +19,11 @@ export const PaymentDetalPage = ({product, handlePayment}) => {
     const [isPlaced, setIsPlaced] = useState(false);
     const [isConfirmed, setIsConfirmed] = useState(false);
 
+    useEffect(() => {
+        console.log('product.price: ', product.price);
+        setTotal(product.price);
+    }, []);
+
     const handleBuyNow = () => {
         setTotal(parseInt(product.price));
         // setIsPlaced(true);
@@ -73,7 +78,7 @@ export const PaymentDetalPage = ({product, handlePayment}) => {
             <PaymentTotalHolder>
                 <strong style={{textAlign:'left',marginRight:1}}>Total:</strong>
                 <PaymentTotalSpanSpace>..............................................................................................................................................................</PaymentTotalSpanSpace>
-                <div><NumericFormat value={parseInt(product?.price)} displayType={'text'} thousandSeparator={true} decimalScale={2} fixedDecimalScale={true} prefix={'Php '} /></div>
+                <div><NumericFormat value={total} displayType={'text'} thousandSeparator={true} decimalScale={2} fixedDecimalScale={true} prefix={'Php '} /></div>
             </PaymentTotalHolder>
             {!isPlaced && <button style={{fontFamily:'Cormorant Garamond',fontSize:'x-large',fontWeight:'bolder',width:'100%',height:50, backgroundColor: '#26140D', color: '#ffffff', borderRadius: 10,marginTop:'5rem'}} onClick={handleBuyNow}>
                 Buy Now
