@@ -18,7 +18,7 @@ export const CustomProductDetailPage = ({product, categories, handlePayment, han
     const [, updateState] = useState();
     const forceUpdate = useCallback(() => updateState({}), []);
     const [ingredients, setIngredients] = useState(Array);
-    const [total, setTotal] = useState(0);
+    const [total, setTotal] = useState('0');
     const [ordered, setOrdered] = useState([]);
     const [isPlaced, setIsPlaced] = useState(false);
     const [isConfirmed, setIsConfirmed] = useState(false);
@@ -31,13 +31,16 @@ export const CustomProductDetailPage = ({product, categories, handlePayment, han
                 setIngredients(response_ing);
             })
         setSelectedCustomProduct(product);
+        setTotal(product.price);
     }, []);
-    const handlePriceChange = (price) => {
-        //
+    const handlePriceChange = (price: string) => {
+        console.log('handlePriceChange: ', parseInt(price), parseInt(total));
+        let tempTotal = parseInt(price) + parseInt(total);
+        setTotal(tempTotal);
     }
 
     const handleBuyNow = () => {
-        setTotal(parseInt(product.price));
+        setTotal(total);
         // setIsPlaced(true);
         var user = {
             name: 'x'
@@ -47,7 +50,7 @@ export const CustomProductDetailPage = ({product, categories, handlePayment, han
                 var order = {
                     clients_id: response?.id,
                     products_id: selectedCustomProduct.id,
-                    amount: parseInt(selectedCustomProduct.price),
+                    amount: total,
                     status: 'in-progress'
                 }
                 API.post('order/create', [order, selectedCustomProduct])
@@ -106,7 +109,7 @@ export const CustomProductDetailPage = ({product, categories, handlePayment, han
                 <PaymentTotalHolder>
                     <strong style={{textAlign:'left',marginRight:1}}>Total:</strong>
                     <PaymentTotalSpanSpace>..............................................................................................................................................................</PaymentTotalSpanSpace>
-                    <div><NumericFormat value={parseInt(product?.price)} displayType={'text'} thousandSeparator={true} decimalScale={2} fixedDecimalScale={true} prefix={'Php '} /></div>
+                    <div><NumericFormat value={total} displayType={'text'} thousandSeparator={true} decimalScale={2} fixedDecimalScale={true} prefix={'Php '} /></div>
                 </PaymentTotalHolder>
                 {!isPlaced && <button style={{fontFamily:'Cormorant Garamond',fontSize:'x-large',fontWeight:'bolder',width:'100%',height:50, backgroundColor: '#26140D', color: '#ffffff', borderRadius: 10,marginTop:'5rem'}} onClick={handleBuyNow}>
                     Buy Now

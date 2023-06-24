@@ -122,6 +122,7 @@ export function CustomOrderLists({product, ingredients, handlePriceChange, handl
         customProduct.ing_ids = customProduct.ing_ids + ',' + selectedNewIng[0].id;
         customProduct.measurement_ids = customProduct.measurement_ids + ',' + selectedNewMeasure[0].id;
         handleCustomProduct(customProduct);
+        handlePriceChange(selectedNewIng[0].price);
     })
     const saveSweetenerSelected = (() => {
         console.log(selectedNewMeasure[0]);
@@ -142,6 +143,7 @@ export function CustomOrderLists({product, ingredients, handlePriceChange, handl
         customProduct.measurement_ids = customProduct.measurement_ids + ',' + selectedNewMeasure[0].id;
         listenChange();
         handleCustomProduct(customProduct);
+        handlePriceChange(selectedNewIng[0].price);
     })
     const listenChange = useCallback(() => {
         console.log('callback');
