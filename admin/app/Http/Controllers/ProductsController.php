@@ -21,22 +21,22 @@ class ProductsController extends Controller
     }
 
     public function index() {
-        return response()->json(Products::with('ingredients')->get(), 200);
+        return response()->json(['status' => 'success','code' => 200, 'message' => Products::with('ingredients')->get()], 200);
     }
     public function show($id)
 	{
         $product = Products::with('ingredients')->find($id)->get();
-	    return response()->json($product, 200);
+	    return response()->json(['status' => 'success','code' => 200, 'message' => $product], 200);
 	}
     public function getProduct($id)
 	{
         $product = Products::with('ingredients')->where('id', $id)->get();
-	    return response()->json($product, 200);
+	    return response()->json(['status' => 'success','code' => 200, 'message' => $product], 200);
 	}
     public function getProductIngredients($id)
 	{
         $product = ProductIngredients::find($id);
-	    return response()->json($product, 200);
+	    return response()->json(['status' => 'success','code' => 200, 'message' => $product], 200);
 	}
     public function getProductOrdered()
 	{

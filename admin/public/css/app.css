@@ -995,6 +995,10 @@ table.dataTable.table-sm tbody td.select-checkbox::before {
 .form-control {
     color:white !important;
 }
+/* Fonts */
+/* Variables */
+/* Bootstrap */
+/* Toastr */
 .hover\:bg-gray-50:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(249 250 251 / var(--tw-bg-opacity));

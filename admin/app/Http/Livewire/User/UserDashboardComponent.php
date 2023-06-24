@@ -3,7 +3,6 @@
 namespace App\Http\Livewire\User;
 
 use LaravelDaily\LaravelCharts\Classes\LaravelChart;
-use Usernotnull\Toast\Concerns\WireToast;
 use Livewire\Component;
 use App\Models\Products;
 use App\Models\Ingredients;
@@ -14,7 +13,6 @@ use App\Models\Measurements;
 
 class UserDashboardComponent extends Component
 {
-    use WireToast;
 
     public function render() {
         $products = Products::all();
@@ -55,10 +53,7 @@ class UserDashboardComponent extends Component
             'chart_type' => 'line',
         ];
         $transaction_chart = new LaravelChart($transaction_chart_options);
-        toast()
-            ->success('You earned a cookie! 🍪')
-            ->sticky()
-            ->push();
+        flash()->success('Notification placeholder')->flash();
         return view('livewire.user.user-dashboard-component', compact('products', 'ingredients','ingredients_count','revenue_count','orders_count','users_count', 'top_orders', 'categories', 'measurements','user_chart','transaction_chart'))->layout('layouts.base');
     }
 }

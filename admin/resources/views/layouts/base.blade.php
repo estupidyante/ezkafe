@@ -355,6 +355,7 @@
       src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.9/flatpickr.min.js"
     ></script>
     @livewireScripts
+    {!! app('flasher')->render() !!}
     @stack('scripts')
     @yield('page-script')
   </body>

@@ -17,17 +17,17 @@ class IngredientsController extends Controller
         $this->ingredients = $ingredients;
     }
     public function index() {
-        return response()->json(Ingredients::all(), 200);
+        return response()->json(['status' => 'success','code' => 200, 'message' => Ingredients::all()], 200);
     }
     public function show($id)
 	{
         $ingredient = Ingredients::find($id);
-	    return response()->json($ingredient, 200);
+	    return response()->json(['status' => 'success','code' => 200, 'message' => $ingredient], 200);
 	}
     public function getSpecificIngredients($id)
 	{
         $ingredient = ProductIngredients::where('id', $id)->get();
-	    return response()->json($ingredient, 200);
+	    return response()->json(['status' => 'success','code' => 200, 'message' => $ingredient], 200);
 	}
     public function edit(Request $request, $id)
 	{
@@ -36,16 +36,12 @@ class IngredientsController extends Controller
             'volume' => $request->volume
         ]);
         $updatedIng = ProductIngredients::find($id);
-        // toast()->success($updatedIng->name . ' has only '. $updatedIng->volume . ' remaining!', 'Ingredients');
-        toast()
-            ->success($updatedIng->name . ' has only '. $updatedIng->volume . ' remaining!', 'Ingredients')
-            ->sticky()
-            ->push();
+        flash()->success($updatedIng->name . ' has only '. $updatedIng->volume . ' remaining!', 'Ingredients')->flash();
         Notifications::create([
             'type' => 'ingredients',
             'content' => $updatedIng->name . ' has only '. $updatedIng->volume . ' remaining!',
         ]);
-	    return response()->json(['success'=> $updatedIng->name . ' Updated Successfully! has only '. $updatedIng->volume . ' remaining!'], 200);
+	    return response()->json(['status' => 'success','code' => 201, 'message'=> $updatedIng->name . ' Updated Successfully! has only '. $updatedIng->volume . ' remaining!'], 201);
 	}
     /**
      * Show the form for creating a new resource.

@@ -8299,13 +8299,13 @@ module.exports = {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var laravel_datatables_vite__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! laravel-datatables-vite */ "./node_modules/laravel-datatables-vite/js/index.js");
 /* harmony import */ var alpinejs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! alpinejs */ "./node_modules/alpinejs/dist/module.esm.js");
-/* harmony import */ var _vendor_usernotnull_tall_toasts_resources_js_tall_toasts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../vendor/usernotnull/tall-toasts/resources/js/tall-toasts */ "./vendor/usernotnull/tall-toasts/resources/js/tall-toasts.js");
+Object(function webpackMissingModule() { var e = new Error("Cannot find module '../../vendor/usernotnull/tall-toasts/resources/js/tall-toasts'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
 
 
-alpinejs__WEBPACK_IMPORTED_MODULE_1__["default"].data('ToastComponent', _vendor_usernotnull_tall_toasts_resources_js_tall_toasts__WEBPACK_IMPORTED_MODULE_2__["default"]);
+alpinejs__WEBPACK_IMPORTED_MODULE_1__["default"].data('ToastComponent', Object(function webpackMissingModule() { var e = new Error("Cannot find module '../../vendor/usernotnull/tall-toasts/resources/js/tall-toasts'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
 window.Alpine = alpinejs__WEBPACK_IMPORTED_MODULE_1__["default"];
 alpinejs__WEBPACK_IMPORTED_MODULE_1__["default"].start();
 
@@ -8326,6 +8326,14 @@ window._ = __webpack_require__(/*! lodash */ "./node_modules/lodash/lodash.js");
 
 window.axios = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
+
+try {
+  window.$ = window.jQuery = __webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js");
+
+  __webpack_require__(/*! bootstrap */ "./node_modules/bootstrap/dist/js/bootstrap.esm.js");
+
+  window.toastr = __webpack_require__(/*! toastr */ "./node_modules/toastr/toastr.js");
+} catch (e) {}
 /**
  * Echo exposes an expressive API for subscribing to channels and listening
  * for events that are broadcast by Laravel. Echo and event broadcasting
@@ -8339,167 +8347,6 @@ window.axios.defaults.headers.common['X-Requested-With'] = 'XMLHttpRequest';
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     forceTLS: true
 // });
-
-/***/ }),
-
-/***/ "./vendor/usernotnull/tall-toasts/resources/js/tall-toasts.js":
-/*!********************************************************************!*\
-  !*** ./vendor/usernotnull/tall-toasts/resources/js/tall-toasts.js ***!
-  \********************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* export default binding */ __WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony default export */ function __WEBPACK_DEFAULT_EXPORT__(Alpine) {
-  Alpine.data('ToastComponent', function ($wire) {
-    return {
-      defaultDuration: $wire.defaultDuration,
-      wireToasts: $wire.entangle('toasts'),
-      prod: $wire.entangle('prod'),
-      wireToastsIndex: 0,
-      toasts: [],
-      pendingToasts: [],
-      pendingRemovals: [],
-      count: 0,
-      loaded: false,
-      init: function init() {
-        var _this = this;
-
-        window.Toast = {
-          component: this,
-          make: function make(message, title, type, duration) {
-            return {
-              title: title,
-              message: message,
-              type: type,
-              duration: duration
-            };
-          },
-          debug: function debug(message) {
-            var title = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
-            var duration = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : undefined;
-            this.component.add(this.make(message, title, 'debug', duration !== null && duration !== void 0 ? duration : this.component.defaultDuration));
-          },
-          info: function info(message) {
-            var title = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
-            var duration = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : undefined;
-            this.component.add(this.make(message, title, 'info', duration !== null && duration !== void 0 ? duration : this.component.defaultDuration));
-          },
-          success: function success(message) {
-            var title = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
-            var duration = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : undefined;
-            this.component.add(this.make(message, title, 'success', duration !== null && duration !== void 0 ? duration : this.component.defaultDuration));
-          },
-          warning: function warning(message) {
-            var title = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
-            var duration = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : undefined;
-            this.component.add(this.make(message, title, 'warning', duration !== null && duration !== void 0 ? duration : this.component.defaultDuration));
-          },
-          danger: function danger(message) {
-            var title = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
-            var duration = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : undefined;
-            this.component.add(this.make(message, title, 'danger', duration !== null && duration !== void 0 ? duration : this.component.defaultDuration));
-          }
-        };
-        addEventListener('toast', function (event) {
-          _this.add(event.detail);
-        });
-        this.fetchWireToasts();
-        this.$watch('wireToasts', function () {
-          _this.fetchWireToasts();
-        });
-        setTimeout(function () {
-          _this.loaded = true;
-
-          _this.pendingToasts.forEach(function (toast) {
-            _this.add(toast);
-          });
-
-          _this.pendingToasts = null;
-        }, $wire.loadDelay);
-      },
-      fetchWireToasts: function fetchWireToasts() {
-        var _this2 = this;
-
-        this.wireToasts.forEach(function (toast, i) {
-          if (i < _this2.wireToastsIndex) {
-            return;
-          }
-
-          _this2.add(window.Alpine.raw(toast));
-
-          _this2.wireToastsIndex++;
-        });
-      },
-      add: function add(toast) {
-        var _toast$type;
-
-        if (this.loaded !== true) {
-          this.pendingToasts.push(toast);
-          return;
-        }
-
-        if (toast.type === 'debug') {
-          if (this.prod) {
-            return;
-          }
-
-          console.log(toast.title, toast.message);
-        }
-
-        (_toast$type = toast.type) !== null && _toast$type !== void 0 ? _toast$type : toast.type = 'info';
-        toast.show = 0;
-        toast.index = this.count;
-        this.toasts[this.count] = toast;
-        this.scheduleRemoval(this.count);
-        this.count++;
-      },
-      scheduleRemoval: function scheduleRemoval(toastIndex) {
-        var _this3 = this;
-
-        if (Object.keys(this.pendingRemovals).includes(toastIndex.toString())) {
-          return;
-        }
-
-        if (this.toasts[toastIndex].duration === 0) {
-          return;
-        }
-
-        this.pendingRemovals[toastIndex] = setTimeout(function () {
-          _this3.remove(toastIndex);
-        }, this.toasts[toastIndex].duration);
-      },
-      scheduleRemovalWithOlder: function scheduleRemovalWithOlder() {
-        var toastIndex = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.count;
-
-        for (var i = 0; i < toastIndex; i++) {
-          this.scheduleRemoval(i);
-        }
-      },
-      cancelRemovalWithNewer: function cancelRemovalWithNewer(toastIndex) {
-        for (var i = this.count - 1; i >= toastIndex; i--) {
-          clearTimeout(this.pendingRemovals[i]);
-          delete this.pendingRemovals[i];
-        }
-      },
-      remove: function remove(index) {
-        var _this4 = this;
-
-        if (this.toasts[index]) {
-          this.toasts[index].show = 0;
-        }
-
-        setTimeout(function () {
-          _this4.toasts[index] = '';
-          delete _this4.pendingRemovals[index];
-        }, 500);
-      }
-    };
-  });
-}
 
 /***/ }),
 
@@ -42161,6 +42008,487 @@ process.umask = function() { return 0; };
 
 /***/ }),
 
+/***/ "./node_modules/toastr/toastr.js":
+/*!***************************************!*\
+  !*** ./node_modules/toastr/toastr.js ***!
+  \***************************************/
+/***/ ((module, exports, __webpack_require__) => {
+
+var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*
+ * Toastr
+ * Copyright 2012-2015
+ * Authors: John Papa, Hans Fjällemark, and Tim Ferrell.
+ * All Rights Reserved.
+ * Use, reproduction, distribution, and modification of this code is subject to the terms and
+ * conditions of the MIT license, available at http://www.opensource.org/licenses/mit-license.php
+ *
+ * ARIA Support: Greta Krafsig
+ *
+ * Project: https://github.com/CodeSeven/toastr
+ */
+/* global define */
+(function (define) {
+    !(__WEBPACK_AMD_DEFINE_ARRAY__ = [__webpack_require__(/*! jquery */ "./node_modules/jquery/dist/jquery.js")], __WEBPACK_AMD_DEFINE_RESULT__ = (function ($) {
+        return (function () {
+            var $container;
+            var listener;
+            var toastId = 0;
+            var toastType = {
+                error: 'error',
+                info: 'info',
+                success: 'success',
+                warning: 'warning'
+            };
+
+            var toastr = {
+                clear: clear,
+                remove: remove,
+                error: error,
+                getContainer: getContainer,
+                info: info,
+                options: {},
+                subscribe: subscribe,
+                success: success,
+                version: '2.1.4',
+                warning: warning
+            };
+
+            var previousToast;
+
+            return toastr;
+
+            ////////////////
+
+            function error(message, title, optionsOverride) {
+                return notify({
+                    type: toastType.error,
+                    iconClass: getOptions().iconClasses.error,
+                    message: message,
+                    optionsOverride: optionsOverride,
+                    title: title
+                });
+            }
+
+            function getContainer(options, create) {
+                if (!options) { options = getOptions(); }
+                $container = $('#' + options.containerId);
+                if ($container.length) {
+                    return $container;
+                }
+                if (create) {
+                    $container = createContainer(options);
+                }
+                return $container;
+            }
+
+            function info(message, title, optionsOverride) {
+                return notify({
+                    type: toastType.info,
+                    iconClass: getOptions().iconClasses.info,
+                    message: message,
+                    optionsOverride: optionsOverride,
+                    title: title
+                });
+            }
+
+            function subscribe(callback) {
+                listener = callback;
+            }
+
+            function success(message, title, optionsOverride) {
+                return notify({
+                    type: toastType.success,
+                    iconClass: getOptions().iconClasses.success,
+                    message: message,
+                    optionsOverride: optionsOverride,
+                    title: title
+                });
+            }
+
+            function warning(message, title, optionsOverride) {
+                return notify({
+                    type: toastType.warning,
+                    iconClass: getOptions().iconClasses.warning,
+                    message: message,
+                    optionsOverride: optionsOverride,
+                    title: title
+                });
+            }
+
+            function clear($toastElement, clearOptions) {
+                var options = getOptions();
+                if (!$container) { getContainer(options); }
+                if (!clearToast($toastElement, options, clearOptions)) {
+                    clearContainer(options);
+                }
+            }
+
+            function remove($toastElement) {
+                var options = getOptions();
+                if (!$container) { getContainer(options); }
+                if ($toastElement && $(':focus', $toastElement).length === 0) {
+                    removeToast($toastElement);
+                    return;
+                }
+                if ($container.children().length) {
+                    $container.remove();
+                }
+            }
+
+            // internal functions
+
+            function clearContainer (options) {
+                var toastsToClear = $container.children();
+                for (var i = toastsToClear.length - 1; i >= 0; i--) {
+                    clearToast($(toastsToClear[i]), options);
+                }
+            }
+
+            function clearToast ($toastElement, options, clearOptions) {
+                var force = clearOptions && clearOptions.force ? clearOptions.force : false;
+                if ($toastElement && (force || $(':focus', $toastElement).length === 0)) {
+                    $toastElement[options.hideMethod]({
+                        duration: options.hideDuration,
+                        easing: options.hideEasing,
+                        complete: function () { removeToast($toastElement); }
+                    });
+                    return true;
+                }
+                return false;
+            }
+
+            function createContainer(options) {
+                $container = $('<div/>')
+                    .attr('id', options.containerId)
+                    .addClass(options.positionClass);
+
+                $container.appendTo($(options.target));
+                return $container;
+            }
+
+            function getDefaults() {
+                return {
+                    tapToDismiss: true,
+                    toastClass: 'toast',
+                    containerId: 'toast-container',
+                    debug: false,
+
+                    showMethod: 'fadeIn', //fadeIn, slideDown, and show are built into jQuery
+                    showDuration: 300,
+                    showEasing: 'swing', //swing and linear are built into jQuery
+                    onShown: undefined,
+                    hideMethod: 'fadeOut',
+                    hideDuration: 1000,
+                    hideEasing: 'swing',
+                    onHidden: undefined,
+                    closeMethod: false,
+                    closeDuration: false,
+                    closeEasing: false,
+                    closeOnHover: true,
+
+                    extendedTimeOut: 1000,
+                    iconClasses: {
+                        error: 'toast-error',
+                        info: 'toast-info',
+                        success: 'toast-success',
+                        warning: 'toast-warning'
+                    },
+                    iconClass: 'toast-info',
+                    positionClass: 'toast-top-right',
+                    timeOut: 5000, // Set timeOut and extendedTimeOut to 0 to make it sticky
+                    titleClass: 'toast-title',
+                    messageClass: 'toast-message',
+                    escapeHtml: false,
+                    target: 'body',
+                    closeHtml: '<button type="button">&times;</button>',
+                    closeClass: 'toast-close-button',
+                    newestOnTop: true,
+                    preventDuplicates: false,
+                    progressBar: false,
+                    progressClass: 'toast-progress',
+                    rtl: false
+                };
+            }
+
+            function publish(args) {
+                if (!listener) { return; }
+                listener(args);
+            }
+
+            function notify(map) {
+                var options = getOptions();
+                var iconClass = map.iconClass || options.iconClass;
+
+                if (typeof (map.optionsOverride) !== 'undefined') {
+                    options = $.extend(options, map.optionsOverride);
+                    iconClass = map.optionsOverride.iconClass || iconClass;
+                }
+
+                if (shouldExit(options, map)) { return; }
+
+                toastId++;
+
+                $container = getContainer(options, true);
+
+                var intervalId = null;
+                var $toastElement = $('<div/>');
+                var $titleElement = $('<div/>');
+                var $messageElement = $('<div/>');
+                var $progressElement = $('<div/>');
+                var $closeElement = $(options.closeHtml);
+                var progressBar = {
+                    intervalId: null,
+                    hideEta: null,
+                    maxHideTime: null
+                };
+                var response = {
+                    toastId: toastId,
+                    state: 'visible',
+                    startTime: new Date(),
+                    options: options,
+                    map: map
+                };
+
+                personalizeToast();
+
+                displayToast();
+
+                handleEvents();
+
+                publish(response);
+
+                if (options.debug && console) {
+                    console.log(response);
+                }
+
+                return $toastElement;
+
+                function escapeHtml(source) {
+                    if (source == null) {
+                        source = '';
+                    }
+
+                    return source
+                        .replace(/&/g, '&amp;')
+                        .replace(/"/g, '&quot;')
+                        .replace(/'/g, '&#39;')
+                        .replace(/</g, '&lt;')
+                        .replace(/>/g, '&gt;');
+                }
+
+                function personalizeToast() {
+                    setIcon();
+                    setTitle();
+                    setMessage();
+                    setCloseButton();
+                    setProgressBar();
+                    setRTL();
+                    setSequence();
+                    setAria();
+                }
+
+                function setAria() {
+                    var ariaValue = '';
+                    switch (map.iconClass) {
+                        case 'toast-success':
+                        case 'toast-info':
+                            ariaValue =  'polite';
+                            break;
+                        default:
+                            ariaValue = 'assertive';
+                    }
+                    $toastElement.attr('aria-live', ariaValue);
+                }
+
+                function handleEvents() {
+                    if (options.closeOnHover) {
+                        $toastElement.hover(stickAround, delayedHideToast);
+                    }
+
+                    if (!options.onclick && options.tapToDismiss) {
+                        $toastElement.click(hideToast);
+                    }
+
+                    if (options.closeButton && $closeElement) {
+                        $closeElement.click(function (event) {
+                            if (event.stopPropagation) {
+                                event.stopPropagation();
+                            } else if (event.cancelBubble !== undefined && event.cancelBubble !== true) {
+                                event.cancelBubble = true;
+                            }
+
+                            if (options.onCloseClick) {
+                                options.onCloseClick(event);
+                            }
+
+                            hideToast(true);
+                        });
+                    }
+
+                    if (options.onclick) {
+                        $toastElement.click(function (event) {
+                            options.onclick(event);
+                            hideToast();
+                        });
+                    }
+                }
+
+                function displayToast() {
+                    $toastElement.hide();
+
+                    $toastElement[options.showMethod](
+                        {duration: options.showDuration, easing: options.showEasing, complete: options.onShown}
+                    );
+
+                    if (options.timeOut > 0) {
+                        intervalId = setTimeout(hideToast, options.timeOut);
+                        progressBar.maxHideTime = parseFloat(options.timeOut);
+                        progressBar.hideEta = new Date().getTime() + progressBar.maxHideTime;
+                        if (options.progressBar) {
+                            progressBar.intervalId = setInterval(updateProgress, 10);
+                        }
+                    }
+                }
+
+                function setIcon() {
+                    if (map.iconClass) {
+                        $toastElement.addClass(options.toastClass).addClass(iconClass);
+                    }
+                }
+
+                function setSequence() {
+                    if (options.newestOnTop) {
+                        $container.prepend($toastElement);
+                    } else {
+                        $container.append($toastElement);
+                    }
+                }
+
+                function setTitle() {
+                    if (map.title) {
+                        var suffix = map.title;
+                        if (options.escapeHtml) {
+                            suffix = escapeHtml(map.title);
+                        }
+                        $titleElement.append(suffix).addClass(options.titleClass);
+                        $toastElement.append($titleElement);
+                    }
+                }
+
+                function setMessage() {
+                    if (map.message) {
+                        var suffix = map.message;
+                        if (options.escapeHtml) {
+                            suffix = escapeHtml(map.message);
+                        }
+                        $messageElement.append(suffix).addClass(options.messageClass);
+                        $toastElement.append($messageElement);
+                    }
+                }
+
+                function setCloseButton() {
+                    if (options.closeButton) {
+                        $closeElement.addClass(options.closeClass).attr('role', 'button');
+                        $toastElement.prepend($closeElement);
+                    }
+                }
+
+                function setProgressBar() {
+                    if (options.progressBar) {
+                        $progressElement.addClass(options.progressClass);
+                        $toastElement.prepend($progressElement);
+                    }
+                }
+
+                function setRTL() {
+                    if (options.rtl) {
+                        $toastElement.addClass('rtl');
+                    }
+                }
+
+                function shouldExit(options, map) {
+                    if (options.preventDuplicates) {
+                        if (map.message === previousToast) {
+                            return true;
+                        } else {
+                            previousToast = map.message;
+                        }
+                    }
+                    return false;
+                }
+
+                function hideToast(override) {
+                    var method = override && options.closeMethod !== false ? options.closeMethod : options.hideMethod;
+                    var duration = override && options.closeDuration !== false ?
+                        options.closeDuration : options.hideDuration;
+                    var easing = override && options.closeEasing !== false ? options.closeEasing : options.hideEasing;
+                    if ($(':focus', $toastElement).length && !override) {
+                        return;
+                    }
+                    clearTimeout(progressBar.intervalId);
+                    return $toastElement[method]({
+                        duration: duration,
+                        easing: easing,
+                        complete: function () {
+                            removeToast($toastElement);
+                            clearTimeout(intervalId);
+                            if (options.onHidden && response.state !== 'hidden') {
+                                options.onHidden();
+                            }
+                            response.state = 'hidden';
+                            response.endTime = new Date();
+                            publish(response);
+                        }
+                    });
+                }
+
+                function delayedHideToast() {
+                    if (options.timeOut > 0 || options.extendedTimeOut > 0) {
+                        intervalId = setTimeout(hideToast, options.extendedTimeOut);
+                        progressBar.maxHideTime = parseFloat(options.extendedTimeOut);
+                        progressBar.hideEta = new Date().getTime() + progressBar.maxHideTime;
+                    }
+                }
+
+                function stickAround() {
+                    clearTimeout(intervalId);
+                    progressBar.hideEta = 0;
+                    $toastElement.stop(true, true)[options.showMethod](
+                        {duration: options.showDuration, easing: options.showEasing}
+                    );
+                }
+
+                function updateProgress() {
+                    var percentage = ((progressBar.hideEta - (new Date().getTime())) / progressBar.maxHideTime) * 100;
+                    $progressElement.width(percentage + '%');
+                }
+            }
+
+            function getOptions() {
+                return $.extend({}, getDefaults(), toastr.options);
+            }
+
+            function removeToast($toastElement) {
+                if (!$container) { $container = getContainer(); }
+                if ($toastElement.is(':visible')) {
+                    return;
+                }
+                $toastElement.remove();
+                $toastElement = null;
+                if ($container.children().length === 0) {
+                    $container.remove();
+                    previousToast = undefined;
+                }
+            }
+
+        })();
+    }).apply(exports, __WEBPACK_AMD_DEFINE_ARRAY__),
+		__WEBPACK_AMD_DEFINE_RESULT__ !== undefined && (module.exports = __WEBPACK_AMD_DEFINE_RESULT__));
+}(__webpack_require__.amdD));
+
+
+/***/ }),
+
 /***/ "./node_modules/datatables.net-bs5/js/dataTables.bootstrap5.mjs":
 /*!**********************************************************************!*\
   !*** ./node_modules/datatables.net-bs5/js/dataTables.bootstrap5.mjs ***!
@@ -61979,6 +62307,13 @@ $.each( DataTable, function ( prop, val ) {
 /******/ 	__webpack_require__.m = __webpack_modules__;
 /******/ 	
 /************************************************************************/
+/******/ 	/* webpack/runtime/amd define */
+/******/ 	(() => {
+/******/ 		__webpack_require__.amdD = function () {
+/******/ 			throw new Error('define cannot be used indirect');
+/******/ 		};
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/chunk loaded */
 /******/ 	(() => {
 /******/ 		var deferred = [];

@@ -9,3 +9,15 @@
 .form-control {
     color:white !important;
 }
+
+/* Fonts */
+@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700");
+
+/* Variables */
+@import "variables";
+
+/* Bootstrap */
+@import "~bootstrap/scss/bootstrap";
+
+/* Toastr */
+@import "~toastr/toastr";

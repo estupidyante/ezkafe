@@ -22,12 +22,12 @@ class OrdersController extends Controller
         $this->orders = $orders;
     }
     public function index() {
-        return response()->json(Orders::with('ingredients')->get(), 200);
+        return response()->json(['status' => 'success','code' => 200, 'message' => Orders::with('ingredients')->get()], 200);
     }
     public function show($id)
 	{
         $orders = Orders::with('ingredients')->find($id)->get();
-	    return response()->json($orders, 200);
+	    return response()->json(['status' => 'success','code' => 200, 'message' => $orders], 200);
 	}
     public function store(Request $request)
     {
@@ -74,25 +74,23 @@ class OrdersController extends Controller
 
         $customOrdered = CustomOrder::create($customOrderIngredients);
         $user = Clients::find($order->clients_id);
-        toast()
-            ->success('User'. $user->id .' placed an order successfully')
-            ->pushOnNextPage();
+        flash()->success('User'. $user->id .' placed an order successfully')->flash();
         Notifications::create([
             'type' => 'order',
             'content' => 'User'. $user->id .' placed an order successfully',
         ]);
-        return response()->json($customOrdered, 201);
+        return response()->json(['status' => 'success','code' => 201, 'message' => $customOrdered], 201);
     }
     public function getCustomOrder($id)
     {
         $custom_orders = CustomOrder::find($id)->get();
-	    return response()->json($custom_orders, 200);
+	    return response()->json(['status' => 'success','code' => 200, 'message' => $custom_orders], 200);
     }
     public function edit(Request $request, $id)
     {
         $order = Orders::find($id);
         $order->update($request->all());
-        return response()->json($order, 201);
+        return response()->json(['status' => 'success','code' => 200, 'message' => $order], 201);
     }
     public function destroy($id)
     {
