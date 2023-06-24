@@ -10,13 +10,14 @@ const Wrapper = styled.div`
   align-items: center;
 `;
 
-const RadioButton = ({ label, id, price, disabled, ...rest }: InputElementProps) => {
+const RadioButton = ({ label, id, price, disabled, ispreferred, ...rest }: InputElementProps) => {
   return (
     <Wrapper>
       <Radio id={id} type="radio" disabled={disabled} {...rest} />
-      <Label style={{width:'50%',textAlign:'left'}} htmlFor={id} disabled={disabled}>
-        <span>{label}</span>
+      <Label style={{width:'60%',textAlign:'left'}} htmlFor={id} disabled={disabled}>
+        <span>{label} </span>
         {/* disabled && <DisabledIcon small /> */}
+        {ispreferred && <span> (preferred)</span>}
       </Label>
       <div style={{width:'40%',textAlign:'right'}}><NumericFormat value={parseInt(price)} displayType={'text'} thousandSeparator={true} decimalScale={2} fixedDecimalScale={true} prefix={'Php '} /></div>
     </Wrapper>

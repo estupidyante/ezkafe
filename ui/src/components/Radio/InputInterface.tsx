@@ -6,6 +6,7 @@ export interface IOption {
   name?: string;
   price?: string;
   value?: string;
+  unit?: string;
   disabled?: boolean;
 }
 
@@ -25,5 +26,6 @@ export interface InputElementProps
   id: string;
   price?:string;
   error?: boolean;
+  ispreferred?: boolean;
   disabled?: boolean;
 }

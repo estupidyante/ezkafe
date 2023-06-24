@@ -2,6 +2,8 @@ import styled from "styled-components";
 import { BrandColor } from "../../styled-components/GlobalStyles";
 
 export const Label = styled.label<{ disabled?: boolean }>`
+  display: flex;
+  align-items: center;
   font-weight: 600;
   font-size: 2rem;
   color: ${BrandColor.DARK_BROWN};
@@ -18,6 +20,8 @@ export const Label = styled.label<{ disabled?: boolean }>`
 export const Legend = styled.legend`
   font-weight: 600;
   font-size: 1rem;
+  text-align: left;
+  margin-bottom: 1rem;
   color: ${BrandColor.DARK_BROWN};
   font-family: StabilGrotesk, -apple-system, BlinkMacSystemFont, "Segoe UI",
     Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;

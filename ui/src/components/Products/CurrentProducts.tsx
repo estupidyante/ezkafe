@@ -1,6 +1,16 @@
-import { memo, useEffect } from "react";
+import { API } from "api";
+import RadioButtonGroup from "components/Radio/RadioButtonGroup";
+import { useEffect, useState } from "react";
 
 const CurrentProduct = ({ types, ingredients, measurement, handleChange }) => {
+  const [measurements, setMeasurements] = useState(Array);
+
+  useEffect(() => {
+    API.get('measurements')
+        .then((res_measure) => {
+            setMeasurements(res_measure);
+        })
+  }, []);
 
   useEffect(() => {
     console.log("types: " + types);
@@ -17,6 +27,16 @@ const CurrentProduct = ({ types, ingredients, measurement, handleChange }) => {
   useEffect(() => {
     console.log("handleChange: " + handleChange);
   }, [handleChange]);
+
+  function radioGroupHandler(event: React.ChangeEvent<HTMLInputElement>) {
+    let selectedValue = event.target.value;
+    handleChange(selectedValue);
+    // let selectedMeasurementArr = selectedValue.split('_');
+    // let measurement = measurements.filter((measure: {id: any}) => {
+    //   return measure.id == parseInt(selectedMeasurementArr[1]);
+    // });
+    // console.log(measurement[0]);
+  }
 
   const currentProduct = ingredients.map((ingredient, idx) => {
         return(
@@ -35,6 +55,14 @@ const CurrentProduct = ({ types, ingredients, measurement, handleChange }) => {
                   (measurement && measurement[0] && !ingredient.measurement) ? (<p style={{marginBottom:20,textAlign:'right'}}>{ measurement[0].value } { measurement[0].unit }</p>)
                   : (<p style={{marginBottom:20,textAlign:'right'}}>{ ingredient.measurement } { ingredient.unit }</p>)
                 }
+                <RadioButtonGroup
+                    label="Select the preferred tsp"
+                    group={ingredient.name +'_measurement'}
+                    ing={ingredient.measurements_id}
+                    prod_id={ingredient.id}
+                    options={measurements}
+                    onChange={radioGroupHandler}
+                />
             </div>
         )
     });
