@@ -46,12 +46,10 @@
     @livewireStyles
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/dataTables.bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.8.0/css/bootstrap-datepicker.css" />
-    <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
     @stack('style')
     @yield('page-style')
   </head>
   <body class="antialiased">
-    <livewire:toasts />
     <div class="container-scroller">
       <!-- partial:partials/_sidebar.html -->
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
@@ -326,9 +324,6 @@
       </div>
       <!-- page-body-wrapper ends -->
     </div>
-    @toastScripts
-    <!--- Mix --->
-    <script src="{{ mix('js/app.js') }}" defer></script>
     <!-- container-scroller -->
     <!-- plugins:js -->
     <script src="{{ asset('assets/vendors/js/vendor.bundle.base.js') }}"></script>
@@ -362,8 +357,5 @@
     @livewireScripts
     @stack('scripts')
     @yield('page-script')
-    <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
-    <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
-    {!! Toastr::message() !!}
   </body>
 </html>
