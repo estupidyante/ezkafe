@@ -10,6 +10,7 @@ use App\Models\ProductIngredients;
 use App\Models\OrderIngredients;
 use App\Models\CustomOrder;
 use App\Models\Clients;
+use App\Models\Notifications;
 use DB;
 
 class OrdersController extends Controller
@@ -72,13 +73,14 @@ class OrdersController extends Controller
         }
 
         $customOrdered = CustomOrder::create($customOrderIngredients);
-        $customOrdered->clients_id = $order->clients_id;
-        $customOrdered->amount = $order->amount;
         $user = Clients::find($order->clients_id);
         toast()
             ->success('User'. $user->id .' placed an order successfully')
-            ->sticky()
             ->push();
+        Notifications::create([
+            'type' => 'order',
+            'content' => 'User'. $user->id .' placed an order successfully',
+        ]);
         return response()->json($customOrdered, 201);
     }
     public function getCustomOrder($id)

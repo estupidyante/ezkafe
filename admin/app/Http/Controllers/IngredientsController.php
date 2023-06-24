@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\ProductIngredients;
 use App\Models\Ingredients;
+use App\Models\Notifications;
 use App\Models\Types;
 
 class IngredientsController extends Controller
@@ -38,6 +39,10 @@ class IngredientsController extends Controller
         toast()
             ->success($updatedIng->name . ' has only '. $updatedIng->volume . ' remaining!')
             ->push();
+        Notifications::create([
+            'type' => 'ingredients',
+            'content' => $updatedIng->name . ' has only '. $updatedIng->volume . ' remaining!',
+        ]);
 	    return response()->json(['success'=> $updatedIng->name . ' Updated Successfully! has only '. $updatedIng->volume . ' remaining!'], 200);
 	}
     /**
