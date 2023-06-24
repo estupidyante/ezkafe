@@ -24,10 +24,6 @@ const CurrentProduct = ({ types, ingredients, measurement, handleChange }) => {
     console.log("measurement: " + measurement);
   }, [measurement]);
 
-  useEffect(() => {
-    console.log("handleChange: " + handleChange);
-  }, [handleChange]);
-
   function radioGroupHandler(event: React.ChangeEvent<HTMLInputElement>) {
     let selectedValue = event.target.value;
     handleChange(selectedValue);

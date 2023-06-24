@@ -2,75 +2,35 @@ import { useCallback, useEffect, useState, } from 'react';
 import {
     API,
 } from '../../api';
-import RadioButtonGroup from 'components/Radio/RadioButtonGroup';
-import React from 'react';
 import CurrentProducts from 'components/Products/CurrentProducts';
 
-export function CustomOrderLists({product, ingredients, handlePriceChange, handleCustomProduct}) {
+export function CustomOrderLists({product, handlePriceChange, handleCustomProduct}) {
     const [, updateState] = useState();
     const forceUpdate = useCallback(() => updateState({}), []);
     const [types, setTypes] = useState(Array);
     const [measurements, setMeasurements] = useState(Array);
-    const [selectedValue, setSelectedValue] = useState<String>();
-    const [isBaseAdded, setIsBaseAdded] = useState(false);
-    const [isSweetenerAdded, setIsSweetenerAdded] = useState(false);
-    const [isBaseSelected, setIsBaseSelected] = useState(false);
-    const [isSweetenerSelected, setIsSweetenerSelected] = useState(false);
-    const [isMeasurementSelected, setIsMeasurementSelected] = useState(false);
-    const [selectedNewIng, setSelectedNewIng] = useState(Array);
-    const [selectedNewMeasure, setSelectedNewMeasure] = useState(Array);
 
     const [productTypes, setProductTypes] = useState(Array);
     const [productIngredients, setProductIngredients] = useState(Array);
     const [productMeasurement, setProductMeasurement] = useState(Array);
 
+    const [productSelectedIngredients, setSelectedProductIngredients] = useState(Array);
+    const [productSelectedMeasurement, setSelectedProductMeasurement] = useState(Array);
+
     const [customProduct, setCustomProduct] = useState(Array);
 
     let tempProductIng = [];
     let tempProductMeasure = [];
-    let tempProductIngSelected: string;
-    let tempProductMeasureSelected: string;
-
-    function radioGroupHandler(event: React.ChangeEvent<HTMLInputElement>) {
-        setSelectedValue(event.target.value);
-        let selectedIng = event.target.value;
-        let selectedIngArr = selectedIng.split('_');
-        if((isBaseAdded && !isBaseSelected) || (isSweetenerAdded && !isSweetenerSelected)) {
-            let ing = ingredients.filter((ing: {id: any}) => {
-                return ing.id == selectedIngArr[1];
-            });
-            console.log('isBaseAdded', ing);
-            tempProductIngSelected = selectedIngArr[1];
-            setSelectedNewIng(ing);
-            if(isBaseAdded && !isSweetenerAdded) { setIsBaseSelected(true); }
-            else { setIsSweetenerSelected(true) }
-        }
-
-        if (isBaseSelected || isSweetenerSelected) {
-            let measurement = measurements.filter((measure: {id: any}) => {
-                return measure.id == selectedIngArr[1];
-            });
-            console.log(measurement);
-            tempProductMeasureSelected = selectedIngArr[1];
-            setSelectedNewMeasure(measurement);
-            setIsMeasurementSelected(true);
-        }
-    }
-
-    useEffect(() => {
-        console.log('customProduct:', customProduct);
-        forceUpdate();
-    }, [productIngredients, productMeasurement, customProduct, productTypes]);
 
 
     useEffect(() => {
         API.get('types')
-            .then((res_type) => {
+            .then((res_type:any) => {
                 setTypes(res_type);
                 setProductTypes(res_type);
             })
         API.get('measurements')
-            .then((res_measure) => {
+            .then((res_measure:any) => {
                 setMeasurements(res_measure);
             })
         setProductIngredients(product.ingredients);
@@ -86,6 +46,35 @@ export function CustomOrderLists({product, ingredients, handlePriceChange, handl
 
     const listenChange = useCallback((selected: string) => {
         console.log('callback: ', selected);
+        // get the measurements and what ingredients
+        let selectedMeasurementArr = selected.split('_');
+        let measurement = measurements.filter((measure:any) => {
+          return measure.id == parseInt(selectedMeasurementArr[1]);
+        });
+        console.log(measurement);
+        setSelectedProductMeasurement(measurements[0]);
+        let ingredient = productIngredients.filter((ing:any) => {
+            return ing.id == parseInt(selectedMeasurementArr[0]);
+        });
+        console.log(ingredient);
+        setSelectedProductIngredients(ingredient[0]);
+        console.log(productIngredients);
+        if(measurement && ingredient) {
+            var foundIndex = productIngredients.findIndex((x:any) => x.id == ingredient[0].id);
+            productIngredients[foundIndex].measurement = measurement[0].value;
+            productIngredients[foundIndex].measurements_id = measurement[0].id;
+            productIngredients[foundIndex].price = measurement[0].price;
+            productIngredients[foundIndex].unit = measurement[0].unit;
+        }
+        let tempMeasurementIDs = '';
+        productIngredients.map((ingredient:any) => {
+            tempMeasurementIDs = (tempMeasurementIDs) ? tempMeasurementIDs + ',' + ingredient.measurements_id : ingredient.measurements_id;
+        });
+        console.log(productIngredients);
+        product.measurement_ids = tempMeasurementIDs;
+        console.log(product);
+        handleCustomProduct(product);
+
         forceUpdate();
     }, []);
 
@@ -105,8 +94,3 @@ export function CustomOrderLists({product, ingredients, handlePriceChange, handl
     )
 }
 
-const styles = theme => ({
-    disabledButton: {
-      backgroundColor: theme.palette.primary || 'red'
-    }
-});
