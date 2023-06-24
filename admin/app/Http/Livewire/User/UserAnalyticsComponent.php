@@ -25,7 +25,7 @@ class UserAnalyticsComponent extends Component
             ->limit(5)
             ->get();
         $ingredients_chart_option = [
-            'chart_title' => 'Top Ingredients (Pie)',
+            'chart_title' => 'Ingredients (Pie)',
             'chart_type' => 'pie',
             'report_type' => 'group_by_string',
             'model' => 'App\Models\ProductIngredients',
@@ -36,7 +36,7 @@ class UserAnalyticsComponent extends Component
 
         $ingredients_chart = new LaravelChart($ingredients_chart_option);
         $ingredients_bar_chart_option = [
-            'chart_title' => 'Top Ingredients (Bar)',
+            'chart_title' => 'Ingredients (Bar)',
             'chart_type' => 'bar',
             'report_type' => 'group_by_string',
             'model' => 'App\Models\ProductIngredients',
