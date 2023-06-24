@@ -24,7 +24,7 @@ class FaqsController extends Controller
 
         $faq->question = $request->question;
         $faq->answer = $request->answer;
-        $faq->category_id = $request->category_id;
+        $faq->faq_category_id = $request->category_id;
         $faq->save();
 
         session()->flash('status', 'FAQs has been update !!');
