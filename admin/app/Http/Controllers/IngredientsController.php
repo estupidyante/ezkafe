@@ -34,6 +34,11 @@ class IngredientsController extends Controller
             'price' => $request->price,
             'volume' => $request->volume
         ]);
+        event('toast',[
+            'type'=> 'success',
+            'message'=> "Sugar has only 10% remaining!",
+        ]);
+        notify()->success('Welcome to Laravel Notify ⚡️');
 	    return response()->json(['success'=>'Ingredient Updated Successfully!'], 200);
 	}
     /**

@@ -258,7 +258,11 @@
                     </div>
                   </a>
                   <div class="dropdown-divider"></div>
-                  <p class="p-3 mb-0 text-center">See all notifications</p>
+                  <p class="p-3 mb-0 text-center">
+                    <a class="nav-link" href="/user/notifications">
+                      <span class="menu-title">See All Notifications</span>
+                    </a>
+                  </p>
                 </div>
               </li>
               <li class="nav-item dropdown">
@@ -350,7 +354,31 @@
       src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/6.3.1/mdb.min.js"
     ></script>
     @livewireScripts
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
     @stack('scripts')
     @yield('page-script')
+    <script>
+        $(document).ready(function(){
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top',
+                showConfirmButton: false,
+                showCloseButton: true,
+                timer: 5000,
+                timerProgressBar:true,
+                didOpen: (toast) => {
+                    toast.addEventListener('mouseenter', Swal.stopTimer)
+                    toast.addEventListener('mouseleave', Swal.resumeTimer)
+                }
+            });
+
+            window.addEventListener('toast',({detail:{type,message}})=>{
+                Toast.fire({
+                    icon:type,
+                    title:message
+                })
+            })
+        });
+    </script>
   </body>
 </html>

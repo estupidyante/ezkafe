@@ -183,6 +183,7 @@ return [
         Illuminate\View\ViewServiceProvider::class,
         Yajra\DataTables\DataTablesServiceProvider::class,
         Yajra\DataTables\ButtonsServiceProvider::class,
+        Mckenziearts\Notify\LaravelNotifyServiceProvider::class,
 
         /*
          * Package Service Providers...

@@ -71,6 +71,10 @@ class OrdersController extends Controller
         }
 
         CustomOrder::create($customOrderIngredients);
+        event('toast',[
+            'type'=> 'success',
+            'message'=> "  placed an order successfully",
+        ]);
         return response()->json($order, 201);
     }
     public function getCustomOrder($id)

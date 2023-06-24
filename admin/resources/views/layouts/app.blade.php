@@ -48,8 +48,32 @@
             </main>
         </div>
 
+        @livewireScripts
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
         @stack('modals')
         @stack('scripts')
-        @livewireScripts
+        <script>
+            $(document).ready(function(){
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top',
+                    showConfirmButton: false,
+                    showCloseButton: true,
+                    timer: 5000,
+                    timerProgressBar:true,
+                    didOpen: (toast) => {
+                        toast.addEventListener('mouseenter', Swal.stopTimer)
+                        toast.addEventListener('mouseleave', Swal.resumeTimer)
+                    }
+                });
+
+                window.addEventListener('toast',({detail:{type,message}})=>{
+                    Toast.fire({
+                        icon:type,
+                        title:message
+                    })
+                })
+            });
+        </script>
     </body>
 </html>
