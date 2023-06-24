@@ -87,7 +87,6 @@ Route::group(['middleware' => ['api']], function () {
     Route::put('/user/measurement/{id}', [MeasurementsController::class, 'update'])->name('user.measurement.update');
     Route::delete('/user/measurement/{measurement}', [MeasurementsController::class, 'destroy'])->name('user.measurement.destroy');
     // Ingredients
-    Route::get('/ingredients', UserIngredientsComponent::class)->name('user.ingredients');
     Route::get('/ingredient/{{id}', [IngredientsController::class, 'getSpecificIngredients']);
     Route::post('/ingredient/create', [IngredientsController::class, 'create'])->name('user.ingredient.create');
     Route::put('/ingredient/{id}', [IngredientsController::class, 'edit']);

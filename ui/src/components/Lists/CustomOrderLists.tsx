@@ -55,9 +55,6 @@ export function CustomOrderLists({product, ingredients, handlePriceChange, handl
             setSelectedNewMeasure(measurement);
             setIsMeasurementSelected(true);
         }
-        console.log('customProduct', customProduct);
-        // product.ing_ids = product.ing_ids + ',' + ing[0].id;
-        // display measurements and save button
     }
 
     useEffect(() => {
