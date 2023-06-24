@@ -443,7 +443,7 @@ export const CustomProductDetailPage = ({product, categories, handlePayment, han
     const handleConfirmed = () => {
         setIsConfirmed(true);
         setTimeout(() => {
-            handlePayment();
+            handleState();
         }, 3000);
     }
 
