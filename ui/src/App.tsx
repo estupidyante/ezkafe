@@ -52,6 +52,7 @@ import { NumericFormat } from 'react-number-format';
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
 import "./lib/tabStyles.css";
+import { FAQsPage } from 'pages/FAQsPage';
 
 function App() {
   const [isOrdered, setIsOrdered] = useState(false);
@@ -59,11 +60,11 @@ function App() {
   const [isDetailed, setIsDetailed] = useState(false);
   const [isPayment, setIsPayment] = useState(false);
   const [isCustomized, setIsCustomized] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState([]);
+  const [isFAQs, setIsFAQs] = useState(false);
 
+  const [selectedProduct, setSelectedProduct] = useState([]);
   const [products, setProducts] = useState([]);
   const [categories, setCategories] = useState([]);
-
   const [isTopProduct, setIsTopProduct] = useState(false);
   const [topProduct, setTopProduct] = useState([]);
 
@@ -119,9 +120,14 @@ function App() {
     else setIsOrdered(true);
   };
 
+  const handleFAQs = () => {
+    if (isFAQs) setIsFAQs(false)
+    else setIsFAQs(true)
+  }
+
   return (
     <Wrapper>
-      {(!isDetailed && !isPayment && !isCustomized) && <div>
+      {(!isDetailed && !isPayment && !isCustomized && !isFAQs) && <div>
         <HeaderComponent/>
         <ContentContainer>
           {/* <SearchContainer>
@@ -246,7 +252,7 @@ function App() {
             </FooterBrand>
           </FooterTop>
           <FooterBottom>
-            <p style={{ display:'flex',alignItems:'center',justifyContent:'center',marginBottom:'1rem'}}>Have a Questions? Click <button style={{color:'#ffffff',marginLeft:'0.5rem'}} onClick={() => {}}> here.</button></p>
+            <p style={{ display:'flex',alignItems:'center',justifyContent:'center',marginBottom:'1rem'}}>Have a Questions? Click <button style={{color:'#ffffff',marginLeft:'0.5rem'}} onClick={handleFAQs}> here.</button></p>
             <p>All Rights Reserve. 2023</p>
           </FooterBottom>
         </Footer>
@@ -255,6 +261,9 @@ function App() {
       {(isCustomized && !isPayment) && <CustomProductDetailPage product={selectedProduct} categories={categories} handlePayment={handlePayment} handleState={handleToDetails}/>}
       {(isPayment) && <div style={{ backgroundColor: '#ffffff', width: '100%', height: 'auto', borderStartStartRadius: 20, borderStartEndRadius: 20, borderWidth: 1, borderStyle: 'solid', padding: 20 }}>
         <PaymentDetalPage product={selectedProduct} handlePayment={handlePayment}/>
+      </div>}
+      {(isFAQs) && <div style={{ backgroundColor: '#ffffff', width: '100%', height: '620px', borderStartStartRadius: 20, borderStartEndRadius: 20, borderWidth: 1, borderStyle: 'solid', padding: 20 }}>
+        <FAQsPage handleState={handleFAQs}/>
       </div>}
     </Wrapper>
   );

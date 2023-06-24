@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Actions\Jetstream\DeleteUser;
 use App\Models\Faqs;
+use App\Models\FaqCategory;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
@@ -17,7 +18,9 @@ class FaqsController extends Controller
     {
         $this->faqs = $faqs;
     }
-
+    public function index() {
+        return response()->json(FaqCategory::with('faqs')->get(), 200);
+    }
     public function update(Request $request, $id)
     {
         $faq = Faqs::find($id);

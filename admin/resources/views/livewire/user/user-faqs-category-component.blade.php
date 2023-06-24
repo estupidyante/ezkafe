@@ -111,8 +111,8 @@
 @endsection
 <div class="content-wrapper">
     <div class="row">
-        <h3 class="text-dark">Categories</h3>
-        <p class="text-muted pb-4">EzKafe / FAQs / Categories</p>
+        <h3 class="text-dark">FAQs Categories</h3>
+        <p class="text-muted pb-4">EzKafe / FAQs / Category</p>
         @if (session('status'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">
                 <p>{{ session('status') }}</p>

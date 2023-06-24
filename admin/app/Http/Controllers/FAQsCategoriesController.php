@@ -3,30 +3,30 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\FAQsCategory;
+use App\Models\FaqCategory;
 
 class FAQsCategoriesController extends Controller
 {
     protected $categories;
 
-    public function __construct(FAQsCategory $categories)
+    public function __construct(FaqCategory $categories)
     {
         $this->categories = $categories;
     }
 
     public function index() {
-        return response()->json(FAQsCategory::all(), 200);
+        return response()->json(FaqCategory::all(), 200);
     }
-    public function show(FAQsCategory $category)
+    public function show(FaqCategory $category)
 	{
 	    return $categpry;
 	}
 	public function store(Request $request)
 	{
-	    $category = FAQsCategory::create($request->all());
+	    $category = FaqCategory::create($request->all());
 	    return response()->json($category, 201);
 	}
-	public function edit(Request $request, FAQsCategory $category)
+	public function edit(Request $request, FaqCategory $category)
 	{
 	    $category->update($request->all());
 	    return response()->json($category, 200);
@@ -34,7 +34,7 @@ class FAQsCategoriesController extends Controller
     public function delete($id)
     {
         try {
-            $category = FAQsCategory::find($id);
+            $category = FaqCategory::find($id);
             if($category) {
                 $category->delete();
                 return response()->json($category, 204);
@@ -49,7 +49,7 @@ class FAQsCategoriesController extends Controller
     public function create(Request $request)
     {
         $data = $request->input();
-        FAQsCategory::create([
+        FaqCategory::create([
             'name' => $data['name'],
         ]);
 
@@ -61,7 +61,7 @@ class FAQsCategoriesController extends Controller
         $data = $request->input();
 
         try {
-            $category = FAQsCategory::find($id);
+            $category = FaqCategory::find($id);
             $category->name = $data['name'];
             $category->update();
             return redirect('/user/faqscategory')->with('status',"Category updated successfully");
@@ -74,7 +74,7 @@ class FAQsCategoriesController extends Controller
     public function destroy($id)
     {
         try {
-            $category = FAQsCategory::find($id);
+            $category = FaqCategory::find($id);
             $category->delete();
             return redirect('/user/faqscategory')->with('status',"Category deleted successfully");
         }

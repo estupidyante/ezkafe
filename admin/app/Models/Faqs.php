@@ -19,6 +19,6 @@ class Faqs extends Model
 
     public function faqs()
     {
-        return $this->belongsTo(FAQsCategory::class);
+        return $this->belongsTo(FaqsCategory::class);
     }
 }

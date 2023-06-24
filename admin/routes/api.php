@@ -111,7 +111,8 @@ Route::group(['middleware' => ['api']], function () {
     Route::put('/user/account/{id}', [AccountsController::class, 'update'])->name('user.account.update');
     Route::delete('/user/account/{user}', [AccountsController::class, 'destroy'])->name('user.account.destroy');
     // FAQs
-    Route::get('/user/faqs', UserFAQsComponent::class);
+    Route::get('/faqs', [FaqsController::class, 'index']);
+    Route::get('/faqs/{id}', [FaqsController::class, 'getSpecificFAQs']);
     // create order
     Route::post('/order/create', [OrdersController::class, 'store']);
     // update order
