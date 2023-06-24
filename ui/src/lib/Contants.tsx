@@ -42,7 +42,7 @@ const IconContainer = styled.div`
   justify-content: space-between;
 `;
 const Logo = styled.img`
-  width:160px;
+  width:60px;
   &:hover {
     filter: drop-shadow(0 0 2em #646cffaa);
   }

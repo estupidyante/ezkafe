@@ -14,7 +14,7 @@ export const HeaderComponent = () => {
     return (
         <Header>
             <LogoLink href="#" target="_self">
-            <Logo src="/assets/images/ezkafe-base-white.png" alt="EzKafe logo" />
+            <Logo src="/assets/images/ezkafe-base-white.png" alt="EzKafe logo"/>
             </LogoLink>
             {/* <IconContainer>
             <CartOutline
