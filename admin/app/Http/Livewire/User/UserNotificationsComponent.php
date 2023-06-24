@@ -9,7 +9,7 @@ class UserNotificationsComponent extends Component
 {
     public function render()
     {
-        $notifications = Notifications::all();
+        $notifications = Notifications::orderBy('created_at','desc')->get();
         return view('livewire.user.user-notifications-component', compact('notifications'))->layout('layouts.base');
     }
 }

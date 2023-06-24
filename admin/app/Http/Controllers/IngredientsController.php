@@ -36,8 +36,10 @@ class IngredientsController extends Controller
             'volume' => $request->volume
         ]);
         $updatedIng = ProductIngredients::find($id);
+        // toast()->success($updatedIng->name . ' has only '. $updatedIng->volume . ' remaining!', 'Ingredients');
         toast()
-            ->success($updatedIng->name . ' has only '. $updatedIng->volume . ' remaining!')
+            ->success($updatedIng->name . ' has only '. $updatedIng->volume . ' remaining!', 'Ingredients')
+            ->sticky()
             ->push();
         Notifications::create([
             'type' => 'ingredients',

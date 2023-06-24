@@ -76,7 +76,7 @@ class OrdersController extends Controller
         $user = Clients::find($order->clients_id);
         toast()
             ->success('User'. $user->id .' placed an order successfully')
-            ->push();
+            ->pushOnNextPage();
         Notifications::create([
             'type' => 'order',
             'content' => 'User'. $user->id .' placed an order successfully',
