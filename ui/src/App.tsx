@@ -270,7 +270,7 @@ function App() {
         </Footer>
       </div>}
       {(isDetailed && !isPayment && !isCustomized) && <ProductDetailPage product={selectedProduct} handleState={handleDetailedState} handleCustomize={handleCustomize} handlePayment={handlePayment}/>}
-      {(isCustomized && !isPayment) && <CustomProductDetailPage product={selectedProduct} categories={categories} handlePayment={handlePayment} handleState={handleToDetails}/>}
+      {(isCustomized && !isPayment) && <CustomProductDetailPage product={selectedProduct} totalPrice={selectedProduct.price} categories={categories} handlePayment={handlePayment} handleState={handleToDetails}/>}
       {(isPayment) && <div style={{ backgroundColor: '#ffffff', width: '100%', height: 'auto', borderStartStartRadius: 20, borderStartEndRadius: 20, borderWidth: 1, borderStyle: 'solid' }}>
         <PaymentDetalPage product={selectedProduct} handlePayment={handlePayment}/>
       </div>}

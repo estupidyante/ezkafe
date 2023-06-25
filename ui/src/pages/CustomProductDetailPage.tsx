@@ -15,20 +15,33 @@ import { CustomOrderLists } from 'components/Lists/CustomOrderLists';
 import { NumericFormat } from 'react-number-format';
 import LoadingOverlay from 'react-loading-overlay-ts';
 
-export const CustomProductDetailPage = ({product, categories, handlePayment, handleState}) => {
+export const CustomProductDetailPage = ({product, totalPrice, categories, handlePayment, handleState}) => {
     const [, updateState] = useState();
     const forceUpdate = useCallback(() => updateState({}), []);
     const [isLoading, setIsLoading] = useState(true);
     const [ingredients, setIngredients] = useState(Array);
-    const [total, setTotal] = useState('0');
+    const [total, setTotal] = useState(0);
     const [ordered, setOrdered] = useState([]);
     const [isProceed, setIsProceed] = useState(false);
     const [isPlaced, setIsPlaced] = useState(false);
     const [isConfirmed, setIsConfirmed] = useState(false);
 
     const [selectedCustomProduct, setSelectedCustomProduct] = useState(Array);
+    const [preferredMeasurements, setPreferredMeasurement] = useState([]);
+
+    let tempPreferredMeasurements = [];
 
     useEffect(() => {
+        console.log('preferred measurements: ', product.measurement_ids.split(","));
+        tempPreferredMeasurements = product.ingredients.map((ing, idx) => {
+            return {
+                ing_id: ing.id,
+                measurement: ing.measurement,
+                measurement_id: ing.measurements_id,
+            }
+        })
+        console.log('tempPreferredMeasurements', tempPreferredMeasurements);
+        setPreferredMeasurement(tempPreferredMeasurements);
         setIsLoading(true);
         API.get('ingredients')
             .then((response_ing) => {
@@ -36,16 +49,17 @@ export const CustomProductDetailPage = ({product, categories, handlePayment, han
             }).finally(() => {
                 API.get('product/' + product.id)
                     .then((response_product) => {
-                        console.log('response_product: ', response_product);
                         setSelectedCustomProduct(response_product.message[0]);
-                        console.log('product.price: ', response_product.message[0].price);
-                        var tempPrice = response_product.message[0].price;
-                        setTotal(tempPrice.toString());
                     }).finally(() => {
                         setIsLoading(false);
+                        console.log('totalPrice', totalPrice);
                     })
             })
     }, []);
+
+    useEffect(() => {
+        setTotal(totalPrice);
+    }, [totalPrice]);
 
     const nameData = {
         "firstName": [
@@ -410,11 +424,34 @@ export const CustomProductDetailPage = ({product, categories, handlePayment, han
         return items[Math.floor(Math.random()*items.length)];
     }
 
-    const handlePriceChange = (price: string) => {
-        console.log('handlePriceChange', total);
-        let tempTotal = (parseInt(total) == 0) ? parseInt(product.price) + parseInt(price) : parseInt(total) + parseInt(price);
-        console.log(tempTotal);
-        setTotal(tempTotal.toString());
+    const handlePriceChange = (id: number, mid: number, price: string) => {
+        console.log('=== start handlePriceChange ===');
+        console.log('preferredMeasurements', preferredMeasurements);
+        console.log('ing_id', id);
+        console.log('mid', mid);
+        console.log('price', price);
+        console.log('total', totalPrice);
+        console.log('product.price', product.price);
+        console.log('product', product);
+        // preferredMeasurements.map((pmIng) => {
+        //     console.log('ing_id', id);
+        //     console.log('mid', mid);
+        // })
+        product.ingredients.map((pIng) => {
+            console.log('pIng', pIng);
+            if (pIng.id == id && pIng.measurements_id == mid) {
+                totalPrice = parseInt(totalPrice) + parseInt(pIng.price);
+                setTotal(totalPrice);
+                console.log('total', total);
+                console.log('totalPrice', totalPrice);
+            } else {
+                totalPrice = parseInt(totalPrice) - parseInt(pIng.price);
+                setTotal(totalPrice);
+                console.log('total', total);
+                console.log('totalPrice', totalPrice);
+            }
+        });
+        console.log('=== end handlePriceChange ===');
         forceUpdate();
     }
 
@@ -424,8 +461,9 @@ export const CustomProductDetailPage = ({product, categories, handlePayment, han
 
     const handleBuyNow = () => {
         setIsLoading(true);
+        console.log('totalPrice', total);
         console.log('selectedCustomProduct:', selectedCustomProduct);
-        selectedCustomProduct.price = total;
+        selectedCustomProduct.price = totalPrice;
         console.log('selectedCustomProduct:', selectedCustomProduct);
         // setIsPlaced(true);
 
@@ -508,7 +546,7 @@ export const CustomProductDetailPage = ({product, categories, handlePayment, han
                     <PaymentTotalHolder>
                         <strong style={{textAlign:'left',marginRight:1}}>Total:</strong>
                         <PaymentTotalSpanSpace>..............................................................................................................................................................</PaymentTotalSpanSpace>
-                        <div><NumericFormat value={parseInt(total)} displayType={'text'} thousandSeparator={true} decimalScale={2} fixedDecimalScale={true} prefix={'Php '} /></div>
+                        <div><NumericFormat value={total} displayType={'text'} thousandSeparator={true} decimalScale={2} fixedDecimalScale={true} prefix={'Php '} /></div>
                     </PaymentTotalHolder>
                     {!isProceed && <button style={{fontFamily:'Cormorant Garamond',fontSize:'x-large',fontWeight:'bolder',width:'100%',height:50, backgroundColor: '#26140D', color: '#ffffff', borderRadius: 10,marginTop:'5rem'}} onClick={handleProceed}>
                         Place Order

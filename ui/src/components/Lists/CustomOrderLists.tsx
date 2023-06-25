@@ -38,10 +38,10 @@ export function CustomOrderLists({product, handlePriceChange, handleCustomProduc
         tempProductIng =  product.ing_ids;
         tempProductMeasure = product.measurement_ids;
 
-        product.ingredients.map((ing: { price: any; }) => {
-            console.log('price tracker', ing);
-            handlePriceChange(ing.price);
-        })
+        // product.ingredients.map((ing: { id: number, price: string; }) => {
+        //     console.log('price tracker', ing);
+        //     handlePriceChange(ing.id, ing.price);
+        // })
         setIsSelectedChange(true);
     }, []);
 
@@ -64,6 +64,8 @@ export function CustomOrderLists({product, handlePriceChange, handleCustomProduc
             productIngredients[foundIndex].measurements_id = measurement[0].id;
             productIngredients[foundIndex].price = measurement[0].price;
             productIngredients[foundIndex].unit = measurement[0].unit;
+
+            handlePriceChange(ingredient[0].id, measurement[0].id, measurement[0].price);
         }
         let tempMeasurementIDs = '';
         productIngredients.map((ingredient:any) => {
@@ -73,7 +75,6 @@ export function CustomOrderLists({product, handlePriceChange, handleCustomProduc
         product.measurement_ids = tempMeasurementIDs;
         console.log(product);
         handleCustomProduct(product);
-        handlePriceChange(productIngredients[foundIndex].price);
         forceUpdate();
     }, [measurements]);
 
