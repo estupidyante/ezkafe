@@ -433,7 +433,7 @@ export const CustomProductDetailPage = ({product, categories, handlePayment, han
                 }
                 API.post('order/create', [order, selectedCustomProduct])
                     .then((res_order: any) => {
-                        setOrdered(res_order);
+                        setOrdered(res_order.message);
                         setIsPlaced(true);
                         alert("Order Created Successfully");
                     })

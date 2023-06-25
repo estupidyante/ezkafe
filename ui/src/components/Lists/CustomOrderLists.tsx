@@ -31,6 +31,7 @@ export function CustomOrderLists({product, handlePriceChange, handleCustomProduc
             })
         API.get('measurements')
             .then((res_measure:any) => {
+                console.log(res_measure);
                 setMeasurements(res_measure);
             })
         setProductIngredients(product.ingredients);
@@ -49,17 +50,19 @@ export function CustomOrderLists({product, handlePriceChange, handleCustomProduc
         // get the measurements and what ingredients
         let selectedMeasurementArr = selected.split('_');
         let measurement = measurements.filter((measure:any) => {
-          return measure.id == parseInt(selectedMeasurementArr[1]);
+            console.log(measure.id, selectedMeasurementArr[1]);
+            return measure.id == parseInt(selectedMeasurementArr[1]);
         });
-        console.log(measurement);
+        console.log('measurement', measurement);
         setSelectedProductMeasurement(measurements[0]);
         let ingredient = productIngredients.filter((ing:any) => {
+            console.log(ing.id, selectedMeasurementArr[0]);
             return ing.id == parseInt(selectedMeasurementArr[0]);
         });
-        console.log(ingredient);
+        console.log('ingredient',ingredient);
         setSelectedProductIngredients(ingredient[0]);
-        console.log(productIngredients);
-        if(measurement && ingredient) {
+        console.log('productIngredients', productIngredients);
+        if((measurement && ingredient) && (measurement[0] && ingredient[0])) {
             var foundIndex = productIngredients.findIndex((x:any) => x.id == ingredient[0].id);
             productIngredients[foundIndex].measurement = measurement[0].value;
             productIngredients[foundIndex].measurements_id = measurement[0].id;
@@ -70,7 +73,7 @@ export function CustomOrderLists({product, handlePriceChange, handleCustomProduc
         productIngredients.map((ingredient:any) => {
             tempMeasurementIDs = (tempMeasurementIDs) ? tempMeasurementIDs + ',' + ingredient.measurements_id : ingredient.measurements_id;
         });
-        console.log(productIngredients);
+        console.log('productIngredients', productIngredients);
         product.measurement_ids = tempMeasurementIDs;
         console.log(product);
         handleCustomProduct(product);
