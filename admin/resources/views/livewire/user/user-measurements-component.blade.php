@@ -144,7 +144,7 @@
                                     <tr>
                                         <th scope="col"> # </th>
                                         <th scope="col"> Name </th>
-                                        <th scope="col"> Amount </th>
+                                        <th scope="col"> Value </th>
                                         <th scope="col"> Unit </th>
                                         <th scope="col"> Price </th>
                                         <th scope="col"> Action </th>
@@ -199,8 +199,8 @@
                 <input type="text" class="form-control p_input" name="name" placeholder="Enter the name" :value="name" required autofocus>
             </div>
             <div class="form-group">
-                <label>Amount</label>
-                <input type="text" class="form-control p_input" name="volume" placeholder="Enter the amount" :value="volume" required autofocus>
+                <label>Value</label>
+                <input type="text" class="form-control p_input" name="value" placeholder="Enter the value" :value="value" required autofocus>
             </div>
             <div class="form-group">
                 <label>Unit</label>
@@ -241,8 +241,8 @@
                 <input type="text" class="form-control p_input" name="name" placeholder="Enter the name" :value="name" value="{{ $measurement->name }}" required autofocus>
             </div>
             <div class="form-group">
-                <label>Amount</label>
-                <input type="text" class="form-control p_input" name="volume" placeholder="Enter the amount" :value="volume" value="{{ $measurement->volume }}" required autofocus>
+                <label>Value</label>
+                <input type="text" class="form-control p_input" name="value" placeholder="Enter the value" :value="value" value="{{ $measurement->value }}" required autofocus>
             </div>
             <div class="form-group">
                 <label>Unit</label>

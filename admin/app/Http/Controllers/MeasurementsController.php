@@ -27,7 +27,7 @@ class MeasurementsController extends Controller
         Measurements::create([
             'label' => $data['name'],
             'name' => $data['name'],
-            'value' => $data['volume'],
+            'value' => $data['value'],
             'unit' => $data['unit'],
             'price' => $data['price'],
         ]);
@@ -43,7 +43,7 @@ class MeasurementsController extends Controller
             $measurement = Measurements::find($id);
             $measurement->label = $data['name'];
             $measurement->name = $data['name'];
-            $measurement->value = $data['volume'];
+            $measurement->value = $data['value'];
             $measurement->unit = $data['unit'];
             $measurement->price = $data['price'];
             $measurement->update();
