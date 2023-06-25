@@ -153,7 +153,8 @@
                                 <thead class="table-secondary">
                                     <tr>
                                         <th scope="col"> Name </th>
-                                        <th scope="col"> Volume </th>
+                                        <th scope="col"> Volume Limit </th>
+                                        <th scope="col"> Current Volume </th>
                                         <th scope="col"> Type </th>
                                         <th scope="col"> Category </th>
                                         <th scope="col"> Action </th>
@@ -165,6 +166,7 @@
                                         @if ($selectedTab == 0)
                                         <tr class="tab-pane">
                                             <td> {{$element->name}} </td>
+                                            <td> {{$element->max_volume}} </td>
                                             <td> {{$element->volume}} </td>
                                             <td> {{ $item->find($element->types_id)->name}} </td>
                                             <td> {{ $categories->find($element->category_id)->name}} </td>
@@ -180,6 +182,7 @@
                                         @elseif ($selectedTab == $item->id && $item->id == $element->types_id)
                                         <tr class="tab-pane">
                                             <td> {{$element->name}} </td>
+                                            <td> {{$element->max_volume}} </td>
                                             <td> {{$element->volume}} </td>
                                             <td> {{ $item->find($element->types_id)->name}} </td>
                                             <td> {{ $categories->find($element->category_id)->name}} </td>
@@ -250,8 +253,12 @@
                 </select>
             </div>
             <div class="form-group">
-                <label>Volume</label>
+                <label>Current Volume</label>
                 <input type="number" class="form-control p_input" name="volume" placeholder="Enter the volume" :value="volume" required>
+            </div>
+            <div class="form-group">
+                <label>Volume Limit</label>
+                <input type="number" class="form-control p_input" name="max_volume" placeholder="Enter the volume" :value="max_volume" required>
             </div>
             <div class="float-end">
                 <button type="submit" class="btn btn-success enter-btn" name="create">Submit</button>
@@ -309,8 +316,12 @@
                 </select>
             </div>
             <div class="form-group">
-                <label>Volume</label>
+                <label>Current Volume</label>
                 <input type="number" class="form-control p_input" name="volume" placeholder="Enter the volume" :value="volume" value="{{ $ingredient->volume }}" required>
+            </div>
+            <div class="form-group">
+                <label>Volume Limit</label>
+                <input type="number" class="form-control p_input" name="max_volume" placeholder="Enter the volume" :value="max_volume" value="{{ $ingredient->max_volume }}" required>
             </div>
             <div class="float-end">
                 <button type="submit" class="btn btn-success enter-btn" name="create">Submit</button>
@@ -322,7 +333,6 @@
 </div>
 @endforeach
 @section('page-script')
-<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.0/sweetalert.min.js"></script>
 <script type="text/javascript">
     $(document).ready(function(){ 
         $('.delete-ingredient').click(function(e){

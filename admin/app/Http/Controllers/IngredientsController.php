@@ -58,7 +58,8 @@ class IngredientsController extends Controller
             'type_id'           => 'required',
             'category_id'       => 'required',
             'tag'               => 'required',
-            'volume'            => 'required'
+            'volume'            => 'required',
+            'max_volume'        => 'required'
         ]);
 
         $data = $request->input();
@@ -69,6 +70,7 @@ class IngredientsController extends Controller
                 'types_id' => $data['type_id'],
                 'category_id' => $data['category_id'],
                 'volume' => $data['volume'],
+                'max_volume' => $data['max_volume'],
                 
             ]);
 
@@ -89,6 +91,7 @@ class IngredientsController extends Controller
             $ingredient->types_id = $data['type_id'];
             $ingredient->category_id = $data['category_id'];
             $ingredient->volume = $data['volume'];
+            $ingredient->max_volume = $data['max_volume'];
             $ingredient->update();
             return redirect('/user/ingredients')->with('status',"Ingredients updated successfully");
         }

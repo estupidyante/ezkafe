@@ -17,6 +17,7 @@ class Ingredients extends Model
         'types_id',
         'category_id',
         'volume',
+        'max_volume',
     ];
 
     public function ingredients(): HasManyThrough

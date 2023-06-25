@@ -20,6 +20,7 @@ return new class extends Migration
             $table->foreignId('types_id')->references('id')->on('types')->onDelete('cascade');
             $table->foreignId('category_id')->references('id')->on('category')->onDelete('cascade');
             $table->string('volume');
+            $table->string('max_volume');
             $table->timestamps();
         });
     }

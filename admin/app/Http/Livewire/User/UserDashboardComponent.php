@@ -53,7 +53,7 @@ class UserDashboardComponent extends Component
             'chart_type' => 'line',
         ];
         $transaction_chart = new LaravelChart($transaction_chart_options);
-        flash()->success('Notification placeholder')->flash();
+        // flash()->success('Notification placeholder')->flash();
         return view('livewire.user.user-dashboard-component', compact('products', 'ingredients','ingredients_count','revenue_count','orders_count','users_count', 'top_orders', 'categories', 'measurements','user_chart','transaction_chart'))->layout('layouts.base');
     }
 }
