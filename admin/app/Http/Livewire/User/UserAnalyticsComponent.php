@@ -30,7 +30,7 @@ class UserAnalyticsComponent extends Component
             'report_type' => 'group_by_string',
             'model' => 'App\Models\Ingredients',
             'group_by_field' => 'name',
-            'aggregate_function' => 'sum',
+            'aggregate_function' => 'avg',
             'aggregate_field' => 'volume',
             'show_blank_data' => true,
         ];
@@ -42,11 +42,8 @@ class UserAnalyticsComponent extends Component
             'report_type' => 'group_by_string',
             'model' => 'App\Models\Ingredients',
             'group_by_field' => 'name',
-            'aggregate_function' => 'sum',
+            'aggregate_function' => 'avg',
             'aggregate_field' => 'volume',
-            'aggregate_transform' => function($value) {
-                return (round($value / 100, 2) * 100);
-            },
         ];
 
         $ingredients_bar_chart = new LaravelChart($ingredients_bar_chart_option);
