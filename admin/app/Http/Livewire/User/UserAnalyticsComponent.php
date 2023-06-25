@@ -28,9 +28,9 @@ class UserAnalyticsComponent extends Component
             'chart_title' => 'Ingredients (Pie)',
             'chart_type' => 'pie',
             'report_type' => 'group_by_string',
-            'model' => 'App\Models\ProductIngredients',
+            'model' => 'App\Models\Ingredients',
             'group_by_field' => 'name',
-            'aggregate_function' => 'avg',
+            'aggregate_function' => 'sum',
             'aggregate_field' => 'volume',
             'show_blank_data' => true,
         ];
@@ -40,10 +40,13 @@ class UserAnalyticsComponent extends Component
             'chart_title' => 'Ingredients (Bar)',
             'chart_type' => 'bar',
             'report_type' => 'group_by_string',
-            'model' => 'App\Models\ProductIngredients',
+            'model' => 'App\Models\Ingredients',
             'group_by_field' => 'name',
             'aggregate_function' => 'sum',
             'aggregate_field' => 'volume',
+            'aggregate_transform' => function($value) {
+                return (round($value / 100, 2) * 100);
+            },
         ];
 
         $ingredients_bar_chart = new LaravelChart($ingredients_bar_chart_option);
@@ -54,7 +57,7 @@ class UserAnalyticsComponent extends Component
             'model' => 'App\Models\Orders',
             'group_by_field' => 'updated_at',
             'group_by_period' => 'day',
-            'aggregate_function' => 'sum',
+            'aggregate_function' => 'avg',
             'aggregate_field' => 'amount',
             'chart_type' => 'line',
         ];

@@ -26,16 +26,16 @@ class IngredientsController extends Controller
 	}
     public function getSpecificIngredients($id)
 	{
-        $ingredient = ProductIngredients::where('id', $id)->get();
+        $ingredient = Ingredients::where('id', $id)->get();
 	    return response()->json(['status' => 'success','code' => 200, 'message' => $ingredient], 200);
 	}
     public function edit(Request $request, $id)
 	{
-        $ingredient = ProductIngredients::find($id)->update([
+        $ingredient = Ingredients::find($id)->update([
             'price' => $request->price,
             'volume' => $request->volume
         ]);
-        $updatedIng = ProductIngredients::find($id);
+        $updatedIng = Ingredients::find($id);
         flash()->success($updatedIng->name . ' has only '. $updatedIng->volume . ' remaining!', 'Ingredients')->flash();
         toast()
             ->success($updatedIng->name . ' has only '. $updatedIng->volume . ' remaining!', 'Ingredients')

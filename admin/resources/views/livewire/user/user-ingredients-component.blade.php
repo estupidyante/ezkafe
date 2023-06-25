@@ -155,6 +155,7 @@
                                         <th scope="col"> Name </th>
                                         <th scope="col"> Volume Limit </th>
                                         <th scope="col"> Current Volume </th>
+                                        <th scope="col"> Percentage </th>
                                         <th scope="col"> Type </th>
                                         <th scope="col"> Category </th>
                                         <th scope="col"> Action </th>
@@ -168,6 +169,7 @@
                                             <td> {{$element->name}} </td>
                                             <td> {{$element->max_volume}} </td>
                                             <td> {{$element->volume}} </td>
+                                            <td> {{ ($element->volume / $element->max_volume) * 100 }}%</td>
                                             <td> {{ $item->find($element->types_id)->name}} </td>
                                             <td> {{ $categories->find($element->category_id)->name}} </td>
                                             <td>
@@ -184,6 +186,7 @@
                                             <td> {{$element->name}} </td>
                                             <td> {{$element->max_volume}} </td>
                                             <td> {{$element->volume}} </td>
+                                            <td> {{ ($element->volume / $element->max_volume) * 100 }}%</td>
                                             <td> {{ $item->find($element->types_id)->name}} </td>
                                             <td> {{ $categories->find($element->category_id)->name}} </td>
                                             <td>
