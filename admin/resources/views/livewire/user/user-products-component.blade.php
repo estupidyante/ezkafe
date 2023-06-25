@@ -410,7 +410,7 @@
                         @endforeach
                     @endif
                 </div>
-                <button type="button" name="add_new_ing_field_modify" id="addNewIngFieldModify_{{ $product->id }}" class="btn btn-success dynamic_add">Add More Ingredient</button>
+                <button type="button" name="add_new_ing_field_modify" id="addNewIngFieldModify_{{ $product->id }}" class="btn btn-success dynamic_add" value="dynamicFieldModify_{{ $product->id }}">Add More Ingredient</button>
             </div>
             <div class="form-group">
                 <label>Image</label>
@@ -464,8 +464,9 @@
             var appendMoodify = $('#dynamicFieldModify_' + products[a].id);
             var appendModifyContent = '<div id="rowModify'+h[a]+'_'+products[a].id+'" style="margin-top:0.5rem;"><div class="dynamic_select_with_delete"><select class="form-control" name="ing['+h[a]+']">@foreach($ingredients as $ingredient)<option value="{{ $ingredient->id }}">{{ $ingredient->name }}</option> @endforeach</select><button type="button" name="remove" id="'+h[a]+'_'+products[a].id+'" class="btn btn-danger btn_remove_modify_'+products[a].id+'">X</button></div><label style="margin-top:0.5rem;">Preferred Measurement</label><select class="form-control" name="measure['+h[a]+']" required>@foreach($measurements as $measure)<option value="{{ $measure->id }}">{{ $measure->name }}</option>@endforeach</select></div>';
             $(document).on('click', '#addNewIngFieldModify_' + products[a].id, function() {
-                h[a]++;
+                var appendMoodify = $('#' + this.value);
                 appendMoodify.append(appendModifyContent);
+                h[a]++;
             });
 
             $(document).on('click', '.btn_remove_modify_'  + products[a].id, function() {
