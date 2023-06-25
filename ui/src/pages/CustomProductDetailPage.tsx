@@ -413,7 +413,7 @@ export const CustomProductDetailPage = ({product, categories, handlePayment, han
     const handleBuyNow = () => {
         // setTotal(total);
         console.log(total);
-        console.log(selectedCustomProduct);
+        console.log('selectedCustomProduct:', selectedCustomProduct);
         // setIsPlaced(true);
 
         let tempFirstName:string = getRandom(nameData['firstName']);
@@ -423,21 +423,21 @@ export const CustomProductDetailPage = ({product, categories, handlePayment, han
         var user = {
             name: tempFirstName + ' ' + tempLastNamePrefix + ' ' + tempLastNameSuffix
         }
-        API.post('client/create', user)
-            .then((response) => {
-                var order = {
-                    clients_id: response?.id,
-                    products_id: selectedCustomProduct.id,
-                    amount: total,
-                    status: 'in-progress'
-                }
-                API.post('order/create', [order, selectedCustomProduct])
-                    .then((res_order: any) => {
-                        setOrdered(res_order.message);
-                        setIsPlaced(true);
-                        alert("Order Created Successfully");
-                    })
-            })
+        // API.post('client/create', user)
+        //     .then((response) => {
+        //         var order = {
+        //             clients_id: response?.id,
+        //             products_id: selectedCustomProduct.id,
+        //             amount: total,
+        //             status: 'in-progress'
+        //         }
+        //         API.post('order/create', [order, selectedCustomProduct])
+        //             .then((res_order: any) => {
+        //                 setOrdered(res_order.message);
+        //                 setIsPlaced(true);
+        //                 alert("Order Created Successfully");
+        //             })
+        //     })
     }
 
     const handleConfirmed = () => {

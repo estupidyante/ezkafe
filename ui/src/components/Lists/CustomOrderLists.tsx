@@ -14,8 +14,8 @@ export function CustomOrderLists({product, handlePriceChange, handleCustomProduc
     const [productIngredients, setProductIngredients] = useState(Array);
     const [productMeasurement, setProductMeasurement] = useState(Array);
 
-    const [productSelectedIngredients, setSelectedProductIngredients] = useState(Array);
-    const [productSelectedMeasurement, setSelectedProductMeasurement] = useState(Array);
+    const [selectedProductIngredients, setSelectedProductIngredients] = useState(Array);
+    const [selectedProductMeasurement, setSelectedProductMeasurement] = useState(Array);
 
     const [customProduct, setCustomProduct] = useState(Array);
 
@@ -25,13 +25,13 @@ export function CustomOrderLists({product, handlePriceChange, handleCustomProduc
 
     useEffect(() => {
         API.get('types')
-            .then((res_type:any) => {
+            .then((res_type) => {
                 setTypes(res_type);
                 setProductTypes(res_type);
             })
         API.get('measurements')
-            .then((res_measure:any) => {
-                console.log(res_measure);
+            .then((res_measure) => {
+                console.log('res_measure: ', res_measure);
                 setMeasurements(res_measure);
             })
         setProductIngredients(product.ingredients);
@@ -50,18 +50,14 @@ export function CustomOrderLists({product, handlePriceChange, handleCustomProduc
         // get the measurements and what ingredients
         let selectedMeasurementArr = selected.split('_');
         let measurement = measurements.filter((measure:any) => {
-            console.log(measure.id, selectedMeasurementArr[1]);
             return measure.id == parseInt(selectedMeasurementArr[1]);
         });
-        console.log('measurement', measurement);
-        setSelectedProductMeasurement(measurements[0]);
+        console.log('measurement: ', measurement[0]);
         let ingredient = productIngredients.filter((ing:any) => {
-            console.log(ing.id, selectedMeasurementArr[0]);
             return ing.id == parseInt(selectedMeasurementArr[0]);
         });
-        console.log('ingredient',ingredient);
-        setSelectedProductIngredients(ingredient[0]);
-        console.log('productIngredients', productIngredients);
+        console.log('ingredient: ',ingredient[0]);
+        console.log('productIngredients: ', productIngredients);
         if((measurement && ingredient) && (measurement[0] && ingredient[0])) {
             var foundIndex = productIngredients.findIndex((x:any) => x.id == ingredient[0].id);
             productIngredients[foundIndex].measurement = measurement[0].value;
@@ -73,13 +69,13 @@ export function CustomOrderLists({product, handlePriceChange, handleCustomProduc
         productIngredients.map((ingredient:any) => {
             tempMeasurementIDs = (tempMeasurementIDs) ? tempMeasurementIDs + ',' + ingredient.measurements_id : ingredient.measurements_id;
         });
-        console.log('productIngredients', productIngredients);
+        console.log('productIngredients:', productIngredients);
         product.measurement_ids = tempMeasurementIDs;
         console.log(product);
         handleCustomProduct(product);
 
         forceUpdate();
-    }, []);
+    }, [measurements]);
 
     const childCurrentProducts = <CurrentProducts key={undefined} types={productTypes} ingredients={productIngredients} measurement={productMeasurement} handleChange={listenChange} />;
 
