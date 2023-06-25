@@ -39,7 +39,8 @@ export const CustomProductDetailPage = ({product, categories, handlePayment, han
                         console.log('response_product: ', response_product);
                         setSelectedCustomProduct(response_product.message[0]);
                         console.log('product.price: ', response_product.message[0].price);
-                        setTotal(response_product.message[0].price);
+                        var tempPrice = response_product.message[0].price;
+                        setTotal(tempPrice.toString());
                     }).finally(() => {
                         setIsLoading(false);
                     })
@@ -410,7 +411,8 @@ export const CustomProductDetailPage = ({product, categories, handlePayment, han
     }
 
     const handlePriceChange = (price: string) => {
-        let tempTotal = product.price + parseInt(price);
+        console.log('handlePriceChange', total);
+        let tempTotal = (parseInt(total) == 0) ? parseInt(product.price) + parseInt(price) : parseInt(total) + parseInt(price);
         console.log(tempTotal);
         setTotal(tempTotal.toString());
         forceUpdate();
@@ -483,7 +485,8 @@ export const CustomProductDetailPage = ({product, categories, handlePayment, han
                             style={{position:'absolute', left: '2rem', top: '2rem'}}
                         />
                     </button>
-                    <h1 style={{fontSize:'xx-large',fontWeight:'bolder',width:'90%'}}>Create Order</h1>
+                    {!isProceed && <h1 style={{fontSize:'xx-large',fontWeight:'bolder',width:'90%'}}>Create Order</h1>}
+                    {isProceed && <h1 style={{fontSize:'xx-large',fontWeight:'bolder',width:'90%'}}>Order Details</h1>}
                 </div>
                 <div style={{ backgroundColor: '#ffffff', width: '100%', minHeight: 620, borderStartStartRadius: 20, borderStartEndRadius: 20, borderWidth: 1, borderStyle: 'solid', padding: '3rem' }}>
                     <div style={{padding:'2rem',backgroundColor:'#D9D9D9',marginBottom:20,borderRadius:10,minHeight:80,height:'auto'}}>
