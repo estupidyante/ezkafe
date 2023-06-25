@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Datatable;
 
 use Livewire\Component;
 use App\Models\Orders;
+use App\Models\Clients;
 use Illuminate\Support\Str;
 use Mediconesystems\LivewireDatatables\Column;
 use Mediconesystems\LivewireDatatables\NumberColumn;
@@ -14,21 +15,24 @@ class OrderDatatables extends LivewireDatatable
 {
     public $model = Orders::class;
 
+    public function builder()
+    {
+        return Orders::query()->leftJoin('user', 'clients.id', 'orders.clients_id');
+    }
+
     public function columns()
     {
         return [
+            Column::checkbox(),
+
             NumberColumn::name('id')
-                ->label('Order ID')
-                ->sortBy('id'),
-  
-            Column::name('clients_id')
-                ->label('User ID'),
-  
-            Column::name('products_id')
-                ->label('Product'),
-  
-            DateColumn::name('created_at')
-                ->label('Creation Date')
+                ->label('ID')
+                ->filterable()
+                ->linkTo('user', 6),
+
+            Column::name('clients.name')
+                ->label('Clients')
+                ->filterable($this->clients)->alignRight(),
         ];
     }
 }
