@@ -16,7 +16,7 @@ export const ProductDetailPage = ({product, handleState, handleCustomize, handle
     useEffect(() => {
         API.get(`product/` + product.id)
             .then((res_prod: any) => {
-                setIngredients(res_prod[0].ingredients);
+                setIngredients(res_prod.message[0].ingredients);
             })
     }, []);
 
