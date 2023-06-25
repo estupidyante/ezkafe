@@ -19,7 +19,8 @@ const RadioButton = ({ label, id, price, disabled, ispreferred, ...rest }: Input
         {/* disabled && <DisabledIcon small /> */}
         {ispreferred && <span> (preferred)</span>}
       </Label>
-      <div style={{width:'40%',textAlign:'right'}}><NumericFormat value={parseInt(price)} displayType={'text'} thousandSeparator={true} decimalScale={2} fixedDecimalScale={true} prefix={'Php '} /></div>
+      {ispreferred && <div style={{width:'40%',textAlign:'right'}}><NumericFormat value={0} displayType={'text'} thousandSeparator={true} decimalScale={2} fixedDecimalScale={true} prefix={'Php '} /></div>}
+      {!ispreferred && <div style={{width:'40%',textAlign:'right'}}><NumericFormat value={parseInt(price)} displayType={'text'} thousandSeparator={true} decimalScale={2} fixedDecimalScale={true} prefix={'Php '} /></div>}
     </Wrapper>
   );
 };

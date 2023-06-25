@@ -23,7 +23,6 @@ export function CustomOrderLists({product, handlePriceChange, handleCustomProduc
 
 
     useEffect(() => {
-        setIsSelectedChange(true);
         API.get('types')
             .then((res_type) => {
                 setTypes(res_type);
@@ -43,6 +42,7 @@ export function CustomOrderLists({product, handlePriceChange, handleCustomProduc
             console.log('price tracker', ing);
             handlePriceChange(ing.price);
         })
+        setIsSelectedChange(true);
     }, []);
 
     const listenChange = useCallback((selected: string) => {
@@ -73,7 +73,7 @@ export function CustomOrderLists({product, handlePriceChange, handleCustomProduc
         product.measurement_ids = tempMeasurementIDs;
         console.log(product);
         handleCustomProduct(product);
-
+        handlePriceChange(productIngredients[foundIndex].price);
         forceUpdate();
     }, [measurements]);
 

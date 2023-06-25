@@ -410,11 +410,7 @@ export const CustomProductDetailPage = ({product, categories, handlePayment, han
     }
 
     const handlePriceChange = (price: string) => {
-        if(parseInt(total) == 0) {
-            setTotal(product.price);
-        }
-        console.log('handlePriceChange: ', parseInt(price), parseInt(total));
-        let tempTotal = parseInt(total) + parseInt(price);
+        let tempTotal = product.price + parseInt(price);
         console.log(tempTotal);
         setTotal(tempTotal.toString());
         forceUpdate();
@@ -426,6 +422,8 @@ export const CustomProductDetailPage = ({product, categories, handlePayment, han
 
     const handleBuyNow = () => {
         setIsLoading(true);
+        console.log('selectedCustomProduct:', selectedCustomProduct);
+        selectedCustomProduct.price = total;
         console.log('selectedCustomProduct:', selectedCustomProduct);
         // setIsPlaced(true);
 
