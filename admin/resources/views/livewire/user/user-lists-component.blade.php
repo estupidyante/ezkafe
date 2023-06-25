@@ -27,7 +27,9 @@
                             <thead>
                                 <tr class="table-success">
                                     <th scope="col"> User ID </th>
+                                    <th scope="col"> Name </th>
                                     <th scope="col"> Order ID </th>
+                                    <th scope="col"> Product </th>
                                     <th scope="col"> Create At </th>
                                     <th scope="col"> Action </th>
                                 </tr>
@@ -36,7 +38,9 @@
                                 @foreach ($users as $user)
                                     <tr>
                                         <td> {{ $user->id }} </td>
-                                        <td> {{ $orders->find($user->id)->id }} </td>
+                                        <td> {{ $user->name }} </td>
+                                        <td> {{ $custom_orders->find($orders->find($user->id)->id)->id }} </td>
+                                        <td> {{ $custom_orders->find($orders->find($user->id)->id)->name }} </td>
                                         <td> {{ $user->created_at }} </td>
                                         <td>
                                             <form class="d-inline" action="{{ route('user.user.destroy', $user ) }}" method="POST">

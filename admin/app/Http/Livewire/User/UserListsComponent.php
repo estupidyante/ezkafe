@@ -5,6 +5,7 @@ namespace App\Http\Livewire\User;
 use Livewire\Component;
 use App\Models\Clients;
 use App\Models\Orders;
+use App\Models\CustomOrder;
 
 
 class UserListsComponent extends Component
@@ -13,7 +14,8 @@ class UserListsComponent extends Component
     {
         $users = Clients::all();
         $orders = Orders::all();
-        return view('livewire.user.user-lists-component', compact('users', 'orders'))->layout('layouts.base');
+        $custom_orders = CustomOrder::all();
+        return view('livewire.user.user-lists-component', compact('users', 'orders', 'custom_orders'))->layout('layouts.base');
     }
 
     public function destroy($id)
