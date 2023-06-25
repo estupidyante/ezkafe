@@ -128,6 +128,19 @@
     .text-wrap {
         white-space:normal;
     }
+    label {
+        display:block;
+    }
+    textarea {
+        border: 1px solid #2c2e33;
+        font-weight: normal;
+        font-size: 0.875rem;
+        padding: 0.625rem 0.6875rem;
+        background-color: #2A3038;
+        border-radius: 2px;
+        color: #ffffff !important;
+        width:100%;
+    }
 </style>
 @endsection
 <div class="content-wrapper">
@@ -289,7 +302,8 @@
             </div>
             <div class="form-group">
                 <label>Description</label>
-                <input type="text" class="form-control p_input" name="description" placeholder="Enter the description" :value="description" required autofocus>
+                <textarea name="description" rows="4" :value="description" required autofocus></textarea>
+                <!-- <input type="text" class="form-control p_input" name="description" placeholder="Enter the description" :value="description" required autofocus> -->
             </div>
             <div class="form-group">
                 <label>Category</label>
@@ -358,7 +372,8 @@
             </div>
             <div class="form-group">
                 <label>Description</label>
-                <input type="text" class="form-control p_input" name="description" placeholder="Enter the description" :value="description" value="{{ $product->description }}" required autofocus>
+                <textarea name="description" rows="4" :value="description" required autofocus>{{ $product->description }}</textarea>
+                <!-- <input type="text" class="form-control p_input" name="description" placeholder="Enter the description" :value="description" value="{{ $product->description }}" required autofocus> -->
             </div>
             <div class="form-group">
                 <label>Category</label>

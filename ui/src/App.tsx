@@ -99,7 +99,7 @@ function App() {
             })
         })
       })
-  }, []);
+  }, [,isDetailed,isPayment,isCustomized,isFAQs]);
 
   const handleDetailedState = () => {
     if(isDetailed) setIsDetailed(false)
