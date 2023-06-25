@@ -5,7 +5,7 @@ export interface IOption {
   label?: string;
   name?: string;
   price?: string;
-  value?: string;
+  volume?: string;
   unit?: string;
   disabled?: boolean;
 }

@@ -16,18 +16,18 @@ const Wrapper = styled.div`
 
 const RadioButtonGroup = ({ label, group, ing, prod_id, preferred, options, onChange }: IInputGroup) => {
   function renderOptions() {
-    return options.map(({ name, id, price, value, unit, disabled }: IOption, index) => {
+    return options.map(({ name, id, price, volume, unit, disabled }: IOption, index) => {
       const shortenedOptionGroupLabel = group.replace(/\s+/g, "").toLowerCase();
       const shortenedOptionLabel = name?.replace(/\s+/g, "").toLowerCase();
       const optionId = `radio-option-${shortenedOptionLabel}-${shortenedOptionGroupLabel}`;
-      const measurementValue = value + '' + unit;
+      const measurementValue = volume + '' + unit;
 
       console.log(preferred, measurementValue);
       return (
         <RadioButton
           key={index}
           value={prod_id + '_' + id}
-          label={value + ' ' + unit}
+          label={volume + ' ' + unit}
           id={optionId}
           name={shortenedOptionGroupLabel}
           disabled={disabled}
