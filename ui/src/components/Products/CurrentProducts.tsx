@@ -54,6 +54,7 @@ const CurrentProduct = ({ types, ingredients, measurement, handleChange }) => {
                 <RadioButtonGroup
                     label="Select the preferred tsp"
                     group={ingredient.name +'_measurement'}
+                    preferred={ingredient.measurement}
                     ing={ingredient.measurements_id}
                     prod_id={ingredient.id}
                     options={measurements}

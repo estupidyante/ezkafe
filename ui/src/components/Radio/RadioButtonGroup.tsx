@@ -14,13 +14,14 @@ const Wrapper = styled.div`
   gap: 1rem;
 `;
 
-const RadioButtonGroup = ({ label, group, ing, prod_id, options, onChange }: IInputGroup) => {
+const RadioButtonGroup = ({ label, group, ing, prod_id, preferred, options, onChange }: IInputGroup) => {
   function renderOptions() {
     return options.map(({ name, id, price, value, unit, disabled }: IOption, index) => {
       const shortenedOptionGroupLabel = group.replace(/\s+/g, "").toLowerCase();
       const shortenedOptionLabel = name?.replace(/\s+/g, "").toLowerCase();
       const optionId = `radio-option-${shortenedOptionLabel}-${shortenedOptionGroupLabel}`;
 
+      console.log(id, preferred);
       return (
         <RadioButton
           key={index}
@@ -30,7 +31,7 @@ const RadioButtonGroup = ({ label, group, ing, prod_id, options, onChange }: IIn
           name={shortenedOptionGroupLabel}
           disabled={disabled}
           defaultChecked={(ing && id) ? id === ing : index === 0}
-          ispreferred={(ing && id) ? id === ing : index === 0}
+          ispreferred={(preferred && id) ? id === parseInt(preferred) : index === 0}
           price={price}
           onChange={onChange}
         />

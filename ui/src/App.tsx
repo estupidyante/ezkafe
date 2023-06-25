@@ -48,6 +48,7 @@ import { PaymentDetalPage } from 'pages/PaymentDetailPage';
 import { ProductDetailPage } from './pages/ProductDetailPage';
 import { CustomProductDetailPage } from './pages/CustomProductDetailPage';
 import { NumericFormat } from 'react-number-format';
+import LoadingOverlay from 'react-loading-overlay-ts';
 // import { SearchBar } from 'components/SearchBar/SearchBar';
 import { Tab, Tabs, TabList, TabPanel } from "react-tabs";
 import "react-tabs/style/react-tabs.css";
@@ -55,6 +56,7 @@ import "./lib/tabStyles.css";
 import { FAQsPage } from 'pages/FAQsPage';
 
 function App() {
+  const [isLoading, setIsLoading] = useState(true);
   const [isOrdered, setIsOrdered] = useState(false);
   const [tabIndex, setTabIndex] = useState(0);
   const [isDetailed, setIsDetailed] = useState(false);
@@ -71,6 +73,7 @@ function App() {
   let productTabPanel = {};
 
   useEffect(() => {
+    setIsLoading(true);
     API.get('categories')
       .then((res: any) => {
         setCategories(res);
@@ -80,18 +83,21 @@ function App() {
         .then((res_prod: any) => {
           console.log('res_prod:', res_prod.message);
           setProducts(res_prod.message);
-        })
-      })
-    API.get('/products/ordered')
-      .then((res_ordered) => {
-        if(res_ordered && (res_ordered[0] && res_ordered[0]['products_id'])) {
-          API.get('/product/' + res_ordered[0]['products_id'])
-            .then((res_product_ordered: any) => {
-              console.log('product: ', res_product_ordered.message[0]);
-              setTopProduct(res_product_ordered.message[0]);
-              setIsTopProduct(true);
+        }).finally(() => {
+          API.get('/products/ordered')
+            .then((res_ordered) => {
+              if(res_ordered && (res_ordered[0] && res_ordered[0]['products_id'])) {
+                API.get('/product/' + res_ordered[0]['products_id'])
+                  .then((res_product_ordered: any) => {
+                    console.log('product: ', res_product_ordered.message[0]);
+                    setTopProduct(res_product_ordered.message[0]);
+                    setIsTopProduct(true);
+                  })
+              }
+            }).finally(() => {
+              setIsLoading(false);
             })
-        }
+        })
       })
   }, []);
 
@@ -127,7 +133,12 @@ function App() {
   }
 
   return (
-    <Wrapper>
+    <LoadingOverlay
+      active={isLoading}
+      spinner
+      text='Loading your content...'
+    >
+      <Wrapper>
       {(!isDetailed && !isPayment && !isCustomized && !isFAQs) && <div>
         <HeaderComponent/>
         <ContentContainer>
@@ -260,13 +271,14 @@ function App() {
       </div>}
       {(isDetailed && !isPayment && !isCustomized) && <ProductDetailPage product={selectedProduct} handleState={handleDetailedState} handleCustomize={handleCustomize} handlePayment={handlePayment}/>}
       {(isCustomized && !isPayment) && <CustomProductDetailPage product={selectedProduct} categories={categories} handlePayment={handlePayment} handleState={handleToDetails}/>}
-      {(isPayment) && <div style={{ backgroundColor: '#ffffff', width: '100%', height: 'auto', borderStartStartRadius: 20, borderStartEndRadius: 20, borderWidth: 1, borderStyle: 'solid', padding: 20 }}>
+      {(isPayment) && <div style={{ backgroundColor: '#ffffff', width: '100%', height: 'auto', borderStartStartRadius: 20, borderStartEndRadius: 20, borderWidth: 1, borderStyle: 'solid' }}>
         <PaymentDetalPage product={selectedProduct} handlePayment={handlePayment}/>
       </div>}
       {(isFAQs) && <div style={{ backgroundColor: '#ffffff', width: '100%', height: '620px', borderStartStartRadius: 20, borderStartEndRadius: 20, borderWidth: 1, borderStyle: 'solid', padding: 20 }}>
         <FAQsPage handleState={handleFAQs}/>
       </div>}
     </Wrapper>
+    </LoadingOverlay>
   );
 }
 

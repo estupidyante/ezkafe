@@ -12,8 +12,10 @@ import {
 } from '../api';
 import { OrderLists } from 'components/Lists/OrderLists';
 import { NumericFormat } from 'react-number-format';
+import LoadingOverlay from 'react-loading-overlay-ts';
 
 export const PaymentDetalPage = ({product, handlePayment}) => {
+    const [isLoading, setIsLoading] = useState(true);
     const [total, setTotal] = useState(0);
     const [ordered, setOrdered] = useState(0);
     const [isPlaced, setIsPlaced] = useState(false);
@@ -54,7 +56,8 @@ export const PaymentDetalPage = ({product, handlePayment}) => {
         }, 3000);
     }
 
-    return (<PaymentDetailedContainer>
+    return (
+    <PaymentDetailedContainer>
         <div style={{height:80, marginBottom:40,display:'flex',alignItems:'center',justifyContent:'space-evenly'}}>
             <button onClick={handlePayment}>
                 <ArrowBackCircleOutline
