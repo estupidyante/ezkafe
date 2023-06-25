@@ -29,7 +29,7 @@ export const ProductDetailPage = ({product, handleState, handleCustomize, handle
         <LoadingOverlay
             active={isLoading}
             spinner
-            text='Loading your content...'
+            text='Loading... Brewing Coffee...'
             >
             <ProductDetailedContainer>
                 <button onClick={handleState}>

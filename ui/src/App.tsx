@@ -136,7 +136,7 @@ function App() {
     <LoadingOverlay
       active={isLoading}
       spinner
-      text='Loading your content...'
+      text='Loading... Brewing Coffee...'
     >
       <Wrapper>
       {(!isDetailed && !isPayment && !isCustomized && !isFAQs) && <div>

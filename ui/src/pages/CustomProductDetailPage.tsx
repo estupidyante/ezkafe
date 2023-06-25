@@ -472,7 +472,7 @@ export const CustomProductDetailPage = ({product, categories, handlePayment, han
         <LoadingOverlay
             active={isLoading}
             spinner
-            text='Loading your content...'
+            text='Loading... Brewing Coffee...'
             >
             <CustomizedProductDetailedContainer>
                 <div style={{height:80, marginBottom:40,display:'flex',alignItems:'center',justifyContent:'space-evenly'}}>

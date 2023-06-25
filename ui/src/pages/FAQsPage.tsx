@@ -33,7 +33,7 @@ export const FAQsPage = ({handleState}) => {
         <LoadingOverlay
             active={isLoading}
             spinner
-            text='Loading your content...'
+            text='Loading... Brewing Coffee...'
             >
             <FAQsContainer>
                 <div style={{height:80, marginBottom:40,display:'flex',alignItems:'center',justifyContent:'space-evenly'}}>
