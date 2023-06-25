@@ -8299,13 +8299,13 @@ module.exports = {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var laravel_datatables_vite__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! laravel-datatables-vite */ "./node_modules/laravel-datatables-vite/js/index.js");
 /* harmony import */ var alpinejs__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! alpinejs */ "./node_modules/alpinejs/dist/module.esm.js");
-Object(function webpackMissingModule() { var e = new Error("Cannot find module '../../vendor/usernotnull/tall-toasts/resources/js/tall-toasts'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
+/* harmony import */ var _vendor_usernotnull_tall_toasts_resources_js_tall_toasts__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../vendor/usernotnull/tall-toasts/resources/js/tall-toasts */ "./vendor/usernotnull/tall-toasts/resources/js/tall-toasts.js");
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 
 
 
-alpinejs__WEBPACK_IMPORTED_MODULE_1__["default"].data('ToastComponent', Object(function webpackMissingModule() { var e = new Error("Cannot find module '../../vendor/usernotnull/tall-toasts/resources/js/tall-toasts'"); e.code = 'MODULE_NOT_FOUND'; throw e; }()));
+alpinejs__WEBPACK_IMPORTED_MODULE_1__["default"].data('ToastComponent', _vendor_usernotnull_tall_toasts_resources_js_tall_toasts__WEBPACK_IMPORTED_MODULE_2__["default"]);
 window.Alpine = alpinejs__WEBPACK_IMPORTED_MODULE_1__["default"];
 alpinejs__WEBPACK_IMPORTED_MODULE_1__["default"].start();
 
@@ -8347,6 +8347,167 @@ try {
 //     cluster: process.env.MIX_PUSHER_APP_CLUSTER,
 //     forceTLS: true
 // });
+
+/***/ }),
+
+/***/ "./vendor/usernotnull/tall-toasts/resources/js/tall-toasts.js":
+/*!********************************************************************!*\
+  !*** ./vendor/usernotnull/tall-toasts/resources/js/tall-toasts.js ***!
+  \********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* export default binding */ __WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ function __WEBPACK_DEFAULT_EXPORT__(Alpine) {
+  Alpine.data('ToastComponent', function ($wire) {
+    return {
+      defaultDuration: $wire.defaultDuration,
+      wireToasts: $wire.entangle('toasts'),
+      prod: $wire.entangle('prod'),
+      wireToastsIndex: 0,
+      toasts: [],
+      pendingToasts: [],
+      pendingRemovals: [],
+      count: 0,
+      loaded: false,
+      init: function init() {
+        var _this = this;
+
+        window.Toast = {
+          component: this,
+          make: function make(message, title, type, duration) {
+            return {
+              title: title,
+              message: message,
+              type: type,
+              duration: duration
+            };
+          },
+          debug: function debug(message) {
+            var title = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+            var duration = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : undefined;
+            this.component.add(this.make(message, title, 'debug', duration !== null && duration !== void 0 ? duration : this.component.defaultDuration));
+          },
+          info: function info(message) {
+            var title = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+            var duration = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : undefined;
+            this.component.add(this.make(message, title, 'info', duration !== null && duration !== void 0 ? duration : this.component.defaultDuration));
+          },
+          success: function success(message) {
+            var title = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+            var duration = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : undefined;
+            this.component.add(this.make(message, title, 'success', duration !== null && duration !== void 0 ? duration : this.component.defaultDuration));
+          },
+          warning: function warning(message) {
+            var title = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+            var duration = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : undefined;
+            this.component.add(this.make(message, title, 'warning', duration !== null && duration !== void 0 ? duration : this.component.defaultDuration));
+          },
+          danger: function danger(message) {
+            var title = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '';
+            var duration = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : undefined;
+            this.component.add(this.make(message, title, 'danger', duration !== null && duration !== void 0 ? duration : this.component.defaultDuration));
+          }
+        };
+        addEventListener('toast', function (event) {
+          _this.add(event.detail);
+        });
+        this.fetchWireToasts();
+        this.$watch('wireToasts', function () {
+          _this.fetchWireToasts();
+        });
+        setTimeout(function () {
+          _this.loaded = true;
+
+          _this.pendingToasts.forEach(function (toast) {
+            _this.add(toast);
+          });
+
+          _this.pendingToasts = null;
+        }, $wire.loadDelay);
+      },
+      fetchWireToasts: function fetchWireToasts() {
+        var _this2 = this;
+
+        this.wireToasts.forEach(function (toast, i) {
+          if (i < _this2.wireToastsIndex) {
+            return;
+          }
+
+          _this2.add(window.Alpine.raw(toast));
+
+          _this2.wireToastsIndex++;
+        });
+      },
+      add: function add(toast) {
+        var _toast$type;
+
+        if (this.loaded !== true) {
+          this.pendingToasts.push(toast);
+          return;
+        }
+
+        if (toast.type === 'debug') {
+          if (this.prod) {
+            return;
+          }
+
+          console.log(toast.title, toast.message);
+        }
+
+        (_toast$type = toast.type) !== null && _toast$type !== void 0 ? _toast$type : toast.type = 'info';
+        toast.show = 0;
+        toast.index = this.count;
+        this.toasts[this.count] = toast;
+        this.scheduleRemoval(this.count);
+        this.count++;
+      },
+      scheduleRemoval: function scheduleRemoval(toastIndex) {
+        var _this3 = this;
+
+        if (Object.keys(this.pendingRemovals).includes(toastIndex.toString())) {
+          return;
+        }
+
+        if (this.toasts[toastIndex].duration === 0) {
+          return;
+        }
+
+        this.pendingRemovals[toastIndex] = setTimeout(function () {
+          _this3.remove(toastIndex);
+        }, this.toasts[toastIndex].duration);
+      },
+      scheduleRemovalWithOlder: function scheduleRemovalWithOlder() {
+        var toastIndex = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.count;
+
+        for (var i = 0; i < toastIndex; i++) {
+          this.scheduleRemoval(i);
+        }
+      },
+      cancelRemovalWithNewer: function cancelRemovalWithNewer(toastIndex) {
+        for (var i = this.count - 1; i >= toastIndex; i--) {
+          clearTimeout(this.pendingRemovals[i]);
+          delete this.pendingRemovals[i];
+        }
+      },
+      remove: function remove(index) {
+        var _this4 = this;
+
+        if (this.toasts[index]) {
+          this.toasts[index].show = 0;
+        }
+
+        setTimeout(function () {
+          _this4.toasts[index] = '';
+          delete _this4.pendingRemovals[index];
+        }, 500);
+      }
+    };
+  });
+}
 
 /***/ }),
 

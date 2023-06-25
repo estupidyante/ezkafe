@@ -17,6 +17,7 @@
         "php-flasher/flasher-laravel": "^1.15",
         "php-flasher/flasher-toastr-laravel": "^1.15",
         "rappasoft/laravel-livewire-tables": "^2.14",
+        "usernotnull/tall-toasts": "^1.7",
         "yajra/laravel-datatables-buttons": "9.0",
         "yajra/laravel-datatables-oracle": "^10.4"
     },
