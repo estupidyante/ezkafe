@@ -22,7 +22,6 @@ const RadioButtonGroup = ({ label, group, ing, prod_id, preferred, options, onCh
       const optionId = `radio-option-${shortenedOptionLabel}-${shortenedOptionGroupLabel}`;
       const measurementValue = volume + '' + unit;
 
-      console.log(preferred, measurementValue);
       return (
         <RadioButton
           key={index}

@@ -274,7 +274,7 @@ function App() {
       {(isPayment) && <div style={{ backgroundColor: '#ffffff', width: '100%', height: 'auto', borderStartStartRadius: 20, borderStartEndRadius: 20, borderWidth: 1, borderStyle: 'solid' }}>
         <PaymentDetalPage product={selectedProduct} handlePayment={handlePayment}/>
       </div>}
-      {(isFAQs) && <div style={{ backgroundColor: '#ffffff', width: '100%', height: '620px', borderStartStartRadius: 20, borderStartEndRadius: 20, borderWidth: 1, borderStyle: 'solid', padding: 20 }}>
+      {(isFAQs) && <div style={{ backgroundColor: '#ffffff', width: '100%', height: '620px', borderStartStartRadius: 20, borderStartEndRadius: 20, borderWidth: 1, borderStyle: 'solid' }}>
         <FAQsPage handleState={handleFAQs}/>
       </div>}
     </Wrapper>

@@ -4,7 +4,7 @@ import {
 } from '../../api';
 import CurrentProducts from 'components/Products/CurrentProducts';
 
-export function CustomOrderLists({product, handlePriceChange, handleCustomProduct}) {
+export function CustomOrderLists({product, handlePriceChange, handleCustomProduct, isFinal}) {
     const [, updateState] = useState();
     const forceUpdate = useCallback(() => updateState({}), []);
     const [types, setTypes] = useState(Array);
@@ -14,8 +14,7 @@ export function CustomOrderLists({product, handlePriceChange, handleCustomProduc
     const [productIngredients, setProductIngredients] = useState(Array);
     const [productMeasurement, setProductMeasurement] = useState(Array);
 
-    const [selectedProductIngredients, setSelectedProductIngredients] = useState(Array);
-    const [selectedProductMeasurement, setSelectedProductMeasurement] = useState(Array);
+    const [isSelectedChange, setIsSelectedChange] = useState(false);
 
     const [customProduct, setCustomProduct] = useState(Array);
 
@@ -24,6 +23,7 @@ export function CustomOrderLists({product, handlePriceChange, handleCustomProduc
 
 
     useEffect(() => {
+        setIsSelectedChange(true);
         API.get('types')
             .then((res_type) => {
                 setTypes(res_type);
@@ -60,7 +60,7 @@ export function CustomOrderLists({product, handlePriceChange, handleCustomProduc
         console.log('productIngredients: ', productIngredients);
         if((measurement && ingredient) && (measurement[0] && ingredient[0])) {
             var foundIndex = productIngredients.findIndex((x:any) => x.id == ingredient[0].id);
-            productIngredients[foundIndex].measurement = measurement[0].value;
+            productIngredients[foundIndex].measurement = measurement[0].volume;
             productIngredients[foundIndex].measurements_id = measurement[0].id;
             productIngredients[foundIndex].price = measurement[0].price;
             productIngredients[foundIndex].unit = measurement[0].unit;
@@ -77,7 +77,7 @@ export function CustomOrderLists({product, handlePriceChange, handleCustomProduc
         forceUpdate();
     }, [measurements]);
 
-    const childCurrentProducts = <CurrentProducts key={undefined} types={productTypes} ingredients={productIngredients} measurement={productMeasurement} handleChange={listenChange} />;
+    const childCurrentProducts = <CurrentProducts key={undefined} types={productTypes} ingredients={productIngredients} measurement={productMeasurement} isSelected={isSelectedChange} isFinalSelected={isFinal} handleChange={listenChange} />;
 
     return(
         <div>

@@ -31,15 +31,19 @@ export const CustomProductDetailPage = ({product, categories, handlePayment, han
     useEffect(() => {
         setIsLoading(true);
         API.get('ingredients')
-            .then((response_ing:any) => {
+            .then((response_ing) => {
                 setIngredients(response_ing);
             }).finally(() => {
-                setIsLoading(false);
+                API.get('product/' + product.id)
+                    .then((response_product) => {
+                        console.log('response_product: ', response_product);
+                        setSelectedCustomProduct(response_product.message[0]);
+                        console.log('product.price: ', response_product.message[0].price);
+                        setTotal(response_product.message[0].price);
+                    }).finally(() => {
+                        setIsLoading(false);
+                    })
             })
-        setSelectedCustomProduct(product);
-        console.log('product.price: ', product.price);
-        setTotal(product.price);
-        console.log('total: ', total);
     }, []);
 
     const nameData = {
@@ -421,8 +425,7 @@ export const CustomProductDetailPage = ({product, categories, handlePayment, han
     }
 
     const handleBuyNow = () => {
-        // setTotal(total);
-        console.log(total);
+        setIsLoading(true);
         console.log('selectedCustomProduct:', selectedCustomProduct);
         // setIsPlaced(true);
 
@@ -433,21 +436,23 @@ export const CustomProductDetailPage = ({product, categories, handlePayment, han
         var user = {
             name: tempFirstName + ' ' + tempLastNamePrefix + ' ' + tempLastNameSuffix
         }
-        // API.post('client/create', user)
-        //     .then((response) => {
-        //         var order = {
-        //             clients_id: response?.id,
-        //             products_id: selectedCustomProduct.id,
-        //             amount: total,
-        //             status: 'in-progress'
-        //         }
-        //         API.post('order/create', [order, selectedCustomProduct])
-        //             .then((res_order: any) => {
-        //                 setOrdered(res_order.message);
-        //                 setIsPlaced(true);
-        //                 alert("Order Created Successfully");
-        //             })
-        //     })
+        API.post('client/create', user)
+            .then((response) => {
+                var order = {
+                    clients_id: response?.id,
+                    products_id: selectedCustomProduct.id,
+                    amount: total,
+                    status: 'in-progress'
+                }
+                API.post('order/create', [order, selectedCustomProduct])
+                    .then((res_order: any) => {
+                        setOrdered(res_order.message);
+                        setIsPlaced(true);
+                        alert("Order Created Successfully");
+                    }).finally(() => {
+                        setIsLoading(false);
+                    })
+            })
     }
 
     const handleConfirmed = () => {
@@ -493,7 +498,7 @@ export const CustomProductDetailPage = ({product, categories, handlePayment, han
                             })
                         }
                     </div>
-                    <CustomOrderLists product={product} handlePriceChange={handlePriceChange} handleCustomProduct={handleCustomProduct}/>
+                    <CustomOrderLists product={product} handlePriceChange={handlePriceChange} handleCustomProduct={handleCustomProduct} isFinal={isProceed}/>
                     <PaymentTotalHolder>
                         <strong style={{textAlign:'left',marginRight:1}}>Subtotal:</strong>
                         <PaymentTotalSpanSpace>..............................................................................................................................................................</PaymentTotalSpanSpace>

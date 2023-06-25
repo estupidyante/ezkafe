@@ -2,7 +2,7 @@ import { API } from "api";
 import RadioButtonGroup from "components/Radio/RadioButtonGroup";
 import { useEffect, useState } from "react";
 
-const CurrentProduct = ({ types, ingredients, measurement, handleChange }) => {
+const CurrentProduct = ({ types, ingredients, measurement, isSelected, isFinalSelected, handleChange }) => {
   const [measurements, setMeasurements] = useState(Array);
 
   useEffect(() => {
@@ -48,18 +48,20 @@ const CurrentProduct = ({ types, ingredients, measurement, handleChange }) => {
                     <span>{ingredient.name}</span>
                 </p>
                 {
-                  (measurement && measurement[0] && !ingredient.measurement) ? (<p style={{marginBottom:20,textAlign:'right'}}>{ measurement[0].value } { measurement[0].unit }</p>)
+                  (measurement && measurement[0] && !ingredient.measurement) ? (<p style={{marginBottom:20,textAlign:'right'}}>{ measurement[0].volume } { measurement[0].unit }</p>)
                   : (<p style={{marginBottom:20,textAlign:'right'}}>{ ingredient.measurement } { ingredient.unit }</p>)
                 }
-                <RadioButtonGroup
+                {
+                  !isFinalSelected && <RadioButtonGroup
                     label="Select the preferred tsp"
                     group={ingredient.name +'_measurement'}
-                    preferred={ingredient.measurement + '' + ingredient.unit}
+                    preferred={(isSelected) ? '' : (ingredient.measurement + '' + ingredient.unit)}
                     ing={ingredient.measurements_id}
                     prod_id={ingredient.id}
                     options={measurements}
                     onChange={radioGroupHandler}
                 />
+                }
             </div>
         )
     });

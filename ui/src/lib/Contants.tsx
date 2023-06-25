@@ -8,6 +8,7 @@ const logoSpinAnime = keyframes`
 const Wrapper = styled.div`
   background: #F1DEC9;
   max-width: 1280px;
+  min-height: 620px;
   margin: 0 auto;
   text-align: center;
 `;
