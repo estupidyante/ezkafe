@@ -1,30 +1,17 @@
 <?php
 
-namespace App\Http\Livewire\User;
+namespace App\Http\Livewire\Datatable;
 
 use Livewire\Component;
-use App\Models\User;
 use App\Models\Orders;
-use App\Models\Products;
-use Illuminate\Support\Facades\Auth;
-use Livewire\WithPagination;
-use Illuminate\Http\Request;
-
 use Illuminate\Support\Str;
 use Mediconesystems\LivewireDatatables\Column;
 use Mediconesystems\LivewireDatatables\NumberColumn;
 use Mediconesystems\LivewireDatatables\DateColumn;
 use Mediconesystems\LivewireDatatables\Http\Livewire\LivewireDatatable;
 
-class UserOrdersComponent extends LivewireDatatable
+class OrderDatatables extends LivewireDatatable
 {
-    use WithPagination;
-
-    public $perPage = 10;
-    public $search = '';
-    public $orderBy = 'id';
-    public $orderAsc = true;
-
     public $model = Orders::class;
 
     public function columns()
@@ -43,10 +30,5 @@ class UserOrdersComponent extends LivewireDatatable
             DateColumn::name('created_at')
                 ->label('Creation Date')
         ];
-    }
-
-    public function render()
-    {
-        return view('livewire.user.user-orders-component')->layout('layouts.base');
     }
 }

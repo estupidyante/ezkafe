@@ -40,7 +40,7 @@ export const PaymentDetalPage = ({product, handlePayment}) => {
                 }
                 API.post('order/create', [order, product])
                     .then((res_order: any) => {
-                        setOrdered(res_order);
+                        setOrdered(res_order.message);
                         setIsPlaced(true);
                         alert("Order Created Successfully");
                     })

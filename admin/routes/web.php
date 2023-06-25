@@ -31,6 +31,7 @@ use App\Http\Livewire\User\UserIngredientsComponent;
 use App\Http\Livewire\User\UserProductsComponent;
 use App\Http\Livewire\User\UserListsComponent;
 use App\Http\Livewire\User\UserOrdersComponent;
+use App\Http\Livewire\Datatable\OrderDatatables;
 
 use App\Http\Livewire\User\UserAdminAccountsComponent;
 use App\Http\Livewire\User\UserFAQsComponent;
@@ -75,6 +76,7 @@ Route::middleware([
     Route::get('/user/measurements', UserMeasurementsComponent::class)->name('user.measurements');
     Route::get('/user/users', UserListsComponent::class)->name('user.users');
     Route::get('/user/orders', UserOrdersComponent::class);
+    // Route::get('/user/orders', OrderDatatables::class);
     Route::get('/user/faqs', UserFAQsComponent::class);
     Route::get('/user/faqscategory', UserFAQsCategoryComponent::class);
     Route::get('/user/notifications', UserNotificationsComponent::class);

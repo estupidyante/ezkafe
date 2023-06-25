@@ -51,8 +51,15 @@
         <p class="text-muted pb-4">Here are all the orders from the machine</p>
     </div>
     <div class="row">
-        <div class="card-body">
-            <livewire:datatable model="App\Models\Orders" exclude="updated_at" />
+        <div class="col-12 grid-margin">
+            <div class="card card-accounts">
+                <div class="card-body">
+                    <livewire:datatable/order-datatables 
+                        searchable="created_at"
+                        exportable
+                    />
+                </div>
+            </div>
         </div>
     </div>
 </div>
