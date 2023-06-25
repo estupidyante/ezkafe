@@ -442,13 +442,6 @@ export const CustomProductDetailPage = ({product, totalPrice, categories, handle
             if (pIng.id == id && pIng.measurements_id == mid) {
                 totalPrice = parseInt(totalPrice) + parseInt(pIng.price);
                 setTotal(totalPrice);
-                console.log('total', total);
-                console.log('totalPrice', totalPrice);
-            } else {
-                totalPrice = parseInt(totalPrice) - parseInt(pIng.price);
-                setTotal(totalPrice);
-                console.log('total', total);
-                console.log('totalPrice', totalPrice);
             }
         });
         console.log('=== end handlePriceChange ===');
