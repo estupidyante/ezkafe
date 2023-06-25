@@ -24,13 +24,13 @@ class MeasurementsController extends Controller
     public function create(Request $request)
     {
         $data = $request->input();
-        Measurements::create([
-            'label' => $data['name'],
-            'name' => $data['name'],
-            'value' => $data['value'],
-            'unit' => $data['unit'],
-            'price' => $data['price'],
-        ]);
+        $measurement = new Measurements();
+        $measurement->label = $data['name'];
+        $measurement->name = $data['name'];
+        $measurement->volume = $data['value'];
+        $measurement->unit = $data['unit'];
+        $measurement->price = $data['price'];
+        $measurement->save();
 
         return redirect('/user/measurements')->with('status',"Measurement created successfully");
     }
@@ -43,7 +43,7 @@ class MeasurementsController extends Controller
             $measurement = Measurements::find($id);
             $measurement->label = $data['name'];
             $measurement->name = $data['name'];
-            $measurement->value = $data['value'];
+            $measurement->volume = $data['value'];
             $measurement->unit = $data['unit'];
             $measurement->price = $data['price'];
             $measurement->update();

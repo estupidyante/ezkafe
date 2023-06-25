@@ -20,8 +20,9 @@ const RadioButtonGroup = ({ label, group, ing, prod_id, preferred, options, onCh
       const shortenedOptionGroupLabel = group.replace(/\s+/g, "").toLowerCase();
       const shortenedOptionLabel = name?.replace(/\s+/g, "").toLowerCase();
       const optionId = `radio-option-${shortenedOptionLabel}-${shortenedOptionGroupLabel}`;
+      const measurementValue = value + '' + unit;
 
-      console.log(id, preferred);
+      console.log(preferred, measurementValue);
       return (
         <RadioButton
           key={index}
@@ -30,8 +31,8 @@ const RadioButtonGroup = ({ label, group, ing, prod_id, preferred, options, onCh
           id={optionId}
           name={shortenedOptionGroupLabel}
           disabled={disabled}
-          defaultChecked={(ing && id) ? id === ing : index === 0}
-          ispreferred={(preferred && id) ? id === parseInt(preferred) : index === 0}
+          defaultChecked={(ing && id) ? id == ing : index === 0}
+          ispreferred={(preferred && measurementValue) ? measurementValue === preferred : index === 0}
           price={price}
           onChange={onChange}
         />

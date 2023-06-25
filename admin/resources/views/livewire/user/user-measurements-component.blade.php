@@ -155,7 +155,7 @@
                                     <tr class="tab-pane">
                                         <td> {{$element->id}} </td>
                                         <td> {{$element->name}} </td>
-                                        <td> {{$element->value}} </td>
+                                        <td> {{$element->volume}} </td>
                                         <td> {{$element->unit}} </td>
                                         <td> {{$element->price}} </td>
                                         <td>
@@ -242,7 +242,7 @@
             </div>
             <div class="form-group">
                 <label>Value</label>
-                <input type="text" class="form-control p_input" name="value" placeholder="Enter the value" :value="value" value="{{ $measurement->value }}" required autofocus>
+                <input type="text" class="form-control p_input" name="value" placeholder="Enter the value" :value="volume" value="{{ $measurement->volume }}" required autofocus>
             </div>
             <div class="form-group">
                 <label>Unit</label>
