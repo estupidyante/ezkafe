@@ -37,6 +37,9 @@ class IngredientsController extends Controller
         ]);
         $updatedIng = ProductIngredients::find($id);
         flash()->success($updatedIng->name . ' has only '. $updatedIng->volume . ' remaining!', 'Ingredients')->flash();
+        toast()
+            ->success($updatedIng->name . ' has only '. $updatedIng->volume . ' remaining!', 'Ingredients')
+            ->pushOnNextPage();
         Notifications::create([
             'type' => 'ingredients',
             'content' => $updatedIng->name . ' has only '. $updatedIng->volume . ' remaining!',

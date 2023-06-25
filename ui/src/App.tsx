@@ -78,7 +78,8 @@ function App() {
       .finally(() => {
         API.get(`products`)
         .then((res_prod: any) => {
-          setProducts(res_prod);
+          console.log('res_prod:', res_prod.message);
+          setProducts(res_prod.message);
         })
       })
     API.get('/products/ordered')
@@ -86,8 +87,8 @@ function App() {
         if(res_ordered && (res_ordered[0] && res_ordered[0]['products_id'])) {
           API.get('/product/' + res_ordered[0]['products_id'])
             .then((res_product_ordered: any) => {
-              // console.log('product: ', res_product_ordered[0]);
-              setTopProduct(res_product_ordered[0]);
+              console.log('product: ', res_product_ordered.message[0]);
+              setTopProduct(res_product_ordered.message[0]);
               setIsTopProduct(true);
             })
         }
@@ -178,7 +179,7 @@ function App() {
           {!isOrdered && <CardProductContainer>
             <Container>
               <CardProductLists>
-              {products.map((item, i) => {
+              {products && products.map((item, i) => {
                 if(i >= 2) return ('');
                 return (
                   <CardProductItem key={i} onClick={() => {
