@@ -433,17 +433,20 @@ export const CustomProductDetailPage = ({product, totalPrice, categories, handle
         console.log('total', totalPrice);
         console.log('product.price', product.price);
         console.log('product', product);
-        // preferredMeasurements.map((pmIng) => {
-        //     console.log('ing_id', id);
-        //     console.log('mid', mid);
-        // })
-        product.ingredients.map((pIng) => {
-            console.log('pIng', pIng);
-            if (pIng.id == id && pIng.measurements_id == mid) {
-                totalPrice = parseInt(totalPrice) + parseInt(pIng.price);
-                setTotal(totalPrice);
-            }
+        let tempIngTotal = 0;
+        preferredMeasurements.map((pmIng, pmIdx) => {
+            product.ingredients.map((pIng, pIdx) => {
+                console.log('idx', pmIdx, pIdx);
+                console.log('pmIng.measurement_id', pmIng.measurement_id);
+                console.log('pIng.measurements_id', pIng.measurements_id);
+                if ((pmIng.measurement_id != pIng.measurements_id)) {
+                    console.log('pIng.price', pIng.price);
+                    tempIngTotal = parseInt(tempIngTotal) + parseInt(pIng.price);
+                }
+                console.log('tempIngTotal', tempIngTotal);
+            });
         });
+        setTotal(parseInt(total) + (parseInt(tempIngTotal) / preferredMeasurements.length));
         console.log('=== end handlePriceChange ===');
         forceUpdate();
     }
