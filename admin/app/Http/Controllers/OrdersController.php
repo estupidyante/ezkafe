@@ -61,7 +61,7 @@ class OrdersController extends Controller
                 'order_id' => $order['id'],
                 'types_id' => $arrayIng[$i]['types_id'],
                 'category_id' => $arrayIng[$i]['category_id'],
-                'measurements_id' => $arrayIng[$i]['id'],
+                'measurements_id' => $arrayIng[$i]['measurements_id'],
                 'measurement' => $arrayIng[$i]['measurement'],
                 'unit' => $arrayIng[$i]['unit'],
                 'price' => $arrayIng[$i]['price'],
