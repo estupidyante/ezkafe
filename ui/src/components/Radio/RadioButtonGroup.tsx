@@ -22,10 +22,12 @@ const RadioButtonGroup = ({ label, group, ing, prod_id, preferred, options, onCh
       const optionId = `radio-option-${shortenedOptionLabel}-${shortenedOptionGroupLabel}`;
       const measurementValue = prod_id + '_' + id;
 
-      const isPreferred = preferred?.find(obj => {
-        return obj.measurement_id === id && obj.ing_id !== id;
+      let isPreferred = preferred?.find(obj => {
+        return obj.ing_id === prod_id;
       });
 
+      // console.log('measurementValue', measurementValue);
+      // console.log('isPreferred', isPreferred?.ing_id + '_' + isPreferred?.measurement_id);
       return (
         <RadioButton
           key={index}
