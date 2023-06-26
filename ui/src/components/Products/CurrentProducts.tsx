@@ -2,7 +2,7 @@ import { API } from "api";
 import RadioButtonGroup from "components/Radio/RadioButtonGroup";
 import { useEffect, useState } from "react";
 
-const CurrentProduct = ({ types, ingredients, measurement, isSelected, isFinalSelected, handleChange }) => {
+const CurrentProduct = ({ types, ingredients, measurement, preferredSelected, isFinalSelected, handleChange }) => {
   const [measurements, setMeasurements] = useState(Array);
 
   useEffect(() => {
@@ -35,6 +35,14 @@ const CurrentProduct = ({ types, ingredients, measurement, isSelected, isFinalSe
   }
 
   const currentProduct = ingredients.map((ingredient, idx) => {
+        const isPreferred = preferredSelected.find(obj => {
+          console.log('obj.ing_id', obj.ing_id);
+          console.log('obj.measurement_id', obj.measurement_id);
+          console.log('ingredient.id', ingredient.id);
+          console.log('ingredient.measurements_id', ingredient.measurements_id);
+          return (obj.ing_id === ingredient.id && obj.measurement_id === ingredient.measurements_id)
+        });
+        console.log('isPreferred', isPreferred);
         return(
             <div key={idx} style={{padding:'1rem',borderColor:'#26140D',borderWidth:1,borderBottomStyle:'solid',}}>
                 <p style={{fontSize:'x-large',fontWeight:'bolder',textAlign:'left',display:'flex',justifyContent:'space-between',}}>
@@ -55,12 +63,12 @@ const CurrentProduct = ({ types, ingredients, measurement, isSelected, isFinalSe
                   !isFinalSelected && <RadioButtonGroup
                     label="Select the preferred tsp"
                     group={ingredient.name +'_measurement'}
-                    preferred={(isSelected) ? '' : (ingredient.measurement + '' + ingredient.unit)}
+                    preferred={(isPreferred) ? isPreferred.ing_id + '_' + isPreferred.measurement_id : 'none'}
                     ing={ingredient.measurements_id}
                     prod_id={ingredient.id}
                     options={measurements}
                     onChange={radioGroupHandler}
-                />
+                  />
                 }
             </div>
         )

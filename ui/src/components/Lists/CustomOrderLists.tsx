@@ -4,7 +4,7 @@ import {
 } from '../../api';
 import CurrentProducts from 'components/Products/CurrentProducts';
 
-export function CustomOrderLists({product, handlePriceChange, handleCustomProduct, isFinal}) {
+export function CustomOrderLists({product, handlePriceChange, handleCustomProduct, isFinal, preferredSelected}) {
     const [, updateState] = useState();
     const forceUpdate = useCallback(() => updateState({}), []);
     const [types, setTypes] = useState(Array);
@@ -13,8 +13,6 @@ export function CustomOrderLists({product, handlePriceChange, handleCustomProduc
     const [productTypes, setProductTypes] = useState(Array);
     const [productIngredients, setProductIngredients] = useState(Array);
     const [productMeasurement, setProductMeasurement] = useState(Array);
-
-    const [isSelectedChange, setIsSelectedChange] = useState(false);
 
     const [customProduct, setCustomProduct] = useState(Array);
 
@@ -42,7 +40,6 @@ export function CustomOrderLists({product, handlePriceChange, handleCustomProduc
         //     console.log('price tracker', ing);
         //     handlePriceChange(ing.id, ing.price);
         // })
-        setIsSelectedChange(true);
     }, []);
 
     const listenChange = useCallback((selected: string) => {
@@ -78,7 +75,7 @@ export function CustomOrderLists({product, handlePriceChange, handleCustomProduc
         forceUpdate();
     }, [measurements]);
 
-    const childCurrentProducts = <CurrentProducts key={undefined} types={productTypes} ingredients={productIngredients} measurement={productMeasurement} isSelected={isSelectedChange} isFinalSelected={isFinal} handleChange={listenChange} />;
+    const childCurrentProducts = <CurrentProducts key={undefined} types={productTypes} ingredients={productIngredients} measurement={productMeasurement} preferredSelected={preferredSelected} isFinalSelected={isFinal} handleChange={listenChange} />;
 
     return(
         <div>

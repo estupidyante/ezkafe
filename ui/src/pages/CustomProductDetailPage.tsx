@@ -533,7 +533,7 @@ export const CustomProductDetailPage = ({product, totalPrice, categories, handle
                             })
                         }
                     </div>
-                    <CustomOrderLists product={product} handlePriceChange={handlePriceChange} handleCustomProduct={handleCustomProduct} isFinal={isProceed}/>
+                    <CustomOrderLists product={product} handlePriceChange={handlePriceChange} handleCustomProduct={handleCustomProduct} isFinal={isProceed} preferredSelected={preferredMeasurements}/>
                     <PaymentTotalHolder>
                         <strong style={{textAlign:'left',marginRight:1}}>Subtotal:</strong>
                         <PaymentTotalSpanSpace>..............................................................................................................................................................</PaymentTotalSpanSpace>
