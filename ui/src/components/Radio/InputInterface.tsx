@@ -14,7 +14,7 @@ export interface IInputGroup {
   group: string;
   label: string;
   ing?:string;
-  preferred?:string;
+  preferred?:[];
   prod_id?:BigInteger;
   options: IOption[];
   hasFullWidth?: boolean;

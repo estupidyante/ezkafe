@@ -27,22 +27,9 @@ const CurrentProduct = ({ types, ingredients, measurement, preferredSelected, is
   function radioGroupHandler(event: React.ChangeEvent<HTMLInputElement>) {
     let selectedValue = event.target.value;
     handleChange(selectedValue);
-    // let selectedMeasurementArr = selectedValue.split('_');
-    // let measurement = measurements.filter((measure: {id: any}) => {
-    //   return measure.id == parseInt(selectedMeasurementArr[1]);
-    // });
-    // console.log(measurement[0]);
   }
 
   const currentProduct = ingredients.map((ingredient, idx) => {
-        const isPreferred = preferredSelected.find(obj => {
-          console.log('obj.ing_id', obj.ing_id);
-          console.log('obj.measurement_id', obj.measurement_id);
-          console.log('ingredient.id', ingredient.id);
-          console.log('ingredient.measurements_id', ingredient.measurements_id);
-          return (obj.ing_id === ingredient.id && obj.measurement_id === ingredient.measurements_id)
-        });
-        console.log('isPreferred', isPreferred);
         return(
             <div key={idx} style={{padding:'1rem',borderColor:'#26140D',borderWidth:1,borderBottomStyle:'solid',}}>
                 <p style={{fontSize:'x-large',fontWeight:'bolder',textAlign:'left',display:'flex',justifyContent:'space-between',}}>
@@ -63,7 +50,7 @@ const CurrentProduct = ({ types, ingredients, measurement, preferredSelected, is
                   !isFinalSelected && <RadioButtonGroup
                     label="Select the preferred tsp"
                     group={ingredient.name +'_measurement'}
-                    preferred={(isPreferred) ? isPreferred.ing_id + '_' + isPreferred.measurement_id : 'none'}
+                    preferred={preferredSelected}
                     ing={ingredient.measurements_id}
                     prod_id={ingredient.id}
                     options={measurements}
