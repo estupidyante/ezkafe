@@ -459,7 +459,7 @@ export const CustomProductDetailPage = ({product, totalPrice, categories, handle
         setIsLoading(true);
         console.log('totalPrice', total);
         console.log('selectedCustomProduct:', selectedCustomProduct);
-        selectedCustomProduct.price = totalPrice;
+        selectedCustomProduct.price = total;
         console.log('selectedCustomProduct:', selectedCustomProduct);
         // setIsPlaced(true);
 
