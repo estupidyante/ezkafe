@@ -45,12 +45,12 @@ class UserDashboardComponent extends Component
         $order_labels = $orders_data->keys();
         $order_data = $orders_data->values();
 
-        $revenue_data = Orders::selectRaw('sum(amount) as amount, MONTHNAME(created_at) as month_name')
+        $sales_data = Orders::selectRaw('sum(amount) as amount, MONTHNAME(created_at) as month_name')
             ->whereYear('created_at', date('Y'))
             ->groupBy('month_name')
             ->pluck('amount', 'month_name');
-        $revenue_labels = $revenue_data->keys();
-        $revenue_data = $revenue_data->values();
+        $sale_labels = $sales_data->keys();
+        $sale_data = $sales_data->values();
         $expense_data = OrderIngredients::selectRaw('sum(price) as amount, MONTHNAME(created_at) as month_name')
             ->whereYear('created_at', date('Y'))
             ->groupBy('month_name')
@@ -74,8 +74,8 @@ class UserDashboardComponent extends Component
             'order_labels',
             'order_data',
 
-            'revenue_labels',
-            'revenue_data',
+            'sale_labels',
+            'sale_data',
             'expense_data',
 
         ))->layout('layouts.base');

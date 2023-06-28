@@ -337,21 +337,27 @@
             order_config
         );
 
-        var revenue_labels =  {{ Js::from($revenue_labels) }};
-        var revenues =  {{ Js::from($revenue_data) }};
+        var sale_labels =  {{ Js::from($sale_labels) }};
+        var sales =  {{ Js::from($sale_data) }};
         var expenses =  {{ Js::from($expense_data) }};
+        var revenues = [Number(sales[0]) - Number(expenses['June'])];
         const revenue_data = {
-            labels: revenue_labels,
+            labels: sale_labels,
             datasets: [{
+                label: 'Sales',
+                backgroundColor: 'rgb(181,25,236)',
+                borderColor: 'rgb(181,25,236)',
+                data: sales,
+            },{
+                label: 'Expenses',
+                backgroundColor: 'rgb(255,88,88)',
+                borderColor: 'rgb(255,88,88)',
+                data: expenses,
+            },{
                 label: 'Revenue',
                 backgroundColor: 'rgb(70,95,225)',
                 borderColor: 'rgb(70,95,225)',
                 data: revenues,
-            },{
-                label: 'Expenses',
-                backgroundColor: 'rgb(181,25,236)',
-                borderColor: 'rgb(181,25,236)',
-                data: expenses,
             }]
         };
         const revenue_config = {
