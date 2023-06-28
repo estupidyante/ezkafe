@@ -232,14 +232,13 @@
     $(document).ready(function() {
         var ingredient_all_labels =  {{ Js::from($ingredient_all_labels) }};
         var ingredient_all =  {{ Js::from($ingredient_all_data) }};
-        console.log(ingredient_all);
         const ingredient_all_data = {
             labels: ingredient_all_labels,
             datasets: [{
                 label: 'Ingredients',
-                backgroundColor: 'rgb(118,216,109)',
-                borderColor: 'rgb(118,216,109)',
-                data: ingredient_all,
+                backgroundColor: getRandomColor(),
+                borderColor: 'rgb(181,25,236)',
+                data:  ingredient_all,
             }]
         };
         const ingredient_all_config = {
@@ -305,6 +304,15 @@
             document.getElementById('revenueChart'),
             revenue_config
         );
+
+        function getRandomColor() {
+            var letters = '0123456789ABCDEF'.split('');
+            var color = '#';
+            for (var i = 0; i < 6; i++ ) {
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
     });
   
 </script>
