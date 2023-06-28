@@ -40,6 +40,7 @@ class UserDashboardComponent extends Component
 
         $orders_data = Orders::select(DB::raw("COUNT(*) as count"), DB::raw("MONTHNAME(created_at) as month_name"))
             ->whereYear('created_at', date('Y'))
+            ->where('status', 'completed')
             ->groupBy('month_name')
             ->pluck('count', 'month_name');
         $order_labels = $orders_data->keys();

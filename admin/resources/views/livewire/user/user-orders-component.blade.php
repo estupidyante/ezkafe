@@ -56,7 +56,6 @@
             <livewire:datatable 
                 model="App\Models\Orders"
                 sort="created_at|desc"
-                exclude="updated_at"
                 searchable="id, products_id, created_at"
                 dates="dob, created_at"
                 times="bedtime|g:i A"

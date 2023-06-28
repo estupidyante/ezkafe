@@ -32,16 +32,24 @@ class UserOrdersComponent extends LivewireDatatable
         return [
             NumberColumn::name('id')
                 ->label('Order ID')
-                ->sortBy('id'),
+                ->sortBy('id')
+                ->filterable(),
   
             Column::name('clients_id')
-                ->label('User ID'),
+                ->label('User ID')
+                ->filterable(),
   
             Column::name('products_id')
-                ->label('Product'),
+                ->label('Product')
+                ->filterable(),
   
             DateColumn::name('created_at')
-                ->label('Creation Date')
+                ->label('Order Taken')
+                ->filterable(),
+            
+            DateColumn::name('updated_at')
+                ->label('Completed')
+                ->filterable(),
         ];
     }
 
