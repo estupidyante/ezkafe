@@ -32,9 +32,10 @@
     <div class="row justify-content-center" style="margin-bottom:40px">
         <div class="col-6 grid-margin">
             <div class="card">
-                <strong class="card-header">{{ $user_chart->options['chart_title'] }}</strong>
+                <strong class="card-header">Users (Month)</strong>
                 <div class="card-body">
-                    {!! $user_chart->renderHtml() !!}
+                    <!-- user charts goes here -->
+                    <canvas id="userChart" height="200px"></canvas>
                 </div>
 
             </div>
@@ -70,7 +71,38 @@
     </div>
 </div>
 @section('page-script')
-{!! $user_chart->renderChartJsLibrary() !!}
-
-{!! $user_chart->renderJs() !!}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" ></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        var user_labels =  {{ Js::from($user_labels) }};
+        var users =  {{ Js::from($user_data) }};
+        const user_data = {
+            labels: user_labels,
+            datasets: [{
+                label: 'Users',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: users,
+            }]
+        };
+        const user_config = {
+            type: 'bar',
+            data: user_data,
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        position: 'top',
+                    }
+                }
+            }
+        };
+        const userChart = new Chart(
+            document.getElementById('userChart'),
+            user_config
+        );
+    });
+  
+</script>
 @endsection

@@ -7,6 +7,7 @@ use Livewire\Component;
 use App\Models\Clients;
 use App\Models\Orders;
 use App\Models\Products;
+use DB;
 
 class UserGraphComponent extends Component
 {
@@ -15,18 +16,22 @@ class UserGraphComponent extends Component
         $users = Clients::all();
         $orders = Orders::all();
         $products = Products::all();
-        $chart_options = [
-            'chart_title' => 'Users by Day',
-            'report_type' => 'group_by_date',
-            'model' => 'App\Models\Clients',
-            'group_by_field' => 'created_at',
-            'group_by_period' => 'day',
-            'chart_type' => 'bar',
-            'filter_field' => 'created_at',
-            'filter_days' => 30, // show only last 30 days
-        ];
+        
+        $clients_data = Clients::select(DB::raw("COUNT(*) as count"), DB::raw("MONTHNAME(created_at) as month_name"))
+            ->whereYear('created_at', date('Y'))
+            ->groupBy('month_name')
+            ->pluck('count', 'month_name');
+        $user_labels = $clients_data->keys();
+        $user_data = $clients_data->values();
 
-        $user_chart = new LaravelChart($chart_options);
-        return view('livewire..user.user-graph-component', compact('users','orders','products','user_chart'))->layout('layouts.base');
+        return view('livewire..user.user-graph-component', 
+        compact(
+            'users',
+            'orders',
+            'products',
+            
+            'user_labels',
+            'user_data',
+        ))->layout('layouts.base');
     }
 }
