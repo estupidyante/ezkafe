@@ -77,31 +77,34 @@
     $(document).ready(function() {
         var user_labels =  {{ Js::from($user_labels) }};
         var users =  {{ Js::from($user_data) }};
-        const user_data = {
-            labels: user_labels,
-            datasets: [{
-                label: 'Users',
-                backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgb(255, 99, 132)',
-                data: users,
-            }]
-        };
-        const user_config = {
-            type: 'bar',
-            data: user_data,
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'top',
+
+        if(users.length > 0) {
+            const user_data = {
+                labels: user_labels,
+                datasets: [{
+                    label: 'Users',
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: users,
+                }]
+            };
+            const user_config = {
+                type: 'bar',
+                data: user_data,
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
                     }
                 }
-            }
-        };
-        const userChart = new Chart(
-            document.getElementById('userChart'),
-            user_config
-        );
+            };
+            const userChart = new Chart(
+                document.getElementById('userChart'),
+                user_config
+            );
+        }
     });
   
 </script>
