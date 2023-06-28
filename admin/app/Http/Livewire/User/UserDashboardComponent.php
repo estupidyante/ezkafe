@@ -6,6 +6,7 @@ use LaravelDaily\LaravelCharts\Classes\LaravelChart;
 use Livewire\Component;
 use App\Models\Products;
 use App\Models\Ingredients;
+use App\Models\OrderIngredients;
 use App\Models\Clients;
 use App\Models\Orders;
 use App\Models\Category;
@@ -50,6 +51,10 @@ class UserDashboardComponent extends Component
             ->pluck('amount', 'month_name');
         $revenue_labels = $revenue_data->keys();
         $revenue_data = $revenue_data->values();
+        $expense_data = OrderIngredients::selectRaw('sum(price) as amount, MONTHNAME(created_at) as month_name')
+            ->whereYear('created_at', date('Y'))
+            ->groupBy('month_name')
+            ->pluck('amount', 'month_name');
 
         return view('livewire.user.user-dashboard-component', 
         compact(
@@ -71,6 +76,7 @@ class UserDashboardComponent extends Component
 
             'revenue_labels',
             'revenue_data',
+            'expense_data',
 
         ))->layout('layouts.base');
     }

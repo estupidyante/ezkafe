@@ -300,10 +300,10 @@
         const user_data = {
             labels: user_labels,
             datasets: [{
-            label: 'Users',
-            backgroundColor: 'rgb(255, 99, 132)',
-            borderColor: 'rgb(255, 99, 132)',
-            data: users,
+                label: 'Users',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: users,
             }]
         };
         const user_config = {
@@ -321,10 +321,10 @@
         const order_data = {
             labels: order_labels,
             datasets: [{
-            label: 'Orders',
-            backgroundColor: 'rgb(118,216,109)',
-            borderColor: 'rgb(118,216,109)',
-            data: orders,
+                label: 'Orders',
+                backgroundColor: 'rgb(118,216,109)',
+                borderColor: 'rgb(118,216,109)',
+                data: orders,
             }]
         };
         const order_config = {
@@ -339,13 +339,19 @@
 
         var revenue_labels =  {{ Js::from($revenue_labels) }};
         var revenues =  {{ Js::from($revenue_data) }};
+        var expenses =  {{ Js::from($expense_data) }};
         const revenue_data = {
             labels: revenue_labels,
             datasets: [{
-            label: 'Revenue',
-            backgroundColor: 'rgb(70,95,225)',
-            borderColor: 'rgb(70,95,225)',
-            data: revenues,
+                label: 'Revenue',
+                backgroundColor: 'rgb(70,95,225)',
+                borderColor: 'rgb(70,95,225)',
+                data: revenues,
+            },{
+                label: 'Expenses',
+                backgroundColor: 'rgb(181,25,236)',
+                borderColor: 'rgb(181,25,236)',
+                data: expenses,
             }]
         };
         const revenue_config = {
