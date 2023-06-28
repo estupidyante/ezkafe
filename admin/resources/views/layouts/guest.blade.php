@@ -62,7 +62,6 @@
     @yield('page-style')
   </head>
   <body>
-    <livewire:toasts />
     {{$slot}}
     <!-- container-scroller -->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
