@@ -297,78 +297,80 @@
     $(document).ready(function() {
         var user_labels =  {{ Js::from($user_labels) }};
         var users =  {{ Js::from($user_data) }};
-        const user_data = {
-            labels: user_labels,
-            datasets: [{
-                label: 'Users',
-                backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgb(255, 99, 132)',
-                data: users,
-            }]
-        };
-        const user_config = {
-            type: 'line',
-            data: user_data,
-            options: {responsive:true}
-        };
-        const userChart = new Chart(
-            document.getElementById('userChart'),
-            user_config
-        );
+        if(users.length > 0) {
+            const user_data = {
+                labels: user_labels,
+                datasets: [{
+                    label: 'Users',
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: users,
+                }]
+            };
+            const user_config = {
+                type: 'line',
+                data: user_data,
+                options: {responsive:true}
+            };
+            const userChart = new Chart(
+                document.getElementById('userChart'),
+                user_config
+            );
 
-        var order_labels =  {{ Js::from($order_labels) }};
-        var orders =  {{ Js::from($order_data) }};
-        const order_data = {
-            labels: order_labels,
-            datasets: [{
-                label: 'Orders',
-                backgroundColor: 'rgb(118,216,109)',
-                borderColor: 'rgb(118,216,109)',
-                data: orders,
-            }]
-        };
-        const order_config = {
-            type: 'line',
-            data: order_data,
-            options: {responsive:true}
-        };
-        const orderChart = new Chart(
-            document.getElementById('orderChart'),
-            order_config
-        );
+            var order_labels =  {{ Js::from($order_labels) }};
+            var orders =  {{ Js::from($order_data) }};
+            const order_data = {
+                labels: order_labels,
+                datasets: [{
+                    label: 'Orders',
+                    backgroundColor: 'rgb(118,216,109)',
+                    borderColor: 'rgb(118,216,109)',
+                    data: orders,
+                }]
+            };
+            const order_config = {
+                type: 'line',
+                data: order_data,
+                options: {responsive:true}
+            };
+            const orderChart = new Chart(
+                document.getElementById('orderChart'),
+                order_config
+            );
 
-        var sale_labels =  {{ Js::from($sale_labels) }};
-        var sales =  {{ Js::from($sale_data) }};
-        var expenses =  {{ Js::from($expense_data) }};
-        var revenues = [Number(sales[0]) - Number(expenses['June'])];
-        const revenue_data = {
-            labels: sale_labels,
-            datasets: [{
-                label: 'Sales',
-                backgroundColor: 'rgb(181,25,236)',
-                borderColor: 'rgb(181,25,236)',
-                data: sales,
-            },{
-                label: 'Expenses',
-                backgroundColor: 'rgb(255,88,88)',
-                borderColor: 'rgb(255,88,88)',
-                data: expenses,
-            },{
-                label: 'Revenue',
-                backgroundColor: 'rgb(70,95,225)',
-                borderColor: 'rgb(70,95,225)',
-                data: revenues,
-            }]
-        };
-        const revenue_config = {
-            type: 'line',
-            data: revenue_data,
-            options: {responsive:true}
-        };
-        const revenueChart = new Chart(
-            document.getElementById('revenueChart'),
-            revenue_config
-        );
+            var sale_labels =  {{ Js::from($sale_labels) }};
+            var sales =  {{ Js::from($sale_data) }};
+            var expenses =  {{ Js::from($expense_data) }};
+            var revenues = [Number(sales[0]) - Number(expenses['June'])];
+            const revenue_data = {
+                labels: sale_labels,
+                datasets: [{
+                    label: 'Sales',
+                    backgroundColor: 'rgb(181,25,236)',
+                    borderColor: 'rgb(181,25,236)',
+                    data: sales,
+                },{
+                    label: 'Expenses',
+                    backgroundColor: 'rgb(255,88,88)',
+                    borderColor: 'rgb(255,88,88)',
+                    data: expenses,
+                },{
+                    label: 'Revenue',
+                    backgroundColor: 'rgb(70,95,225)',
+                    borderColor: 'rgb(70,95,225)',
+                    data: revenues,
+                }]
+            };
+            const revenue_config = {
+                type: 'line',
+                data: revenue_data,
+                options: {responsive:true}
+            };
+            const revenueChart = new Chart(
+                document.getElementById('revenueChart'),
+                revenue_config
+            );
+        }
     });
   
 </script>

@@ -232,86 +232,88 @@
     $(document).ready(function() {
         var ingredient_all_labels =  {{ Js::from($ingredient_all_labels) }};
         var ingredient_all =  {{ Js::from($ingredient_all_data) }};
-        const ingredient_all_data = {
-            labels: ingredient_all_labels,
-            datasets: [{
-                label: 'Ingredients',
-                backgroundColor: getRandomColor(),
-                borderColor: 'rgb(181,25,236)',
-                data:  ingredient_all,
-            }]
-        };
-        const ingredient_all_config = {
-            type: 'bar',
-            data: ingredient_all_data,
-            options: {responsive:true}
-        };
-        const ingredientAllChart = new Chart(
-            document.getElementById('ingredientAllChart'),
-            ingredient_all_config
-        );
+        if(ingredient_all.length > 0) {
+            const ingredient_all_data = {
+                labels: ingredient_all_labels,
+                datasets: [{
+                    label: 'Ingredients',
+                    backgroundColor: getRandomColor(),
+                    borderColor: 'rgb(181,25,236)',
+                    data:  ingredient_all,
+                }]
+            };
+            const ingredient_all_config = {
+                type: 'bar',
+                data: ingredient_all_data,
+                options: {responsive:true}
+            };
+            const ingredientAllChart = new Chart(
+                document.getElementById('ingredientAllChart'),
+                ingredient_all_config
+            );
 
-        var order_labels =  {{ Js::from($order_labels) }};
-        var orders =  {{ Js::from($order_data) }};
-        const order_data = {
-            labels: order_labels,
-            datasets: [{
-                label: 'Transactions',
-                backgroundColor: 'rgb(118,216,109)',
-                borderColor: 'rgb(118,216,109)',
-                data: orders,
-            }]
-        };
-        const order_config = {
-            type: 'line',
-            data: order_data,
-            options: {responsive:true}
-        };
-        const orderChart = new Chart(
-            document.getElementById('orderChart'),
-            order_config
-        );
+            var order_labels =  {{ Js::from($order_labels) }};
+            var orders =  {{ Js::from($order_data) }};
+            const order_data = {
+                labels: order_labels,
+                datasets: [{
+                    label: 'Transactions',
+                    backgroundColor: 'rgb(118,216,109)',
+                    borderColor: 'rgb(118,216,109)',
+                    data: orders,
+                }]
+            };
+            const order_config = {
+                type: 'line',
+                data: order_data,
+                options: {responsive:true}
+            };
+            const orderChart = new Chart(
+                document.getElementById('orderChart'),
+                order_config
+            );
 
-        var sale_labels =  {{ Js::from($sale_labels) }};
-        var sales =  {{ Js::from($sale_data) }};
-        var expenses =  {{ Js::from($expense_data) }};
-        var revenues = [Number(sales[0]) - Number(expenses['June'])];
-        const revenue_data = {
-            labels: sale_labels,
-            datasets: [{
-                label: 'Sales',
-                backgroundColor: 'rgb(181,25,236)',
-                borderColor: 'rgb(181,25,236)',
-                data: sales,
-            },{
-                label: 'Expenses',
-                backgroundColor: 'rgb(255,88,88)',
-                borderColor: 'rgb(255,88,88)',
-                data: expenses,
-            },{
-                label: 'Revenue',
-                backgroundColor: 'rgb(70,95,225)',
-                borderColor: 'rgb(70,95,225)',
-                data: revenues,
-            }]
-        };
-        const revenue_config = {
-            type: 'line',
-            data: revenue_data,
-            options: {responsive:true}
-        };
-        const revenueChart = new Chart(
-            document.getElementById('revenueChart'),
-            revenue_config
-        );
+            var sale_labels =  {{ Js::from($sale_labels) }};
+            var sales =  {{ Js::from($sale_data) }};
+            var expenses =  {{ Js::from($expense_data) }};
+            var revenues = [Number(sales[0]) - Number(expenses['June'])];
+            const revenue_data = {
+                labels: sale_labels,
+                datasets: [{
+                    label: 'Sales',
+                    backgroundColor: 'rgb(181,25,236)',
+                    borderColor: 'rgb(181,25,236)',
+                    data: sales,
+                },{
+                    label: 'Expenses',
+                    backgroundColor: 'rgb(255,88,88)',
+                    borderColor: 'rgb(255,88,88)',
+                    data: expenses,
+                },{
+                    label: 'Revenue',
+                    backgroundColor: 'rgb(70,95,225)',
+                    borderColor: 'rgb(70,95,225)',
+                    data: revenues,
+                }]
+            };
+            const revenue_config = {
+                type: 'line',
+                data: revenue_data,
+                options: {responsive:true}
+            };
+            const revenueChart = new Chart(
+                document.getElementById('revenueChart'),
+                revenue_config
+            );
 
-        function getRandomColor() {
-            var letters = '0123456789ABCDEF'.split('');
-            var color = '#';
-            for (var i = 0; i < 6; i++ ) {
-                color += letters[Math.floor(Math.random() * 16)];
+            function getRandomColor() {
+                var letters = '0123456789ABCDEF'.split('');
+                var color = '#';
+                for (var i = 0; i < 6; i++ ) {
+                    color += letters[Math.floor(Math.random() * 16)];
+                }
+                return color;
             }
-            return color;
         }
     });
   
