@@ -1,0 +1,55 @@
+{
+  "name": "ezui",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --open",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "clean": "npx rimraf dist"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.11.0",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.13.4",
+    "@tanstack/react-query": "4.6.1",
+    "axios": "1.4.0",
+    "labeled-switch-material-ui": "^4.0.0",
+    "react": "18.2.0",
+    "react-dom": "18.2.0",
+    "react-icons": "^4.9.0",
+    "react-ionicons": "^4.2.0",
+    "react-loading-overlay-ts": "^2.0.2",
+    "react-number-format": "^5.2.2",
+    "react-search-box": "^3.0.0",
+    "react-tabs": "^6.0.1",
+    "recoil": "0.7.7",
+    "sass": "^1.63.5",
+    "styled-components": "5.3.11"
+  },
+  "devDependencies": {
+    "@types/node": "18.7.23",
+    "@types/react": "18.0.38",
+    "@types/react-dom": "18.0.11",
+    "@types/styled-components": "5.1.26",
+    "@typescript-eslint/eslint-plugin": "5.59.9",
+    "@vitejs/plugin-react": "2.2.0",
+    "browserslist-to-esbuild": "^1.2.0",
+    "eslint": "8.42.0",
+    "eslint-config-prettier": "8.8.0",
+    "eslint-plugin-react": "7.32.2",
+    "eslint-plugin-react-hooks": "4.6.0",
+    "prettier": "2.8.8",
+    "typescript": "4.8.4",
+    "vite": "3.2.7",
+    "vite-tsconfig-paths": "3.5.1"
+  },
+  "browserslist": {
+    "production": "Edge >= 18, Firefox >= 60, Chrome >= 61, Safari >= 11, Opera >= 48",
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version"
+    ]
+  }
+}
