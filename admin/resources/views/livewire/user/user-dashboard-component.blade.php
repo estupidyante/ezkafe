@@ -299,7 +299,7 @@
       var labels =  {{ Js::from($user_labels) }};
       var users =  {{ Js::from($user_data) }};
   
-      const data = {
+      const user_data = {
         labels: labels,
         datasets: [{
           label: 'Users',
@@ -311,7 +311,7 @@
   
       const user_config = {
         type: 'line',
-        data: data,
+        data: user_data,
         options: {}
       };
   
