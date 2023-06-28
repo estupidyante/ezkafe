@@ -34,9 +34,22 @@ class UserDashboardComponent extends Component
             ->whereYear('created_at', date('Y'))
             ->groupBy('month_name')
             ->pluck('count', 'month_name');
-
         $user_labels = $clients_data->keys();
         $user_data = $clients_data->values();
+
+        $orders_data = Orders::select(DB::raw("COUNT(*) as count"), DB::raw("MONTHNAME(created_at) as month_name"))
+            ->whereYear('created_at', date('Y'))
+            ->groupBy('month_name')
+            ->pluck('count', 'month_name');
+        $order_labels = $orders_data->keys();
+        $order_data = $orders_data->values();
+
+        $revenue_data = Orders::selectRaw('sum(amount) as amount, MONTHNAME(created_at) as month_name')
+            ->whereYear('created_at', date('Y'))
+            ->groupBy('month_name')
+            ->pluck('amount', 'month_name');
+        $revenue_labels = $revenue_data->keys();
+        $revenue_data = $revenue_data->values();
 
         return view('livewire.user.user-dashboard-component', 
         compact(
@@ -52,6 +65,12 @@ class UserDashboardComponent extends Component
 
             'user_labels',
             'user_data',
+
+            'order_labels',
+            'order_data',
+
+            'revenue_labels',
+            'revenue_data',
 
         ))->layout('layouts.base');
     }

@@ -214,9 +214,8 @@
                 <strong class="card-header">Users (Month)</strong>
                 <div class="card-body">
                     <!-- user charts goes here -->
-                    <canvas id="userChart" height="100px"></canvas>
+                    <canvas id="userChart" height="200px"></canvas>
                 </div>
-
             </div>
         </div>
         <div class="col-md-4">
@@ -224,17 +223,17 @@
                 <strong class="card-header">Order Summary (Month)</strong>
                 <div class="card-body">
                     <!-- transactions goes here -->
+                    <canvas id="orderChart" height="200px"></canvas>
                 </div>
-
             </div>
         </div>
         <div class="col-md-4">
             <div class="card">
-                <strong class="card-header">Revenue (Day)</strong>
+                <strong class="card-header">Revenue (Month)</strong>
                 <div class="card-body">
                     <!-- revenue goes here -->
+                    <canvas id="revenueChart" height="200px"></canvas>
                 </div>
-
             </div>
         </div>
     </div>
@@ -295,30 +294,70 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" ></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script type="text/javascript">
-  
-      var labels =  {{ Js::from($user_labels) }};
-      var users =  {{ Js::from($user_data) }};
-  
-      const user_data = {
-        labels: labels,
-        datasets: [{
-          label: 'Users',
-          backgroundColor: 'rgb(255, 99, 132)',
-          borderColor: 'rgb(255, 99, 132)',
-          data: users,
-        }]
-      };
-  
-      const user_config = {
-        type: 'line',
-        data: user_data,
-        options: {}
-      };
-  
-      const userChart = new Chart(
-        document.getElementById('userChart'),
-        user_config
-      );
+    $(document).ready(function() {
+        var user_labels =  {{ Js::from($user_labels) }};
+        var users =  {{ Js::from($user_data) }};
+        const user_data = {
+            labels: user_labels,
+            datasets: [{
+            label: 'Users',
+            backgroundColor: 'rgb(255, 99, 132)',
+            borderColor: 'rgb(255, 99, 132)',
+            data: users,
+            }]
+        };
+        const user_config = {
+            type: 'line',
+            data: user_data,
+            options: {}
+        };
+        const userChart = new Chart(
+            document.getElementById('userChart'),
+            user_config
+        );
+
+        var order_labels =  {{ Js::from($order_labels) }};
+        var orders =  {{ Js::from($order_data) }};
+        const order_data = {
+            labels: order_labels,
+            datasets: [{
+            label: 'Orders',
+            backgroundColor: 'rgb(118,216,109)',
+            borderColor: 'rgb(118,216,109)',
+            data: orders,
+            }]
+        };
+        const order_config = {
+            type: 'line',
+            data: order_data,
+            options: {}
+        };
+        const orderChart = new Chart(
+            document.getElementById('orderChart'),
+            order_config
+        );
+
+        var revenue_labels =  {{ Js::from($revenue_labels) }};
+        var revenues =  {{ Js::from($revenue_data) }};
+        const revenue_data = {
+            labels: revenue_labels,
+            datasets: [{
+            label: 'Revenue',
+            backgroundColor: 'rgb(70,95,225)',
+            borderColor: 'rgb(70,95,225)',
+            data: revenues,
+            }]
+        };
+        const revenue_config = {
+            type: 'line',
+            data: revenue_data,
+            options: {}
+        };
+        const revenueChart = new Chart(
+            document.getElementById('revenueChart'),
+            revenue_config
+        );
+    });
   
 </script>
 @endsection
