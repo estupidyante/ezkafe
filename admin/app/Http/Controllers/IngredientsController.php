@@ -58,6 +58,7 @@ class IngredientsController extends Controller
             'type_id'           => 'required',
             'category_id'       => 'required',
             'tag'               => 'required',
+            'cost'            => 'required',
             'volume'            => 'required',
             'max_volume'        => 'required'
         ]);
@@ -69,6 +70,7 @@ class IngredientsController extends Controller
                 'tag' => $data['tag'],
                 'types_id' => $data['type_id'],
                 'category_id' => $data['category_id'],
+                'cost' => $data['cost'],
                 'volume' => $data['volume'],
                 'max_volume' => $data['max_volume'],
                 
@@ -90,6 +92,7 @@ class IngredientsController extends Controller
             $ingredient->tag = $data['tag'];
             $ingredient->types_id = $data['type_id'];
             $ingredient->category_id = $data['category_id'];
+            $ingredient->cost = $data['cost'];
             $ingredient->volume = $data['volume'];
             $ingredient->max_volume = $data['max_volume'];
             $ingredient->update();

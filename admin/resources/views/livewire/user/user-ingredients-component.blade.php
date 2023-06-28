@@ -153,6 +153,7 @@
                                 <thead class="table-secondary">
                                     <tr>
                                         <th scope="col"> Name </th>
+                                        <th scope="col"> Cost </th>
                                         <th scope="col"> Volume Limit </th>
                                         <th scope="col"> Current Volume </th>
                                         <th scope="col"> Percentage </th>
@@ -167,6 +168,7 @@
                                         @if ($selectedTab == 0)
                                         <tr class="tab-pane">
                                             <td> {{$element->name}} </td>
+                                            <td> {{$element->cost}} </td>
                                             <td> {{$element->max_volume}} </td>
                                             <td> {{$element->volume}} </td>
                                             <td> {{ ($element->volume / $element->max_volume) * 100 }}%</td>
@@ -184,6 +186,7 @@
                                         @elseif ($selectedTab == $item->id && $item->id == $element->types_id)
                                         <tr class="tab-pane">
                                             <td> {{$element->name}} </td>
+                                            <td> {{$element->cost}} </td>
                                             <td> {{$element->max_volume}} </td>
                                             <td> {{$element->volume}} </td>
                                             <td> {{ ($element->volume / $element->max_volume) * 100 }}%</td>
@@ -256,6 +259,10 @@
                 </select>
             </div>
             <div class="form-group">
+                <label>Cost per Volume</label>
+                <input type="number" class="form-control p_input" name="cost" placeholder="Enter the cost per volume" :value="cost" required>
+            </div>
+            <div class="form-group">
                 <label>Current Volume</label>
                 <input type="number" class="form-control p_input" name="volume" placeholder="Enter the volume" :value="volume" required>
             </div>
@@ -317,6 +324,10 @@
                         <option value="{{ $tag->name }}" {{$tag->name == $ingredient->tag  ? 'selected' : ''}}>{{ $tag->name }}</option>
                     @endforeach
                 </select>
+            </div>
+            <div class="form-group">
+                <label>Cost per Volume</label>
+                <input type="number" class="form-control p_input" name="cost" placeholder="Enter the cost per volume" :value="cost" value="{{ $ingredient->cost }}" required>
             </div>
             <div class="form-group">
                 <label>Current Volume</label>

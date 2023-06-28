@@ -47,6 +47,7 @@ class UserOrdersComponent extends LivewireDatatable
 
     public function render()
     {
-        return view('livewire.user.user-orders-component')->layout('layouts.base');
+        $orders = Orders::all();
+        return view('livewire.user.user-orders-component', compact('orders'))->layout('layouts.base');
     }
 }

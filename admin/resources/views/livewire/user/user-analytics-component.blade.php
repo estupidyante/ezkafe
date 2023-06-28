@@ -152,11 +152,19 @@
         </div>
     </div>
     <div class="row justify-content-center" style="margin-bottom:40px">
-        <div class="col-12 grid-margin">
+        <div class="col-6 grid-margin">
             <div class="card">
                 <strong class="card-header">{{ $transaction_chart->options['chart_title'] }}</strong>
                 <div class="card-body">
                     {!! $transaction_chart->renderHtml() !!}
+                </div>
+            </div>
+        </div>
+        <div class="col-6 grid-margin">
+            <div class="card">
+                <strong class="card-header">Revenue</strong>
+                <div class="card-body">
+                    {!! $revenue_chart->renderHtml() !!}
                 </div>
             </div>
         </div>
@@ -219,4 +227,5 @@
 {!! $ingredients_chart->renderJs() !!}
 {!! $ingredients_bar_chart->renderJs() !!}
 {!! $transaction_chart->renderJs() !!}
+{!! $revenue_chart->renderJs() !!}
 @endsection

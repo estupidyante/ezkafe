@@ -52,6 +52,7 @@
     </div>
     <div class="row">
         <div class="card-body">
+            @if(sizeof($orders) > 0)
             <livewire:datatable 
                 model="App\Models\Orders"
                 sort="created_at|desc"
@@ -61,6 +62,9 @@
                 times="bedtime|g:i A"
                 exportable
             />
+            @else
+            <p style="color:#000000">No Records Found!!</p>
+            @endif
         </div>
     </div>
 </div>

@@ -209,7 +209,7 @@
     </div>
     @if(sizeof($top_orders))
     <div class="row justify-content-center" style="margin-bottom:40px">
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="card">
                 <strong class="card-header">{{ $user_chart->options['chart_title'] }}</strong>
                 <div class="card-body">
@@ -218,11 +218,20 @@
 
             </div>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-4">
             <div class="card">
                 <strong class="card-header">{{ $transaction_chart->options['chart_title'] }}</strong>
                 <div class="card-body">
                     {!! $transaction_chart->renderHtml() !!}
+                </div>
+
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <strong class="card-header">Revenue (Day)</strong>
+                <div class="card-body">
+                    {!! $revenue_chart->renderHtml() !!}
                 </div>
 
             </div>
@@ -286,4 +295,5 @@
 
 {!! $user_chart->renderJs() !!}
 {!! $transaction_chart->renderJs() !!}
+{!! $revenue_chart->renderJs() !!}
 @endsection

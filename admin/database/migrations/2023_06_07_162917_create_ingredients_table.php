@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('tag');
             $table->foreignId('types_id')->references('id')->on('types')->onDelete('cascade');
             $table->foreignId('category_id')->references('id')->on('category')->onDelete('cascade');
+            $table->string('cost');
             $table->string('volume');
             $table->string('max_volume');
             $table->timestamps();

@@ -16,6 +16,7 @@ class Ingredients extends Model
         'tag',
         'types_id',
         'category_id',
+        'cost',
         'volume',
         'max_volume',
     ];
