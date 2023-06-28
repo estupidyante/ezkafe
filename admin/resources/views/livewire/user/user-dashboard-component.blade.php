@@ -211,7 +211,7 @@
     <div class="row justify-content-center" style="margin-bottom:40px">
         <div class="col-md-4">
             <div class="card">
-                <strong class="card-header">Users (Month)</strong>
+                <strong class="card-header">Users</strong>
                 <div class="card-body">
                     <!-- user charts goes here -->
                     <canvas id="userChart" height="200px"></canvas>
@@ -220,7 +220,7 @@
         </div>
         <div class="col-md-4">
             <div class="card">
-                <strong class="card-header">Order Summary (Month)</strong>
+                <strong class="card-header">Order Summary</strong>
                 <div class="card-body">
                     <!-- transactions goes here -->
                     <canvas id="orderChart" height="200px"></canvas>
@@ -229,7 +229,7 @@
         </div>
         <div class="col-md-4">
             <div class="card">
-                <strong class="card-header">Revenue (Month)</strong>
+                <strong class="card-header">Revenue</strong>
                 <div class="card-body">
                     <!-- revenue goes here -->
                     <canvas id="revenueChart" height="200px"></canvas>
@@ -309,7 +309,7 @@
         const user_config = {
             type: 'line',
             data: user_data,
-            options: {}
+            options: {responsive:true}
         };
         const userChart = new Chart(
             document.getElementById('userChart'),
@@ -330,7 +330,7 @@
         const order_config = {
             type: 'line',
             data: order_data,
-            options: {}
+            options: {responsive:true}
         };
         const orderChart = new Chart(
             document.getElementById('orderChart'),
@@ -363,7 +363,7 @@
         const revenue_config = {
             type: 'line',
             data: revenue_data,
-            options: {}
+            options: {responsive:true}
         };
         const revenueChart = new Chart(
             document.getElementById('revenueChart'),

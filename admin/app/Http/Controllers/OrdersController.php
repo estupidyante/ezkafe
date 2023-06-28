@@ -29,6 +29,11 @@ class OrdersController extends Controller
         $orders = Orders::with('ingredients')->find($id)->get();
 	    return response()->json(['status' => 'success','code' => 200, 'message' => $orders], 200);
 	}
+    public function getSpecificOrderAndIngredient($id)
+	{
+        $orders = OrderIngredients::where('order_id', $id)->get();
+	    return response()->json(['status' => 'success','code' => 200, 'message' => $orders], 200);
+	}
     public function store(Request $request)
     {
         $input = $request[0];
@@ -65,7 +70,7 @@ class OrdersController extends Controller
                 'measurement' => $arrayIng[$i]['measurement'],
                 'unit' => $arrayIng[$i]['unit'],
                 'price' => $arrayIng[$i]['price'],
-                'volume' => $arrayIng[$i]['volume'],
+                'volume' => $arrayIng[$i]['measurement'],
             ]);
 
             // assemble ingredients

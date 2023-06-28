@@ -48,11 +48,12 @@ class UserDashboardComponent extends Component
 
         $sales_data = Orders::selectRaw('sum(amount) as amount, MONTHNAME(created_at) as month_name')
             ->whereYear('created_at', date('Y'))
+            ->where('status', 'completed')
             ->groupBy('month_name')
             ->pluck('amount', 'month_name');
         $sale_labels = $sales_data->keys();
         $sale_data = $sales_data->values();
-        $expense_data = OrderIngredients::selectRaw('sum(price) as amount, MONTHNAME(created_at) as month_name')
+        $expense_data = OrderIngredients::selectRaw('sum(price * measurement) as amount, MONTHNAME(created_at) as month_name')
             ->whereYear('created_at', date('Y'))
             ->groupBy('month_name')
             ->pluck('amount', 'month_name');

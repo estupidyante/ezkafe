@@ -68,7 +68,7 @@ Route::group(['middleware' => ['api']], function () {
     // get specific product
     Route::get('/product/{id}', [ProductsController::class, 'getProduct']);
     // get specific product ingredient
-    Route::get('/product_ingredients/{id}', [ProductsController::class, 'getProductIngredients']);
+    Route::get('/product/ingredients/{id}', [ProductsController::class, 'getProductIngredients']);
     // get top products from order
     Route::get('/products/ordered', [ProductsController::class, 'getProductOrdered']);
 
@@ -87,7 +87,7 @@ Route::group(['middleware' => ['api']], function () {
     Route::put('/user/measurement/{id}', [MeasurementsController::class, 'update'])->name('user.measurement.update');
     Route::delete('/user/measurement/{measurement}', [MeasurementsController::class, 'destroy'])->name('user.measurement.destroy');
     // Ingredients
-    Route::get('/ingredient/{{id}', [IngredientsController::class, 'getSpecificIngredients']);
+    Route::get('/ingredient/{id}', [IngredientsController::class, 'getSpecificIngredients']);
     Route::post('/ingredient/create', [IngredientsController::class, 'create'])->name('user.ingredient.create');
     Route::put('/ingredient/{id}', [IngredientsController::class, 'edit']);
     Route::delete('/ingredient/{ingredient}', [IngredientsController::class, 'destroy'])->name('user.ingredient.destroy');
@@ -115,6 +115,8 @@ Route::group(['middleware' => ['api']], function () {
     Route::get('/faqs/{id}', [FaqsController::class, 'getSpecificFAQs']);
     // create order
     Route::post('/order/create', [OrdersController::class, 'store']);
+    // get specific order and its specific ingredient
+    Route::get('/order/{order_id}/ingredient', [OrdersController::class, 'getSpecificOrderAndIngredient']);
     // update order
     Route::put('/order/{id}', [OrdersController::class, 'edit']);
     // create client

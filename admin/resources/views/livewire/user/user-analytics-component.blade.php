@@ -136,17 +136,19 @@
     <div class="row justify-content-center" style="margin-bottom:40px">
         <div class="col-md-4">
             <div class="card">
-                <strong class="card-header">{{ $ingredients_chart->options['chart_title'] }}</strong>
+                <strong class="card-header">Ingrdients (Sales)</strong>
                 <div class="card-body">
-                    {!! $ingredients_chart->renderHtml() !!}
+                    <!-- All Ingredients -->
+                    <canvas id="ingredientChart" height="200px"></canvas>
                 </div>
             </div>
         </div>
         <div class="col-md-8">
             <div class="card">
-                <strong class="card-header">{{ $ingredients_bar_chart->options['chart_title'] }}</strong>
+                <strong class="card-header">Ingredients (All)</strong>
                 <div class="card-body">
-                    {!! $ingredients_bar_chart->renderHtml() !!}
+                    <!-- Sales Ingredients -->
+                    <canvas id="ingredientAllChart" height="200px"></canvas>
                 </div>
             </div>
         </div>
@@ -154,9 +156,10 @@
     <div class="row justify-content-center" style="margin-bottom:40px">
         <div class="col-6 grid-margin">
             <div class="card">
-                <strong class="card-header">{{ $transaction_chart->options['chart_title'] }}</strong>
+                <strong class="card-header">Transactions</strong>
                 <div class="card-body">
-                    {!! $transaction_chart->renderHtml() !!}
+                    <!-- transactions goes here -->
+                    <canvas id="orderChart" height="200px"></canvas>
                 </div>
             </div>
         </div>
@@ -164,7 +167,8 @@
             <div class="card">
                 <strong class="card-header">Revenue</strong>
                 <div class="card-body">
-                    {!! $revenue_chart->renderHtml() !!}
+                    <!-- revenue goes here -->
+                    <canvas id="revenueChart" height="200px"></canvas>
                 </div>
             </div>
         </div>
@@ -222,10 +226,86 @@
     </div>
 </div>
 @section('page-script')
-{!! $ingredients_chart->renderChartJsLibrary() !!}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" ></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        var ingredient_all_labels =  {{ Js::from($ingredient_all_labels) }};
+        var ingredient_all =  {{ Js::from($ingredient_all_data) }};
+        console.log(ingredient_all);
+        const ingredient_all_data = {
+            labels: ingredient_all_labels,
+            datasets: [{
+                label: 'Ingredients',
+                backgroundColor: 'rgb(118,216,109)',
+                borderColor: 'rgb(118,216,109)',
+                data: ingredient_all,
+            }]
+        };
+        const ingredient_all_config = {
+            type: 'bar',
+            data: ingredient_all_data,
+            options: {responsive:true}
+        };
+        const ingredientAllChart = new Chart(
+            document.getElementById('ingredientAllChart'),
+            ingredient_all_config
+        );
 
-{!! $ingredients_chart->renderJs() !!}
-{!! $ingredients_bar_chart->renderJs() !!}
-{!! $transaction_chart->renderJs() !!}
-{!! $revenue_chart->renderJs() !!}
+        var order_labels =  {{ Js::from($order_labels) }};
+        var orders =  {{ Js::from($order_data) }};
+        const order_data = {
+            labels: order_labels,
+            datasets: [{
+                label: 'Transactions',
+                backgroundColor: 'rgb(118,216,109)',
+                borderColor: 'rgb(118,216,109)',
+                data: orders,
+            }]
+        };
+        const order_config = {
+            type: 'line',
+            data: order_data,
+            options: {responsive:true}
+        };
+        const orderChart = new Chart(
+            document.getElementById('orderChart'),
+            order_config
+        );
+
+        var sale_labels =  {{ Js::from($sale_labels) }};
+        var sales =  {{ Js::from($sale_data) }};
+        var expenses =  {{ Js::from($expense_data) }};
+        var revenues = [Number(sales[0]) - Number(expenses['June'])];
+        const revenue_data = {
+            labels: sale_labels,
+            datasets: [{
+                label: 'Sales',
+                backgroundColor: 'rgb(181,25,236)',
+                borderColor: 'rgb(181,25,236)',
+                data: sales,
+            },{
+                label: 'Expenses',
+                backgroundColor: 'rgb(255,88,88)',
+                borderColor: 'rgb(255,88,88)',
+                data: expenses,
+            },{
+                label: 'Revenue',
+                backgroundColor: 'rgb(70,95,225)',
+                borderColor: 'rgb(70,95,225)',
+                data: revenues,
+            }]
+        };
+        const revenue_config = {
+            type: 'line',
+            data: revenue_data,
+            options: {responsive:true}
+        };
+        const revenueChart = new Chart(
+            document.getElementById('revenueChart'),
+            revenue_config
+        );
+    });
+  
+</script>
 @endsection
