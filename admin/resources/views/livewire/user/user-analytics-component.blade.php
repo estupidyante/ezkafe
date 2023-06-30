@@ -156,7 +156,20 @@
     <div class="row justify-content-center" style="margin-bottom:40px">
         <div class="col-6 grid-margin">
             <div class="card">
-                <strong class="card-header">Transactions</strong>
+                <div class="card-header" style="display:flex;justify-content:space-between;">
+                    <strong>Transactions</strong>
+                    <select id="orderDropdown" name="orderSortDate" style="color:#000000;">
+                        <option value="month">
+                            Month
+                        </option>
+                        <option value="year">
+                            Year
+                        </option>
+                        <option value="day">
+                            Day
+                        </option>
+                    </select>
+                </div>
                 <div class="card-body">
                     <!-- transactions goes here -->
                     <canvas id="orderChart" height="200px"></canvas>
@@ -165,7 +178,20 @@
         </div>
         <div class="col-6 grid-margin">
             <div class="card">
-                <strong class="card-header">Revenue</strong>
+                <div class="card-header" style="display:flex;justify-content:space-between;">
+                    <strong>Revenue</strong>
+                    <select id="revenueDropdown" name="revenueSortDate" style="color:#000000;">
+                        <option value="month">
+                            Month
+                        </option>
+                        <option value="year">
+                            Year
+                        </option>
+                        <option value="day">
+                            Day
+                        </option>
+                    </select>
+                </div>
                 <div class="card-body">
                     <!-- revenue goes here -->
                     <canvas id="revenueChart" height="200px"></canvas>
@@ -232,7 +258,7 @@
     $(document).ready(function() {
         var ingredient_all_labels =  {{ Js::from($ingredient_all_labels) }};
         var ingredient_all =  {{ Js::from($ingredient_all_data) }};
-        if(ingredient_all.length > 0) {
+        if(ingredient_all_labels.length > 0) {
             const ingredient_all_data = {
                 labels: ingredient_all_labels,
                 datasets: [{
@@ -252,12 +278,24 @@
                 ingredient_all_config
             );
 
-            var order_labels =  {{ Js::from($order_labels) }};
-            var orders =  {{ Js::from($order_data) }};
+            function getRandomColor() {
+                var letters = '0123456789ABCDEF'.split('');
+                var color = '#';
+                for (var i = 0; i < 6; i++ ) {
+                    color += letters[Math.floor(Math.random() * 16)];
+                }
+                return color;
+            }
+        }
+
+        var order_labels =  {{ Js::from($order_labels) }};
+        var orders =  {{ Js::from($order_data) }};
+        var orderChart;
+        if(orders.length > 0) {
             const order_data = {
                 labels: order_labels,
                 datasets: [{
-                    label: 'Transactions',
+                    label: 'Orders',
                     backgroundColor: 'rgb(118,216,109)',
                     borderColor: 'rgb(118,216,109)',
                     data: orders,
@@ -268,15 +306,49 @@
                 data: order_data,
                 options: {responsive:true}
             };
-            const orderChart = new Chart(
+            orderChart = new Chart(
                 document.getElementById('orderChart'),
                 order_config
             );
+        }
+        $('#orderDropdown').on('change', function () {
+            var orderSortDate = this.value;
+            console.log(orderSortDate);
+            apiURL = '../api/dashboard/order/sortBy/' + orderSortDate;
+            console.log(apiURL);
+            $.ajax({
+                url: apiURL,
+                type: "GET",
+                dataType: 'json',
+                success: function (result) {
+                    console.log('result', result);
 
-            var sale_labels =  {{ Js::from($sale_labels) }};
-            var sales =  {{ Js::from($sale_data) }};
-            var expenses =  {{ Js::from($expense_data) }};
-            var revenues = [Number(sales[0]) - Number(expenses['June'])];
+                    order_labels =  result['order_labels'];
+                    orders =  result['order_data'];
+
+                    console.log(order_labels, orders);
+                    const new_order_data = {
+                        labels: order_labels,
+                        datasets: [{
+                            label: 'Orders',
+                            backgroundColor: 'rgb(118,216,109)',
+                            borderColor: 'rgb(118,216,109)',
+                            data: orders,
+                        }]
+                    };
+
+                    orderChart.data = new_order_data;
+                    orderChart.update();
+                }
+            });
+        });
+
+        var sale_labels =  {{ Js::from($sale_labels) }};
+        var sales =  {{ Js::from($sale_data) }};
+        var expenses =  {{ Js::from($expense_data) }};
+        var revenueChart;
+        if(sales && expenses) {
+            var revenues = [Number(sales[0]) - Number(expenses[sale_labels[0]])];
             const revenue_data = {
                 labels: sale_labels,
                 datasets: [{
@@ -301,20 +373,58 @@
                 data: revenue_data,
                 options: {responsive:true}
             };
-            const revenueChart = new Chart(
+            revenueChart = new Chart(
                 document.getElementById('revenueChart'),
                 revenue_config
             );
-
-            function getRandomColor() {
-                var letters = '0123456789ABCDEF'.split('');
-                var color = '#';
-                for (var i = 0; i < 6; i++ ) {
-                    color += letters[Math.floor(Math.random() * 16)];
-                }
-                return color;
-            }
         }
+        $('#revenueDropdown').on('change', function () {
+            var revenueSortDate = this.value;
+            console.log(revenueSortDate);
+            apiURL = '../api/dashboard/revenue/sortBy/' + revenueSortDate;
+            console.log(apiURL);
+            $.ajax({
+                url: apiURL,
+                type: "GET",
+                dataType: 'json',
+                success: function (result) {
+                    sale_labels =  result['sale_labels'];
+                    sales =  result['sale_data'];
+                    tempExpenses =  result['expense_data'];
+                    var expenses = [];
+                    var revenues = [];
+
+                    for (let index = 0; index < sales.length; ++index) {
+                        revenues[index] = Number(sales[index]) - Number(tempExpenses[sale_labels[index]]);
+                        expenses[index] = tempExpenses[sale_labels[index]];
+                    }
+
+                    console.log(sales, expenses, revenues);
+                    const new_revenue_data = {
+                        labels: sale_labels,
+                        datasets: [{
+                            label: 'Sales',
+                            backgroundColor: 'rgb(181,25,236)',
+                            borderColor: 'rgb(181,25,236)',
+                            data: sales,
+                        },{
+                            label: 'Expenses',
+                            backgroundColor: 'rgb(255,88,88)',
+                            borderColor: 'rgb(255,88,88)',
+                            data: expenses,
+                        },{
+                            label: 'Revenue',
+                            backgroundColor: 'rgb(70,95,225)',
+                            borderColor: 'rgb(70,95,225)',
+                            data: revenues,
+                        }]
+                    };
+
+                    revenueChart.data = new_revenue_data;
+                    revenueChart.update();
+                }
+            });
+        });
     });
   
 </script>

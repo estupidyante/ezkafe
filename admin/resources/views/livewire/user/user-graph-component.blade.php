@@ -32,7 +32,20 @@
     <div class="row justify-content-center" style="margin-bottom:40px">
         <div class="col-6 grid-margin">
             <div class="card">
-                <strong class="card-header">Users (Month)</strong>
+                <div class="card-header" style="display:flex;justify-content:space-between;">
+                    <strong>Users</strong>
+                    <select id="userDropdown" name="userSortDate" style="color:#000000;">
+                        <option value="month">
+                            Month
+                        </option>
+                        <option value="year">
+                            Year
+                        </option>
+                        <option value="day">
+                            Day
+                        </option>
+                    </select>
+                </div>
                 <div class="card-body">
                     <!-- user charts goes here -->
                     <canvas id="userChart" height="200px"></canvas>
@@ -77,7 +90,7 @@
     $(document).ready(function() {
         var user_labels =  {{ Js::from($user_labels) }};
         var users =  {{ Js::from($user_data) }};
-
+        var userChart;
         if(users.length > 0) {
             const user_data = {
                 labels: user_labels,
@@ -89,22 +102,45 @@
                 }]
             };
             const user_config = {
-                type: 'bar',
+                type: 'line',
                 data: user_data,
-                options: {
-                    responsive: true,
-                    plugins: {
-                        legend: {
-                            position: 'top',
-                        }
-                    }
-                }
+                options: {responsive:true}
             };
-            const userChart = new Chart(
+            userChart = new Chart(
                 document.getElementById('userChart'),
                 user_config
             );
         }
+        $('#userDropdown').on('change', function () {
+            var userSortDate = this.value;
+            console.log(userSortDate);
+            apiURL = '../api/dashboard/user/sortBy/' + userSortDate;
+            console.log(apiURL);
+            $.ajax({
+                url: apiURL,
+                type: "GET",
+                dataType: 'json',
+                success: function (result) {
+                    console.log('result', result);
+
+                    user_labels = result['user_labels'];
+                    users =  result['user_data'];
+
+                    const new_user_data = {
+                        labels: user_labels,
+                        datasets: [{
+                            label: 'Users',
+                            backgroundColor: 'rgb(255, 99, 132)',
+                            borderColor: 'rgb(255, 99, 132)',
+                            data: users,
+                        }]
+                    };
+
+                    userChart.data = new_user_data;
+                    userChart.update();
+                }
+            });
+        });
     });
   
 </script>

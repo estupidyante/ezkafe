@@ -525,11 +525,6 @@
                 }
             });
         });
-
-        function updateConfigAsNewObject(chart, options) {
-            chart.options = options;
-            chart.update();
-        }
     });
   
 </script>
