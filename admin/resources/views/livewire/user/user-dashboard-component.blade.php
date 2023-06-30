@@ -211,7 +211,20 @@
     <div class="row justify-content-center" style="margin-bottom:40px">
         <div class="col-md-4">
             <div class="card">
-                <strong class="card-header">Users</strong>
+                <div class="card-header" style="display:flex;justify-content:space-between;">
+                    <strong>Users</strong>
+                    <select id="userDropdown" name="userSortDate" style="color:#000000;">
+                        <option value="month">
+                            Month
+                        </option>
+                        <option value="year">
+                            Year
+                        </option>
+                        <option value="day">
+                            Day
+                        </option>
+                    </select>
+                </div>
                 <div class="card-body">
                     <!-- user charts goes here -->
                     <canvas id="userChart" height="200px"></canvas>
@@ -220,7 +233,20 @@
         </div>
         <div class="col-md-4">
             <div class="card">
-                <strong class="card-header">Order Summary</strong>
+                <div class="card-header" style="display:flex;justify-content:space-between;">
+                    <strong>Order Summary</strong>
+                    <select id="orderDropdown" name="orderSortDate" style="color:#000000;">
+                        <option value="month">
+                            Month
+                        </option>
+                        <option value="year">
+                            Year
+                        </option>
+                        <option value="day">
+                            Day
+                        </option>
+                    </select>
+                </div>
                 <div class="card-body">
                     <!-- transactions goes here -->
                     <canvas id="orderChart" height="200px"></canvas>
@@ -229,7 +255,20 @@
         </div>
         <div class="col-md-4">
             <div class="card">
-                <strong class="card-header">Revenue</strong>
+                <div class="card-header" style="display:flex;justify-content:space-between;">
+                    <strong>Revenue</strong>
+                    <select id="revenueDropdown" name="revenueSortDate" style="color:#000000;">
+                        <option value="month">
+                            Month
+                        </option>
+                        <option value="year">
+                            Year
+                        </option>
+                        <option value="day">
+                            Day
+                        </option>
+                    </select>
+                </div>
                 <div class="card-body">
                     <!-- revenue goes here -->
                     <canvas id="revenueChart" height="200px"></canvas>
@@ -297,6 +336,7 @@
     $(document).ready(function() {
         var user_labels =  {{ Js::from($user_labels) }};
         var users =  {{ Js::from($user_data) }};
+        var userChart;
         if(users.length > 0) {
             const user_data = {
                 labels: user_labels,
@@ -312,13 +352,46 @@
                 data: user_data,
                 options: {responsive:true}
             };
-            const userChart = new Chart(
+            userChart = new Chart(
                 document.getElementById('userChart'),
                 user_config
             );
+        }
+        $('#userDropdown').on('change', function () {
+            var userSortDate = this.value;
+            console.log(userSortDate);
+            apiURL = '../api/dashboard/user/sortBy/' + userSortDate;
+            console.log(apiURL);
+            $.ajax({
+                url: apiURL,
+                type: "GET",
+                dataType: 'json',
+                success: function (result) {
+                    console.log('result', result);
 
-            var order_labels =  {{ Js::from($order_labels) }};
-            var orders =  {{ Js::from($order_data) }};
+                    user_labels = result['user_labels'];
+                    users =  result['user_data'];
+
+                    const new_user_data = {
+                        labels: user_labels,
+                        datasets: [{
+                            label: 'Users',
+                            backgroundColor: 'rgb(255, 99, 132)',
+                            borderColor: 'rgb(255, 99, 132)',
+                            data: users,
+                        }]
+                    };
+
+                    userChart.data = new_user_data;
+                    userChart.update();
+                }
+            });
+        });
+
+        var order_labels =  {{ Js::from($order_labels) }};
+        var orders =  {{ Js::from($order_data) }};
+        var orderChart;
+        if(orders.length > 0) {
             const order_data = {
                 labels: order_labels,
                 datasets: [{
@@ -333,15 +406,49 @@
                 data: order_data,
                 options: {responsive:true}
             };
-            const orderChart = new Chart(
+            orderChart = new Chart(
                 document.getElementById('orderChart'),
                 order_config
             );
+        }
+        $('#orderDropdown').on('change', function () {
+            var orderSortDate = this.value;
+            console.log(orderSortDate);
+            apiURL = '../api/dashboard/order/sortBy/' + orderSortDate;
+            console.log(apiURL);
+            $.ajax({
+                url: apiURL,
+                type: "GET",
+                dataType: 'json',
+                success: function (result) {
+                    console.log('result', result);
 
-            var sale_labels =  {{ Js::from($sale_labels) }};
-            var sales =  {{ Js::from($sale_data) }};
-            var expenses =  {{ Js::from($expense_data) }};
-            var revenues = [Number(sales[0]) - Number(expenses['June'])];
+                    order_labels =  result['order_labels'];
+                    orders =  result['order_data'];
+
+                    console.log(order_labels, orders);
+                    const new_order_data = {
+                        labels: order_labels,
+                        datasets: [{
+                            label: 'Orders',
+                            backgroundColor: 'rgb(118,216,109)',
+                            borderColor: 'rgb(118,216,109)',
+                            data: orders,
+                        }]
+                    };
+
+                    orderChart.data = new_order_data;
+                    orderChart.update();
+                }
+            });
+        });
+
+        var sale_labels =  {{ Js::from($sale_labels) }};
+        var sales =  {{ Js::from($sale_data) }};
+        var expenses =  {{ Js::from($expense_data) }};
+        var revenueChart;
+        if(sales && expenses) {
+            var revenues = [Number(sales[0]) - Number(expenses[sale_labels[0]])];
             const revenue_data = {
                 labels: sale_labels,
                 datasets: [{
@@ -366,10 +473,55 @@
                 data: revenue_data,
                 options: {responsive:true}
             };
-            const revenueChart = new Chart(
+            revenueChart = new Chart(
                 document.getElementById('revenueChart'),
                 revenue_config
             );
+        }
+        $('#revenueDropdown').on('change', function () {
+            var revenueSortDate = this.value;
+            console.log(revenueSortDate);
+            apiURL = '../api/dashboard/revenue/sortBy/' + revenueSortDate;
+            console.log(apiURL);
+            $.ajax({
+                url: apiURL,
+                type: "GET",
+                dataType: 'json',
+                success: function (result) {
+                    sale_labels =  result['sale_labels'];
+                    sales =  result['sale_data'];
+                    expenses =  result['expense_data'];
+
+                    revenues = [Number(sales[0]) - Number(expenses[sale_labels[0]])];
+                    const new_revenue_data = {
+                        labels: sale_labels,
+                        datasets: [{
+                            label: 'Sales',
+                            backgroundColor: 'rgb(181,25,236)',
+                            borderColor: 'rgb(181,25,236)',
+                            data: sales,
+                        },{
+                            label: 'Expenses',
+                            backgroundColor: 'rgb(255,88,88)',
+                            borderColor: 'rgb(255,88,88)',
+                            data: expenses,
+                        },{
+                            label: 'Revenue',
+                            backgroundColor: 'rgb(70,95,225)',
+                            borderColor: 'rgb(70,95,225)',
+                            data: revenues,
+                        }]
+                    };
+
+                    revenueChart.data = new_revenue_data;
+                    revenueChart.update();
+                }
+            });
+        });
+
+        function updateConfigAsNewObject(chart, options) {
+            chart.options = options;
+            chart.update();
         }
     });
   

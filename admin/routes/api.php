@@ -3,6 +3,8 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
+use App\Http\Livewire\User\UserDashboardComponent;
+
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AccountsController;
 use App\Http\Controllers\FaqsController;
@@ -43,6 +45,8 @@ Route::post('/login', [AuthController::class, 'login']);
 
 // Protected routes
 Route::group(['middleware' => ['api']], function () {
+    // get all categories
+    Route::get('/dashboard/{type}/sortBy/{sort}', [UserDashboardComponent::class, 'sortGraphBy']);
     // For EzKafe App
     // get all categories
     Route::get('/categories', [CategoriesController::class, 'index']);
