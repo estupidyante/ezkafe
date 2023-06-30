@@ -490,9 +490,16 @@
                 success: function (result) {
                     sale_labels =  result['sale_labels'];
                     sales =  result['sale_data'];
-                    expenses =  result['expense_data'];
+                    tempExpenses =  result['expense_data'];
+                    var expenses = [];
+                    var revenues = [];
 
-                    revenues = [Number(sales[0]) - Number(expenses[sale_labels[0]])];
+                    for (let index = 0; index < sales.length; ++index) {
+                        revenues[index] = Number(sales[index]) - Number(tempExpenses[sale_labels[index]]);
+                        expenses[index] = tempExpenses[sale_labels[index]];
+                    }
+
+                    console.log(sales, expenses, revenues);
                     const new_revenue_data = {
                         labels: sale_labels,
                         datasets: [{
