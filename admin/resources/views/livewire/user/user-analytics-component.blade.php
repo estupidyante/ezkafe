@@ -134,16 +134,7 @@
         <p class="text-muted pb-4">EzKafe / Analytics</p>
     </div>
     <div class="row justify-content-center" style="margin-bottom:40px">
-        <div class="col-md-4">
-            <div class="card">
-                <strong class="card-header">Ingrdients (Sales)</strong>
-                <div class="card-body">
-                    <!-- All Ingredients -->
-                    <canvas id="ingredientChart" height="200px"></canvas>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-8">
+        <div class="col-md-12">
             <div class="card">
                 <strong class="card-header">Ingredients (All)</strong>
                 <div class="card-body">

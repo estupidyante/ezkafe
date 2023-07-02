@@ -165,7 +165,7 @@
                         </div>
                         <div class="col-9">
                             <h5 class="text-black font-weight-bold text-center text-32">{{number_format($revenue_count, 2)}}</h5>
-                            <h6 class="text-muted font-weight-normal text-center">TOTAL REVENUE</h6>
+                            <h6 class="text-muted font-weight-normal text-center">TOTAL SALES</h6>
                         </div>
                         
                     </div>
